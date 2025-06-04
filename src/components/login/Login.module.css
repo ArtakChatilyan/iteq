@@ -1,0 +1,81 @@
+.block {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.formItem {
+  font-size: 1.6rem;
+}
+
+.input {
+  font-size: 1.6rem;
+  border-radius: 6px;
+  outline: 0;
+  border: 1px solid rgba(205, 205, 205, 0.6);
+  background-color: rgb(242, 242, 242);
+  padding: 10px;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.btn {
+  background-color: rgb(242, 165, 87);
+  border: 0;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1.6rem;
+  font-family: "SourceSansRegular";
+  padding: 1rem 2.4rem;
+  transition: 0.15s;
+  text-wrap: nowrap;
+  float: left;
+  margin: 1rem 0 1rem;
+}
+
+.btn:hover {
+  background-color: rgb(243, 174, 104);
+}
+
+.link{
+  text-decoration: underline;
+  font-size: 1.4rem;
+  color: rgb(56, 55, 70);
+}
+
+.error{
+  color: red;
+  font-size: 1.4rem;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+@media screen and (min-width: 576px) {
+  .block {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .block {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .block {
+    width: 600px;
+  }
+}
+
+/* @media screen and (min-width: 1200px) {
+  .block {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .block {
+    width: 600px;
+  }
+} */

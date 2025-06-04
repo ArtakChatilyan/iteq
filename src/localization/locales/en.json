@@ -1,0 +1,93 @@
+{
+    "signIn": "Sign In",
+    "signOut": "Log out",
+    "aboutUs": "About Us",
+    "news": "News",
+    "contacts": "Contacts",
+    "discount": "Discounts",
+    "products": "Products",
+
+    "search": "search...",
+
+    "byBrand": "by Brand",
+    "byType": "by Type",
+    "byModel": "by Model",
+
+    "adminPanel": "admin panel",
+    "accountPage": "account page",
+
+    "inStock": "In Stock",
+    "unavailable": "Unavailable",
+
+    "compare": "compare",
+
+    "model": "model:",
+    "brand":"brand:",
+    "country":"country:",
+    "dimension":"dimension",
+    "weight":"weight:",
+    "count":"count:",
+    "addToCart":"add to cart",
+    "price":"price:",
+
+    "aboutUsPage":"aboutUsEn",
+
+    "firstName":"Firstname",
+    "lastName":"Lastname",
+    "email":"Email",
+    "phone":"Phone",
+    "message":"Message",
+    "send":"send",
+
+    "messageSuccess": "Message sent successfully.",
+    "required":"required",
+    "incorrectEmail": "incorrect email",
+    "incorrectPhone":"incorrect phone",
+
+    "password":"Password",
+    "login":"Log in",
+    "registration":"registration",
+
+    "wrongEmail":"Wrong email",
+    "wrongPassword":"Wrong password",
+    "activaten":"Check email for activation",
+
+    "passwordShort": "password is too short(min 6 symbols)",
+    "passwordLong":"password is too long(max 16 symbols)",
+    "passwordDontMatch":"passwords don't match!",
+
+    "name":"Name",
+    "passwordConfirm": "Confirm password",
+    "register": "register",
+
+
+
+
+
+
+
+
+
+    "services": "Services",
+    "solutions": "Solutions",
+    "portfolio": "Portfolio",
+    "partners": "Partners",
+
+    
+    "servicesPage":"servicesEn",
+    "serviceCardTitle1": "Security planning",
+    "serviceCardContent1": "We will consult with you, evaluate your request and create (plan) the most rational security system possible.",
+    "serviceCardTitle2": "Security decision",
+    "serviceCardContent2": "In our showroom, professionals will advise you and help you choose the product tailored to your needs.",
+    "serviceCardTitle3": "Security guarantee",
+    "serviceCardContent3": "Our team will give you a multi-year warranty, however, as we understand the need for preliminary accident control, we will provide post-purchase repair / consulting services within this warranty.",
+
+    "hotelSolutions":"Hotel Solutions",
+    "doors":"Doors",
+    "bankSecurity":"Bank Security",
+    "securitySystem":"Security System",
+    "elevators":"Elevators",
+    "healthAndSafety":"Health and Safety",
+    "lockingSystems":"Locking Systems",
+    "safes":"Safes"
+  }

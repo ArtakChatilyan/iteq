@@ -1,0 +1,121 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 2rem;
+  width: 280px;
+  height: 360px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.stock {
+  font-size: 1.2rem;
+  font-family: "RobotoLight";
+  align-self: flex-end;
+  color: rgb(127, 153, 165);
+  z-index: 10;
+}
+
+.inStock {
+  color: rgb(106, 221, 96);
+}
+
+.productImg {
+  width: 80%;
+  user-drag: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  transition: 0.2s;
+  align-self: center;
+}
+
+.productImg:hover {
+  transform: scale(1.04);
+}
+
+.iconsWrapper {
+  align-self: flex-end;
+  z-index: 10;
+}
+
+.cartWrapper {
+  display: inline-block;
+  background-color: #f2a557;
+  border-radius: 2px;
+  transition: 0.2s;
+}
+
+.cart {
+  width: 16px;
+  height: 16px;
+  margin: 0.4rem 0.4rem 0.3rem 0.3rem;
+}
+
+.cartWrapper:hover {
+  transform: scale(1.1);
+}
+
+.name {
+  color: rgb(70, 69, 68);
+  font-size: 1.7rem;
+  font-family: "RobotoRegular";
+  font-weight: 500;
+  transition: 0.15s;
+  margin: 2px 0;
+  align-self: flex-start;
+}
+
+.name:hover {
+  color: #f2a557;
+}
+
+.model {
+  color: rgb(70, 69, 68);
+  align-self: flex-start;
+  font-size: 1.4rem;
+  font-family: "RobotoRegular";
+  margin: 0;
+}
+
+.info {
+  font-family: "RobotoRegular";
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgb(127, 153, 165);
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.price {
+  font-size: 1.6rem;
+  color: rgb(70, 69, 68);
+}
+
+.actual {
+  color: #f2a557;
+  margin-right: 6px;
+  font-family: "RobotoRegular";
+}
+
+.inActive {
+  color: rgb(127, 153, 165);
+  text-decoration: line-through;
+  font-family: "RobotoRegular";
+}
+
+.comparision {
+  color: rgb(127, 153, 165);
+  font-size: 1.2rem;
+  font-family: "RobotoLight";
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: 230px;
+  }
+}
+

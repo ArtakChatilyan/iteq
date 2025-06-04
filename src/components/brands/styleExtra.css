@@ -1,0 +1,70 @@
+/* .react-multiple-carousel__arrow--left {
+    left: calc(4% + 1px);
+  }
+  
+  .react-multiple-carousel__arrow--right {
+    right: calc(4% + 1px);
+  }
+
+  .react-multi-carousel-item  {
+    width: 280px;
+  } */
+.slider-container {
+  width: 100%;
+}
+
+.slick-arrow.slick-prev {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(242, 165, 87);
+  border-radius: 50%;
+  padding-top: 1px;
+  transform: scale(1.6);
+}
+.slick-arrow.slick-next {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(242, 165, 87);
+  border-radius: 50%;
+  padding-top: 1px;
+  transform: scale(1.6);
+}
+
+.slick-track {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgb(180, 180, 180);
+  
+}
+
+.slick-slide > div {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.slick-slide img {
+  width: 100%;
+}
+
+.slick-thumb > li > a > img {
+  max-width: 60px;
+}
+
+.slick-dots {
+  bottom: -45px;
+}
+
+.slick-thumb > li {
+  display: inline-block;
+  max-width: 60px;
+  height: auto;
+  margin-left: 10px;
+}
+
+@media screen and (min-width: 1128px) {
+  .slick-track {
+    border: none;
+    padding-bottom: 1;
+  }
+}

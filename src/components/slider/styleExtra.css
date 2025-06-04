@@ -1,0 +1,11 @@
+.react-multiple-carousel__arrow--left {
+  left: calc(4% + 1px);
+}
+
+.react-multiple-carousel__arrow--right {
+  right: calc(4% + 1px);
+}
+
+.react-multi-carousel-dot--active button{
+  background-color: rgb(242, 165, 87);
+}

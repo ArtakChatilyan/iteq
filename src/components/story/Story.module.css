@@ -1,0 +1,152 @@
+.block {
+  padding: 0 5vw 20px;
+  margin: 0 auto;
+  border-top: 2px solid rgb(243, 171, 98);
+  position: relative;
+}
+
+.card {
+  width: 100%;
+  background-color: rgb(235, 239, 241);
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-start;
+  margin: 20px 0;
+  border-bottom: 1px solid rgb(243, 171, 98);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  padding: 2rem;
+  font-size: 1.6rem;
+  margin: 1rem 0;
+  text-align: left;
+  order: 1;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 500;
+  font-family: "RobotoMedium";
+  color: #004d61;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.title:hover {
+  color: #4b7f8d;
+}
+
+.img {
+  width: 100%;
+}
+
+.link {
+  color: rgb(242, 165, 87);
+  font-size: 1.6rem;
+  transition: 0.15s;
+}
+
+.link:hover {
+  color: #004d61;
+}
+
+.detailBlock {
+  padding: 20px;
+  width: 100%;
+  border-top: 2px solid rgb(242, 165, 87);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  position: relative;
+}
+
+.detailTitle {
+  font-weight: 500;
+  font-family: "RobotoMedium";
+  color: #004d61;
+  text-align: center;
+  margin: 2rem 0;
+  font-size: 3rem;
+}
+
+.detailInfo {
+  font-size: 1.6rem;
+  font-family: "RobotoRegular";
+  line-height: 2.2rem;
+  text-align: justify;
+  text-indent: 2rem;
+}
+
+p {
+  margin: 0;
+}
+
+.info {
+  font-size: 1.6rem;
+  font-family: "RobotoRegular";
+  text-align: left;
+  text-indent: 2rem;
+  line-height: 2.2rem;
+  max-height: 6.6rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.info:after {
+  content: "...";
+  font-family: "RobotoRegular";
+  position: absolute;
+  bottom: 0;
+  right: 1.6rem;
+  width: 2.2rem;
+  height: 20px;
+  text-align: center;
+  background-size: 100% 100%;
+}
+
+@media screen and (min-width: 1024px) {
+  .block {
+    padding: 0 10vw 20px;
+  }
+  .detailBlock {
+    padding: 20px 10vw;
+  }
+
+  .card {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .content {
+    order: 0;
+  }
+
+  .detailBlock img {
+    max-height: 40vh;
+    object-fit: contain;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .block {
+    padding: 0 15vw 20px;
+  }
+  .detailBlock {
+    padding: 20px 15vw;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .block {
+    padding: 0 20vw 20px;
+  }
+  .detailBlock {
+   padding: 20px 20vw;
+  }
+}

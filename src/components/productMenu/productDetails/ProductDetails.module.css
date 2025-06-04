@@ -1,0 +1,205 @@
+.block {
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.content {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 100%;
+  justify-items: center;
+  text-align: center;
+}
+
+.categoryTitle {
+  color: rgb(127, 153, 165);
+  font-size: 1.8rem;
+  font-family: "SourceSansMedium";
+  margin-top: 1rem;
+  margin-right: 1rem;
+  text-decoration: underline;
+}
+
+.categoryTitle:hover {
+  font-size: 2rem;
+}
+
+.imgSlide {
+  width: 100%;
+  margin: 40px auto;
+}
+
+.sliderBlock {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  transform: translate(0, -50%);
+}
+
+.toLeft {
+  left: 0;
+}
+
+.toRight {
+  right: 0;
+}
+
+.sliderContent {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.sliderContainer {
+  display: flex;
+  align-items: center;
+}
+
+.imgItem {
+  width: 20%;
+  margin: 6px;
+  cursor: pointer;
+  user-drag: none;
+  -webkit-user-drag: none;
+  -moz-user-select: none;
+  display: block;
+}
+
+.selectedImage {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  border: 1px solid rgba(242, 165, 87, 0.6);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.infoContent {
+  padding-top: 1rem;
+  margin: 2vw auto;
+  min-width: 60%;
+}
+
+.name {
+  font-size: 1.6rem;
+  color: rgb(32, 83, 117);
+  font-family: "RobotoMedium";
+}
+
+.title {
+  font-size: 2.6rem;
+}
+
+.price {
+  font-size: 2rem;
+  color: rgb(242, 165, 87);
+  margin-right: 20px;
+  font-family: "RobotoRegular";
+}
+
+.old {
+  font-size: 1.8rem;
+  color: rgb(160, 160, 160);
+  text-decoration: line-through;
+  font-family: "RobotoRegular";
+}
+
+.item {
+  margin: 6px 0;
+}
+
+.label {
+  display: inline-block;
+  text-wrap: nowrap;
+  margin-right: 10px;
+  font-size: 1.6rem;
+  color: rgb(17, 43, 60);
+  font-family: "RobotoLight";
+}
+
+.btn {
+  background-color: rgb(242, 165, 87);
+  border: 0;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  font-family: "SourceSansRegular";
+  padding: 0.6rem 1.8rem;
+  transition: 0.15s;
+  text-wrap: nowrap;
+  margin: 2rem 0 2rem;
+}
+
+.btn:hover {
+  background-color: rgb(243, 174, 104);
+}
+
+.optionsContent {
+  border: 1px solid rgb(200, 200, 200);
+  margin-top: 20px;
+  padding: 0;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.optionsContent table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.optionsContent table tbody tr:nth-child(odd) {
+  background-color: rgb(231, 238, 244);
+}
+
+.mainTable {
+  margin-top: 20px;
+}
+
+.maintd {
+  padding: 4px 10px 4px 0;
+  margin: 0;
+  font-family: "RobotoLight";
+}
+
+.td {
+  padding: 10px 20px;
+  margin: 0;
+  font-family: "RobotoLight";
+}
+
+.input {
+  width: 80px;
+  font-size: 1.6rem;
+  font-family: "RobotoRegular";
+  padding: 0.7rem 1rem;
+  outline: 0;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 6px;
+}
+
+@media screen and (min-width: 1128px) {
+  .content {
+    width: 100%;
+    grid-template-columns: 400px 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .infoContent {
+    margin: 0 auto;
+    margin-left: 4vw;
+    padding-left: 2vw;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+}

@@ -1,0 +1,14 @@
+.adminTitle{
+    font-size: 4rem;
+    font-family: "SourceSansMedium";
+}
+
+.adminTitle>strong{
+    color: rgb(242, 169, 94);
+}
+
+.adminText{
+    font-size: 2rem;
+    font-family: "SourceSansLight";
+    margin-top: 1rem;
+}

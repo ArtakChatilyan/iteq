@@ -1,0 +1,84 @@
+:root{
+  font-size: 62.5%;
+}
+
+body{
+  
+  min-height: 100vh;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+::placeholder{
+  color: rgb(161, 164, 167);
+} 
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+@font-face {
+  font-family: "SourceSansLight"; 
+  src: local("SourceSans3Light"),
+    url("./fonts/SourceSans/SourceSans3-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SourceSansLightItalic";  
+  src: local("SourceSans3LightItalic"),
+    url("./fonts/SourceSans/SourceSans3-LightItalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SourceSansRegular"; 
+  src: local("SourceSansRegular"),
+    url("./fonts/SourceSans/SourceSans3-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SourceSansMedium";  
+  src: local("SourceSansMedium"),
+    url("./fonts/SourceSans/SourceSans3-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SourceSansSemiBold";  
+  src: local("SourceSans3SemiBold"),
+    url("./fonts/SourceSans/SourceSans3-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "RobotoLight";  
+  src: local("Roboto-Light"),
+    url("./fonts/Roboto/Roboto-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "RobotoRegular";  
+  src: local("Roboto-Regular"),
+    url("./fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "RobotoMedium";  
+  src: local("Roboto-Medium"),
+    url("./fonts/Roboto/Roboto-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "RobotoSemiBold";  
+  src: local("Roboto-SemiBold"),
+    url("./fonts/Roboto/Roboto-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "RobotoBold";  
+  src: local("Roboto-Bold"),
+    url("./fonts/Roboto/Roboto-Bold.ttf") format("truetype");
+}

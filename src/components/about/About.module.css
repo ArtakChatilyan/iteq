@@ -1,0 +1,22 @@
+.block{
+    padding: 2rem 10vw;
+    border-top: 2px solid rgb(243, 171, 98);
+}
+
+.title{
+    font-size: 2.8rem;
+    font-family: "RobotoRegular";
+    color: rgb(160, 160, 160);
+}
+
+.strong{
+    color: rgb(242, 165, 87);
+}
+
+.info{
+    font-size: 1.8rem;
+    font-family: "RobotoRegular";
+    color:rgb(114, 113, 113);
+    text-align: justify;
+    text-indent: 2rem;
+}

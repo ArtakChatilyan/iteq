@@ -1,0 +1,35 @@
+.block {
+    margin: 0 rem;
+    border-top: 2px solid rgb(242, 165, 87);
+  }
+  
+  .slideContainer {
+    margin: 0 12vw;
+  }
+  
+  @media (min-width: 768px) {
+    .slideContainer {
+      margin: 0 10vw;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .slideContainer {
+      margin: 0 10vw;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .slideContainer {
+      margin: 0 10vw;
+    }
+  }
+  
+  @media (min-width: 1400px) {
+    .slideContainer {
+      margin: 0 10vw;
+    }
+  }
+  
+  
+  

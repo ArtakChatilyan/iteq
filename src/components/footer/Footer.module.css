@@ -1,0 +1,133 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+  background-color: rgb(127, 153, 165);
+  border-top: 2px solid rgb(242, 165, 87);
+  position: relative;
+}
+
+.mapContent {
+  margin: 0;
+}
+
+.map {
+  width: 100%;
+  max-height: 300px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0 auto;
+  width: 90%;
+  max-width: 992px;
+}
+
+.list {
+  list-style: none;
+  font-size: 1.6rem;
+  font-family: "SourceSansRegular";
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 20px 0 0 0;
+  border-bottom: 1px solid #dad7d7;
+}
+
+.list li {
+  font-family: "RobotoRegular";
+  text-align: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  color: #dad7d7;
+  transition: 0.15s;
+}
+
+.list li:hover {
+  color: #ffffff;
+}
+
+.socialContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.social {
+  width: 28px;
+  height: 28px;
+  margin: 0 0.8rem;
+  border: 2px solid rgb(242, 165, 87);
+  border-radius: 50%;
+  background-color: rgb(218, 215, 215);
+}
+
+.info {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.infoItem {
+  color: #fff;
+  font-size: 1.6rem;
+  font-family: "RobotoRegular";
+  display: block;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.cright {
+  background-color: rgb(242, 165, 87);
+  font-size: 1.4rem;
+  color: #fff;
+  padding: 2rem;
+}
+
+@media screen and (min-width: 576px) {
+  .content {
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+  }
+
+  .list {
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border: 0;
+  }
+  .socialContent {
+    border-top: 1px solid #dad7d7;
+  }
+
+  .info {
+    text-align: left;
+  }
+
+  .list li {
+    text-align: left;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .socialContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .list {
+    border: 0;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: row;
+  }
+  .infoItem {
+    margin-left: 10px;
+  }
+}

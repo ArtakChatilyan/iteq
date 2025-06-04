@@ -1,0 +1,95 @@
+.block{
+  background-color: rgb(127, 153, 165);
+}
+
+.content {
+  background-color: rgb(127, 153, 165);
+  display: grid;
+  grid-template-columns: .4fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "logo email" 
+  ". phone";
+  row-gap: 10px;
+  column-gap: 2rem;
+  justify-items: center;
+  padding: 2rem;
+  margin: 0 10vw;
+}
+
+.inputGroup {
+  grid-area: email;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  display: flex;
+}
+
+.input {
+  background-color: transparent;
+  border: 0;
+  color: rgb(73, 80, 87);
+  flex-grow: 1;
+  font-size: 1.6rem;
+  outline: none;
+  padding: 1rem 1.6rem;
+}
+
+.btn {
+  font-size: 1.8rem;
+  font-family: "SourceSansRegular";
+  padding: 1rem 1.6rem;
+  border-radius: 0 10px 10px 0;
+  border: 0;
+  background-color: rgb(242, 165, 87);
+  color: white;
+  cursor: pointer;
+  transition: 0.15s;
+  text-wrap: nowrap;
+  margin: 0;
+}
+
+.btn:hover {
+  background-color: rgb(243, 174, 104);
+}
+
+.iconGroup {
+  grid-area: phone;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.phone {
+  background-color: rgb(242, 165, 87);
+  padding: 0.8rem;
+  border-radius: 10px 0 0 10px;
+}
+
+.phone img {
+  width: 20px;
+  height: 21px;
+}
+
+.number {
+  background-color: rgb(255, 255, 255);
+  color: rgb(242, 165, 87);
+  display: inline-block;
+  font-family: "SourceSansMedium";
+  padding: 1rem;
+  border-radius: 0 10px 10px 0;
+  text-wrap: nowrap;
+}
+
+@media screen and (min-width:812px){
+  .content {
+    grid-template-columns: .4fr 2fr auto;
+    grid-template-rows: 1fr;
+    grid-template-areas:"logo email phone";
+    justify-items: normal;
+  justify-content: center;
+
+  }
+}
