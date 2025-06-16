@@ -5,13 +5,15 @@ import { useContext } from "react";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 
 const ProductCard = ({ product }) => {
+  console.log(product);
+  
   const { t, i18n } = useTranslation();
   const lang = useContext(LanguageContext);
 
   return (
     <div className={styles.card}>
       <span className={styles.stock}>
-        {product.productInStock ? (
+        {product.viewInfo.inStock ? (
           <span className={styles.inStock}>{t("inStock")}</span>
         ) : (
           <span>{t("unavailable")}</span>
@@ -37,17 +39,17 @@ const ProductCard = ({ product }) => {
 
       <div className={styles.info}>
         <span className={styles.price}>
-          {product.productDiscount ? (
+          {product.viewInfo.discount ? (
             <span>
               <span className={styles.actual}>
-                {product.productNewPrice}&#8382;
+                {product.viewInfo.newPrice}&#8382;
               </span>
               <span className={styles.inActive}>
-                {product.productPrice}&#8382;
+                {product.viewInfo.price}&#8382;
               </span>
             </span>
           ) : (
-            <span className={styles.actual}>{product.productPrice}&#8382;</span>
+            <span className={styles.actual}>{product.viewInfo.price}&#8382;</span>
           )}
         </span>
         {/* <span className={styles.price}>{product.price}</span> */}

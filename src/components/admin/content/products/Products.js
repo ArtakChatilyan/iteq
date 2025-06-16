@@ -1,28 +1,29 @@
 import styles from "../View.module.css";
 import { productsAPI } from "../../dal/api";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const Products = () => {
+  const { page } = useParams();
   const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(parseInt(page || 1));
+  const [perPage, setPerPage] = useState(3);
   const [total, setTotal] = useState(0);
 
   const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
 
-  const [loading, setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getProducts(currentPage, perPage);
-  }, []);
+  }, [currentPage]);
 
   const pagingHandler = (pageNumber) => {
     setLoading(true);
-    getProducts(pageNumber, perPage);
+    setCurrentPage(pageNumber);
   };
 
   const getProducts = (currentPage, perPage) => {
@@ -37,10 +38,23 @@ const Products = () => {
   };
 
   const deleteItem = (id) => {
+    setModal(false);
     setLoading(true);
-    productsAPI.deleteProduct(id).then((data) => {
-      window.location.reload(false);
-    });
+    productsAPI
+      .deleteProduct(id)
+      .then((response) => {
+        if (data.length === 1) {
+          if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
+        } else {
+          getProducts(currentPage, perPage);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -65,9 +79,7 @@ const Products = () => {
           {data.length > 0 ? (
             data.map((d) => (
               <tr key={`tr${d.id}`} className={styles.item}>
-                <td>
-                  {d.productNameEn}
-                </td>
+                <td>{d.productNameEn}</td>
                 <td>{d.productNameGe}</td>
                 <td>{d.productNameRu}</td>
                 <td>{d.productModel}</td>
@@ -100,7 +112,7 @@ const Products = () => {
                 </td>
                 <td>
                   <Link
-                    to={`/admin/editProduct/${d.id}`}
+                    to={`/admin/editProduct/${d.id}/${currentPage}`}
                     className={styles.btn}
                   >
                     edit
@@ -129,7 +141,7 @@ const Products = () => {
           <tr>
             <td>
               <Link
-                to={`/admin/addProduct`}
+                to={`/admin/addProduct/${currentPage}`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
                 add

@@ -38,13 +38,15 @@ const Main = () => {
       .getDiscountsAll()
       .then((response) => {
         const products = response.data.products;
-        let i = 0;
-        while (products.length < 5) {
-          products.push(response.data.products[i]);
-          i++;
-          if (i === response.data.products.length) i = 0;
+        if (products.length > 0) {
+          let i = 0;
+          while (products.length < 5) {
+            products.push(response.data.products[i]);
+            i++;
+            if (i === response.data.products.length) i = 0;
+          }
+          setDiscountProducts(response.data.products);
         }
-        setDiscountProducts(response.data.products);
       })
       .catch((error) => {
         console.log(error);
@@ -67,9 +69,12 @@ const Main = () => {
   };
   return (
     <div style={{ position: "relative" }}>
-      {loading && <LoadingScreen showGif={true}/>}
+      {loading && <LoadingScreen showGif={true} />}
       {/* <Slider items={sliderImages} /> */}
-      <ProductMenu title={t("discount")} products={discountProducts} />
+      {discountProducts.length > 0 && (
+        <ProductMenu title={t("discount")} products={discountProducts} />
+      )}
+
       <CategoryMenu id="cat" categories={mainCategories} />
       <BrandMenu brands={brands} />
       {/* <ProductMenu title={"Safes"} />

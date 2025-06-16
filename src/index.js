@@ -175,27 +175,27 @@ const router = createBrowserRouter([
         element: <EditSubCategory />,
       },
       {
-        path: "/admin/brands",
+        path: "/admin/brands/:page?",
         element: <Brands />,
       },
       {
-        path: "/admin/addBrand",
+        path: "/admin/addBrand/:page",
         element: <AddBrand />,
       },
       {
-        path: "/admin/editBrand/:itemId",
+        path: "/admin/editBrand/:itemId/:page",
         element: <EditBrand />,
       },
       {
-        path: "/admin/products",
+        path: "/admin/products/:page?",
         element: <Products />,
       },
       {
-        path: "/admin/addProduct",
+        path: "/admin/addProduct/:page",
         element: <AddProduct />,
       },
       {
-        path: "/admin/editProduct/:itemId",
+        path: "/admin/editProduct/:itemId/:page",
         element: <EditProduct />,
       },
       {

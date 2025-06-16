@@ -7,6 +7,7 @@ import SplashScreen from "../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
 const AddProduct = () => {
+  const {page}=useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
@@ -153,7 +154,7 @@ const AddProduct = () => {
             .addProduct(values)
             .then((data) => {
               setResultMessage("The product added successfully");
-              return navigate("/admin/products");
+              return navigate(`/admin/products/${page}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't add product!");
@@ -592,7 +593,7 @@ const AddProduct = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate(`/admin/products`);}}
+                  onClick={()=>{ return navigate(`/admin/products/${page}`);}}
                 >
                   cancel
                 </button>

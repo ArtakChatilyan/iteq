@@ -1,35 +1,35 @@
-import styles from "../View.module.css"
+import styles from "../View.module.css";
 import { brandsAPI } from "../../dal/api";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const Brands = () => {
+  const { page } = useParams();
+  const location = useLocation();
   const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(parseInt(page || 1));
+  const [perPage, setPerPage] = useState(3);
   const [total, setTotal] = useState(0);
 
   const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
 
-  const[loading, setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getBrands(currentPage, perPage);
-  }, []);
+  }, [currentPage]);
 
   const pagingHandler = (pageNumber) => {
     setLoading(true);
-    getBrands(pageNumber, perPage);
+    setCurrentPage(pageNumber);
   };
 
   const getBrands = (currentPage, perPage) => {
     brandsAPI.getBrands(currentPage, perPage).then((response) => {
       if (response) {
-        console.log(response.data.data);
-        
         setData(response.data.data);
         setTotal(response.data.total);
         setCurrentPage(currentPage);
@@ -39,10 +39,26 @@ const Brands = () => {
   };
 
   const deleteItem = (id) => {
+    setModal(false);
     setLoading(true);
-    brandsAPI.deleteBrand(id).then((response) => {
-      window.location.reload(false);
-    });
+    brandsAPI
+      .deleteBrand(id)
+      .then((response) => {
+        console.log("navigateing...");
+        console.log(location);
+
+        if (data.length === 1) {
+          if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
+        } else {
+          getBrands(currentPage, perPage);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -63,13 +79,15 @@ const Brands = () => {
             data.map((d) => (
               <tr key={`tr${d.id}`} className={styles.item}>
                 <td>{d.brandName}</td>
-                <td><Link to={d.brandUrl}>{d.brandUrl}</Link></td>
+                <td>
+                  <Link to={d.brandUrl}>{d.brandUrl}</Link>
+                </td>
                 <td>
                   <img src={d.imgUrl} className={styles.img} />
                 </td>
                 <td>
                   <Link
-                    to={`/admin/editBrand/${d.id}`}
+                    to={`/admin/editBrand/${d.id}/${currentPage}`}
                     className={styles.btn}
                   >
                     edit
@@ -98,7 +116,7 @@ const Brands = () => {
           <tr>
             <td>
               <Link
-                to={`/admin/addBrand`}
+                to={`/admin/addBrand/${currentPage}`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
                 add

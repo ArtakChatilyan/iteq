@@ -6,7 +6,7 @@ import { brandsAPI, categoryAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const EditBrand = () => {
-  const { itemId } = useParams();
+  const { itemId, page } = useParams();
   const [brandName, setBrandName] = useState("");
   const [brandUrl, setBrandUrl] = useState("");
   const [imgUrl, setImgUrl] = useState(null);
@@ -53,7 +53,7 @@ const EditBrand = () => {
             .editBrand(formData, itemId)
             .then((data) => {
               setResultMessage("The brand updated successfully");
-              return navigate("/admin/brands");
+              return navigate(`/admin/brands/${page}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't update category!");
@@ -128,7 +128,7 @@ const EditBrand = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate('/admin/brands');}}
+                  onClick={()=>{ return navigate(`/admin/brands/${page}`);}}
                 >
                   cancel
                 </button>

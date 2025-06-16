@@ -7,8 +7,8 @@ import SplashScreen from "../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
 const EditProduct = () => {
-  console.log('use effect');
-  const { itemId } = useParams();
+  
+  const { itemId, page } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
@@ -23,7 +23,7 @@ const EditProduct = () => {
   const [productCountryGe, setProductCountryGe] = useState("");
   const [productCountryRu, setProductCountryRu] = useState("");
 
-  const [productMultyDimension, setProductMultyDimension]=useState(false);
+  const [productMultyDimension, setProductMultyDimension]=useState("");
 
   const [productDimension, setProductDimension] = useState("");
   const [productWeight, setProductWeight] = useState("");
@@ -31,12 +31,12 @@ const EditProduct = () => {
   //const [productInfoGe, setProductInfoGe] = useState("");
   //const [productInfoRu, setProductInfoRu] = useState("");
   const [productPrice, setProductPrice] = useState(0);
-  const [productDiscount, setProductDiscount] = useState(false);
+  const [productDiscount, setProductDiscount] = useState("");
   const [productNewPrice, setProductNewPrice] = useState(0);
-  const [productInStock, setProductInStock] = useState(true);
+  const [productInStock, setProductInStock] = useState("");
   const [productCount, setProductCount]=useState(0);
   //const [productPopular, setProductPopular] = useState(false);
-  const [productOnTop, setProductOnTop] = useState(false);
+  const [productOnTop, setProductOnTop] = useState("");
 
   const [optionsEn, setOptionsEn]=useState([]);
   const [optionsGe, setOptionsGe]=useState([]);
@@ -67,8 +67,6 @@ const EditProduct = () => {
       }
     });
     getProduct(itemId);
-    
-    
   }, []);
 
   const getProduct = (id) => {
@@ -230,7 +228,7 @@ const EditProduct = () => {
             .editProduct(values, itemId)
             .then((data) => {
               setResultMessage("The product updated successfully");
-              return navigate("/admin/products");
+              return navigate(`/admin/products/${page}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't edit product!");
@@ -491,7 +489,7 @@ const EditProduct = () => {
                   value={values.productPrice}
                   className={styles.input}
                   style={{ width: "140px" }}
-                  //disabled={values.productMultyDimension}
+                  disabled={values.productMultyDimension}
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}>
@@ -720,7 +718,7 @@ const EditProduct = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate('/admin/products');}}
+                  onClick={()=>{ return navigate(`/admin/products/${page}`);}}
                 >
                   cancel
                 </button>

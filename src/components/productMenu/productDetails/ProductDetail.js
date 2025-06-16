@@ -43,6 +43,8 @@ const ProductDetail = () => {
     categoryAPI
       .getProduct(prodId)
       .then((response) => {
+        console.log(response);
+
         setProduct(response.data.product);
         setBrand(response.data.brand);
         setImages(response.data.images);
@@ -71,7 +73,7 @@ const ProductDetail = () => {
 
   return (
     <div className={styles.block}>
-      {loading && <LoadingScreen showGif={true}/>}
+      {loading && <LoadingScreen showGif={true} />}
       {product && (
         <div className={styles.content}>
           <div className={styles.imgSlide}>
@@ -89,9 +91,14 @@ const ProductDetail = () => {
             </Slider>
           </div>
           <div className={styles.infoContent}>
-            {
-              categories.map(c=><Link to={`/category/${c.categoryId}`} className={styles.categoryTitle}>{c.nameEn}</Link>)
-            }
+            {categories.map((c) => (
+              <Link
+                to={`/category/${c.categoryId}`}
+                className={styles.categoryTitle}
+              >
+                {c.nameEn}
+              </Link>
+            ))}
             <h1 className={`${styles.name} ${styles.title}`}>
               {lang === "en" && product.productNameEn}
               {lang === "ge" && product.productNameGe}
@@ -287,7 +294,22 @@ const ProductDetail = () => {
                               <span className={styles.name}>{s.weight}</span>
                             </td>
                             <td className={styles.td}>
-                              <span className={styles.name}>{s.price}</span>
+                              {s.discount === 1 ? (
+                                  <div>
+                                    <span className={styles.price} style={{marginRight: "6px"}}>
+                                      {s.newPrice}&#8382;
+                                    </span>
+                                    <span className={styles.old}>
+                                      {s.price}&#8382;
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <span className={styles.price}>
+                                      {s.price}&#8382;
+                                    </span>
+                                  </div>
+                                )}
                             </td>
                             <td className={styles.td}>
                               <input

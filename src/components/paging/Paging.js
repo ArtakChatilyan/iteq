@@ -1,6 +1,7 @@
 import styles from "./Paging.module.css";
 
 const Paging = (props) => {
+  
   function onPaging(pageNumber) {
     props.paging(pageNumber);
   }

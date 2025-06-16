@@ -40,15 +40,13 @@ const Footer = ({ lang }) => {
       {/* <Subscriber /> */}
       <div className={styles.mapContent}>
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2978.7895335849175!2d44.80019714100036!3d41.70347898659601!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40440d00342b63e9%3A0xd3aa948231e40ffc!2sIteq%20Georgia!5e0!3m2!1sen!2sam!4v1748864472433!5m2!1sen!2sam"
-          
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2977.2032457039054!2d44.77891605978845!3d41.737708784006564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40440c52003fc05d%3A0x7a39577e45c03c61!2sITEQ%20GEORGIA!5e0!3m2!1sen!2sam!4v1749543688042!5m2!1sen!2sam"
           height="400"
-          style={{border:0, width: '100%'}}
-          allowFullScreen="" 
+          style={{ border: 0, width: "100%" }}
+          allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
-        {/* <img src={map} className={styles.map} /> */}
       </div>
       <div style={{ margin: "0 10vw" }}>
         <div className={styles.content}>

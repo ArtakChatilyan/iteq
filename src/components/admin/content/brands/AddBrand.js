@@ -6,6 +6,7 @@ import { brandsAPI, categoryAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const AddBrand = () => {
+  const {page}=useParams();
   const navigate = useNavigate();
   const[loading, setLoading]=useState(false);
   const [resultMessage, setResultMessage] = useState("");
@@ -32,7 +33,7 @@ const AddBrand = () => {
             .addBrand(formData)
             .then((data) => {
               setResultMessage("The brand added successfully");
-              return navigate('/admin/brands');
+              return navigate(`/admin/brands/${page}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't add category!");
@@ -106,7 +107,7 @@ const AddBrand = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate('/admin/brands');}}
+                  onClick={()=>{ return navigate(`/admin/brands/${page}`);}}
                 >
                   cancel
                 </button>

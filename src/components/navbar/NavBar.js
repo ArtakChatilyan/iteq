@@ -77,6 +77,7 @@ const Navbar = () => {
   useEffect(() => {
     LoadCategories();
   }, []);
+
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={false} />}

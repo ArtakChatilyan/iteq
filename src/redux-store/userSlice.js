@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { usersAPI } from "../components/dalUser/userApi";
-import { useDispatch } from "react-redux";
 
 let initialState = {
   loading: true,
