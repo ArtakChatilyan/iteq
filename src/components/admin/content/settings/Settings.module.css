@@ -1,0 +1,50 @@
+.block {
+  font-size: 1.6rem;
+  border-left: 1px solid rgb(81, 81, 81);
+  padding-left: 1rem;
+}
+
+.label {
+  text-align: left;
+}
+
+.input {
+  font-size: 1.6rem;
+  border-radius: 6px;
+  outline: 0;
+  border: 1px solid rgb(81, 81, 81);
+  padding: 10px;
+  min-width: 400px;
+  width: 400px;
+  margin: 1rem;
+}
+
+.info {
+  display: block;
+  border-radius: 6px;
+  border: 1px solid rgb(81, 81, 81);
+  padding: 10px;
+  min-width: 400px;
+  width: 400px;
+  margin: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn {
+  background: none;
+  border: 1px solid rgb(81, 81, 81);
+  border-radius: 6px;
+  outline: 0;
+  color: #bdd2ef;
+  cursor: pointer;
+  font-family: "SourceSansLight";
+  transition: 0.15s;
+  padding: 10px 20px;
+  margin: 10px;
+}
+
+.btn:hover {
+  background-color: rgb(49, 49, 49);
+  color: #fff;
+}

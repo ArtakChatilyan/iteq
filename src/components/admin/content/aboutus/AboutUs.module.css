@@ -1,0 +1,27 @@
+.block {
+}
+
+.detailInfo{
+    font-size: 1.8rem;
+    font-family: "RobotoRegular";
+    text-align: justify;
+    margin: 0 2rem 4rem;
+}
+
+.btn {
+  background: none;
+  border: 1px solid rgb(81, 81, 81);
+  border-radius: 6px;
+  outline: 0;
+  color: #bdd2ef;
+  cursor: pointer;
+  font-family: "SourceSansLight";
+  transition: 0.15s;
+  padding: 10px 20px;
+  margin: 10px;
+}
+
+.btn:hover {
+  background-color: rgb(49, 49, 49);
+  color: #fff;
+}

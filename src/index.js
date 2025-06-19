@@ -50,6 +50,7 @@ import Contacts from "./components/contacts/Contacts";
 import ProductSizes from "./components/admin/content/products/ProductSizes";
 import AddProductSize from "./components/admin/content/products/AddProductSize";
 import EditProductSize from "./components/admin/content/products/EditProductSize";
+import AboutUsAdmin from "./components/admin/content/aboutus/AboutUs";
 
 import store from "./redux-store/store";
 import { Provider } from "react-redux";
@@ -63,6 +64,7 @@ import StoryDetail from "./components/story/StoryDetail";
 import Search from "./components/search/Search";
 import Clients from "./components/admin/content/clients/Clients";
 import NotFoundAdmin from "./components/notfound/NotFoundAdmin";
+import Settings from "./components/admin/content/settings/Settings";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -106,7 +108,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/search/:searchItem/:searchType",
-        element: <Search />
+        element: <Search />,
       },
       {
         path: "/login",
@@ -122,8 +124,8 @@ const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <NotFound />
-      }
+        element: <NotFound />,
+      },
       // {
       //   path: "/services",
       //   element: <Services />,
@@ -187,15 +189,15 @@ const router = createBrowserRouter([
         element: <EditBrand />,
       },
       {
-        path: "/admin/products/:page?",
+        path: "/admin/products/:page?/:sType?",
         element: <Products />,
       },
       {
-        path: "/admin/addProduct/:page",
+        path: "/admin/addProduct/:page/:sType",
         element: <AddProduct />,
       },
       {
-        path: "/admin/editProduct/:itemId/:page",
+        path: "/admin/editProduct/:itemId/:page/:sType",
         element: <EditProduct />,
       },
       {
@@ -219,6 +221,10 @@ const router = createBrowserRouter([
         element: <ProductCategories />,
       },
       {
+        path: "/admin/aboutus",
+        element: <AboutUsAdmin />,
+      },
+      {
         path: "/admin/news",
         element: <News />,
       },
@@ -235,9 +241,13 @@ const router = createBrowserRouter([
         element: <EditNews />,
       },
       {
+        path: "/admin/settings",
+        element: <Settings />,
+      },
+      {
         path: "*",
-        element: <NotFoundAdmin />
-      }
+        element: <NotFoundAdmin />,
+      },
       // {
       //   path: "/admin/sliders",
       //   element: <Slides />,

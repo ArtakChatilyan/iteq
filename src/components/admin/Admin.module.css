@@ -31,9 +31,9 @@
     transition: .15s;
 }
 
-.list>li:hover{
+/* .list>li:hover{
     margin-left: 2rem;
-}
+} */
 
 a{
     color: white;
@@ -47,5 +47,5 @@ a:hover{
 
 .active{
     color: #DDA853;
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
 }

@@ -31,6 +31,7 @@ const Search = () => {
   }, [currentPage]);
 
   const SearchByBrand = (term, page, perpage) => {
+       
     categoryAPI.getProductsByBrand(term, page, perpage).then((response) => {
       setTotal(response.data.total);
       setProductList(response.data.products);

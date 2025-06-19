@@ -1,11 +1,64 @@
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./About.module.css";
+import { settingsAPI } from "../dalUser/userApi";
+import { LanguageContext } from "../../contexts/LanguageContext";
+import LoadingScreen from "../loadingScreen/LoadingScreen";
 
 const AboutUs = () => {
   const { t, i18n } = useTranslation();
+  const lang = useContext(LanguageContext);
+  const [loading, setLoading] = useState(true);
+  const [contentAboutEn, setContentAboutEn] = useState();
+  const [contentAboutGe, setContentAboutGe] = useState();
+  const [contentAboutRu, setContentAboutRu] = useState();
+
+  useEffect(() => {
+    LoadContent();
+  }, []);
+
+  const LoadContent = () => {
+    settingsAPI
+      .getAbout()
+      .then((response) => {
+        if (response.data) {
+          setContentAboutEn(response.data.about.aboutEn);
+          setContentAboutGe(response.data.about.aboutGe);
+          setContentAboutRu(response.data.about.aboutRu);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <div className={styles.block}>
-      <Content param={t("aboutUsPage")} />
+      {loading && <LoadingScreen />}
+      <div>
+        <h3 className={styles.title}>{t("aboutUs")}</h3>
+        {lang === "en" && (
+          <div
+            className={styles.info}
+            dangerouslySetInnerHTML={{ __html: contentAboutEn }}
+          />
+        )}
+        {lang === "ge" && (
+          <div
+            className={styles.info}
+            dangerouslySetInnerHTML={{ __html: contentAboutGe }}
+          />
+        )}
+        {lang === "ru" && (
+          <div
+            className={styles.info}
+            dangerouslySetInnerHTML={{ __html: contentAboutRu }}
+          />
+        )}
+      </div>
     </div>
   );
 };

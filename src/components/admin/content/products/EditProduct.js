@@ -8,7 +8,7 @@ import * as Yup from "yup";
 
 const EditProduct = () => {
   
-  const { itemId, page } = useParams();
+  const { itemId, page, sType } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
@@ -228,7 +228,7 @@ const EditProduct = () => {
             .editProduct(values, itemId)
             .then((data) => {
               setResultMessage("The product updated successfully");
-              return navigate(`/admin/products/${page}`);
+              return navigate(`/admin/products/${page}/${sType}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't edit product!");
@@ -718,7 +718,7 @@ const EditProduct = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate(`/admin/products/${page}`);}}
+                  onClick={()=>{ return navigate(`/admin/products/${page}/${sType}`);}}
                 >
                   cancel
                 </button>

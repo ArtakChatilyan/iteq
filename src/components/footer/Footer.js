@@ -1,11 +1,9 @@
 import styles from "./Footer.module.css";
-import map from "../../assets/map.png";
 import fb from "../../assets/icons8-facebook.svg";
 import inst from "../../assets/icons8-instagram.svg";
 import twit from "../../assets/icons8-twitter-bird.svg";
-import Subscriber from "../subscribtion/Subscribtion";
 import { useEffect, useState } from "react";
-import { categoryAPI } from "../dalUser/userApi";
+import { categoryAPI, settingsAPI } from "../dalUser/userApi";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "universal-cookie";
@@ -14,12 +12,38 @@ import LoadingScreen from "../loadingScreen/LoadingScreen";
 const Footer = ({ lang }) => {
   const { t, i18n } = useTranslation();
   const cookies = new Cookies();
+
+  const [addressEn, setAddressEn] = useState(" ");
+  const [addressGe, setAddressGe] = useState("");
+  const [addressRu, setAddressRu] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    LoadSettings();
     LoadCategories();
   }, []);
+
+  const LoadSettings = () => {
+    settingsAPI
+      .getContacts()
+      .then((response) => {
+        setAddressEn(response.data.contacts.addressEn);
+        setAddressGe(response.data.contacts.addressGe);
+        setAddressRu(response.data.contacts.addressRu);
+        setEmail(response.data.contacts.email);
+        setPhone(response.data.contacts.phone);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const LoadCategories = () => {
     categoryAPI
@@ -84,9 +108,13 @@ const Footer = ({ lang }) => {
             <img src={twit} className={styles.social} />
           </div>
           <div className={styles.info}>
-            <span className={styles.infoItem}>Tbilisi. D.Uznadze St. 2</span>
-            <span className={styles.infoItem}>E-mail: info@iteq.ge</span>
-            <span className={styles.infoItem}>Tel: 032 2 20 46 60</span>
+            <span className={styles.infoItem}>
+              {lang === "en" && addressEn}
+              {lang === "ge" && addressGe}
+              {lang === "ru" && addressRu}
+            </span>
+            <span className={styles.infoItem}>E-mail: {email}</span>
+            <span className={styles.infoItem}>Tel: {phone}</span>
           </div>
         </div>
       </div>

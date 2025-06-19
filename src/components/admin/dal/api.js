@@ -1,15 +1,7 @@
 import axios from "axios";
 
-// const instance=axios.create({
-//     withCredentials: true,
-//     baseURL: '...',
-//     headers:{
-//         "API-KEY": "KEY"
-//     }
-// })
-
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api/v1/",
+  baseURL: "http://localhost:8080/api/v1/", //baseURL:"https://data.iteq.shop/api/v1/",
   withCredentials: true,
 });
 
@@ -258,8 +250,42 @@ export const portfolioAPI = {
   },
 };
 
+export const searchAPI={
+  searchByBrand: (term) => {
+    return instance.get(`user/search/brand?term=${term}`);
+  },
+  getProductsByBrand: (term, page, perPage) => {
+    return instance.get(
+      `user/search/productsByBrand?term=${term}&page=${page}&perPage=${perPage}`
+    );
+  },
+  searchByModel: (term) => {
+    return instance.get(`user/search/model?term=${term}`);
+  },
+  getProductsByModel: (term, page, perPage) => {
+    return instance.get(
+      `user/search/productsByModel?term=${term}&page=${page}&perPage=${perPage}`
+    );
+  },
+}
+
 export const clientAPI = {
   getClients: (page, count) => {
     return instance.get(`users?page=${page}&perPage=${count}`);
   },
 };
+
+export const settingsAPI={
+  getAbout:()=>{
+    return instance.get('settings/about');
+  },
+  getContacts:()=>{
+    return instance.get('settings/contacts');
+  },
+  updateAbout:(data)=>{
+    return instance.put('settings/about', data);
+  },
+  updateContact:(data)=>{
+    return instance.put('settings/contacts', data);
+  }
+}

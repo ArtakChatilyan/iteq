@@ -10,7 +10,7 @@ const Brands = () => {
   const location = useLocation();
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(parseInt(page || 1));
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(10);
   const [total, setTotal] = useState(0);
 
   const [modal, setModal] = useState(false);

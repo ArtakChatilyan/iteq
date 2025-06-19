@@ -1,5 +1,3 @@
-import styles from "./Main.module.css";
-import Slider from "../slider/Slider";
 import ProductMenu from "../productMenu/ProductMenu";
 import CategoryMenu from "../categoryMenu/CategoryMenu";
 import { categoryAPI } from "../dalUser/userApi";
@@ -70,15 +68,12 @@ const Main = () => {
   return (
     <div style={{ position: "relative" }}>
       {loading && <LoadingScreen showGif={true} />}
-      {/* <Slider items={sliderImages} /> */}
       {discountProducts.length > 0 && (
         <ProductMenu title={t("discount")} products={discountProducts} />
       )}
 
       <CategoryMenu id="cat" categories={mainCategories} />
       <BrandMenu brands={brands} />
-      {/* <ProductMenu title={"Safes"} />
-      <ProductMenu title={"Locks"} /> */}
     </div>
   );
 };

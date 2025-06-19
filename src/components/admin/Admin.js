@@ -97,7 +97,7 @@ const Admin = ({ logout }) => {
         </li> */}
         {/* <li>
           <NavLink
-            to="/admin/portfolio"
+            to="/admin/portfolio"                 
             className={({ isActive }) => {
               return isActive ? styles.active : "";
             }}
@@ -105,6 +105,16 @@ const Admin = ({ logout }) => {
             Portfolio
           </NavLink>
         </li> */}
+        <li>
+          <NavLink
+            to="/admin/aboutus"
+            className={({ isActive }) => {
+              return isActive ? styles.active : "";
+            }}
+          >
+            AboutUs
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/admin/news"
