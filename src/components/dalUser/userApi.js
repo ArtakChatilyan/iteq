@@ -93,6 +93,9 @@ export const categoryAPI = {
   getBrands: () => {
     return instance.get(`user/brands`);
   },
+  getBrandsForCategory: (catId) => {
+    return instance.get(`user/brands/byCategory/?catId=${catId}`);
+  },
   getStories: (page, count) => {
     return instance.get(`user/stories/?page=${page}&perPage=${count}`);
   },

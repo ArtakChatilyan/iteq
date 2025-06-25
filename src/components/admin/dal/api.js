@@ -36,6 +36,13 @@ export const categoryAPI = {
   deleteCategory: (id) => {
     return instance.delete(`categories/${id}`);
   },
+  getCategoryBrands: (id) => {
+    return instance.get(`categories/categoryBrands/${id}`);
+  },
+
+  setCategoryBrands: (id, result) => {
+    return instance.post(`categories/categoryBrands`, { id, result });
+  },
 };
 
 export const subcategoryAPI = {
@@ -67,6 +74,28 @@ export const subcategoryAPI = {
 
   getParents: (id) => {
     return instance.get(`subcategories/parents/${id}`);
+  },
+};
+
+export const colorAPI = {
+  getColors: (page, count) => {
+    return instance.get("colors");
+  },
+
+  getColor: (id) => {
+    return instance.get(`colors/${id}`);
+  },
+
+  addColor: (data) => {
+    return instance.post("colors", data);
+  },
+
+  editColor: (data, id) => {
+    return instance.put(`colors/${id}`, data);
+  },
+
+  deleteColor: (id) => {
+    return instance.delete(`colors/${id}`);
   },
 };
 
@@ -125,6 +154,14 @@ export const productsAPI = {
     return instance.post(`products/productCategories`, { id, result });
   },
 
+  getProductColors: (id) => {
+    return instance.get(`products/productColors/${id}`);
+  },
+
+  setProductColors: (id, result) => {
+    return instance.post(`products/productColors`, { id, result });
+  },
+
   getSizes: (id) => {
     return instance.get(`products/productsizes/${id}`);
   },
@@ -155,6 +192,14 @@ export const productsAPI = {
 
   deleteImage: (id) => {
     return instance.delete(`products/productImage/${id}`);
+  },
+
+  getImageColorSize: (id) => {
+    return instance.get(`products/productImageColorsSize/${id}`);
+  },
+
+  setImageColorSize: (data) => {
+    return instance.post(`products/productImageColorsSize`, data);
   },
 };
 
@@ -250,7 +295,7 @@ export const portfolioAPI = {
   },
 };
 
-export const searchAPI={
+export const searchAPI = {
   searchByBrand: (term) => {
     return instance.get(`user/search/brand?term=${term}`);
   },
@@ -267,7 +312,7 @@ export const searchAPI={
       `user/search/productsByModel?term=${term}&page=${page}&perPage=${perPage}`
     );
   },
-}
+};
 
 export const clientAPI = {
   getClients: (page, count) => {
@@ -275,17 +320,17 @@ export const clientAPI = {
   },
 };
 
-export const settingsAPI={
-  getAbout:()=>{
-    return instance.get('settings/about');
+export const settingsAPI = {
+  getAbout: () => {
+    return instance.get("settings/about");
   },
-  getContacts:()=>{
-    return instance.get('settings/contacts');
+  getContacts: () => {
+    return instance.get("settings/contacts");
   },
-  updateAbout:(data)=>{
-    return instance.put('settings/about', data);
+  updateAbout: (data) => {
+    return instance.put("settings/about", data);
   },
-  updateContact:(data)=>{
-    return instance.put('settings/contacts', data);
-  }
-}
+  updateContact: (data) => {
+    return instance.put("settings/contacts", data);
+  },
+};

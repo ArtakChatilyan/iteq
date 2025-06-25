@@ -65,6 +65,10 @@ import Search from "./components/search/Search";
 import Clients from "./components/admin/content/clients/Clients";
 import NotFoundAdmin from "./components/notfound/NotFoundAdmin";
 import Settings from "./components/admin/content/settings/Settings";
+import Colors from "./components/admin/content/colors/Colors";
+import AddColor from "./components/admin/content/colors/AddColor";
+import EditColor from "./components/admin/content/colors/EditColor";
+import ProductColors from "./components/admin/content/products/ProductColors";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -219,6 +223,22 @@ const router = createBrowserRouter([
       {
         path: "/admin/productCategories/:itemId",
         element: <ProductCategories />,
+      },
+      {
+        path: "/admin/productColors/:itemId",
+        element: <ProductColors />,
+      },
+      {
+        path: "/admin/colors",
+        element: <Colors />,
+      },
+      {
+        path: "/admin/addColor",
+        element: <AddColor />,
+      },
+      {
+        path: "/admin/editColor/:itemId",
+        element: <EditColor />,
       },
       {
         path: "/admin/aboutus",

@@ -77,7 +77,6 @@
 .itemWrapper {
   margin: 10px;
   font-size: 2rem;
-  cursor: pointer;
   display: flex;
   align-items: center;
   transition: 0.15s;
@@ -101,6 +100,7 @@
   width: 100%;
   grid-template-columns: auto auto auto auto;
   justify-items: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);;
 }
 
 .modal {
@@ -117,10 +117,12 @@
 }
 
 .btnGroup {
-  margin-top: 100px;
-  background-color: rgba(255, 255, 255, 0.6);
+  margin-top: 20px;
+  border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 10px;
-  padding: 60px;
+
+  display: flex;
+  justify-content: center;
 }
 
 .delBtn {
@@ -132,6 +134,20 @@
   background-color: rgb(49, 49, 49);
   border-radius: 6px;
   cursor: pointer;
+}
+
+.linkBtn{
+  background: none;
+  border: 0;
+  margin: 1rem 3rem;
+  font-size: 1.6rem;
+  color: rgb(161,161,161);
+  cursor: pointer;
+  transition: .15s;
+}
+
+.linkBtn:hover{
+  color: rgb(255,255,255);
 }
 
 .loadingWrapper{

@@ -57,6 +57,16 @@ const Admin = ({ logout }) => {
         </li>
         <li>
           <NavLink
+            to="/admin/colors"
+            className={({ isActive, isPending }) => {
+              return isActive ? styles.active : "";
+            }}
+          >
+            Colors
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/admin/brands"
             className={({ isActive }) => {
               return isActive ? styles.active : "";

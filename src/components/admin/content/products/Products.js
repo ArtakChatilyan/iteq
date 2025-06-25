@@ -200,6 +200,7 @@ const Products = () => {
             <th></th>
             <th></th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -211,6 +212,11 @@ const Products = () => {
               <td>{d.productModel}</td>
               <td>
                 <img src={d.imgUrl} className={styles.img} />
+              </td>
+              <td>
+                <Link to={`/admin/productColors/${d.id}`} className={styles.btn}>
+                  colors
+                </Link>
               </td>
               <td>
                 <Link to={`/admin/productSizes/${d.id}`} className={styles.btn}>
@@ -265,7 +271,7 @@ const Products = () => {
                 add
               </Link>
             </td>
-            <td colSpan={9}>
+            <td colSpan={10}>
               <div style={{ textAlign: "right" }}>
                 <Paging
                   totalCount={total}

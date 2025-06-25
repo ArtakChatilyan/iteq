@@ -2,8 +2,10 @@ import styles from "../View.module.css";
 import { categoryAPI } from "../../dal/api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Modal from "react-modal";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
+import BrandsForCategories from "./BrandsForCategories/BrandsForCategories";
 
 const MainCategories = () => {
   const [loading, setLoading] = useState(true);
@@ -14,6 +16,9 @@ const MainCategories = () => {
 
   const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
+  const [modalBrands, setModalBrands] = useState(false);
+  const [catId, setCatId] = useState(0);
+  const [catTitle, setCatTitle] = useState("");
 
   useEffect(() => {
     getCategories(currentPage, perPage);
@@ -36,7 +41,6 @@ const MainCategories = () => {
       .finally(() => {
         setLoading(false);
       });
-      
   };
 
   const deleteItem = (id) => {
@@ -45,6 +49,19 @@ const MainCategories = () => {
       window.location.reload(false);
     });
   };
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
+  Modal.setAppElement("#root");
 
   return (
     <div className={styles.data}>
@@ -59,6 +76,8 @@ const MainCategories = () => {
             <th>image</th>
             <th></th>
             <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -66,14 +85,29 @@ const MainCategories = () => {
             data.map((d) => (
               <tr className={styles.item} key={`tr${d.id}`}>
                 <td>
-                  <Link to={`/admin/subCategories/${d.id}`}>{d.nameEn}</Link>
+                  {d.nameEn}
                 </td>
                 <td>{d.nameGe}</td>
                 <td>{d.nameRu}</td>
                 <td>
                   <img src={d.imgUrl} className={styles.img} />
                 </td>
-
+                <td>
+                  <Link to={`/admin/subCategories/${d.id}`}>subcategories</Link>
+                </td>
+                <td>
+                  <button
+                    className={styles.btn}
+                    style={{fontSize: "1.6rem"}}
+                    onClick={() => {
+                      setCatId(d.id);
+                      setCatTitle(d.nameEn);
+                      setModalBrands(true);
+                    }}
+                  >
+                    brands
+                  </button>
+                </td>
                 <td>
                   <Link
                     to={`/admin/editCategory/${d.id}`}
@@ -141,6 +175,26 @@ const MainCategories = () => {
           </div>
         </div>
       )}
+      <Modal
+        isOpen={modalBrands}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(255,255,255,.8)",
+          },
+          content: {
+            color: "lightsteelblue",
+            backgroundColor: "rgb(32,32,32)"
+          },
+        }}
+      >
+        <BrandsForCategories
+          categoryId={catId}
+          categoryTitle={catTitle}
+          closeModal={() => {
+            setModalBrands(false);
+          }}
+        />
+      </Modal>
     </div>
   );
 };

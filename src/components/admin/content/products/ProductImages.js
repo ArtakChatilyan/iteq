@@ -3,7 +3,9 @@ import styles from "./Products.module.css";
 import { productsAPI } from "../../dal/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Formik } from "formik";
+import Modal from "react-modal";
 import SplashScreen from "../splashscreen/SplashScreen";
+import ColorSize from "./ColorSize";
 
 const ProductImages = () => {
   const { itemId } = useParams();
@@ -18,6 +20,21 @@ const ProductImages = () => {
   const [resultData, setResultData] = useState([]);
   const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
+
+  const [linkedId, setLinkedId] = useState(0);
+  const [modalColorSize, setModalColorSize] = useState(false);
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
+  Modal.setAppElement("#root");
 
   useEffect(() => {
     getProduct(itemId);
@@ -80,6 +97,15 @@ const ProductImages = () => {
                   className={`${styles.itemWrapper} ${styles.imageWrapper}`}
                 >
                   <img src={d.imgUrl} style={{ width: "160px" }} />
+                  <button
+                    className={styles.linkBtn}
+                    onClick={() => {
+                      setLinkedId(d.id);
+                      setModalColorSize(true);
+                    }}
+                  >
+                    color-size
+                  </button>
                   <button
                     className={styles.btn}
                     onClick={() => {
@@ -188,6 +214,26 @@ const ProductImages = () => {
           </div>
         </div>
       )}
+      <Modal
+        isOpen={modalColorSize}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(255,255,255,.8)",
+          },
+          content: {
+            color: "lightsteelblue",
+            backgroundColor: "rgb(32,32,32)",
+          },
+        }}
+      >
+        <ColorSize
+          productId={itemId}
+          imageId={linkedId}
+          closeModal={() => {
+            setModalColorSize(false);
+          }}
+        />
+      </Modal>
     </div>
   );
 };

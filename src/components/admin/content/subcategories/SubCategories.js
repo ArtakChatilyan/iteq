@@ -46,8 +46,6 @@ const SubCategories = () => {
 
   const getParents = (id) => {
     subcategoryAPI.getParents(id).then((response) => {
-      console.log(response);
-      
       if (response) {
         setParents(response.data.result.reverse());
       }
@@ -89,7 +87,7 @@ const SubCategories = () => {
             <th>name(english)</th>
             <th>name(georgian)</th>
             <th>name(russian)</th>
-            <th>parent category</th>
+            <th></th>
             <th></th>
             <th></th>
           </tr>
@@ -103,7 +101,7 @@ const SubCategories = () => {
                 </td>
                 <td>{d.nameGe}</td>
                 <td>{d.nameRu}</td>
-                <td>{d.parent}</td>
+                <td><Link to={`/admin/subCategories/${d.id}`}>subcategories</Link></td>
 
                 <td>
                   <Link

@@ -1,0 +1,65 @@
+.block {
+  background-color: rgb(49, 49, 49);
+  color: rgb(245, 238, 220);
+  font-size: 1.6rem;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  color: rgb(221, 168, 83);
+}
+
+.itemContent {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto auto auto auto;
+  justify-items: left;
+}
+
+.itemWrapper {
+  margin: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.15s;
+}
+
+.checkBoxWrapper {
+  flex-wrap: nowrap;
+}
+
+.itemWraper:hover {
+  color: rgb(77, 80, 30);
+}
+
+.btnGroup {
+  margin-top: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  margin: 1rem 3rem;
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  color: white;
+  border: 1px solid rgb(81, 81, 81);
+  background-color: rgb(49, 49, 49);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.btn:hover {
+  background-color: rgb(81, 81, 81);
+}
+
+.error{
+  color: red;
+  font-size: 1.6rem;
+}

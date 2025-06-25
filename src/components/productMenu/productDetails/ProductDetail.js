@@ -67,8 +67,8 @@ const ProductDetail = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 5,
+    slidesToShow: images.length> 5 ? 5 : images.length,
+    slidesToScroll: 1,
   };
 
   return (

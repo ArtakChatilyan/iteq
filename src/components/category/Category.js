@@ -35,7 +35,6 @@ const Category = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    LoadBrands();
     setCatId(params.categoryId);
     window.scrollTo(0, 0);
   }, []);
@@ -46,6 +45,7 @@ const Category = () => {
   }, [location.pathname]);
 
   useEffect(() => {
+    LoadBrands(params.categoryId);
     LoadCategories();
   }, [catId]);
 
@@ -127,9 +127,9 @@ const Category = () => {
       .finally(() => {});
   };
 
-  const LoadBrands = () => {
+  const LoadBrands = (catId) => {
     categoryAPI
-      .getBrands()
+      .getBrandsForCategory(catId)
       .then((response) => {
         setBrandList(response.data.brands);
       })
