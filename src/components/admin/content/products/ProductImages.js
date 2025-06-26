@@ -8,14 +8,16 @@ import SplashScreen from "../splashscreen/SplashScreen";
 import ColorSize from "./ColorSize";
 
 const ProductImages = () => {
-  const { itemId } = useParams();
+  const { itemId, page } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState([]);
-  const [productNameEn, setProductNameEn] = useState("");
-  const [productModel, setProductModel] = useState("");
+  const [images, setImages] = useState([]);
+  const [product, setProduct] = useState(null);
+  const [multyType, setMultyType] = useState(false);
+  // const [productNameEn, setProductNameEn] = useState("");
+  // const [productModel, setProductModel] = useState("");
 
   const [resultData, setResultData] = useState([]);
   const [modal, setModal] = useState(false);
@@ -42,10 +44,16 @@ const ProductImages = () => {
   }, []);
 
   const getProduct = (id) => {
-    productsAPI.getProduct(id).then((data) => {
-      if (data) {
-        setProductNameEn(data.data.data.productNameEn);
-        setProductModel(data.data.data.productModel);
+    productsAPI.getProduct(id).then((response) => {
+      if (response) {
+        setProduct(response.data.data);
+        if (
+          response.data.data.productMultyColor ||
+          response.data.data.productMultyDimension
+        )
+          setMultyType(true);
+        // setProductNameEn(response.data.data.productNameEn);
+        // setProductModel(response.data.data.productModel);
       }
     });
   };
@@ -53,7 +61,7 @@ const ProductImages = () => {
   const getProductImages = (id) => {
     productsAPI.getProductImages(id).then((response) => {
       if (response) {
-        setData(response.data.data);
+        setImages(response.data.data);
       }
       setLoading(false);
     });
@@ -72,9 +80,9 @@ const ProductImages = () => {
       <div className={styles.form}>
         <div style={{ borderRight: "1px solid rgb(81, 81, 81)" }}>
           <div className={styles.label} onClick={() => console.log(resultData)}>
-            {productNameEn}
+            {product && product.productNameEn}
           </div>
-          <div className={styles.label}>{productModel}</div>
+          <div className={styles.label}>{product && product.productModel}</div>
         </div>
 
         <div>
@@ -91,21 +99,24 @@ const ProductImages = () => {
             }}
           >
             <div className={styles.itemContent}>
-              {data.map((d) => (
+              {images.map((d) => (
                 <div
-                  key={`d${d.id}`}
+                  key={`im${d.id}`}
                   className={`${styles.itemWrapper} ${styles.imageWrapper}`}
                 >
                   <img src={d.imgUrl} style={{ width: "160px" }} />
-                  <button
-                    className={styles.linkBtn}
-                    onClick={() => {
-                      setLinkedId(d.id);
-                      setModalColorSize(true);
-                    }}
-                  >
-                    color-size
-                  </button>
+                  {multyType && (
+                    <button
+                      className={styles.linkBtn}
+                      onClick={() => {
+                        setLinkedId(d.id);
+                        setModalColorSize(true);
+                      }}
+                    >
+                      color-size
+                    </button>
+                  )}
+
                   <button
                     className={styles.btn}
                     onClick={() => {
@@ -182,13 +193,31 @@ const ProductImages = () => {
                 {errors.imgUrl && touched.imgUrl && errors.imgUrl}
               </span>
               <div className={`${styles.formItem} ${styles.col3}`}>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={styles.btn}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
                 >
-                  add
-                </button>
+                  <Link
+                    to={`/admin/products/${page}`}
+                    style={{
+                      textDecoration: "underline",
+                      color: "#7dacee",
+                      margin: "0 4rem 0 2rem",
+                    }}
+                  >
+                    back
+                  </Link>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className={styles.btn}
+                  >
+                    add
+                  </button>
+                </div>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>
                 {resultMessage}
@@ -229,6 +258,7 @@ const ProductImages = () => {
         <ColorSize
           productId={itemId}
           imageId={linkedId}
+          product={product}
           closeModal={() => {
             setModalColorSize(false);
           }}

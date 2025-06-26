@@ -6,9 +6,7 @@ import { productsAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
-const AddProductSize = () => {
-  const { id } = useParams();
-  
+const AddProductSize = ({productId, closeModal}) => {
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,7 +41,7 @@ const AddProductSize = () => {
           inStock: true,
         }}
         validationSchema={formValidationSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting, resetForm  }) => {
           {
             /* replace( /\r?\n/gi, '' ) */
           }
@@ -52,15 +50,18 @@ const AddProductSize = () => {
           for (let value in values) {
             formData.append(value, values[value]);
           }
-          values["productId"] = id;
+          values["productId"] = productId;
           productsAPI
             .addProductSize(values)
             .then((data) => {
               setResultMessage("New product size added successfully");
-              return navigate(`/admin/productSizes/${id}`);
+              resetForm();
+              //return navigate(`/admin/productSizes/${id}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't add product size!");
+            }).finally(()=>{
+              setLoading(false);
             });
         }}
       >
@@ -195,9 +196,10 @@ const AddProductSize = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate(`/admin/productSizes/${id}`);}}
+                  // onClick={()=>{ return navigate(`/admin/productSizes/${id}`);}}
+                  onClick={()=> closeModal()}
                 >
-                  cancel
+                  close
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

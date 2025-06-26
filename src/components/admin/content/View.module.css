@@ -98,3 +98,20 @@
     border-radius: 6px;
     cursor: pointer;
   }
+
+   .funcBtn {
+    margin: 1rem 3rem;
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    color: white;
+    border: 1px solid rgb(81, 81, 81);
+    background-color: rgb(49, 49, 49);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .15s;
+  }
+
+  .funcBtn:hover{
+    color: #bdd2ef;
+    background-color: rgb(81, 81, 81);
+  }

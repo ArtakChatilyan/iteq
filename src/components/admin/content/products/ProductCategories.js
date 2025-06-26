@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const ProductCategroies = () => {
-  const { itemId } = useParams();
+  const { itemId, page } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -121,10 +121,29 @@ const ProductCategroies = () => {
         </div>
 
         <div className={`${styles.formItem} ${styles.col3}`}>
-          <button className={styles.btn} onClick={setProductCategories}>
-            save
-          </button>
-          <button
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Link
+              to={`/admin/products/${page}`}
+              style={{
+                textDecoration: "underline",
+                color: "#7dacee",
+                margin: "0 4rem 0 2rem",
+              }}
+            >
+              back
+            </Link>
+            <button className={styles.btn} onClick={setProductCategories}>
+              save
+            </button>
+          </div>
+
+          {/* <button
             type="button"
             className={styles.btn}
             onClick={() => {
@@ -132,7 +151,7 @@ const ProductCategroies = () => {
             }}
           >
             cancel
-          </button>
+          </button> */}
         </div>
         <div className={`${styles.formItem} ${styles.col3}`}>
           {resultMessage}

@@ -117,7 +117,7 @@ const Products = () => {
   const searchHandle = () => {
     setLoading(true);
     if (currentPage === 1) {
-      getProducts(searchType,currentPage,perPage);
+      getProducts(searchType, currentPage, perPage);
     } else {
       setCurrentPage(1);
     }
@@ -214,18 +214,36 @@ const Products = () => {
                 <img src={d.imgUrl} className={styles.img} />
               </td>
               <td>
-                <Link to={`/admin/productColors/${d.id}`} className={styles.btn}>
+                <Link
+                  to={`/admin/productColors/${d.id}/${currentPage}`}
+                  className={styles.btn}
+                  style={{
+                    pointerEvents: d.productMultyColor ? "auto" : "none",
+                    color: d.productMultyColor
+                      ? "rgb(189, 210, 239)"
+                      : "grey",
+                  }}
+                >
                   colors
                 </Link>
               </td>
               <td>
-                <Link to={`/admin/productSizes/${d.id}`} className={styles.btn}>
+                <Link
+                  to={`/admin/productSizes/${d.id}/${currentPage}`}
+                  className={styles.btn}
+                  style={{
+                    pointerEvents: d.productMultyDimension ? "auto" : "none",
+                    color: d.productMultyDimension
+                      ? "rgb(189, 210, 239)"
+                      : "grey",
+                  }}
+                >
                   sizes
                 </Link>
               </td>
               <td>
                 <Link
-                  to={`/admin/productImages/${d.id}`}
+                  to={`/admin/productImages/${d.id}/${currentPage}`}
                   className={styles.btn}
                 >
                   images
@@ -233,7 +251,7 @@ const Products = () => {
               </td>
               <td>
                 <Link
-                  to={`/admin/productCategories/${d.id}`}
+                  to={`/admin/productCategories/${d.id}/${currentPage}`}
                   className={styles.btn}
                 >
                   categories

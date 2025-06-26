@@ -7,7 +7,7 @@ import SplashScreen from "../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
 const AddProduct = () => {
-  const {page, sType}=useParams();
+  const { page, sType } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
@@ -30,7 +30,7 @@ const AddProduct = () => {
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
       "not valid"
     ),
-    productCount:Yup.string().matches(
+    productCount: Yup.string().matches(
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
       "not valid"
     ),
@@ -81,7 +81,7 @@ const AddProduct = () => {
         if (term === "n") {
           values[index].optionNameEn = event.target.value;
           setOptionFieldsEn(values);
-        }else{
+        } else {
           values[index].optionValueEn = event.target.value;
           setOptionFieldsEn(values);
         }
@@ -91,7 +91,7 @@ const AddProduct = () => {
         if (term === "n") {
           values[index].optionNameGe = event.target.value;
           setOptionFieldsGe(values);
-        }else{
+        } else {
           values[index].optionValueGe = event.target.value;
           setOptionFieldsGe(values);
         }
@@ -101,7 +101,7 @@ const AddProduct = () => {
         if (term === "n") {
           values[index].optionNameRu = event.target.value;
           setOptionFieldsRu(values);
-        }else{
+        } else {
           values[index].optionValueRu = event.target.value;
           setOptionFieldsRu(values);
         }
@@ -122,6 +122,7 @@ const AddProduct = () => {
           productCountryEn: "",
           productCountryGe: "",
           productCountryRu: "",
+          productMultyColor: false,
           productMultyDimension: false,
           productDimension: "",
           productWeight: "",
@@ -144,9 +145,9 @@ const AddProduct = () => {
           setLoading(true);
           const formData = new FormData();
 
-          values["optionsEn"]=JSON.stringify(optionFieldsEn);
-          values["optionsGe"]=JSON.stringify(optionFieldsGe);
-          values["optionsRu"]=JSON.stringify(optionFieldsRu);
+          values["optionsEn"] = JSON.stringify(optionFieldsEn);
+          values["optionsGe"] = JSON.stringify(optionFieldsGe);
+          values["optionsRu"] = JSON.stringify(optionFieldsRu);
           for (let value in values) {
             formData.append(value, values[value]);
           }
@@ -298,7 +299,21 @@ const AddProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
-              <span className={styles.label}>multi-dimensional:</span>
+              <span className={styles.label}>multi-color:</span>
+              <div
+                className={styles.formItem}
+                style={{
+                  textAlign: "left",
+                  paddingLeft: "5%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Field type="checkbox" name="productMultyColor" />
+              </div>
+              <span className={`${styles.label} ${styles.error}`}></span>
+
+              <span className={styles.label}>multi-size:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -321,11 +336,11 @@ const AddProduct = () => {
                   onBlur={handleBlur}
                   value={values.productDimension}
                   className={styles.input}
-                  // disabled={values.productMultyDimension}
+                  disabled={values.productMultyDimension}
                 />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span> 
-               <span className={styles.label}>weight:</span>
+              <span className={`${styles.label} ${styles.error}`}></span>
+              <span className={styles.label}>weight:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -334,12 +349,12 @@ const AddProduct = () => {
                   onBlur={handleBlur}
                   value={values.productWeight}
                   className={styles.input}
-                  //disabled={values.productMultyDimension}
+                  disabled={values.productMultyDimension}
                 />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span> 
+              <span className={`${styles.label} ${styles.error}`}></span>
 
-               <span className={styles.label}>price: &#8382;</span>
+              <span className={styles.label}>price: &#8382;</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -352,14 +367,14 @@ const AddProduct = () => {
                   value={values.productPrice}
                   className={styles.input}
                   style={{ width: "140px" }}
-                  //disabled={values.productMultyDimension}
+                  disabled={values.productMultyDimension}
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productPrice}
-              </span> 
+              </span>
 
-               <span className={styles.label}>discount:</span>
+              <span className={styles.label}>discount:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -369,13 +384,14 @@ const AddProduct = () => {
                   alignItems: "center",
                 }}
               >
-                <Field type="checkbox" name="productDiscount" 
-                //disabled={values.productMultyDimension}
+                <Field
+                  type="checkbox"
+                  name="productDiscount"
+                  disabled={values.productMultyDimension}
                 />
-                
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span> 
-               <span className={styles.label}>new price: &#8382;</span>
+              <span className={`${styles.label} ${styles.error}`}></span>
+              <span className={styles.label}>new price: &#8382;</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -388,14 +404,14 @@ const AddProduct = () => {
                   value={values.productNewPrice}
                   className={styles.input}
                   style={{ width: "140px" }}
-                  disabled={!values.productDiscount 
-                    //|| values.productMultyDimension
+                  disabled={
+                    !values.productDiscount || values.productMultyDimension
                   }
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productNewPrice}
-              </span> 
+              </span>
               <span className={styles.label}>quantity: &#8382;</span>
               <div
                 className={styles.formItem}
@@ -409,12 +425,12 @@ const AddProduct = () => {
                   value={values.productCount}
                   className={styles.input}
                   style={{ width: "140px" }}
-                  //disabled={values.productMultyDimension}
+                  disabled={values.productMultyDimension}
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productCount}
-              </span> 
+              </span>
               <span className={styles.label}>in stock:</span>
               <div
                 className={styles.formItem}
@@ -426,7 +442,6 @@ const AddProduct = () => {
                 }}
               >
                 <Field type="checkbox" name="productInStock" />
-                
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
               {/* <span className={styles.label}>popular:</span>
@@ -455,7 +470,6 @@ const AddProduct = () => {
                 }}
               >
                 <Field type="checkbox" name="productOnTop" />
-                
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
@@ -593,7 +607,9 @@ const AddProduct = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate(`/admin/products/${page}/${sType}`);}}
+                  onClick={() => {
+                    return navigate(`/admin/products/${page}/${sType}`);
+                  }}
                 >
                   cancel
                 </button>

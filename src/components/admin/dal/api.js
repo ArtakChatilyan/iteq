@@ -78,8 +78,12 @@ export const subcategoryAPI = {
 };
 
 export const colorAPI = {
-  getColors: (page, count) => {
+  getColors: () => {
     return instance.get("colors");
+  },
+
+  getProductColors:(id)=>{
+    return instance.get(`colors/productColors/${id}`);
   },
 
   getColor: (id) => {
@@ -195,12 +199,16 @@ export const productsAPI = {
   },
 
   getImageColorSize: (id) => {
-    return instance.get(`products/productImageColorsSize/${id}`);
+    return instance.get(`products/productImageColorSize/${id}`);
   },
 
   setImageColorSize: (data) => {
-    return instance.post(`products/productImageColorsSize`, data);
+    return instance.post(`products/productImageColorSize`, data);
   },
+
+  deleteImageColorSize:(id)=>{
+    return instance.delete(`products/productImageColorSize/${id}`);
+  }
 };
 
 export const slidesAPI = {

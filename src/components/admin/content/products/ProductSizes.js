@@ -2,21 +2,41 @@ import styles from "../View.module.css";
 import { productsAPI } from "../../dal/api";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Modal from "react-modal";
 import SplashScreen from "../splashscreen/SplashScreen";
+import AddProductSize from "./AddProductSize";
+import EditProductSize from "./EditProductSize";
 
 const ProductSizes = () => {
-  const { itemId } = useParams();
-  
+  const { itemId, page } = useParams();
+
   const [data, setData] = useState([]);
-  
+
   const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
+  const [editId, setEditId] = useState(0);
 
-  const [loading, setLoading]=useState(true);
+  const [modalAddSize, setModalAddSize] = useState(false);
+  const [modalEditSize, setModalEditSize] = useState(false);
+
+  const [loading, setLoading] = useState(true);
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
+  Modal.setAppElement("#root");
 
   useEffect(() => {
     getSizes(itemId);
-  }, []);
+  }, [modalAddSize, modalEditSize]);
 
   const getSizes = (id) => {
     productsAPI.getSizes(id).then((response) => {
@@ -55,28 +75,29 @@ const ProductSizes = () => {
           {data ? (
             data.map((d) => (
               <tr key={`tr${d.id}`} className={styles.item}>
-                <td>
-                  {d.dimension}
-                </td>
+                <td>{d.dimension}</td>
                 <td>{d.weight}</td>
                 <td>{d.price}</td>
                 <td>{d.discount}</td>
+                <td>{d.newPrice}</td>
+                <td>{d.count}</td>
+                <td>{d.inStock}</td>
                 <td>
-                  {d.newPrice}
-                </td>
-                <td>
-                  {d.count}
-                </td>
-                <td>
-                  {d.inStock}
-                </td>
-                <td>
-                  <Link
+                  <button
+                    className={styles.btn}
+                    onClick={() => {
+                      setEditId(d.id);
+                      setModalEditSize(true);
+                    }}
+                  >
+                    edit
+                  </button>
+                  {/* <Link
                     to={`/admin/editProductSize/${itemId}/${d.id}`}
                     className={styles.btn}
                   >
                     edit
-                  </Link>
+                  </Link> */}
                 </td>
                 <td>
                   <button
@@ -100,12 +121,32 @@ const ProductSizes = () => {
         <tfoot>
           <tr>
             <td colSpan={9}>
-              <Link
+              {/* <Link
                 to={`/admin/addProductSize/${itemId}`}
-                style={{ textDecoration: "underline", color: "#7dacee" }}
+                style={{
+                  textDecoration: "underline",
+                  color: "#7dacee",
+                  marginRight: "20px",
+                }}
               >
                 add
+              </Link> */}
+              <Link
+                to={`/admin/products/${page}`}
+                style={{
+                  textDecoration: "underline",
+                  color: "#7dacee",
+                  margin: "0 4rem 0 2rem",
+                }}
+              >
+                back
               </Link>
+              <button
+                className={styles.funcBtn}
+                onClick={() => setModalAddSize(true)}
+              >
+                add
+              </button>
             </td>
           </tr>
         </tfoot>
@@ -127,6 +168,45 @@ const ProductSizes = () => {
           </div>
         </div>
       )}
+      <Modal
+        isOpen={modalAddSize}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(255,255,255,.8)",
+          },
+          content: {
+            color: "lightsteelblue",
+            backgroundColor: "rgb(32,32,32)",
+          },
+        }}
+      >
+        <AddProductSize
+          productId={itemId}
+          closeModal={() => {
+            setModalAddSize(false);
+          }}
+        />
+      </Modal>
+      <Modal
+        isOpen={modalEditSize}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(255,255,255,.8)",
+          },
+          content: {
+            color: "lightsteelblue",
+            backgroundColor: "rgb(32,32,32)",
+          },
+        }}
+      >
+        <EditProductSize
+          productId={itemId}
+          id={editId}
+          closeModal={() => {
+            setModalEditSize(false);
+          }}
+        />
+      </Modal>
     </div>
   );
 };

@@ -205,29 +205,30 @@ const router = createBrowserRouter([
         element: <EditProduct />,
       },
       {
-        path: "/admin/productSizes/:itemId",
+        path: "/admin/productColors/:itemId/:page",
+        element: <ProductColors />,
+      },
+      {
+        path: "/admin/productSizes/:itemId/:page",
         element: <ProductSizes />,
       },
+      // {
+      //   path: "/admin/addProductSize/:id",
+      //   element: <AddProductSize />,
+      // },
+      // {
+      //   path: "/admin/editProductSize/:itemId/:id",
+      //   element: <EditProductSize />,
+      // },
       {
-        path: "/admin/addProductSize/:id",
-        element: <AddProductSize />,
-      },
-      {
-        path: "/admin/editProductSize/:itemId/:id",
-        element: <EditProductSize />,
-      },
-      {
-        path: "/admin/productImages/:itemId",
+        path: "/admin/productImages/:itemId/:page",
         element: <ProductImages />,
       },
       {
-        path: "/admin/productCategories/:itemId",
+        path: "/admin/productCategories/:itemId/:page",
         element: <ProductCategories />,
       },
-      {
-        path: "/admin/productColors/:itemId",
-        element: <ProductColors />,
-      },
+      
       {
         path: "/admin/colors",
         element: <Colors />,

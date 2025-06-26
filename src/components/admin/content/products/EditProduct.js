@@ -7,12 +7,11 @@ import SplashScreen from "../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
 const EditProduct = () => {
-  
   const { itemId, page, sType } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
-  const [loading, setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
 
   const [productNameEn, setProductNameEn] = useState("");
   const [productNameGe, setProductNameGe] = useState("");
@@ -23,7 +22,8 @@ const EditProduct = () => {
   const [productCountryGe, setProductCountryGe] = useState("");
   const [productCountryRu, setProductCountryRu] = useState("");
 
-  const [productMultyDimension, setProductMultyDimension]=useState("");
+  const [productMultyColor, setProductMultyColor] = useState("");
+  const [productMultyDimension, setProductMultyDimension] = useState("");
 
   const [productDimension, setProductDimension] = useState("");
   const [productWeight, setProductWeight] = useState("");
@@ -34,13 +34,13 @@ const EditProduct = () => {
   const [productDiscount, setProductDiscount] = useState("");
   const [productNewPrice, setProductNewPrice] = useState(0);
   const [productInStock, setProductInStock] = useState("");
-  const [productCount, setProductCount]=useState(0);
+  const [productCount, setProductCount] = useState(0);
   //const [productPopular, setProductPopular] = useState(false);
   const [productOnTop, setProductOnTop] = useState("");
 
-  const [optionsEn, setOptionsEn]=useState([]);
-  const [optionsGe, setOptionsGe]=useState([]);
-  const [optionsRu, setOptionsRu]=useState([]);
+  const [optionsEn, setOptionsEn] = useState([]);
+  const [optionsGe, setOptionsGe] = useState([]);
+  const [optionsRu, setOptionsRu] = useState([]);
 
   const formValidationSchema = Yup.object().shape({
     productNameEn: Yup.string().required("required"),
@@ -71,9 +71,7 @@ const EditProduct = () => {
 
   const getProduct = (id) => {
     productsAPI.getProduct(id).then((response) => {
-      
       if (response.data.data.id) {
-
         setProductNameEn(response.data.data.productNameEn);
 
         setProductNameGe(response.data.data.productNameGe);
@@ -83,6 +81,7 @@ const EditProduct = () => {
         setProductCountryEn(response.data.data.productCountryEn);
         setProductCountryGe(response.data.data.productCountryGe);
         setProductCountryRu(response.data.data.productCountryRu);
+        setProductMultyColor(response.data.data.productMultyColor);
         setProductMultyDimension(response.data.data.productMultyDimension);
         setProductDimension(response.data.data.productDimension);
         setProductWeight(response.data.data.productWeight);
@@ -104,9 +103,12 @@ const EditProduct = () => {
     });
   };
 
-  const checkMultyDimensionHandle=(e)=>{
+  const checkMultyColorHandle = (e) => {
+    setProductMultyColor(e.currentTarget.checked);
+  };
+  const checkMultyDimensionHandle = (e) => {
     setProductMultyDimension(e.currentTarget.checked);
-  }
+  };
   const checkDiscountHandle = (e) => {
     setProductDiscount(e.currentTarget.checked);
   };
@@ -121,18 +123,9 @@ const EditProduct = () => {
   };
 
   const addOption = () => {
-    setOptionsEn([
-      ...optionsEn,
-      { optionNameEn: "", optionValueEn: "" },
-    ]);
-    setOptionsGe([
-      ...optionsGe,
-      { optionNameGe: "", optionValueGe: "" },
-    ]);
-    setOptionsRu([
-      ...optionsRu,
-      { optionNameRu: "", optionValueRu: "" },
-    ]);
+    setOptionsEn([...optionsEn, { optionNameEn: "", optionValueEn: "" }]);
+    setOptionsGe([...optionsGe, { optionNameGe: "", optionValueGe: "" }]);
+    setOptionsRu([...optionsRu, { optionNameRu: "", optionValueRu: "" }]);
   };
 
   const removeOption = (index, lang) => {
@@ -157,7 +150,7 @@ const EditProduct = () => {
         if (term === "n") {
           values[index].optionNameEn = event.target.value;
           setOptionsEn(values);
-        }else{
+        } else {
           values[index].optionValueEn = event.target.value;
           setOptionsEn(values);
         }
@@ -167,7 +160,7 @@ const EditProduct = () => {
         if (term === "n") {
           values[index].optionNameGe = event.target.value;
           setOptionsGe(values);
-        }else{
+        } else {
           values[index].optionValueGe = event.target.value;
           setOptionsGe(values);
         }
@@ -177,7 +170,7 @@ const EditProduct = () => {
         if (term === "n") {
           values[index].optionNameRu = event.target.value;
           setOptionsRu(values);
-        }else{
+        } else {
           values[index].optionValueRu = event.target.value;
           setOptionsRu(values);
         }
@@ -199,6 +192,7 @@ const EditProduct = () => {
           productCountryEn: productCountryEn,
           productCountryGe: productCountryGe,
           productCountryRu: productCountryRu,
+          productMultyColor: productMultyColor,
           productMultyDimension: productMultyDimension,
           productDimension: productDimension,
           productWeight: productWeight,
@@ -212,7 +206,6 @@ const EditProduct = () => {
           productCount: productCount,
           //productPopular: productPopular,
           productOnTop: productOnTop,
-
         }}
         validationSchema={formValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
@@ -221,9 +214,9 @@ const EditProduct = () => {
           for (let value in values) {
             formData.append(value, values[value]);
           }
-          values["optionsEn"]=JSON.stringify(optionsEn);
-          values["optionsGe"]=JSON.stringify(optionsGe);
-          values["optionsRu"]=JSON.stringify(optionsRu);
+          values["optionsEn"] = JSON.stringify(optionsEn);
+          values["optionsGe"] = JSON.stringify(optionsGe);
+          values["optionsRu"] = JSON.stringify(optionsRu);
           productsAPI
             .editProduct(values, itemId)
             .then((data) => {
@@ -336,7 +329,9 @@ const EditProduct = () => {
                 >
                   <option value="0"></option>
                   {brandData.map((d) => (
-                    <option key={`br${d.id}`} value={d.id}>{d.brandName}</option>
+                    <option key={`br${d.id}`} value={d.id}>
+                      {d.brandName}
+                    </option>
                   ))}
                 </Field>
               </div>
@@ -393,7 +388,7 @@ const EditProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
-              <span className={styles.label}>multi-dimensional:</span>
+              <span className={styles.label}>multi-color:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -403,7 +398,29 @@ const EditProduct = () => {
                   alignItems: "center",
                 }}
               >
-                <Field type="checkbox" name="productMultyDimension" onChange={checkMultyDimensionHandle}/>
+                <Field
+                  type="checkbox"
+                  name="productMultyColor"
+                  onChange={checkMultyColorHandle}
+                />
+              </div>
+              <span className={`${styles.label} ${styles.error}`}></span>
+
+              <span className={styles.label}>multi-size:</span>
+              <div
+                className={styles.formItem}
+                style={{
+                  textAlign: "left",
+                  paddingLeft: "5%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Field
+                  type="checkbox"
+                  name="productMultyDimension"
+                  onChange={checkMultyDimensionHandle}
+                />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
@@ -419,7 +436,7 @@ const EditProduct = () => {
                   onBlur={handleBlur}
                   value={values.productDimension}
                   className={styles.input}
-                  //disabled={values.productMultyDimension}
+                  disabled={values.productMultyDimension}
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
@@ -435,7 +452,7 @@ const EditProduct = () => {
                   onBlur={handleBlur}
                   value={values.productWeight}
                   className={styles.input}
-                  //disabled={values.productMultyDimension}
+                  disabled={values.productMultyDimension}
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
@@ -506,8 +523,11 @@ const EditProduct = () => {
                   alignItems: "center",
                 }}
               >
-                <Field type="checkbox" name="productDiscount" onChange={checkDiscountHandle} 
-                //disabled={values.productMultyDimension}
+                <Field
+                  type="checkbox"
+                  name="productDiscount"
+                  onChange={checkDiscountHandle}
+                  disabled={values.productMultyDimension}
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
@@ -527,8 +547,8 @@ const EditProduct = () => {
                   value={values.productNewPrice}
                   className={styles.input}
                   style={{ width: "140px" }}
-                  disabled={!values.productDiscount 
-                    //|| values.productMultyDimension
+                  disabled={
+                    !values.productDiscount || values.productMultyDimension
                   }
                 />
               </div>
@@ -551,12 +571,12 @@ const EditProduct = () => {
                   value={values.productCount}
                   className={styles.input}
                   style={{ width: "140px" }}
-                  //disabled={values.productMultyDimension}
+                  disabled={values.productMultyDimension}
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productCount}
-              </span> 
+              </span>
               <span className={styles.label}>in stock:</span>
               <div
                 className={styles.formItem}
@@ -567,7 +587,11 @@ const EditProduct = () => {
                   alignItems: "center",
                 }}
               >
-                <Field type="checkbox" name="productInStock" onChange={checkInStockHandle}/>
+                <Field
+                  type="checkbox"
+                  name="productInStock"
+                  onChange={checkInStockHandle}
+                />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
               {/* <span className={styles.label}>popular:</span>
@@ -594,7 +618,11 @@ const EditProduct = () => {
                   alignItems: "center",
                 }}
               >
-                <Field type="checkbox" name="productOnTop" onChange={checkOnTopHandle}/>
+                <Field
+                  type="checkbox"
+                  name="productOnTop"
+                  onChange={checkOnTopHandle}
+                />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
@@ -606,41 +634,46 @@ const EditProduct = () => {
               >
                 add option
               </button>
-              
+
               <span className={styles.label}>option name(english):</span>
               <span className={styles.label} style={{ textAlign: "center" }}>
                 option content(english):
               </span>
               <span className={styles.label}></span>
 
-              {optionsEn.length>0 && optionsEn.map((inputField, index) => (
-                <>
-                  <div className={styles.formItem}>
-                    <input
-                      type="input"
-                      value={inputField.optionNameEn}
-                      className={styles.input}
-                      onChange={(e) => handleOptionCahnge(index, e, "en", "n")}
-                    />
-                  </div>
+              {optionsEn.length > 0 &&
+                optionsEn.map((inputField, index) => (
+                  <>
+                    <div className={styles.formItem}>
+                      <input
+                        type="input"
+                        value={inputField.optionNameEn}
+                        className={styles.input}
+                        onChange={(e) =>
+                          handleOptionCahnge(index, e, "en", "n")
+                        }
+                      />
+                    </div>
 
-                  <div className={styles.formItem}>
-                    <input
-                      type="input"
-                      value={inputField.optionValueEn}
-                      className={styles.input}
-                      onChange={(e) => handleOptionCahnge(index, e, "en", "v")}
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    className={styles.btn}
-                    onClick={() => removeOption(index)}
-                  >
-                    delete option
-                  </button>
-                </>
-              ))}
+                    <div className={styles.formItem}>
+                      <input
+                        type="input"
+                        value={inputField.optionValueEn}
+                        className={styles.input}
+                        onChange={(e) =>
+                          handleOptionCahnge(index, e, "en", "v")
+                        }
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.btn}
+                      onClick={() => removeOption(index)}
+                    >
+                      delete option
+                    </button>
+                  </>
+                ))}
 
               <span className={styles.label}>option name(georgian):</span>
               <span className={styles.label} style={{ textAlign: "center" }}>
@@ -648,28 +681,33 @@ const EditProduct = () => {
               </span>
               <span className={styles.label}></span>
 
-              {optionsGe.length > 0 && optionsGe.map((inputField, index) => (
-                <>
-                  <div className={styles.formItem}>
-                    <input
-                      type="input"
-                      value={inputField.optionNameGe}
-                      className={styles.input}
-                      onChange={(e) => handleOptionCahnge(index, e, "ge", "n")}
-                    />
-                  </div>
+              {optionsGe.length > 0 &&
+                optionsGe.map((inputField, index) => (
+                  <>
+                    <div className={styles.formItem}>
+                      <input
+                        type="input"
+                        value={inputField.optionNameGe}
+                        className={styles.input}
+                        onChange={(e) =>
+                          handleOptionCahnge(index, e, "ge", "n")
+                        }
+                      />
+                    </div>
 
-                  <div className={styles.formItem}>
-                    <input
-                      type="input"
-                      value={inputField.optionValueGe}
-                      className={styles.input}
-                      onChange={(e) => handleOptionCahnge(index, e, "ge", "v")}
-                    />
-                  </div>
-                  <span></span>
-                </>
-              ))}
+                    <div className={styles.formItem}>
+                      <input
+                        type="input"
+                        value={inputField.optionValueGe}
+                        className={styles.input}
+                        onChange={(e) =>
+                          handleOptionCahnge(index, e, "ge", "v")
+                        }
+                      />
+                    </div>
+                    <span></span>
+                  </>
+                ))}
 
               <span className={styles.label}>option name(russian):</span>
               <span className={styles.label} style={{ textAlign: "center" }}>
@@ -677,35 +715,40 @@ const EditProduct = () => {
               </span>
               <span className={styles.label}></span>
 
-              {optionsRu.length>0 && optionsRu.map((inputField, index) => (
-                <>
-                  <div className={styles.formItem}>
-                    <input
-                      type="input"
-                      value={inputField.optionNameRu}
-                      className={styles.input}
-                      onChange={(e) => handleOptionCahnge(index, e, "ru", "n")}
-                    />
-                  </div>
+              {optionsRu.length > 0 &&
+                optionsRu.map((inputField, index) => (
+                  <>
+                    <div className={styles.formItem}>
+                      <input
+                        type="input"
+                        value={inputField.optionNameRu}
+                        className={styles.input}
+                        onChange={(e) =>
+                          handleOptionCahnge(index, e, "ru", "n")
+                        }
+                      />
+                    </div>
 
-                  <div className={styles.formItem}>
-                    <input
-                      type="input"
-                      value={inputField.optionValueRu}
-                      className={styles.input}
-                      onChange={(e) => handleOptionCahnge(index, e, "ru", "v")}
-                    />
-                  </div>
-                  <span></span>
-                  {/* <button
+                    <div className={styles.formItem}>
+                      <input
+                        type="input"
+                        value={inputField.optionValueRu}
+                        className={styles.input}
+                        onChange={(e) =>
+                          handleOptionCahnge(index, e, "ru", "v")
+                        }
+                      />
+                    </div>
+                    <span></span>
+                    {/* <button
                     type="button"
                     className={styles.btn}
                     onClick={(index) => removeOption(index, 2)}
                   >
                     delete option
                   </button> */}
-                </>
-              ))}
+                  </>
+                ))}
 
               <div className={`${styles.formItem} ${styles.col3}`}>
                 <button
@@ -718,7 +761,9 @@ const EditProduct = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate(`/admin/products/${page}/${sType}`);}}
+                  onClick={() => {
+                    return navigate(`/admin/products/${page}/${sType}`);
+                  }}
                 >
                   cancel
                 </button>

@@ -6,8 +6,7 @@ import { productsAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
-const EditProductSize = () => {
-  const { itemId,id } = useParams();
+const EditProductSize = ({id, closeModal}) => {
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -95,10 +94,12 @@ const EditProductSize = () => {
             .editProductSize(id, values)
             .then((data) => {
               setResultMessage("Product size updated successfully");
-              return navigate(`/admin/productSizes/${itemId}`);
+              // return navigate(`/admin/productSizes/${itemId}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't update product size!");
+            }).finally(()=>{
+              setLoading(false);
             });
         }}
       >
@@ -252,9 +253,10 @@ const EditProductSize = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate(`/admin/productSizes/${itemId}`);}}
+                  // onClick={()=>{ return navigate(`/admin/productSizes/${itemId}`);}}
+                  onClick={()=>closeModal()}
                 >
-                  cancel
+                  close
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>
