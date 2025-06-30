@@ -80,7 +80,7 @@ const Footer = ({ lang }) => {
               if (lang === "ge") textValue = c.nameGe;
               else if (lang === "ru") textValue = c.nameRu;
               return (
-                <li>
+                <li key={`cat${c.id}`}>
                   <Link to={`/category/${c.id}`}>{textValue}</Link>
                 </li>
               );

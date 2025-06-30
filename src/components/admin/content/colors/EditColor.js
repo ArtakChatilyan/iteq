@@ -7,11 +7,12 @@ import { colorAPI } from "../../dal/api";
 
 const EditColor = () => {
   const { itemId } = useParams();
-  const [loading, setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
 
   const [nameEn, setNameEn] = useState("");
   const [nameGe, setNameGe] = useState("");
   const [nameRu, setNameRu] = useState("");
+  const [iconUrl, setIconUrl] = useState(null);
   const [resultMessage, setResultMessage] = useState("");
 
   const navigate = useNavigate();
@@ -21,14 +22,15 @@ const EditColor = () => {
 
   const getColor = (id) => {
     console.log(id);
-    
+
     colorAPI.getColor(id).then((response) => {
-        console.log(response);
-        
+      console.log(response);
+
       if (response) {
         setNameEn(response.data.color.nameEn);
         setNameGe(response.data.color.nameGe);
         setNameRu(response.data.color.nameRu);
+        setIconUrl(response.data.color.iconUrl);
       }
       setLoading(false);
     });
@@ -63,12 +65,12 @@ const EditColor = () => {
           for (let value in values) {
             formData.append(value, values[value]);
           }
-
+          
           colorAPI
-            .editColor(values, itemId)
+            .editColor(formData, itemId)
             .then((data) => {
               setResultMessage("The color data updateded successfully");
-              return navigate('/admin/colors');
+              return navigate("/admin/colors");
             })
             .catch((error) => {
               setResultMessage("Couldn't update color data!");
@@ -139,7 +141,18 @@ const EditColor = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameRu && touched.nameRu && errors.nameRu}
               </span>
-
+              <div className={styles.formItem}>
+                <img src={iconUrl} style={{ width: "200px", margin: "20px" }} />
+                <input
+                  type="file"
+                  name="iconUrl"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setFieldValue("iconUrl", e.currentTarget.files[0]);
+                  }}
+                  className={styles.input}
+                />
+              </div>
               <div className={`${styles.formItem} ${styles.col3}`}>
                 <button
                   type="submit"
@@ -151,7 +164,9 @@ const EditColor = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate('/admin/colors');}}
+                  onClick={() => {
+                    return navigate("/admin/colors");
+                  }}
                 >
                   cancel
                 </button>

@@ -46,6 +46,7 @@ const Colors = () => {
             <th>name(english)</th>
             <th>name(georgian)</th>
             <th>name(russian)</th>
+            <th>image</th>
             <th></th>
             <th></th>
           </tr>
@@ -57,6 +58,7 @@ const Colors = () => {
                 <td>{c.nameEn}</td>
                 <td>{c.nameGe}</td>
                 <td>{c.nameRu}</td>
+                <td><img src={c.iconUrl} className={styles.img} /></td>
                 <td>
                   <Link to={`/admin/editColor/${c.id}`} className={styles.btn}>
                     edit
@@ -83,7 +85,7 @@ const Colors = () => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={5}>
+            <td colSpan={6}>
               <Link
                 to={`/admin/addColor`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}

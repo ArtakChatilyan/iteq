@@ -20,7 +20,13 @@
     justify-content: center;
   }
   
-  .slick-slide > div {
-    width: 280px;
+  */
+
+   .slick-slide > div {
+    max-width: 120px;
     margin: 0 auto;
-  } */
+    cursor: pointer;
+  }
+
+  .slick-current>div{
+  }

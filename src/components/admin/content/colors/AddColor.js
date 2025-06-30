@@ -14,7 +14,7 @@ const AddColor = () => {
     <div className={styles.data}>
       {loading && <SplashScreen />}
       <Formik
-        initialValues={{ nameEn: "", nameGe: "", nameRu: "" }}
+        initialValues={{ nameEn: "", nameGe: "", nameRu: "", iconUrl: "" }}
         validate={(values) => {
           const errors = {};
           if (!values.nameEn) {
@@ -36,7 +36,7 @@ const AddColor = () => {
           }
 
           colorAPI
-            .addColor(values)
+            .addColor(formData)
             .then((response) => {
               setResultMessage("Color added successfully");
               return navigate("/admin/colors");
@@ -100,6 +100,22 @@ const AddColor = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameRu && touched.nameRu && errors.nameRu}
+              </span>
+               <span className={styles.label}>image:</span>
+              <div className={styles.formItem}>
+                <input
+                  type="file"
+                  name="iconUrl"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setFieldValue("iconUrl", e.currentTarget.files[0]);
+                    
+                  }}
+                  className={styles.input}
+                />
+              </div>
+              <span className={`${styles.label} ${styles.error}`}>
+                {errors.imgUrl && touched.imgUrl && errors.imgUrl}
               </span>
 
               <div className={`${styles.formItem} ${styles.col3}`}>

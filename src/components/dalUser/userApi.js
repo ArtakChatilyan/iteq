@@ -128,6 +128,21 @@ export const categoryAPI = {
   },
 };
 
+export const imageAPI = {
+  getImagesDefault: (id) => {
+    return instance.get(`user/products/imagesDefault/${id}`)
+  },
+  getImagesByColor: (id) => {
+    return instance.get(`user/products/imagesByColor/${id}`)
+  },
+  getImagesBySize: (id) => {
+    return instance.get(`user/products/imagesBySize/${id}`)
+  },
+  getImagesMix: (id) => {
+    return instance.get(`user/products/imagesMix/${id}`)
+  },
+};
+
 export const portfolioAPI = {
   getPortfolio: (page, count) => {
     return instance.get(`user/portfolio/?page=${page}&perPage=${count}`);
@@ -143,11 +158,11 @@ export const partnersAPI = {
   },
 };
 
-export const settingsAPI={
-  getAbout:()=>{
-    return instance.get('settings/about');
+export const settingsAPI = {
+  getAbout: () => {
+    return instance.get("settings/about");
   },
-  getContacts:()=>{
-    return instance.get('settings/contacts');
+  getContacts: () => {
+    return instance.get("settings/contacts");
   },
-}
+};

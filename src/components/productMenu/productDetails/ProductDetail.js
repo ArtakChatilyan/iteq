@@ -1,32 +1,44 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./ProductDetails.module.css";
 import { Link, useParams } from "react-router-dom";
-import { categoryAPI } from "../../dalUser/userApi";
+import { categoryAPI, imageAPI } from "../../dalUser/userApi";
 import Slider from "react-slick";
+import "./slideExtra.css";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "../../loadingScreen/LoadingScreen";
+import colorIcon from "../../../assets/back.png";
 
 const ProductDetail = () => {
-  const prodId = useParams().productId;
+  const { productId } = useParams();
+
   const { t, i18n } = useTranslation();
   const lang = useContext(LanguageContext);
-  const [product, setProduct] = useState(null);
-  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  const [product, setProduct] = useState(null);
+  const [brand, setBrand] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [multiColor, setMultiColor] = useState(0);
+  const [multiSize, setMultiSize] = useState(0);
+
+  const [images, setImages] = useState([]);
   const [selectedUrl, setSelectedUrl] = useState(null);
+
   const [optionsEn, setOptionsEn] = useState([]);
   const [optionsGe, setOptionsGe] = useState([]);
   const [optionsRu, setOptionsRu] = useState([]);
+
   const [sizes, setSizes] = useState([]);
-  const [brand, setBrand] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [colors, setColors] = useState([]);
+  let [selectedImages, setSelectedImages] = useState([]);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   useEffect(() => {
-    LoadProductCategories(prodId);
-    LoadProduct(prodId);
-  }, []);
+    LoadProductCategories(productId);
+    LoadProduct(productId);
+  }, [productId]);
 
   const LoadProductCategories = (pId) => {
     categoryAPI
@@ -41,17 +53,24 @@ const ProductDetail = () => {
 
   const LoadProduct = (pId) => {
     categoryAPI
-      .getProduct(prodId)
+      .getProduct(productId)
       .then((response) => {
-        console.log(response);
-
         setProduct(response.data.product);
         setBrand(response.data.brand);
-        setImages(response.data.images);
-        setSizes(response.data.sizes);
-        if (response.data.images.length > 0)
-          setSelectedUrl(response.data.images[0].imgUrl);
-        else setSelectedUrl(null);
+        if (response.data.product.productMultyColor) {
+          setMultiColor(response.data.product.productMultyColor);
+
+          setColors(response.data.colors);
+          if (response.data.colors.length > 0)
+            setSelectedColor(response.data.colors[0]);
+        }
+        if (response.data.product.productMultyDimension) {
+          setMultiSize(response.data.product.productMultyDimension);
+          setSizes(response.data.sizes);
+          if (response.data.sizes.length > 0) {
+            setSelectedSize(response.data.sizes[0]);
+          }
+        }
 
         if (response.data.product.productDescriptionEn) {
           setOptionsEn(JSON.parse(response.data.product.productDescriptionEn));
@@ -63,12 +82,125 @@ const ProductDetail = () => {
       .finally(() => setLoading(false));
   };
 
+  useEffect(() => {
+    LoadImages(productId);
+  }, [productId, multiColor, multiSize]);
+
+  const LoadImages = (productId) => {
+    if (multiColor === 1 && multiSize === 1) {
+      LoadImagesMix(productId);
+    } else if (multiColor === 0 && multiSize === 1) {
+      LoadImagesBySize(productId);
+    } else if (multiSize === 0 && multiColor === 1) {
+      LoadImagesByColor(productId);
+    } else {
+      LoadImagesDefault(productId);
+    }
+  };
+
+  const LoadImagesDefault = (productId) => {
+    imageAPI
+      .getImagesDefault(productId)
+      .then((response) => {
+        setImages((images) => response.data.images);
+        if (response.data.images.length > 0)
+          setSelectedUrl(response.data.images[0].imgUrl);
+        else setSelectedUrl(null);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const LoadImagesByColor = (productId) => {
+    imageAPI
+      .getImagesByColor(productId)
+      .then((response) => {
+        setImages((images) => response.data.images);
+        if (response.data.images.length > 0)
+          setSelectedUrl(response.data.images[0].imgUrl);
+        else setSelectedUrl(null);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const LoadImagesBySize = (productId) => {
+    imageAPI
+      .getImagesBySize(productId)
+      .then((response) => {
+        setImages((images) => response.data.images);
+        if (response.data.images.length > 0)
+          setSelectedUrl(response.data.images[0].imgUrl);
+        else setSelectedUrl(null);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const LoadImagesMix = (productId) => {
+    imageAPI
+      .getImagesMix(productId)
+      .then((response) => {
+        setImages(response.data.images);
+        if (response.data.images.length > 0)
+          setSelectedUrl(response.data.images[0].imgUrl);
+        else setSelectedUrl(null);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    LoadSlider();
+  }, [images, selectedColor, selectedSize]);
+
+  const LoadSlider = () => {
+    if (selectedColor && selectedSize) {
+      const newImages = images
+        .filter(
+          (c) => c.colorId === selectedColor.id && c.sizeId === selectedSize.id
+        )
+        .filter(
+          (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
+        );
+      if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
+      else setSelectedUrl(null);
+      setSelectedImages(newImages);
+    } else if (selectedColor && !selectedSize) {
+      const newImages = images
+        .filter((c) => c.colorId === selectedColor.id)
+        .filter(
+          (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
+        );
+      if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
+      else setSelectedUrl(null);
+      setSelectedImages(newImages);
+    } else if (!selectedColor && selectedSize) {
+      const newImages = images
+        .filter((c) => c.sizeId === selectedSize.id)
+        .filter(
+          (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
+        );
+      if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
+      else setSelectedUrl(null);
+      setSelectedImages(newImages);
+    } else {
+      if (images.length > 0) setSelectedUrl(images[0].imgUrl);
+      else setSelectedUrl(null);
+      setSelectedImages(images);
+    }
+  };
+
+  const selectActiveColor = (colorId) => {
+    setSelectedColor(colors.find((c) => c.id === colorId));
+  };
+
+  const selectActiveSize = (sizeId) => {
+    setSelectedSize(sizes.find((s) => s.id === sizeId));
+  };
+
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: selectedImages.length > 5,
     speed: 500,
-    slidesToShow: images.length> 5 ? 5 : images.length,
-    slidesToScroll: 1,
+    slidesToShow: selectedImages.length > 5 ? 5 : selectedImages.length,
+    slidesToScroll: selectedImages.length > 5 ? 1 : 0,
   };
 
   return (
@@ -79,8 +211,15 @@ const ProductDetail = () => {
           <div className={styles.imgSlide}>
             <img src={selectedUrl} className={styles.selectedImage} />
             <Slider {...settings}>
-              {images.map((im) => (
-                <div style={{ width: "200px", border: "0", cursor: "pointer" }}>
+              {selectedImages.map((im) => (
+                <div
+                  style={{
+                    width: "200px",
+                    maxWidth: "200px",
+                    border: "0",
+                    cursor: "pointer",
+                  }}
+                >
                   <img
                     key={im.id}
                     src={im.imgUrl}
@@ -93,17 +232,54 @@ const ProductDetail = () => {
           <div className={styles.infoContent}>
             {categories.map((c) => (
               <Link
+                key={`c${c.id}`}
                 to={`/category/${c.categoryId}`}
                 className={styles.categoryTitle}
               >
-                {c.nameEn}
+                {lang === "en" && c.nameEn}
+                {lang === "ge" && c.nameGe}
+                {lang === "ru" && c.nameRu}
               </Link>
             ))}
-            <h1 className={`${styles.name} ${styles.title}`}>
+            <h1
+              className={`${styles.name} ${styles.title}`}
+              onClick={() => console.log(images)}
+            >
               {lang === "en" && product.productNameEn}
               {lang === "ge" && product.productNameGe}
               {lang === "ru" && product.productNameRu}
             </h1>
+
+            <div className={styles.colorBlock}>
+              {multiColor && (
+                <div className={styles.colorContainer}>
+                  {colors.map((c) => (
+                    <div key={`color${c.id}`} className={styles.colorItem}>
+                      <img
+                        src={c.iconUrl}
+                        className={`${styles.colorIcon} ${
+                          c.id == selectedColor.id ? styles.selectedColor : ""
+                        }`}
+                        onClick={() => selectActiveColor(c.id)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {selectedColor && (
+                <div style={{ textAlign: "left" }}>
+                  <span
+                    className={styles.label}
+                    style={{ margin: ".6rem 1rem 0 .6rem" }}
+                  >
+                    {t("color")}
+                  </span>
+                  {lang === "en" && selectedColor.nameEn}
+                  {lang === "ge" && selectedColor.nameGe}
+                  {lang === "ru" && selectedColor.nameRu}
+                </div>
+              )}
+            </div>
             {!product.productMultyDimension &&
               (product.productDiscount === 1 ? (
                 <div>
@@ -286,7 +462,13 @@ const ProductDetail = () => {
                     {sizes.map(
                       (s) =>
                         s.inStock == 1 && (
-                          <tr>
+                          <tr
+                            key={`size${s.id}`}
+                            className={`${styles.sizeItem} ${
+                              selectedSize.id == s.id ? styles.selectedSize : ""
+                            }`}
+                            onClick={() => selectActiveSize(s.id)}
+                          >
                             <td className={styles.td}>
                               <span className={styles.name}>{s.dimension}</span>
                             </td>
@@ -295,21 +477,24 @@ const ProductDetail = () => {
                             </td>
                             <td className={styles.td}>
                               {s.discount === 1 ? (
-                                  <div>
-                                    <span className={styles.price} style={{marginRight: "6px"}}>
-                                      {s.newPrice}&#8382;
-                                    </span>
-                                    <span className={styles.old}>
-                                      {s.price}&#8382;
-                                    </span>
-                                  </div>
-                                ) : (
-                                  <div>
-                                    <span className={styles.price}>
-                                      {s.price}&#8382;
-                                    </span>
-                                  </div>
-                                )}
+                                <div>
+                                  <span
+                                    className={styles.price}
+                                    style={{ marginRight: "6px" }}
+                                  >
+                                    {s.newPrice}&#8382;
+                                  </span>
+                                  <span className={styles.old}>
+                                    {s.price}&#8382;
+                                  </span>
+                                </div>
+                              ) : (
+                                <div>
+                                  <span className={styles.price}>
+                                    {s.price}&#8382;
+                                  </span>
+                                </div>
+                              )}
                             </td>
                             <td className={styles.td}>
                               <input
@@ -326,6 +511,7 @@ const ProductDetail = () => {
                             </td>
                             <td className={styles.td}>
                               <button
+                                disabled={selectedSize.id != s.id}
                                 className={styles.btn}
                                 style={{ margin: "10px 0" }}
                               >
