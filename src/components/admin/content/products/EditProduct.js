@@ -16,49 +16,49 @@ const EditProduct = () => {
   const [productNameEn, setProductNameEn] = useState("");
   const [productNameGe, setProductNameGe] = useState("");
   const [productNameRu, setProductNameRu] = useState("");
-  const [productModel, setProductModel] = useState("");
+  //const [productModel, setProductModel] = useState("");
   const [productBrand, setProductBrand] = useState(0);
   const [productCountryEn, setProductCountryEn] = useState("");
   const [productCountryGe, setProductCountryGe] = useState("");
   const [productCountryRu, setProductCountryRu] = useState("");
 
-  const [productMultyColor, setProductMultyColor] = useState("");
-  const [productMultyDimension, setProductMultyDimension] = useState("");
+  //const [productMultyColor, setProductMultyColor] = useState("");
+  //const [productMultyDimension, setProductMultyDimension] = useState("");
 
-  const [productDimension, setProductDimension] = useState("");
-  const [productWeight, setProductWeight] = useState("");
+  //const [productDimension, setProductDimension] = useState("");
+  //const [productWeight, setProductWeight] = useState("");
   //const [productInfoEn, setProductInfoEn] = useState("");
   //const [productInfoGe, setProductInfoGe] = useState("");
   //const [productInfoRu, setProductInfoRu] = useState("");
-  const [productPrice, setProductPrice] = useState(0);
-  const [productDiscount, setProductDiscount] = useState("");
-  const [productNewPrice, setProductNewPrice] = useState(0);
+  //const [productPrice, setProductPrice] = useState(0);
+  //const [productDiscount, setProductDiscount] = useState("");
+  //const [productNewPrice, setProductNewPrice] = useState(0);
   const [productInStock, setProductInStock] = useState("");
-  const [productCount, setProductCount] = useState(0);
+  //const [productCount, setProductCount] = useState(0);
   //const [productPopular, setProductPopular] = useState(false);
   const [productOnTop, setProductOnTop] = useState("");
 
-  const [optionsEn, setOptionsEn] = useState([]);
-  const [optionsGe, setOptionsGe] = useState([]);
-  const [optionsRu, setOptionsRu] = useState([]);
+  //const [optionsEn, setOptionsEn] = useState([]);
+  //const [optionsGe, setOptionsGe] = useState([]);
+  //const [optionsRu, setOptionsRu] = useState([]);
 
   const formValidationSchema = Yup.object().shape({
     productNameEn: Yup.string().required("required"),
     productNameGe: Yup.string().required("required"),
     productNameRu: Yup.string().required("required"),
-    productModel: Yup.string().required("required"),
-    productPrice: Yup.string().matches(
-      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
-    ),
-    productNewPrice: Yup.string().matches(
-      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
-    ),
-    productCount: Yup.string().matches(
-      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
-    ),
+    // productModel: Yup.string().required("required"),
+    // productPrice: Yup.string().matches(
+    //   /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+    //   "not valid"
+    // ),
+    // productNewPrice: Yup.string().matches(
+    //   /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+    //   "not valid"
+    // ),
+    // productCount: Yup.string().matches(
+    //   /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+    //   "not valid"
+    // ),
   });
   useEffect(() => {
     brandsAPI.getBrandsAll().then((response) => {
@@ -73,45 +73,44 @@ const EditProduct = () => {
     productsAPI.getProduct(id).then((response) => {
       if (response.data.data.id) {
         setProductNameEn(response.data.data.productNameEn);
-
         setProductNameGe(response.data.data.productNameGe);
         setProductNameRu(response.data.data.productNameRu);
-        setProductModel(response.data.data.productModel);
+        //setProductModel(response.data.data.productModel);
         setProductBrand(response.data.data.productBrand);
         setProductCountryEn(response.data.data.productCountryEn);
         setProductCountryGe(response.data.data.productCountryGe);
         setProductCountryRu(response.data.data.productCountryRu);
-        setProductMultyColor(response.data.data.productMultyColor);
-        setProductMultyDimension(response.data.data.productMultyDimension);
-        setProductDimension(response.data.data.productDimension);
-        setProductWeight(response.data.data.productWeight);
+        //setProductMultyColor(response.data.data.productMultyColor);
+        //setProductMultyDimension(response.data.data.productMultyDimension);
+        //setProductDimension(response.data.data.productDimension);
+        //setProductWeight(response.data.data.productWeight);
         //setProductInfoEn(response.data.data.productInfoEn);
         //setProductInfoGe(response.data.data.productInfoGe);
         //setProductInfoRu(response.data.data.productInfoRu);
-        setProductPrice(response.data.data.productPrice);
-        setProductDiscount(response.data.data.productDiscount);
-        setProductNewPrice(response.data.data.productNewPrice);
+        //setProductPrice(response.data.data.productPrice);
+        //setProductDiscount(response.data.data.productDiscount);
+        //setProductNewPrice(response.data.data.productNewPrice);
         setProductInStock(response.data.data.productInStock);
-        setProductCount(response.data.data.productCount);
+        //setProductCount(response.data.data.productCount);
         //setProductPopular(response.data.data.productPopular);
         setProductOnTop(response.data.data.productOnTop);
-        setOptionsEn(JSON.parse(response.data.data.productDescriptionEn));
-        setOptionsGe(JSON.parse(response.data.data.productDescriptionGe));
-        setOptionsRu(JSON.parse(response.data.data.productDescriptionRu));
+        //setOptionsEn(JSON.parse(response.data.data.productDescriptionEn));
+        //setOptionsGe(JSON.parse(response.data.data.productDescriptionGe));
+        //setOptionsRu(JSON.parse(response.data.data.productDescriptionRu));
       }
       setLoading(false);
     });
   };
 
-  const checkMultyColorHandle = (e) => {
-    setProductMultyColor(e.currentTarget.checked);
-  };
-  const checkMultyDimensionHandle = (e) => {
-    setProductMultyDimension(e.currentTarget.checked);
-  };
-  const checkDiscountHandle = (e) => {
-    setProductDiscount(e.currentTarget.checked);
-  };
+  // const checkMultyColorHandle = (e) => {
+  //   setProductMultyColor(e.currentTarget.checked);
+  // };
+  // const checkMultyDimensionHandle = (e) => {
+  //   setProductMultyDimension(e.currentTarget.checked);
+  // };
+  // const checkDiscountHandle = (e) => {
+  //   setProductDiscount(e.currentTarget.checked);
+  // };
   const checkInStockHandle = (e) => {
     setProductInStock(e.currentTarget.checked);
   };
@@ -122,61 +121,61 @@ const EditProduct = () => {
     setProductOnTop(e.currentTarget.checked);
   };
 
-  const addOption = () => {
-    setOptionsEn([...optionsEn, { optionNameEn: "", optionValueEn: "" }]);
-    setOptionsGe([...optionsGe, { optionNameGe: "", optionValueGe: "" }]);
-    setOptionsRu([...optionsRu, { optionNameRu: "", optionValueRu: "" }]);
-  };
+  // const addOption = () => {
+  //   setOptionsEn([...optionsEn, { optionNameEn: "", optionValueEn: "" }]);
+  //   setOptionsGe([...optionsGe, { optionNameGe: "", optionValueGe: "" }]);
+  //   setOptionsRu([...optionsRu, { optionNameRu: "", optionValueRu: "" }]);
+  // };
 
-  const removeOption = (index, lang) => {
-    const newOptionsEn = [...optionsEn];
-    newOptionsEn.splice(index, 1);
-    setOptionsEn(newOptionsEn);
+  // const removeOption = (index, lang) => {
+  //   const newOptionsEn = [...optionsEn];
+  //   newOptionsEn.splice(index, 1);
+  //   setOptionsEn(newOptionsEn);
 
-    const newOptionsGe = [...optionsGe];
-    newOptionsGe.splice(index, 1);
-    setOptionsGe(newOptionsGe);
+  //   const newOptionsGe = [...optionsGe];
+  //   newOptionsGe.splice(index, 1);
+  //   setOptionsGe(newOptionsGe);
 
-    const newOptionsRu = [...optionsRu];
-    newOptionsRu.splice(index, 1);
-    setOptionsRu(newOptionsRu);
-  };
+  //   const newOptionsRu = [...optionsRu];
+  //   newOptionsRu.splice(index, 1);
+  //   setOptionsRu(newOptionsRu);
+  // };
 
-  const handleOptionCahnge = (index, event, lang, term) => {
-    let values;
-    switch (lang) {
-      case "en":
-        values = [...optionsEn];
-        if (term === "n") {
-          values[index].optionNameEn = event.target.value;
-          setOptionsEn(values);
-        } else {
-          values[index].optionValueEn = event.target.value;
-          setOptionsEn(values);
-        }
-        break;
-      case "ge":
-        values = [...optionsGe];
-        if (term === "n") {
-          values[index].optionNameGe = event.target.value;
-          setOptionsGe(values);
-        } else {
-          values[index].optionValueGe = event.target.value;
-          setOptionsGe(values);
-        }
-        break;
-      case "ru":
-        values = [...optionsRu];
-        if (term === "n") {
-          values[index].optionNameRu = event.target.value;
-          setOptionsRu(values);
-        } else {
-          values[index].optionValueRu = event.target.value;
-          setOptionsRu(values);
-        }
-        break;
-    }
-  };
+  // const handleOptionCahnge = (index, event, lang, term) => {
+  //   let values;
+  //   switch (lang) {
+  //     case "en":
+  //       values = [...optionsEn];
+  //       if (term === "n") {
+  //         values[index].optionNameEn = event.target.value;
+  //         setOptionsEn(values);
+  //       } else {
+  //         values[index].optionValueEn = event.target.value;
+  //         setOptionsEn(values);
+  //       }
+  //       break;
+  //     case "ge":
+  //       values = [...optionsGe];
+  //       if (term === "n") {
+  //         values[index].optionNameGe = event.target.value;
+  //         setOptionsGe(values);
+  //       } else {
+  //         values[index].optionValueGe = event.target.value;
+  //         setOptionsGe(values);
+  //       }
+  //       break;
+  //     case "ru":
+  //       values = [...optionsRu];
+  //       if (term === "n") {
+  //         values[index].optionNameRu = event.target.value;
+  //         setOptionsRu(values);
+  //       } else {
+  //         values[index].optionValueRu = event.target.value;
+  //         setOptionsRu(values);
+  //       }
+  //       break;
+  //   }
+  // };
 
   return (
     <div className={styles.data}>
@@ -187,23 +186,23 @@ const EditProduct = () => {
           productNameEn: productNameEn,
           productNameGe: productNameGe,
           productNameRu: productNameRu,
-          productModel: productModel,
+          //productModel: productModel,
           productBrand: productBrand,
           productCountryEn: productCountryEn,
           productCountryGe: productCountryGe,
           productCountryRu: productCountryRu,
-          productMultyColor: productMultyColor,
-          productMultyDimension: productMultyDimension,
-          productDimension: productDimension,
-          productWeight: productWeight,
+          //productMultyColor: productMultyColor,
+          //productMultyDimension: productMultyDimension,
+          //productDimension: productDimension,
+          //productWeight: productWeight,
           // productInfoEn: productInfoEn,
           // productInfoGe: productInfoGe,
           // productInfoRu: productInfoRu,
-          productPrice: productPrice,
-          productDiscount: productDiscount,
-          productNewPrice: productNewPrice,
+          //productPrice: productPrice,
+          //productDiscount: productDiscount,
+          //productNewPrice: productNewPrice,
           productInStock: productInStock,
-          productCount: productCount,
+          //productCount: productCount,
           //productPopular: productPopular,
           productOnTop: productOnTop,
         }}
@@ -214,9 +213,9 @@ const EditProduct = () => {
           for (let value in values) {
             formData.append(value, values[value]);
           }
-          values["optionsEn"] = JSON.stringify(optionsEn);
-          values["optionsGe"] = JSON.stringify(optionsGe);
-          values["optionsRu"] = JSON.stringify(optionsRu);
+          // values["optionsEn"] = JSON.stringify(optionsEn);
+          // values["optionsGe"] = JSON.stringify(optionsGe);
+          // values["optionsRu"] = JSON.stringify(optionsRu);
           productsAPI
             .editProduct(values, itemId)
             .then((data) => {
@@ -298,7 +297,7 @@ const EditProduct = () => {
                   touched.productNameRu &&
                   errors.productNameRu}
               </span>
-              <span className={styles.label}>model:</span>
+              {/* <span className={styles.label}>model:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -316,7 +315,7 @@ const EditProduct = () => {
                 {errors.productModel &&
                   touched.productModel &&
                   errors.productModel}
-              </span>
+              </span> */}
 
               <span className={styles.label}>brand:</span>
               <div className={styles.formItem}>
@@ -388,7 +387,7 @@ const EditProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
-              <span className={styles.label}>multi-color:</span>
+              {/* <span className={styles.label}>multi-color:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -404,9 +403,9 @@ const EditProduct = () => {
                   onChange={checkMultyColorHandle}
                 />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span>
+              <span className={`${styles.label} ${styles.error}`}></span> */}
 
-              <span className={styles.label}>multi-size:</span>
+              {/* <span className={styles.label}>multi-size:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -422,9 +421,9 @@ const EditProduct = () => {
                   onChange={checkMultyDimensionHandle}
                 />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span>
+              <span className={`${styles.label} ${styles.error}`}></span> */}
 
-              <span className={styles.label}>dimension:</span>
+              {/* <span className={styles.label}>dimension:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -439,8 +438,8 @@ const EditProduct = () => {
                   disabled={values.productMultyDimension}
                 />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span>
-              <span className={styles.label}>weight:</span>
+              <span className={`${styles.label} ${styles.error}`}></span> */}
+              {/* <span className={styles.label}>weight:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -455,7 +454,7 @@ const EditProduct = () => {
                   disabled={values.productMultyDimension}
                 />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span>
+              <span className={`${styles.label} ${styles.error}`}></span> */}
 
               {/* <span className={styles.label}>description(english):</span>
               <div className={styles.formItem}>
@@ -490,7 +489,7 @@ const EditProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span> */}
 
-              <span className={styles.label}>price: &#8382;</span>
+              {/* <span className={styles.label}>price: &#8382;</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -511,9 +510,9 @@ const EditProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productPrice}
-              </span>
+              </span> */}
 
-              <span className={styles.label}>discount:</span>
+              {/* <span className={styles.label}>discount:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -530,8 +529,8 @@ const EditProduct = () => {
                   disabled={values.productMultyDimension}
                 />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span>
-              <span className={styles.label}>new price: &#8382;</span>
+              <span className={`${styles.label} ${styles.error}`}></span> */}
+              {/* <span className={styles.label}>new price: &#8382;</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -554,8 +553,8 @@ const EditProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productNewPrice}
-              </span>
-              <span className={styles.label}>quantity: &#8382;</span>
+              </span> */}
+              {/* <span className={styles.label}>quantity: &#8382;</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -576,7 +575,7 @@ const EditProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productCount}
-              </span>
+              </span> */}
               <span className={styles.label}>in stock:</span>
               <div
                 className={styles.formItem}
@@ -626,22 +625,22 @@ const EditProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
-              <button
+              {/* <button
                 className={styles.btn}
                 type="button"
                 onClick={addOption}
                 style={{ gridColumn: "1 / 4", width: "200px" }}
               >
                 add option
-              </button>
+              </button> */}
 
-              <span className={styles.label}>option name(english):</span>
+              {/* <span className={styles.label}>option name(english):</span>
               <span className={styles.label} style={{ textAlign: "center" }}>
                 option content(english):
               </span>
-              <span className={styles.label}></span>
+              <span className={styles.label}></span> */}
 
-              {optionsEn.length > 0 &&
+              {/* {optionsEn.length > 0 &&
                 optionsEn.map((inputField, index) => (
                   <>
                     <div className={styles.formItem}>
@@ -673,9 +672,9 @@ const EditProduct = () => {
                       delete option
                     </button>
                   </>
-                ))}
+                ))} */}
 
-              <span className={styles.label}>option name(georgian):</span>
+              {/* <span className={styles.label}>option name(georgian):</span>
               <span className={styles.label} style={{ textAlign: "center" }}>
                 option content(georgian):
               </span>
@@ -707,9 +706,9 @@ const EditProduct = () => {
                     </div>
                     <span></span>
                   </>
-                ))}
+                ))} */}
 
-              <span className={styles.label}>option name(russian):</span>
+              {/* <span className={styles.label}>option name(russian):</span>
               <span className={styles.label} style={{ textAlign: "center" }}>
                 option content(russian):
               </span>
@@ -740,15 +739,15 @@ const EditProduct = () => {
                       />
                     </div>
                     <span></span>
-                    {/* <button
+                    <button
                     type="button"
                     className={styles.btn}
                     onClick={(index) => removeOption(index, 2)}
                   >
                     delete option
-                  </button> */}
+                  </button>
                   </>
-                ))}
+                ))} */}
 
               <div className={`${styles.formItem} ${styles.col3}`}>
                 <button

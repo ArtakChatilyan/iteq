@@ -7,7 +7,6 @@ import "./slideExtra.css";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "../../loadingScreen/LoadingScreen";
-import colorIcon from "../../../assets/back.png";
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -19,25 +18,32 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [brand, setBrand] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [multiColor, setMultiColor] = useState(0);
-  const [multiSize, setMultiSize] = useState(0);
-
-  const [images, setImages] = useState([]);
-  const [selectedUrl, setSelectedUrl] = useState(null);
-
-  const [optionsEn, setOptionsEn] = useState([]);
-  const [optionsGe, setOptionsGe] = useState([]);
-  const [optionsRu, setOptionsRu] = useState([]);
-
+  const [models, setModels] = useState([]);
+  const [selectedModel, setSelectedModel] = useState(null);
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
-  let [selectedImages, setSelectedImages] = useState([]);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
+
+  //const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
+  const [selectedUrl, setSelectedUrl] = useState(null);
+  const [descriptions, setDescriptions] = useState([]);
+  const [selectedDescription, setSelectedDescription] = useState("");
+
+  // const [multiColor, setMultiColor] = useState(0);
+  // const [multiSize, setMultiSize] = useState(0);
+
+  // const [descriptions, setDescriptions]=useState([]);
+
+  // const [optionsEn, setOptionsEn] = useState([]);
+  // const [optionsGe, setOptionsGe] = useState([]);
+  // const [optionsRu, setOptionsRu] = useState([]);
 
   useEffect(() => {
     LoadProductCategories(productId);
     LoadProduct(productId);
+    //LoadImages(productId);
   }, [productId]);
 
   const LoadProductCategories = (pId) => {
@@ -57,134 +63,222 @@ const ProductDetail = () => {
       .then((response) => {
         setProduct(response.data.product);
         setBrand(response.data.brand);
-        if (response.data.product.productMultyColor) {
-          setMultiColor(response.data.product.productMultyColor);
+        setModels(response.data.models);
+        if (response.data.models.length > 0)
+          setSelectedModel(response.data.models[0]);
 
-          setColors(response.data.colors);
-          if (response.data.colors.length > 0)
-            setSelectedColor(response.data.colors[0]);
-        }
-        if (response.data.product.productMultyDimension) {
-          setMultiSize(response.data.product.productMultyDimension);
-          setSizes(response.data.sizes);
-          if (response.data.sizes.length > 0) {
-            setSelectedSize(response.data.sizes[0]);
-          }
-        }
+        // if (response.data.product.productMultyColor) {
+        //   setMultiColor(response.data.product.productMultyColor);
 
-        if (response.data.product.productDescriptionEn) {
-          setOptionsEn(JSON.parse(response.data.product.productDescriptionEn));
-          setOptionsGe(JSON.parse(response.data.product.productDescriptionGe));
-          setOptionsRu(JSON.parse(response.data.product.productDescriptionRu));
-        }
+        //   setColors(response.data.colors);
+        //   if (response.data.colors.length > 0)
+        //     setSelectedColor(response.data.colors[0]);
+        // }
+        // if (response.data.product.productMultyDimension) {
+        //   setMultiSize(response.data.product.productMultyDimension);
+        //   setSizes(response.data.sizes);
+        //   if (response.data.sizes.length > 0) {
+        //     setSelectedSize(response.data.sizes[0]);
+        //   }
+        // }
+
+        // if (response.data.product.productDescriptionEn) {
+        //   setOptionsEn(JSON.parse(response.data.product.productDescriptionEn));
+        //   setOptionsGe(JSON.parse(response.data.product.productDescriptionGe));
+        //   setOptionsRu(JSON.parse(response.data.product.productDescriptionRu));
+        // }
       })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    LoadImages(productId);
-  }, [productId, multiColor, multiSize]);
-
-  const LoadImages = (productId) => {
-    if (multiColor === 1 && multiSize === 1) {
-      LoadImagesMix(productId);
-    } else if (multiColor === 0 && multiSize === 1) {
-      LoadImagesBySize(productId);
-    } else if (multiSize === 0 && multiColor === 1) {
-      LoadImagesByColor(productId);
+    if (selectedModel) {
+      setColors(selectedModel.colors);
+      if (selectedModel.colors.length > 0) {
+        setSelectedColor(selectedModel.colors[0]);
+      } else {
+        setSelectedColor(null);
+      }
+      setSizes(selectedModel.sizes);
+      if (selectedModel.sizes.length > 0) {
+        setSelectedSize(selectedModel.sizes[0]);
+      } else {
+        setSelectedSize(null);
+      }
     } else {
-      LoadImagesDefault(productId);
     }
-  };
+  }, [selectedModel]);
+
+  useEffect(() => {
+    if (selectedModel) {
+      if (selectedModel.imageLinks.length > 0) {
+        let imageData = [];
+        if (selectedColor != null && selectedSize != null) {
+          imageData = selectedModel.imageLinks.filter(
+            (i) =>
+              i.colorId === selectedColor.id && i.sizeId === selectedSize.id
+          );
+        } else if (selectedColor != null && selectedSize === null) {
+          imageData = selectedModel.imageLinks.filter(
+            (i) => i.colorId === selectedColor.id
+          );
+        } else if (selectedColor === null && selectedSize != null) {
+          imageData = selectedModel.imageLinks.filter(
+            (i) => i.sizeId === selectedSize.id
+          );
+        } else {
+          imageData = selectedModel.imageLinks;
+        }
+
+        setImages(imageData);
+        if (imageData.length > 0) setSelectedUrl(imageData[0].imgUrl);
+      } else {
+        setImages([]);
+        setSelectedUrl(null);
+      }
+
+      if (selectedModel.descriptionLinks.length > 0) {
+        let infoData = [];
+        if (selectedColor != null && selectedSize != null) {
+          infoData = selectedModel.descriptionLinks.filter(
+            (d) =>
+              d.colorId === selectedColor.id && d.sizeId === selectedSize.id
+          );
+        } else if (selectedColor != null && selectedSize === null) {
+          infoData = selectedModel.descriptionLinks.filter(
+            (d) => d.colorId === selectedColor.id
+          );
+        } else if (selectedColor === null && selectedSize != null) {
+          infoData = selectedModel.descriptionLinks.filter(
+            (d) => d.sizeId === selectedSize.id
+          );
+        } else {
+          infoData = selectedModel.descriptionLinks;
+        }
+        setDescriptions(infoData);
+      } else {
+        setDescriptions([]);
+      }
+    }
+  }, [selectedColor, selectedSize]);
+
+  // const LoadImages = (productId) => {
+  //   imageAPI
+  //     .getImagesDefault(productId)
+  //     .then((response) => {
+  //       console.log(response);
+
+  //       setImages(response.data.images);
+  //       // if (response.data.images.length > 0)
+  //       //   setSelectedUrl(response.data.images[0].imgUrl);
+  //       // else setSelectedUrl(null);
+  //     })
+  //     .catch((error) => console.log(error));
+  //   // if (multiColor === 1 && multiSize === 1) {
+  //   //   LoadImagesMix(productId);
+  //   // } else if (multiColor === 0 && multiSize === 1) {
+  //   //   LoadImagesBySize(productId);
+  //   // } else if (multiSize === 0 && multiColor === 1) {
+  //   //   LoadImagesByColor(productId);
+  //   // } else {
+  //   //   LoadImagesDefault(productId);
+  //   // }
+  // };
 
   const LoadImagesDefault = (productId) => {
-    imageAPI
-      .getImagesDefault(productId)
-      .then((response) => {
-        setImages((images) => response.data.images);
-        if (response.data.images.length > 0)
-          setSelectedUrl(response.data.images[0].imgUrl);
-        else setSelectedUrl(null);
-      })
-      .catch((error) => console.log(error));
+    // imageAPI
+    //   .getImagesDefault(productId)
+    //   .then((response) => {
+    //     setImages((images) => response.data.images);
+    //     if (response.data.images.length > 0)
+    //       setSelectedUrl(response.data.images[0].imgUrl);
+    //     else setSelectedUrl(null);
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   const LoadImagesByColor = (productId) => {
-    imageAPI
-      .getImagesByColor(productId)
-      .then((response) => {
-        setImages((images) => response.data.images);
-        if (response.data.images.length > 0)
-          setSelectedUrl(response.data.images[0].imgUrl);
-        else setSelectedUrl(null);
-      })
-      .catch((error) => console.log(error));
+    // imageAPI
+    //   .getImagesByColor(productId)
+    //   .then((response) => {
+    //     console.log(response);
+    //     setImages(response.data.images);
+    //     if (response.data.images.length > 0)
+    //       setSelectedUrl(response.data.images[0].imgUrl);
+    //     else setSelectedUrl(null);
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   const LoadImagesBySize = (productId) => {
-    imageAPI
-      .getImagesBySize(productId)
-      .then((response) => {
-        setImages((images) => response.data.images);
-        if (response.data.images.length > 0)
-          setSelectedUrl(response.data.images[0].imgUrl);
-        else setSelectedUrl(null);
-      })
-      .catch((error) => console.log(error));
+    // imageAPI
+    //   .getImagesBySize(productId)
+    //   .then((response) => {
+    //     setImages((images) => response.data.images);
+    //     if (response.data.images.length > 0)
+    //       setSelectedUrl(response.data.images[0].imgUrl);
+    //     else setSelectedUrl(null);
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   const LoadImagesMix = (productId) => {
-    imageAPI
-      .getImagesMix(productId)
-      .then((response) => {
-        setImages(response.data.images);
-        if (response.data.images.length > 0)
-          setSelectedUrl(response.data.images[0].imgUrl);
-        else setSelectedUrl(null);
-      })
-      .catch((error) => console.log(error));
+    // imageAPI
+    //   .getImagesMix(productId)
+    //   .then((response) => {
+    //     setImages(response.data.images);
+    //     if (response.data.images.length > 0)
+    //       setSelectedUrl(response.data.images[0].imgUrl);
+    //     else setSelectedUrl(null);
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
-  useEffect(() => {
-    LoadSlider();
-  }, [images, selectedColor, selectedSize]);
+  // useEffect(() => {
+  //   // if(images.length>0)
+  //   // LoadSlider();
+  // }, [images, selectedColor, selectedSize]);
 
   const LoadSlider = () => {
-    if (selectedColor && selectedSize) {
-      const newImages = images
-        .filter(
-          (c) => c.colorId === selectedColor.id && c.sizeId === selectedSize.id
-        )
-        .filter(
-          (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
-        );
-      if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
-      else setSelectedUrl(null);
-      setSelectedImages(newImages);
-    } else if (selectedColor && !selectedSize) {
-      const newImages = images
-        .filter((c) => c.colorId === selectedColor.id)
-        .filter(
-          (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
-        );
-      if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
-      else setSelectedUrl(null);
-      setSelectedImages(newImages);
-    } else if (!selectedColor && selectedSize) {
-      const newImages = images
-        .filter((c) => c.sizeId === selectedSize.id)
-        .filter(
-          (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
-        );
-      if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
-      else setSelectedUrl(null);
-      setSelectedImages(newImages);
-    } else {
-      if (images.length > 0) setSelectedUrl(images[0].imgUrl);
-      else setSelectedUrl(null);
-      setSelectedImages(images);
-    }
+    // if (selectedColor && selectedSize) {
+    //   const newImages = images
+    //     .filter(
+    //       (c) => c.colorId === selectedColor.id && c.sizeId === selectedSize.id
+    //     )
+    //     .filter(
+    //       (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
+    //     );
+    //   if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
+    //   else setSelectedUrl(null);
+    //   setSelectedImages(newImages);
+    // } else if (selectedColor && !selectedSize) {
+    //   const newImages = images
+    //     .filter((c) => c.colorId === selectedColor.id)
+    //     .filter(
+    //       (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
+    //     );
+    //   if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
+    //   else setSelectedUrl(null);
+    //   setSelectedImages(newImages);
+    // } else if (!selectedColor && selectedSize) {
+    //   const newImages = images
+    //     .filter((c) => c.sizeId === selectedSize.id)
+    //     .filter(
+    //       (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
+    //     );
+    //   if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
+    //   else setSelectedUrl(null);
+    //   setSelectedImages(newImages);
+    // } else {
+    //   if (images.length > 0) setSelectedUrl(images[0].imgUrl);
+    //   else setSelectedUrl(null);
+    //   setSelectedImages(images);
+    // }
+  };
+
+  const selectActiveModel = (modelId) => {
+    setSelectedModel(models.find((m) => m.id === modelId));
   };
 
   const selectActiveColor = (colorId) => {
@@ -197,10 +291,10 @@ const ProductDetail = () => {
 
   const settings = {
     dots: false,
-    infinite: selectedImages.length > 5,
+    infinite: images.length > 5,
     speed: 500,
-    slidesToShow: selectedImages.length > 5 ? 5 : selectedImages.length,
-    slidesToScroll: selectedImages.length > 5 ? 1 : 0,
+    slidesToShow: images.length > 5 ? 5 : images.length,
+    slidesToScroll: images.length > 5 ? 1 : 0,
   };
 
   return (
@@ -211,7 +305,7 @@ const ProductDetail = () => {
           <div className={styles.imgSlide}>
             <img src={selectedUrl} className={styles.selectedImage} />
             <Slider {...settings}>
-              {selectedImages.map((im) => (
+              {images.map((im) => (
                 <div
                   style={{
                     width: "200px",
@@ -251,21 +345,19 @@ const ProductDetail = () => {
             </h1>
 
             <div className={styles.colorBlock}>
-              {multiColor && (
-                <div className={styles.colorContainer}>
-                  {colors.map((c) => (
-                    <div key={`color${c.id}`} className={styles.colorItem}>
-                      <img
-                        src={c.iconUrl}
-                        className={`${styles.colorIcon} ${
-                          c.id == selectedColor.id ? styles.selectedColor : ""
-                        }`}
-                        onClick={() => selectActiveColor(c.id)}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className={styles.colorContainer}>
+                {colors.map((c) => (
+                  <div key={`color${c.id}`} className={styles.colorItem}>
+                    <img
+                      src={c.iconUrl}
+                      className={`${styles.colorIcon} ${
+                        c.id == selectedColor.id ? styles.selectedColor : ""
+                      }`}
+                      onClick={() => selectActiveColor(c.id)}
+                    />
+                  </div>
+                ))}
+              </div>
               {selectedColor && (
                 <div style={{ textAlign: "left" }}>
                   <span
@@ -280,7 +372,7 @@ const ProductDetail = () => {
                 </div>
               )}
             </div>
-            {!product.productMultyDimension &&
+            {/* {!product.productMultyDimension &&
               (product.productDiscount === 1 ? (
                 <div>
                   <span className={styles.price}>
@@ -296,7 +388,7 @@ const ProductDetail = () => {
                     {product.productPrice}&#8382;
                   </span>
                 </div>
-              ))}
+              ))} */}
 
             <table className={styles.mainTable}>
               <tbody>
@@ -306,9 +398,20 @@ const ProductDetail = () => {
                       <span className={styles.label}>{t("model")}</span>
                     </td>
                     <td className={styles.maintd}>
-                      <span className={styles.name}>
-                        {product.productModel}
-                      </span>
+                      {models.map((m) => (
+                        <span
+                          onClick={() => selectActiveModel(m.id)}
+                          className={`${styles.model} ${
+                            m.id === selectedModel.id
+                              ? styles.selectedModel
+                              : ""
+                          }`}
+                        >
+                          {lang === "en" && m.nameEn}
+                          {lang === "ge" && m.nameGe}
+                          {lang === "ru" && m.nameRu}
+                        </span>
+                      ))}
                     </td>
                   </tr>
                 )}
@@ -324,7 +427,7 @@ const ProductDetail = () => {
                   </tr>
                 )}
 
-                {product.productDimension && (
+                {/* {product.productDimension && (
                   <tr>
                     <td className={styles.maintd}>
                       <span className={styles.label}>{t("dimension")}</span>
@@ -335,9 +438,9 @@ const ProductDetail = () => {
                       </span>
                     </td>
                   </tr>
-                )}
+                )} */}
 
-                {product.productWeight && (
+                {/* {product.productWeight && (
                   <tr>
                     <td className={styles.maintd}>
                       <span className={styles.label}>{t("weight")}</span>
@@ -348,7 +451,7 @@ const ProductDetail = () => {
                       </span>
                     </td>
                   </tr>
-                )}
+                )} */}
 
                 {product.productCountryEn && (
                   <tr>
@@ -364,7 +467,7 @@ const ProductDetail = () => {
                     </td>
                   </tr>
                 )}
-                {!product.productMultyDimension && (
+                {/* {!product.productMultyDimension && (
                   <tr>
                     <td className={styles.maintd}>
                       <span className={styles.label}>{t("count")}</span>
@@ -373,18 +476,119 @@ const ProductDetail = () => {
                       <input className={styles.input} />
                     </td>
                   </tr>
-                )}
+                )} */}
               </tbody>
             </table>
-            {!product.productMultyDimension && (
+            {/* {!product.productMultyDimension && (
               <div className={styles.item}>
                 <button className={styles.btn}>{t("addToCart")}</button>
               </div>
-            )}
+            )} */}
+
+            <div className={styles.optionsContent}>
+              <table>
+                <thead>
+                  <tr>
+                    <td className={styles.td}>
+                      <span className={styles.label}>{t("dimension")}</span>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.label}>{t("weight")}</span>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.label}>{t("price")}&#8382;</span>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.label}>{t("count")}</span>
+                    </td>
+                    <td></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sizes.map(
+                    (s) =>
+                      s.inStock == 1 && (
+                        <tr
+                          key={`size${s.id}`}
+                          className={`${styles.sizeItem} ${
+                            selectedSize.id == s.id ? styles.selectedSize : ""
+                          }`}
+                          onClick={() => selectActiveSize(s.id)}
+                        >
+                          <td className={styles.td}>
+                            <span className={styles.name}>{s.dimension}</span>
+                          </td>
+                          <td className={styles.td}>
+                            <span className={styles.name}>{s.weight}</span>
+                          </td>
+                          <td className={styles.td}>
+                            {s.discount === 1 ? (
+                              <div>
+                                <span
+                                  className={styles.price}
+                                  style={{ marginRight: "6px" }}
+                                >
+                                  {s.newPrice}&#8382;
+                                </span>
+                                <span className={styles.old}>
+                                  {s.price}&#8382;
+                                </span>
+                              </div>
+                            ) : (
+                              <div>
+                                <span className={styles.price}>
+                                  {s.price}&#8382;
+                                </span>
+                              </div>
+                            )}
+                          </td>
+                          <td className={styles.td}>
+                            <input
+                              className={styles.input}
+                              type="number"
+                              min={1}
+                              max={s.count}
+                              onChange={(e) => {
+                                if (parseInt(e.currentTarget.value) > s.count)
+                                  e.currentTarget.value = s.count;
+                              }}
+                            />
+                            <span>max: {s.count}</span>
+                          </td>
+                          <td className={styles.td}>
+                            <button
+                              disabled={selectedSize.id != s.id}
+                              className={styles.btn}
+                              style={{ margin: "10px 0" }}
+                            >
+                              {t("addToCart")}
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                  )}
+                </tbody>
+              </table>
+            </div>
+
             <div className={styles.optionsContent}>
               <table>
                 <tbody>
-                  {lang === "en" &&
+                  <tr>
+                    <td className={styles.td}>
+                      <span className={styles.label}>{t("description")}</span>
+                    </td>
+                    <td className={styles.td}>
+                      {descriptions.map((d) => (
+                        <span className={styles.name}>
+                          {lang === "en" && d.descriptionEn}
+                          {lang === "ge" && d.descriptionGe}
+                          {lang === "ru" && d.descriptionRu}
+                        </span>
+                      ))}
+                    </td>
+                  </tr>
+                  {/* {lang === "en" &&
                     optionsEn &&
                     optionsEn.map((inputField, index) => (
                       <tr>
@@ -399,8 +603,8 @@ const ProductDetail = () => {
                           </span>
                         </td>
                       </tr>
-                    ))}
-                  {lang === "ge" &&
+                    ))} */}
+                  {/* {lang === "ge" &&
                     optionsGe &&
                     optionsGe.map((inputField, index) => (
                       <tr>
@@ -415,8 +619,8 @@ const ProductDetail = () => {
                           </span>
                         </td>
                       </tr>
-                    ))}
-                  {lang === "ru" &&
+                    ))} */}
+                  {/* {lang === "ru" &&
                     optionsRu &&
                     optionsRu.map((inputField, index) => (
                       <tr>
@@ -431,100 +635,10 @@ const ProductDetail = () => {
                           </span>
                         </td>
                       </tr>
-                    ))}
+                    ))} */}
                 </tbody>
               </table>
             </div>
-
-            {product.productMultyDimension === 1 && (
-              <div className={styles.optionsContent}>
-                <table>
-                  <thead>
-                    <tr>
-                      <td className={styles.td}>
-                        <span className={styles.label}>{t("dimension")}</span>
-                      </td>
-                      <td className={styles.td}>
-                        <span className={styles.label}>{t("weight")}</span>
-                      </td>
-                      <td className={styles.td}>
-                        <span className={styles.label}>
-                          {t("price")}&#8382;
-                        </span>
-                      </td>
-                      <td className={styles.td}>
-                        <span className={styles.label}>{t("count")}</span>
-                      </td>
-                      <td></td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sizes.map(
-                      (s) =>
-                        s.inStock == 1 && (
-                          <tr
-                            key={`size${s.id}`}
-                            className={`${styles.sizeItem} ${
-                              selectedSize.id == s.id ? styles.selectedSize : ""
-                            }`}
-                            onClick={() => selectActiveSize(s.id)}
-                          >
-                            <td className={styles.td}>
-                              <span className={styles.name}>{s.dimension}</span>
-                            </td>
-                            <td className={styles.td}>
-                              <span className={styles.name}>{s.weight}</span>
-                            </td>
-                            <td className={styles.td}>
-                              {s.discount === 1 ? (
-                                <div>
-                                  <span
-                                    className={styles.price}
-                                    style={{ marginRight: "6px" }}
-                                  >
-                                    {s.newPrice}&#8382;
-                                  </span>
-                                  <span className={styles.old}>
-                                    {s.price}&#8382;
-                                  </span>
-                                </div>
-                              ) : (
-                                <div>
-                                  <span className={styles.price}>
-                                    {s.price}&#8382;
-                                  </span>
-                                </div>
-                              )}
-                            </td>
-                            <td className={styles.td}>
-                              <input
-                                className={styles.input}
-                                type="number"
-                                min={1}
-                                max={s.count}
-                                onChange={(e) => {
-                                  if (parseInt(e.currentTarget.value) > s.count)
-                                    e.currentTarget.value = s.count;
-                                }}
-                              />
-                              <span>max: {s.count}</span>
-                            </td>
-                            <td className={styles.td}>
-                              <button
-                                disabled={selectedSize.id != s.id}
-                                className={styles.btn}
-                                style={{ margin: "10px 0" }}
-                              >
-                                {t("addToCart")}
-                              </button>
-                            </td>
-                          </tr>
-                        )
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            )}
           </div>
         </div>
       )}

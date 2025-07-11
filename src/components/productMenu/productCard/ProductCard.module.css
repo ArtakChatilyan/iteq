@@ -1,7 +1,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 1rem 2rem;
   width: 280px;
   height: 360px;
@@ -75,7 +75,6 @@
 
 .model {
   color: rgb(70, 69, 68);
-  align-self: flex-start;
   font-size: 1.4rem;
   font-family: "RobotoRegular";
   margin: 0;

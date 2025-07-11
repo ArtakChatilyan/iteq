@@ -82,8 +82,16 @@ export const colorAPI = {
     return instance.get("colors");
   },
 
-  getProductColors:(id)=>{
+  getProductColors: (id) => {
     return instance.get(`colors/productColors/${id}`);
+  },
+
+  getModelColors: (id) => {
+    return instance.get(`models/modelColors/${id}`);
+  },
+
+  setModelColors: (id, result) => {
+    return instance.post(`models/modelColors`, { id, result });
   },
 
   getColor: (id) => {
@@ -158,33 +166,33 @@ export const productsAPI = {
     return instance.post(`products/productCategories`, { id, result });
   },
 
-  getProductColors: (id) => {
-    return instance.get(`products/productColors/${id}`);
-  },
+  // getProductColors: (id) => {
+  //   return instance.get(`products/productColors/${id}`);
+  // },
 
-  setProductColors: (id, result) => {
-    return instance.post(`products/productColors`, { id, result });
-  },
+  // setProductColors: (id, result) => {
+  //   return instance.post(`products/productColors`, { id, result });
+  // },
 
-  getSizes: (id) => {
-    return instance.get(`products/productsizes/${id}`);
-  },
+  // getSizes: (id) => {
+  //   return instance.get(`products/productsizes/${id}`);
+  // },
 
-  getSize: (id) => {
-    return instance.get(`products/productsize/${id}`);
-  },
+  // getSize: (id) => {
+  //   return instance.get(`products/productsize/${id}`);
+  // },
 
-  deleteSize: (id) => {
-    return instance.delete(`products/productsize/${id}`);
-  },
+  // deleteSize: (id) => {
+  //   return instance.delete(`products/productsize/${id}`);
+  // },
 
-  addProductSize: (data) => {
-    return instance.post(`products/productsizes`, data);
-  },
+  // addProductSize: (data) => {
+  //   return instance.post(`products/productsizes`, data);
+  // },
 
-  editProductSize: (id, data) => {
-    return instance.put(`products/productsize/${id}`, data);
-  },
+  // editProductSize: (id, data) => {
+  //   return instance.put(`products/productsize/${id}`, data);
+  // },
 
   getProductImages: (id) => {
     return instance.get(`products/productImages/${id}`);
@@ -198,17 +206,101 @@ export const productsAPI = {
     return instance.delete(`products/productImage/${id}`);
   },
 
-  getImageColorSize: (id) => {
-    return instance.get(`products/productImageColorSize/${id}`);
+  getDescriptions: (productId) => {
+    return instance.get(`products/descriptions/${productId}`);
+  },
+  getDescription: (descriptionId) => {
+    return instance.get(`products/description/${descriptionId}`);
+  },
+  addDescription: (data) => {
+    return instance.post(`products/descriptions`, data);
+  },
+  updateDescription: (descriptionId, data) => {
+    return instance.put(`products/descriptions/${descriptionId}`, data);
+  },
+  deleteDescription: (descriptionId) => {
+    return instance.delete(`products/descriptions/${descriptionId}`);
+  },
+
+  // getImageColorSize: (id) => {
+  //   return instance.get(`products/productImageColorSize/${id}`);
+  // },
+
+  // setImageColorSize: (data) => {
+  //   return instance.post(`products/productImageColorSize`, data);
+  // },
+
+  // deleteImageColorSize: (id) => {
+  //   return instance.delete(`products/productImageColorSize/${id}`);
+  // },
+};
+
+export const modelAPI = {
+  getModels: (productId) => {
+    return instance.get(`models?productId=${productId}`);
+  },
+
+  getModel: (id) => {
+    return instance.get(`models/${id}`);
+  },
+
+  addModel: (productId, data) => {
+    return instance.post("models", {
+      productId: productId,
+      modelData: data,
+    });
+  },
+
+  editModel: (id, data) => {
+    return instance.put(`models/${id}`, data);
+  },
+
+  deleteModel: (id) => {
+    return instance.delete(`models/${id}`);
+  },
+  getSizes: (id) => {
+    return instance.get(`models/modelsizes/${id}`);
+  },
+
+  getSize: (id) => {
+    return instance.get(`models/modelsize/${id}`);
+  },
+
+  deleteSize: (id) => {
+    return instance.delete(`models/modelsize/${id}`);
+  },
+
+  addSize: (data) => {
+    return instance.post(`models/modelsizes`, data);
+  },
+
+  editSize: (id, data) => {
+    return instance.put(`models/modelsize/${id}`, data);
+  },
+
+  getImageColorSize: (modelId, imageId) => {
+    return instance.get(`models/modelImageColorSize/${modelId}/${imageId}`);
   },
 
   setImageColorSize: (data) => {
-    return instance.post(`products/productImageColorSize`, data);
+    return instance.post(`models/modelImageColorSize`, data);
   },
 
-  deleteImageColorSize:(id)=>{
-    return instance.delete(`products/productImageColorSize/${id}`);
-  }
+  deleteImageColorSize: (id) => {
+    return instance.delete(`models/modelImageColorSize/${id}`);
+  },
+
+  getDescriptionColorSize: (modelId, descriptionId) => {
+    return instance.get(`models/modelDescriptionColorSize/${modelId}/${descriptionId}`);
+  },
+
+  setDescriptionColorSize: (data) => {
+    return instance.post(`models/modelDescriptionColorSize`, data);
+  },
+
+  deleteDescriptionColorSize: (id) => {
+    return instance.delete(`models/modelDescriptionColorSize/${id}`);
+  },
 };
 
 export const slidesAPI = {

@@ -5,15 +5,16 @@ import { useContext } from "react";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 
 const ProductCard = ({ product }) => {
-  console.log(product);
-  
+  const modelInfo = product.viewInfo;
+  const priceInfo = modelInfo ? modelInfo.viewInfo : null;
+
   const { t, i18n } = useTranslation();
   const lang = useContext(LanguageContext);
 
   return (
     <div className={styles.card}>
       <span className={styles.stock}>
-        {product.viewInfo.inStock ? (
+        {priceInfo && priceInfo.inStock ? (
           <span className={styles.inStock}>{t("inStock")}</span>
         ) : (
           <span>{t("unavailable")}</span>
@@ -27,30 +28,44 @@ const ProductCard = ({ product }) => {
         {lang === "ge" && product.productNameGe}
         {lang === "ru" && product.productNameRu}
       </h4>
-      <span className={styles.model}>{product.productModel}</span>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "end",
+        }}
+      >
+        {modelInfo && (
+          <span className={styles.model}>
+            {lang === "en" && modelInfo.nameEn}
+            {lang === "ge" && modelInfo.nameGe}
+            {lang === "ru" && modelInfo.nameRu}
+          </span>
+        )}
 
-      <div className={styles.iconsWrapper}>
-        <span className={styles.cartWrapper}>
-          <CartIcon className={styles.cart} onClick={() => {}} />
-          {/* <PlusIcon className={styles.plus} /> */}
-        </span>
-        {/* <HeartIcon className={styles.like} onClick={() => {}} /> */}
+        <div className={styles.iconsWrapper}>
+          <span className={styles.cartWrapper}>
+            <CartIcon className={styles.cart} onClick={() => {}} />
+            {/* <PlusIcon className={styles.plus} /> */}
+          </span>
+          {/* <HeartIcon className={styles.like} onClick={() => {}} /> */}
+        </div>
       </div>
-
       <div className={styles.info}>
         <span className={styles.price}>
-          {product.viewInfo.discount ? (
-            <span>
-              <span className={styles.actual}>
-                {product.viewInfo.newPrice}&#8382;
+          {priceInfo &&
+            (priceInfo.discount ? (
+              <span>
+                <span className={styles.actual}>
+                  {priceInfo.newPrice}&#8382;
+                </span>
+                <span className={styles.inActive}>
+                  {priceInfo.price}&#8382;
+                </span>
               </span>
-              <span className={styles.inActive}>
-                {product.viewInfo.price}&#8382;
-              </span>
-            </span>
-          ) : (
-            <span className={styles.actual}>{product.viewInfo.price}&#8382;</span>
-          )}
+            ) : (
+              <span className={styles.actual}>{priceInfo.price}&#8382;</span>
+            ))}
         </span>
         {/* <span className={styles.price}>{product.price}</span> */}
 

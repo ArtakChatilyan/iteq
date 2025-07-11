@@ -1,55 +1,44 @@
 import { useEffect, useState } from "react";
-import styles from "./Products.module.css";
-import { categoryAPI, colorAPI, productsAPI } from "../../dal/api";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import SplashScreen from "../splashscreen/SplashScreen";
+import styles from "./../Products.module.css";
+import { colorAPI } from "../../../dal/api";
+import SplashScreen from "../../splashscreen/SplashScreen";
 
-const ProductColors = () => {
-  const { itemId, page } = useParams();
-  const navigate = useNavigate();
+const ModelColors = ({ modelId, modelName, closeModal }) => {
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [colors, setColors] = useState([]);
-  const [productNameEn, setProductNameEn] = useState("");
-  const [productModel, setProductModel] = useState("");
-
   const [resultData, setResultData] = useState([]);
 
   useEffect(() => {
-    getProduct(itemId);
-    getColorsForProduct();
-    getProductColors(itemId);
+    getColors();
+    getColorsForModels(modelId);
   }, []);
 
-  const getProduct = (id) => {
-    productsAPI.getProduct(id).then((response) => {
-      if (response) {
-        setProductNameEn(response.data.data.productNameEn);
-        setProductModel(response.data.data.productModel);
-      }
-    });
-  };
-
-  const getColorsForProduct = () => {
-    colorAPI.getColors().then((response) => {
-      if (response) {
+  const getColors = () => {
+    colorAPI
+      .getColors()
+      .then((response) => {
         setColors(response.data.colors);
-      }
-    });
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {});
   };
 
-  const getProductColors = (id) => {
-    productsAPI.getProductColors(id).then((response) => {
-      if (response) {
-        response.data.pColors.forEach((el) => {
+  const getColorsForModels = (id) => {
+    colorAPI
+      .getModelColors(id)
+      .then((response) => {
+        response.data.mColors.forEach((el) => {
           setResultData((d) => {
             return [...d, el.colorId];
           });
         });
-      }
-      setLoading(false);
-    });
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const checkHandle = (e) => {
@@ -61,17 +50,17 @@ const ProductColors = () => {
     }
   };
 
-  const setProductColors = () => {
+  const setModelColors = (modelId) => {
     setLoading(true);
-    productsAPI
-      .setProductColors(itemId, resultData)
+    colorAPI
+      .setModelColors(modelId, resultData)
       .then((response) => {
-        setResultMessage("The product updated successfully");
-        return navigate(`/admin/products/${page}`);
+        setResultMessage("Colors set successfully");
+        closeModal();
       })
       .catch((error) => {
-        setResultMessage("Couldn't set colors product!");
-      });
+        setResultMessage("Failed set colors for model!");
+      }).finally(()=>setLoading(false));
   };
 
   return (
@@ -80,15 +69,11 @@ const ProductColors = () => {
       <div className={styles.form}>
         <div style={{ borderRight: "1px solid rgb(81, 81, 81)" }}>
           <div className={styles.label} onClick={() => console.log(resultData)}>
-            {productNameEn}
+            {modelName}
           </div>
-          <div className={styles.label}>{productModel}</div>
         </div>
 
         <div>
-          <div className={styles.label} style={{ textAlign: "center" }}>
-            categories:
-          </div>
           <div
             className={styles.formItem}
             style={{
@@ -128,19 +113,12 @@ const ProductColors = () => {
               justifyContent: "flex-start",
             }}
           >
-            <Link
-              to={`/admin/products/${page}`}
-              style={{
-                textDecoration: "underline",
-                color: "#7dacee",
-                margin: "0 4rem 0 2rem",
-              }}
-            >
-              back
-            </Link>
-
-            <button className={styles.btn} onClick={setProductColors}>
+            <button className={styles.btn} onClick={()=>setModelColors(modelId)}>
               save
+            </button>
+
+            <button className={styles.btn} onClick={closeModal}>
+              close
             </button>
           </div>
           {/* <button
@@ -161,4 +139,4 @@ const ProductColors = () => {
   );
 };
 
-export default ProductColors;
+export default ModelColors;

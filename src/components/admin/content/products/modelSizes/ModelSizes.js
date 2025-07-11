@@ -1,23 +1,20 @@
-import styles from "../View.module.css";
-import { productsAPI } from "../../dal/api";
+import styles from "../../View.module.css";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import Modal from "react-modal";
-import SplashScreen from "../splashscreen/SplashScreen";
-import AddProductSize from "./AddProductSize";
-import EditProductSize from "./EditProductSize";
+import SplashScreen from "../../splashscreen/SplashScreen";
+import AddModelSize from "./AddModelSize";
+import EditModelSize from "./EditModelSize";
+import { modelAPI } from "../../../dal/api";
 
-const ProductSizes = () => {
-  const { itemId, page } = useParams();
-
+const ModelSizes = ({ modelId, modelName, closeModal }) => {
   const [data, setData] = useState([]);
 
-  const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
   const [editId, setEditId] = useState(0);
 
-  const [modalAddSize, setModalAddSize] = useState(false);
-  const [modalEditSize, setModalEditSize] = useState(false);
+  const [modalAdd, setModalAdd] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -35,23 +32,36 @@ const ProductSizes = () => {
   Modal.setAppElement("#root");
 
   useEffect(() => {
-    getSizes(itemId);
-  }, [modalAddSize, modalEditSize]);
+    getSizes(modelId);
+  }, [modalAdd, modalEdit]);
 
   const getSizes = (id) => {
-    productsAPI.getSizes(id).then((response) => {
-      if (response) {
-        setData(response.data.data);
-      }
-      setLoading(false);
-    });
+    modelAPI
+      .getSizes(id)
+      .then((response) => {
+        if (response) {
+          setData(response.data.data);
+        }
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const deleteItem = (id) => {
+    
     setLoading(true);
-    productsAPI.deleteSize(id).then((data) => {
-      window.location.reload(false);
-    });
+    modelAPI
+      .deleteSize(id)
+      .then((data) => {
+        setModalDelete(false);
+        getSizes(modelId);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -60,7 +70,7 @@ const ProductSizes = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>dimension</th>
+            <th>size</th>
             <th>weight</th>
             <th>price</th>
             <th>discount</th>
@@ -87,7 +97,7 @@ const ProductSizes = () => {
                     className={styles.btn}
                     onClick={() => {
                       setEditId(d.id);
-                      setModalEditSize(true);
+                      setModalEdit(true);
                     }}
                   >
                     edit
@@ -104,7 +114,7 @@ const ProductSizes = () => {
                     className={styles.btn}
                     onClick={() => {
                       setDeleteId(d.id);
-                      setModal(true);
+                      setModalDelete(true);
                     }}
                   >
                     delete
@@ -131,19 +141,12 @@ const ProductSizes = () => {
               >
                 add
               </Link> */}
-              <Link
-                to={`/admin/products/${page}`}
-                style={{
-                  textDecoration: "underline",
-                  color: "#7dacee",
-                  margin: "0 4rem 0 2rem",
-                }}
-              >
-                back
-              </Link>
+              <button className={styles.funcBtn} onClick={() => closeModal()}>
+                close
+              </button>
               <button
                 className={styles.funcBtn}
-                onClick={() => setModalAddSize(true)}
+                onClick={() => setModalAdd(true)}
               >
                 add
               </button>
@@ -151,7 +154,7 @@ const ProductSizes = () => {
           </tr>
         </tfoot>
       </table>
-      {modal && (
+      {modalDelete && (
         <div className={styles.modal}>
           <div className={styles.btnGroup}>
             <button
@@ -162,14 +165,17 @@ const ProductSizes = () => {
             >
               delete
             </button>
-            <button className={styles.delBtn} onClick={() => setModal(false)}>
+            <button
+              className={styles.delBtn}
+              onClick={() => setModalDelete(false)}
+            >
               cancel
             </button>
           </div>
         </div>
       )}
       <Modal
-        isOpen={modalAddSize}
+        isOpen={modalAdd}
         style={{
           overlay: {
             backgroundColor: "rgba(255,255,255,.8)",
@@ -180,15 +186,15 @@ const ProductSizes = () => {
           },
         }}
       >
-        <AddProductSize
-          productId={itemId}
+        <AddModelSize
+          modelId={modelId}
           closeModal={() => {
-            setModalAddSize(false);
+            setModalAdd(false);
           }}
         />
       </Modal>
       <Modal
-        isOpen={modalEditSize}
+        isOpen={modalEdit}
         style={{
           overlay: {
             backgroundColor: "rgba(255,255,255,.8)",
@@ -199,11 +205,11 @@ const ProductSizes = () => {
           },
         }}
       >
-        <EditProductSize
-          productId={itemId}
+        <EditModelSize
+          sizeId={editId}
           id={editId}
           closeModal={() => {
-            setModalEditSize(false);
+            setModalEdit(false);
           }}
         />
       </Modal>
@@ -211,4 +217,4 @@ const ProductSizes = () => {
   );
 };
 
-export default ProductSizes;
+export default ModelSizes;

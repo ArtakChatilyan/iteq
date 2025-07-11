@@ -150,6 +150,7 @@ const Category = () => {
     categoryAPI
       .getProducts(categoryId, page, count, brandList, minPrice, maxPrice)
       .then((response) => {
+        
         setProductList(response.data.products);
         setTotal(response.data.total);
 
@@ -187,7 +188,7 @@ const Category = () => {
         <span className={styles.partTitle}>Brands</span>
         <ul className={styles.list}>
           {brandList.map((b) => (
-            <li key={`chk${b.id}`}>
+            <li key={`chk${b.brandId}`}>
               <input
                 type="checkbox"
                 style={{
@@ -197,7 +198,7 @@ const Category = () => {
                   marginRight: "8px",
                   backgroundColor: "red",
                 }}
-                onChange={(e) => addToSelected(e, b.id)}
+                onChange={(e) => addToSelected(e, b.brandId)}
               />
               {b.brandName}
             </li>

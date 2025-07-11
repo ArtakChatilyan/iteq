@@ -5,7 +5,7 @@ import backImage from "../../assets/backImage.png";
 const NotFoundAdmin = () => {
   return (
     <div className={styles.blockAdmin}>
-      <div className={styles.title}>Page Not Found admin</div>
+      <div className={styles.title}>Page Not Found</div>
       <Link to="/admin" className={styles.link}>
         to main
       </Link>

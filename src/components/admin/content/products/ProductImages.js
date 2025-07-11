@@ -5,7 +5,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Formik } from "formik";
 import Modal from "react-modal";
 import SplashScreen from "../splashscreen/SplashScreen";
-import ColorSize from "./ColorSize";
+import ColorSize from "./ModelColorSize";
+import ModelColorSize from "./ModelColorSize";
 
 const ProductImages = () => {
   const { itemId, page } = useParams();
@@ -113,7 +114,7 @@ const ProductImages = () => {
                         setModalColorSize(true);
                       }}
                     >
-                      color-size
+                      model-color-size
                     </button>
                   )}
 
@@ -255,7 +256,7 @@ const ProductImages = () => {
           },
         }}
       >
-        <ColorSize
+        <ModelColorSize
           productId={itemId}
           imageId={linkedId}
           product={product}

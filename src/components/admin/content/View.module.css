@@ -43,6 +43,8 @@
     color: #bdd2ef;
     cursor: pointer;
     font-family: "SourceSansLight";
+    font-size: 1.6rem;
+    text-decoration: underline;
     transition: 0.15s;
   }
   

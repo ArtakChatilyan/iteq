@@ -7,7 +7,6 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Home from "./components/home/home";
 import NotFound from "./components/notfound/NotFound";
-import Admin from "./components/admin/Admin";
 import SubCategories from "./components/admin/content/subcategories/SubCategories";
 import MainCategories from "./components/admin/content/maincategories/MainCategories";
 import AddCategory from "./components/admin/content/maincategories/AddCategory";
@@ -23,33 +22,15 @@ import EditProduct from "./components/admin/content/products/EditProduct";
 import ProductImages from "./components/admin/content/products/ProductImages";
 import ProductCategories from "./components/admin/content/products/ProductCategories";
 import Content from "./components/admin/content/Content";
-// import Slides from "./components/admin/content/slides/Slides";
-// import Partners from "./components/admin/content/partners/Partners";
-// import AddPartner from "./components/admin/content/partners/AddPartner";
-// import Portfolio from "./components/admin/content/portfolio/Portfolio";
-// import AddPortfolio from "./components/admin/content/portfolio/AddPortfolio";
-// import EditPortfolio from "./components/admin/content/portfolio/EditPortfolio";
-// import PortfolioImages from "./components/admin/content/portfolio/PortfolioImages";
-// import PortfolioOptions from "./components/admin/content/portfolio/PortFolioOptions";
-// import EditPortfolioOption from "./components/admin/content/portfolio/EditPortfolioOption";
-// import AddPortfolioOption from "./components/admin/content/portfolio/AddPortfolioOption";
 
 import Main from "./components/main/Main";
 import Category from "./components/category/Category";
 import ProductDetail from "./components/productMenu/productDetails/ProductDetail";
-//import EditPartner from "./components/admin/content/partners/EditPartner";
 import News from "./components/admin/content/news/News";
 import AddNews from "./components/admin/content/news/AddNews";
 import EditNews from "./components/admin/content/news/EditNews";
 import AboutUs from "./components/about/About";
-//import Services from "./components/services/Services";
 import Contacts from "./components/contacts/Contacts";
-// import PortfolioPublic from "./components/portfolio/PortfolioPublic";
-// import PortfolioItem from "./components/portfolio/PortfolioItem/PortfolioItem";
-// import PartnersPublic from "./components/partners/PartnersPublic";
-import ProductSizes from "./components/admin/content/products/ProductSizes";
-import AddProductSize from "./components/admin/content/products/AddProductSize";
-import EditProductSize from "./components/admin/content/products/EditProductSize";
 import AboutUsAdmin from "./components/admin/content/aboutus/AboutUs";
 
 import store from "./redux-store/store";
@@ -68,7 +49,8 @@ import Settings from "./components/admin/content/settings/Settings";
 import Colors from "./components/admin/content/colors/Colors";
 import AddColor from "./components/admin/content/colors/AddColor";
 import EditColor from "./components/admin/content/colors/EditColor";
-import ProductColors from "./components/admin/content/products/ProductColors";
+import Models from "./components/admin/content/products/models/Models";
+import ProductDescriptions from "./components/admin/content/products/descriptions/ProductDescriptions";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -205,13 +187,29 @@ const router = createBrowserRouter([
         element: <EditProduct />,
       },
       {
-        path: "/admin/productColors/:itemId/:page",
-        element: <ProductColors />,
+        path: "/admin/productCategories/:itemId/:page",
+        element: <ProductCategories />,
       },
       {
-        path: "/admin/productSizes/:itemId/:page",
-        element: <ProductSizes />,
+        path: "/admin/models/:productId/:page",
+        element: <Models />,
       },
+      {
+        path: "/admin/productImages/:itemId/:page",
+        element: <ProductImages />,
+      },
+      {
+        path: "/admin/productDescriptions/:itemId/:page",
+        element: <ProductDescriptions />,
+      },
+      // {
+      //   path: "/admin/productColors/:itemId/:page",
+      //   element: <ProductColors />,
+      // },
+      // {
+      //   path: "/admin/productSizes/:itemId/:page",
+      //   element: <ProductSizes />,
+      // },
       // {
       //   path: "/admin/addProductSize/:id",
       //   element: <AddProductSize />,
@@ -220,14 +218,8 @@ const router = createBrowserRouter([
       //   path: "/admin/editProductSize/:itemId/:id",
       //   element: <EditProductSize />,
       // },
-      {
-        path: "/admin/productImages/:itemId/:page",
-        element: <ProductImages />,
-      },
-      {
-        path: "/admin/productCategories/:itemId/:page",
-        element: <ProductCategories />,
-      },
+      
+      
       
       {
         path: "/admin/colors",

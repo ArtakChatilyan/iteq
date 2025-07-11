@@ -32,7 +32,7 @@ instance.interceptors.response.use(
         localStorage.setItem("tokenIteq", response.data.accessToken);
         return instance.request(originalRequest);
       } catch (e) {
-        console.log("Unauthorized request detected!");
+        console.log(e);
       }
     }
     throw error;

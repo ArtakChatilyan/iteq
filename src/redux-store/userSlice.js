@@ -30,7 +30,7 @@ export const userSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(register.pending, (state, action) => {
-        state.loading=true;
+        state.loading = true;
       })
       .addCase(register.fulfilled, (state, action) => {
         if (action.payload.status) {
@@ -42,10 +42,10 @@ export const userSlice = createSlice({
           state.message = "Check your email for activation.";
           state.error = "";
         }
-        state.loading=false;
+        state.loading = false;
       })
       .addCase(register.rejected, (state, action) => {
-        state.loading=false;
+        state.loading = false;
       })
       .addCase(login.pending, (state, action) => {
         setLoading(true);
@@ -62,7 +62,7 @@ export const userSlice = createSlice({
           state.user = action.payload.user;
           state.userRole = action.payload.user.role === 1 ? "admin" : "user";
         }
-        state.loading=false;
+        state.loading = false;
       })
       .addCase(login.rejected, (state, action) => {
         setLoading(false);
@@ -75,13 +75,13 @@ export const userSlice = createSlice({
         state.isAuth = false;
         state.userRole = "";
         state.user = { id: 0, name: "", phone: "", email: "" };
-        state.loading=false;
+        state.loading = false;
       })
       .addCase(logout.rejected, (state, action) => {
-        state.loading=false;
+        state.loading = false;
       })
       .addCase(checkAuth.pending, (state, action) => {
-        state.loading=true;
+        state.loading = true;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
         if (action.payload.status) {
@@ -95,10 +95,10 @@ export const userSlice = createSlice({
           state.user = action.payload.user;
           state.userRole = action.payload.user.role === 1 ? "admin" : "user";
         }
-        state.loading=false;
+        state.loading = false;
       })
       .addCase(checkAuth.rejected, (state, action) => {
-        state.loading=false;
+        state.loading = false;
       });
   },
 });
@@ -135,7 +135,7 @@ export const checkAuth = createAsyncThunk("user/checkAuth", async () => {
     const response = await usersAPI.checkAuth();
     return response.data;
   } catch (e) {
-    return e.response.data.message;
+    return e.response.data;
   }
 });
 

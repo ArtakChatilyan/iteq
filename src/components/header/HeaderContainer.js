@@ -13,6 +13,8 @@ const HeaderContainer = ({ changeLanguage }) => {
 
   useEffect(() => {
     if (localStorage.getItem("tokenIteq")) {
+      
+      
       dispatch(checkAuth());
     }else{
       dispatch(setLoading(false));

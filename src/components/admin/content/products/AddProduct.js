@@ -13,27 +13,31 @@ const AddProduct = () => {
   const [brandData, setBrandData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [optionFieldsEn, setOptionFieldsEn] = useState([]);
-  const [optionFieldsGe, setOptionFieldsGe] = useState([]);
-  const [optionFieldsRu, setOptionFieldsRu] = useState([]);
+  // const [modelsEn, setModelsEn] = useState([]);
+  // const [modelsGe, setModelsGe] = useState([]);
+  // const [modelsRu, setModelsRu] = useState([]);
+
+  // const [optionFieldsEn, setOptionFieldsEn] = useState([]);
+  // const [optionFieldsGe, setOptionFieldsGe] = useState([]);
+  // const [optionFieldsRu, setOptionFieldsRu] = useState([]);
 
   const formValidationSchema = Yup.object().shape({
     productNameEn: Yup.string().required("required"),
     productNameGe: Yup.string().required("required"),
     productNameRu: Yup.string().required("required"),
-    productModel: Yup.string().required("required"),
-    productPrice: Yup.string().matches(
-      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
-    ),
-    productNewPrice: Yup.string().matches(
-      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
-    ),
-    productCount: Yup.string().matches(
-      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
-    ),
+    // productModel: Yup.string().required("required"),
+    // productPrice: Yup.string().matches(
+    //   /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+    //   "not valid"
+    // ),
+    // productNewPrice: Yup.string().matches(
+    //   /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+    //   "not valid"
+    // ),
+    // productCount: Yup.string().matches(
+    //   /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+    //   "not valid"
+    // ),
   });
   useEffect(() => {
     brandsAPI.getBrandsAll().then((response) => {
@@ -44,70 +48,74 @@ const AddProduct = () => {
     });
   }, []);
 
-  const addOption = () => {
-    setOptionFieldsEn([
-      ...optionFieldsEn,
-      { optionNameEn: "", optionValueEn: "" },
-    ]);
-    setOptionFieldsGe([
-      ...optionFieldsGe,
-      { optionNameGe: "", optionValueGe: "" },
-    ]);
-    setOptionFieldsRu([
-      ...optionFieldsRu,
-      { optionNameRu: "", optionValueRu: "" },
-    ]);
-  };
+  // const addModel=()=>{
+    
+  // }
 
-  const removeOption = (index, lang) => {
-    const newOptionsEn = [...optionFieldsEn];
-    newOptionsEn.splice(index, 1);
-    setOptionFieldsEn(newOptionsEn);
+  // const addOption = () => {
+  //   setOptionFieldsEn([
+  //     ...optionFieldsEn,
+  //     { optionNameEn: "", optionValueEn: "" },
+  //   ]);
+  //   setOptionFieldsGe([
+  //     ...optionFieldsGe,
+  //     { optionNameGe: "", optionValueGe: "" },
+  //   ]);
+  //   setOptionFieldsRu([
+  //     ...optionFieldsRu,
+  //     { optionNameRu: "", optionValueRu: "" },
+  //   ]);
+  // };
 
-    const newOptionsGe = [...optionFieldsGe];
-    newOptionsGe.splice(index, 1);
-    setOptionFieldsGe(newOptionsGe);
+  // const removeOption = (index, lang) => {
+  //   const newOptionsEn = [...optionFieldsEn];
+  //   newOptionsEn.splice(index, 1);
+  //   setOptionFieldsEn(newOptionsEn);
 
-    const newOptionsRu = [...optionFieldsRu];
-    newOptionsRu.splice(index, 1);
-    setOptionFieldsRu(newOptionsRu);
-  };
+  //   const newOptionsGe = [...optionFieldsGe];
+  //   newOptionsGe.splice(index, 1);
+  //   setOptionFieldsGe(newOptionsGe);
 
-  const handleOptionCahnge = (index, event, lang, term) => {
-    let values;
-    switch (lang) {
-      case "en":
-        values = [...optionFieldsEn];
-        if (term === "n") {
-          values[index].optionNameEn = event.target.value;
-          setOptionFieldsEn(values);
-        } else {
-          values[index].optionValueEn = event.target.value;
-          setOptionFieldsEn(values);
-        }
-        break;
-      case "ge":
-        values = [...optionFieldsGe];
-        if (term === "n") {
-          values[index].optionNameGe = event.target.value;
-          setOptionFieldsGe(values);
-        } else {
-          values[index].optionValueGe = event.target.value;
-          setOptionFieldsGe(values);
-        }
-        break;
-      case "ru":
-        values = [...optionFieldsRu];
-        if (term === "n") {
-          values[index].optionNameRu = event.target.value;
-          setOptionFieldsRu(values);
-        } else {
-          values[index].optionValueRu = event.target.value;
-          setOptionFieldsRu(values);
-        }
-        break;
-    }
-  };
+  //   const newOptionsRu = [...optionFieldsRu];
+  //   newOptionsRu.splice(index, 1);
+  //   setOptionFieldsRu(newOptionsRu);
+  // };
+
+  // const handleOptionCahnge = (index, event, lang, term) => {
+  //   let values;
+  //   switch (lang) {
+  //     case "en":
+  //       values = [...optionFieldsEn];
+  //       if (term === "n") {
+  //         values[index].optionNameEn = event.target.value;
+  //         setOptionFieldsEn(values);
+  //       } else {
+  //         values[index].optionValueEn = event.target.value;
+  //         setOptionFieldsEn(values);
+  //       }
+  //       break;
+  //     case "ge":
+  //       values = [...optionFieldsGe];
+  //       if (term === "n") {
+  //         values[index].optionNameGe = event.target.value;
+  //         setOptionFieldsGe(values);
+  //       } else {
+  //         values[index].optionValueGe = event.target.value;
+  //         setOptionFieldsGe(values);
+  //       }
+  //       break;
+  //     case "ru":
+  //       values = [...optionFieldsRu];
+  //       if (term === "n") {
+  //         values[index].optionNameRu = event.target.value;
+  //         setOptionFieldsRu(values);
+  //       } else {
+  //         values[index].optionValueRu = event.target.value;
+  //         setOptionFieldsRu(values);
+  //       }
+  //       break;
+  //   }
+  // };
 
   return (
     <div className={styles.data}>
@@ -117,23 +125,23 @@ const AddProduct = () => {
           productNameEn: "",
           productNameGe: "",
           productNameRu: "",
-          productModel: "",
+          //productModel: "",
           productBrand: 0,
           productCountryEn: "",
           productCountryGe: "",
           productCountryRu: "",
-          productMultyColor: false,
-          productMultyDimension: false,
-          productDimension: "",
-          productWeight: "",
+          //productMultyColor: false,
+          //productMultyDimension: false,
+          //productDimension: "",
+          //productWeight: "",
           //productInfoEn: "",
           //productInfoGe: "",
           //productInfoRu: "",
-          productPrice: "",
-          productDiscount: false,
-          productNewPrice: "",
+          //productPrice: "",
+          //productDiscount: false,
+          //productNewPrice: "",
           productInStock: true,
-          productCount: 0,
+          //productCount: 0,
           //productPopular: false,
           productOnTop: false,
         }}
@@ -145,9 +153,9 @@ const AddProduct = () => {
           setLoading(true);
           const formData = new FormData();
 
-          values["optionsEn"] = JSON.stringify(optionFieldsEn);
-          values["optionsGe"] = JSON.stringify(optionFieldsGe);
-          values["optionsRu"] = JSON.stringify(optionFieldsRu);
+          // values["optionsEn"] = JSON.stringify(optionFieldsEn);
+          // values["optionsGe"] = JSON.stringify(optionFieldsGe);
+          // values["optionsRu"] = JSON.stringify(optionFieldsRu);
           for (let value in values) {
             formData.append(value, values[value]);
           }
@@ -223,7 +231,7 @@ const AddProduct = () => {
                   touched.productNameRu &&
                   errors.productNameRu}
               </span>
-              <span className={styles.label}>model:</span>
+              {/* <span className={styles.label}>model:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -238,7 +246,7 @@ const AddProduct = () => {
                 {errors.productModel &&
                   touched.productModel &&
                   errors.productModel}
-              </span>
+              </span> */}
 
               <span className={styles.label}>brand:</span>
               <div className={styles.formItem}>
@@ -299,7 +307,7 @@ const AddProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
-              <span className={styles.label}>multi-color:</span>
+              {/* <span className={styles.label}>multi-color:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -311,9 +319,9 @@ const AddProduct = () => {
               >
                 <Field type="checkbox" name="productMultyColor" />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span>
+              <span className={`${styles.label} ${styles.error}`}></span> */}
 
-              <span className={styles.label}>multi-size:</span>
+              {/* <span className={styles.label}>multi-size:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -325,9 +333,9 @@ const AddProduct = () => {
               >
                 <Field type="checkbox" name="productMultyDimension" />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span>
+              <span className={`${styles.label} ${styles.error}`}></span> */}
 
-              <span className={styles.label}>dimension:</span>
+              {/* <span className={styles.label}>dimension:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -352,9 +360,9 @@ const AddProduct = () => {
                   disabled={values.productMultyDimension}
                 />
               </div>
-              <span className={`${styles.label} ${styles.error}`}></span>
+              <span className={`${styles.label} ${styles.error}`}></span> */}
 
-              <span className={styles.label}>price: &#8382;</span>
+              {/* <span className={styles.label}>price: &#8382;</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -372,9 +380,9 @@ const AddProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productPrice}
-              </span>
+              </span> */}
 
-              <span className={styles.label}>discount:</span>
+              {/* <span className={styles.label}>discount:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -411,8 +419,8 @@ const AddProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productNewPrice}
-              </span>
-              <span className={styles.label}>quantity: &#8382;</span>
+              </span> */}
+              {/* <span className={styles.label}>quantity: &#8382;</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -430,7 +438,7 @@ const AddProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productCount}
-              </span>
+              </span> */}
               <span className={styles.label}>in stock:</span>
               <div
                 className={styles.formItem}
@@ -473,7 +481,7 @@ const AddProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
-              <button
+              {/* <button
                 className={styles.btn}
                 type="button"
                 onClick={addOption}
@@ -514,9 +522,9 @@ const AddProduct = () => {
                     delete option
                   </button>
                 </>
-              ))}
+              ))} */}
 
-              <span className={styles.label}>option name(georgian):</span>
+              {/* <span className={styles.label}>option name(georgian):</span>
               <span className={styles.label} style={{ textAlign: "center" }}>
                 option content(georgian):
               </span>
@@ -543,9 +551,9 @@ const AddProduct = () => {
                   </div>
                   <span></span>
                 </>
-              ))}
+              ))} */}
 
-              <span className={styles.label}>option name(russian):</span>
+              {/* <span className={styles.label}>option name(russian):</span>
               <span className={styles.label} style={{ textAlign: "center" }}>
                 option content(russian):
               </span>
@@ -571,15 +579,15 @@ const AddProduct = () => {
                     />
                   </div>
                   <span></span>
-                  {/* <button
+                  <button
                     type="button"
                     className={styles.btn}
                     onClick={(index) => removeOption(index, 2)}
                   >
                     delete option
-                  </button> */}
+                  </button>
                 </>
-              ))}
+              ))} */}
               {/* <span className={styles.label}>image:</span>
               <div className={styles.formItem}>
                 <input

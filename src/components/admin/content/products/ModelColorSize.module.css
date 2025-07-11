@@ -10,13 +10,32 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.6);
 }
 
+.modelContent{
+
+}
+
+.modelItem{
+  font-size: 1.6rem;
+  margin: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.selectedModel{
+  border: 1px solid rgb(242, 165, 87);
+  color: rgb(242, 165, 87);
+}
+
 .itemWrapper {
   margin: 10px;
   font-size: 2rem;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   transition: 0.15s;
-  justify-content: space-between;
+  justify-content: left;
 }
 
 .checkBoxWrapper {

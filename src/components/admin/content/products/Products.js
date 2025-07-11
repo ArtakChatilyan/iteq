@@ -193,7 +193,7 @@ const Products = () => {
             <th>name(english)</th>
             <th>name(georgian)</th>
             <th>name(russian)</th>
-            <th>model</th>
+            {/* <th>model</th> */}
             <th>image</th>
             <th></th>
             <th></th>
@@ -201,6 +201,7 @@ const Products = () => {
             <th></th>
             <th></th>
             <th></th>
+           
           </tr>
         </thead>
         <tbody>
@@ -209,11 +210,27 @@ const Products = () => {
               <td>{d.productNameEn}</td>
               <td>{d.productNameGe}</td>
               <td>{d.productNameRu}</td>
-              <td>{d.productModel}</td>
+              {/* <td>{d.productModel}</td> */}
               <td>
                 <img src={d.imgUrl} className={styles.img} />
               </td>
               <td>
+                <Link
+                  to={`/admin/productCategories/${d.id}/${currentPage}`}
+                  className={styles.btn}
+                >
+                  categories
+                </Link>
+              </td>
+              <td>
+                <Link
+                  to={`/admin/models/${d.id}/${currentPage}`}
+                  className={styles.btn}
+                >
+                  models
+                </Link>
+              </td>
+              {/* <td>
                 <Link
                   to={`/admin/productColors/${d.id}/${currentPage}`}
                   className={styles.btn}
@@ -226,8 +243,8 @@ const Products = () => {
                 >
                   colors
                 </Link>
-              </td>
-              <td>
+              </td> */}
+              {/* <td>
                 <Link
                   to={`/admin/productSizes/${d.id}/${currentPage}`}
                   className={styles.btn}
@@ -240,7 +257,7 @@ const Products = () => {
                 >
                   sizes
                 </Link>
-              </td>
+              </td> */}
               <td>
                 <Link
                   to={`/admin/productImages/${d.id}/${currentPage}`}
@@ -251,10 +268,10 @@ const Products = () => {
               </td>
               <td>
                 <Link
-                  to={`/admin/productCategories/${d.id}/${currentPage}`}
+                  to={`/admin/productDescriptions/${d.id}/${currentPage}`}
                   className={styles.btn}
                 >
-                  categories
+                  descriptions
                 </Link>
               </td>
               <td>

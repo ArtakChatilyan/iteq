@@ -2,6 +2,7 @@
   width: 80%;
   margin: 0 auto;
   position: relative;
+  padding: 2rem 0;
 }
 
 .content {
@@ -22,12 +23,12 @@
 }
 
 .categoryTitle:hover {
-  font-size: 2rem;
+  /* font-size: 2rem; */
 }
 
 .imgSlide {
   width: 100%;
-  
+
   margin: 40px auto;
 }
 
@@ -107,20 +108,20 @@
   height: 76px;
   border-radius: 30%;
   cursor: pointer;
-  opacity: .4;
+  opacity: 0.4;
   object-fit: cover;
 }
 
-.selectedColor{
+.selectedColor {
   opacity: 1;
 }
 
-.sizeItem{
+.sizeItem {
   cursor: pointer;
-  opacity: .4;
+  opacity: 0.4;
 }
 
-.selectedSize{
+.selectedSize {
   opacity: 1;
 }
 
@@ -134,6 +135,30 @@
   font-size: 1.6rem;
   color: rgb(32, 83, 117);
   font-family: "RobotoMedium";
+}
+
+.model {
+  display: block;
+  font-size: 1.6rem;
+  font-family: "RobotoMedium";
+  color: rgb(32, 83, 117);
+  border: 1px solid rgb(32, 83, 117);
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.selectedModel {
+  color: rgb(242, 165, 87);
+  border: 1px solid rgb(242, 165, 87);
+}
+
+.model:hover {
+  background-color: rgb(230, 233, 235);
+  color: rgb(242, 165, 87);
+  border: 1px solid rgb(242, 165, 87);
 }
 
 .title {
@@ -210,6 +235,7 @@
   padding: 4px 10px 4px 0;
   margin: 0;
   font-family: "RobotoLight";
+  vertical-align: top;
 }
 
 .td {
