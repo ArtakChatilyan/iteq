@@ -5,6 +5,7 @@ import { checkAuth, logout, setLoading } from "../../redux-store/userSlice";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
 
 const HeaderContainer = ({ changeLanguage }) => {
+  const isPortrait = window.matchMedia("(orientation: portrait)").matches;
   const loading=useSelector((state)=>state.userReducer.loading);
   const isAuth = useSelector((state) => state.userReducer.isAuth);
   const user = useSelector((state) => state.userReducer.user);
@@ -12,6 +13,8 @@ const HeaderContainer = ({ changeLanguage }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(isPortrait);
+    
     if (localStorage.getItem("tokenIteq")) {
       
       

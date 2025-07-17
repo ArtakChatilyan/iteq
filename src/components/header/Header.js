@@ -38,7 +38,7 @@ const Header = ({ changeLanguage, isAuth, userRole, userData, logout }) => {
         });
       } else if (searchType === "model") {
         categoryAPI.searchByModel(searchText).then((response) => {
-          setSearchData(response.data.map((md) => ({ text: md.productModel })));
+          setSearchData(response.data.map((md) => ({ text: md.nameEn })));
         });
       } else {
         categoryAPI.searchByCategory(searchText).then((response) => {

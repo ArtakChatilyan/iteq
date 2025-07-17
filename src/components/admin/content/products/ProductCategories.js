@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const ProductCategroies = () => {
-  const { itemId, page } = useParams();
+  const { itemId, page, sType, sTerm } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -67,7 +67,7 @@ const ProductCategroies = () => {
       .setProductCategories(itemId, resultData)
       .then((data) => {
         setResultMessage("The product updated successfully");
-        return navigate("/admin/products");
+        return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
       })
       .catch((error) => {
         setResultMessage("Couldn't set categories product!");
@@ -129,7 +129,7 @@ const ProductCategroies = () => {
             }}
           >
             <Link
-              to={`/admin/products/${page}`}
+              to={`/admin/products/${page}/${sType}/${sTerm}`}
               style={{
                 textDecoration: "underline",
                 color: "#7dacee",

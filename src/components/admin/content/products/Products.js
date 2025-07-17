@@ -8,7 +8,7 @@ import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const Products = () => {
-  const { page, sType } = useParams();
+  const { page, sType, sTerm } = useParams();
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(parseInt(page || 1));
   const [perPage, setPerPage] = useState(10);
@@ -17,14 +17,14 @@ const Products = () => {
   const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
 
-  const [searchItem, setSearchItem] = useState("");
+  const [searchItem, setSearchItem] = useState(sTerm || "");
   const [searchType, setSearchType] = useState(sType || "default");
   const [searchData, setSearchData] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProducts(searchType, currentPage, perPage);
+    getProducts(searchType, searchItem, currentPage, perPage);
   }, [currentPage]);
 
   const pagingHandler = (pageNumber) => {
@@ -32,10 +32,10 @@ const Products = () => {
     setCurrentPage(pageNumber);
   };
 
-  const getProducts = (sType, currentPage, perPage) => {
+  const getProducts = (sType,sItem, currentPage, perPage) => {
     if (sType === "brand") {
       searchAPI
-        .getProductsByBrand(searchItem, currentPage, perPage)
+        .getProductsByBrand(sItem, currentPage, perPage)
         .then((response) => {
           setTotal(response.data.total);
           setProducts(response.data.products);
@@ -47,8 +47,9 @@ const Products = () => {
           setLoading(false);
         });
     } else if (sType === "model") {
+      
       searchAPI
-        .getProductsByModel(searchItem, currentPage, perPage)
+        .getProductsByModel(sItem, currentPage, perPage)
         .then((response) => {
           setTotal(response.data.total);
           setProducts(response.data.products);
@@ -106,7 +107,7 @@ const Products = () => {
         });
       } else if (searchType === "model") {
         searchAPI.searchByModel(searchText).then((response) => {
-          setSearchData(response.data.map((md) => ({ text: md.productModel })));
+          setSearchData(response.data.map((md) => ({ text: md.nameEn })));
         });
       }
     } else {
@@ -117,7 +118,7 @@ const Products = () => {
   const searchHandle = () => {
     setLoading(true);
     if (currentPage === 1) {
-      getProducts(searchType, currentPage, perPage);
+      getProducts(searchType,searchItem, currentPage, perPage);
     } else {
       setCurrentPage(1);
     }
@@ -216,7 +217,7 @@ const Products = () => {
               </td>
               <td>
                 <Link
-                  to={`/admin/productCategories/${d.id}/${currentPage}`}
+                  to={`/admin/productCategories/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   categories
@@ -224,7 +225,7 @@ const Products = () => {
               </td>
               <td>
                 <Link
-                  to={`/admin/models/${d.id}/${currentPage}`}
+                  to={`/admin/models/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   models
@@ -260,7 +261,7 @@ const Products = () => {
               </td> */}
               <td>
                 <Link
-                  to={`/admin/productImages/${d.id}/${currentPage}`}
+                  to={`/admin/productImages/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   images
@@ -268,7 +269,7 @@ const Products = () => {
               </td>
               <td>
                 <Link
-                  to={`/admin/productDescriptions/${d.id}/${currentPage}`}
+                  to={`/admin/productDescriptions/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   descriptions
@@ -276,7 +277,7 @@ const Products = () => {
               </td>
               <td>
                 <Link
-                  to={`/admin/editProduct/${d.id}/${currentPage}/${searchType}`}
+                  to={`/admin/editProduct/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   edit
@@ -300,7 +301,7 @@ const Products = () => {
           <tr>
             <td>
               <Link
-                to={`/admin/addProduct/${currentPage}/${searchType}`}
+                to={`/admin/addProduct/${currentPage}/${searchType}/${searchItem}`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
                 add

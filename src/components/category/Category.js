@@ -1,10 +1,9 @@
-import { Link, NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import styles from "./Category.module.css";
-import { Children, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { categoryAPI } from "../dalUser/userApi";
 import ProductCard from "../productMenu/productCard/ProductCard";
 import Paging from "../paging/Paging";
-import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import "./extra.css";
 import { LanguageContext } from "../../contexts/LanguageContext";
@@ -25,11 +24,11 @@ const Category = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [productList, setProductList] = useState([]);
 
-  const [sliderMin, setSliderMin] = useState(0);
-  const [sliderMax, setSliderMax] = useState(0);
+  const [dbMinPrice, setDBMinPrice] = useState(0);
+  const [dbMaxPrice, setDBMaxPrice] = useState(0);
 
-  const [priceMin, setPriceMin] = useState(-1);
-  const [priceMax, setPriceMax] = useState(-1);
+  const [minPrice, setMinPrice] = useState(-1);
+  const [maxPrice, setMaxPrice] = useState(-1);
   const [priceFilter, setPriceFilter] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -55,8 +54,8 @@ const Category = () => {
       currentPage,
       perPage,
       selectedBrands,
-      priceMin,
-      priceMax
+      minPrice,
+      maxPrice
     );
   }, [selectedBrands, priceFilter, catId, currentPage]);
 
@@ -72,56 +71,58 @@ const Category = () => {
   };
 
   const LoadFilterCategory = (categoryId) => {
-    if(catId===categoryId)
-      return;
+    if (catId === categoryId) return;
     setLoading(true);
     setCurrentPage(1);
-    setPriceMin(-1);
-    setPriceMax(-1);
+    setMinPrice(-1);
+    setMaxPrice(-1);
     setCatId(categoryId);
   };
 
   const LoadCategories = () => {
-    categoryAPI.getCategories().then((response) => {
-      let result = [];
-      for (let i = 0; i < response.data.categories.length; i++) {
-        result.push({
-          id: response.data.categories[i].id,
-          titleEn: response.data.categories[i].nameEn,
-          titleGe: response.data.categories[i].nameGe,
-          titleRu: response.data.categories[i].nameRu,
-          parentId: response.data.categories[i].parentId,
-          children: [],
-        });
-      }
-      result.sort(function (a, b) {
-        return a.parentId - b.parentId;
-      });
-
-      let searchId = catId;
-      let searchParentId = result.find((c) => c.id == searchId).parentId;
-
-      while (searchParentId > 0) {
-        searchId = searchParentId;
-        searchParentId = result.find((c) => c.id == searchId).parentId;
-      }
-
-      for (let i = result.length - 1; i > 0; i--) {
-        if (result[i].parentId > 0) {
-          result
-            .find((c) => c.id === result[i].parentId)
-            .children.unshift(result[i]);
+    categoryAPI
+      .getCategories()
+      .then((response) => {
+        let result = [];
+        for (let i = 0; i < response.data.categories.length; i++) {
+          result.push({
+            id: response.data.categories[i].id,
+            titleEn: response.data.categories[i].nameEn,
+            titleGe: response.data.categories[i].nameGe,
+            titleRu: response.data.categories[i].nameRu,
+            parentId: response.data.categories[i].parentId,
+            children: [],
+          });
         }
-      }
-      result = result.filter((c) => c.parentId === 0);
-      let searchResult = result.find((r) => r.id == searchId);
+        result.sort(function (a, b) {
+          return a.parentId - b.parentId;
+        });
 
-      if (searchResult.children.length > 0) {
-        setCategoryist(searchResult.children);
-      } else {
-        setCategoryist([searchResult]);
-      }
-    }).catch((error) => {
+        let searchId = catId;
+        let searchParentId = result.find((c) => c.id == searchId).parentId;
+
+        while (searchParentId > 0) {
+          searchId = searchParentId;
+          searchParentId = result.find((c) => c.id == searchId).parentId;
+        }
+
+        for (let i = result.length - 1; i > 0; i--) {
+          if (result[i].parentId > 0) {
+            result
+              .find((c) => c.id === result[i].parentId)
+              .children.unshift(result[i]);
+          }
+        }
+        result = result.filter((c) => c.parentId === 0);
+        let searchResult = result.find((r) => r.id == searchId);
+
+        if (searchResult.children.length > 0) {
+          setCategoryist(searchResult.children);
+        } else {
+          setCategoryist([searchResult]);
+        }
+      })
+      .catch((error) => {
         console.log(error);
       })
       .finally(() => {});
@@ -150,19 +151,23 @@ const Category = () => {
     categoryAPI
       .getProducts(categoryId, page, count, brandList, minPrice, maxPrice)
       .then((response) => {
-        
+        console.log(response);
+
         setProductList(response.data.products);
         setTotal(response.data.total);
 
-        setSliderMin(response.data.minPrice);
-        setSliderMax(response.data.maxPrice);
+        setDBMinPrice(response.data.minPrice);
+        setDBMaxPrice(response.data.maxPrice);
 
-        if (minPrice === -1) setPriceMin(response.data.minPrice);
-        if (maxPrice === -1) setPriceMax(response.data.maxPrice);
-      }).catch((error) => {
+        if (minPrice === -1) setMinPrice(response.data.minPrice);
+        if (maxPrice === -1) setMaxPrice(response.data.maxPrice);
+      })
+      .catch((error) => {
         console.log(error);
       })
-      .finally(() => {setLoading(false)});
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const addToSelected = (e, id) => {
@@ -175,9 +180,17 @@ const Category = () => {
     }
   };
 
+  const chnageMinPrice = (newValue) => {
+    setMinPrice(newValue);
+  };
+
+  const chnageMaxPrice = (newValue) => {
+    setMaxPrice(newValue);
+  };
+
   return (
     <div className={styles.block}>
-      {loading && <LoadingScreen showGif={true}/>}
+      {loading && <LoadingScreen showGif={true} />}
       <div className={styles.filter}>
         <Menu
           items={categoryList}
@@ -207,13 +220,52 @@ const Category = () => {
 
         <span className={styles.partTitle}>Price range</span>
         <div style={{ marginTop: "6px" }}>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <span className={styles.sliderValue}>{priceMin}</span>
-            <span className={styles.sliderValue}>-</span>
-            <span className={styles.sliderValue}>{priceMax}</span>
-            <span className={styles.sliderValue}>&#8382; </span>
-          </div>
-          <RangeSlider
+          <table>
+            <tr>
+              <td className={styles.label}>
+                <span>{dbMinPrice}</span>
+              </td>
+              <td className={styles.label}>
+                <span>-</span>
+              </td>
+              <td className={styles.label}>
+                <span>
+                  <span className={styles.label}>{dbMaxPrice}</span>
+                  <span className={styles.label}>&#8382; </span>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  type="text"
+                  value={minPrice}
+                  className={styles.input}
+                  onChange={(e) => chnageMinPrice(e.target.value)}
+                  onBlur={priceHandler}
+                />
+              </td>
+              <td>
+                <span className={styles.label}>-</span>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={maxPrice}
+                  className={styles.input}
+                  onChange={(e) => chnageMaxPrice(e.target.value)}
+                  onBlur={priceHandler}
+                />
+              </td>
+            </tr>
+          </table>
+          {/* <div
+            style={{ display: "flex", justifyContent: "space-between" }}
+          ></div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span className={styles.label}>-</span>
+          </div> */}
+          {/* <RangeSlider
             min={sliderMin}
             max={sliderMax}
             value={[priceMin, priceMax]}
@@ -224,7 +276,7 @@ const Category = () => {
             }}
             onThumbDragEnd={priceHandler}
             onRangeDragEnd={priceHandler}
-          />
+          /> */}
         </div>
       </div>
 
@@ -263,7 +315,7 @@ function Menu({ items, selectItems, lang }) {
         return (
           <li key={item.id}>
             <span
-              className={`${styles.title } ${styles.hoverUnderlineAnimation} ${styles.left}`}
+              className={`${styles.title} ${styles.hoverUnderlineAnimation} ${styles.left}`}
               onClick={() => {
                 selectItems(item.id);
               }}

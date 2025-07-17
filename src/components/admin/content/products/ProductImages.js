@@ -9,14 +9,14 @@ import ColorSize from "./ModelColorSize";
 import ModelColorSize from "./ModelColorSize";
 
 const ProductImages = () => {
-  const { itemId, page } = useParams();
+  const { itemId, page, sType, sTerm} = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [images, setImages] = useState([]);
   const [product, setProduct] = useState(null);
-  const [multyType, setMultyType] = useState(false);
+  //const [multyType, setMultyType] = useState(false);
   // const [productNameEn, setProductNameEn] = useState("");
   // const [productModel, setProductModel] = useState("");
 
@@ -48,11 +48,11 @@ const ProductImages = () => {
     productsAPI.getProduct(id).then((response) => {
       if (response) {
         setProduct(response.data.data);
-        if (
-          response.data.data.productMultyColor ||
-          response.data.data.productMultyDimension
-        )
-          setMultyType(true);
+        // if (
+        //   response.data.data.productMultyColor ||
+        //   response.data.data.productMultyDimension
+        // )
+        //   setMultyType(true);
         // setProductNameEn(response.data.data.productNameEn);
         // setProductModel(response.data.data.productModel);
       }
@@ -106,7 +106,7 @@ const ProductImages = () => {
                   className={`${styles.itemWrapper} ${styles.imageWrapper}`}
                 >
                   <img src={d.imgUrl} style={{ width: "160px" }} />
-                  {multyType && (
+                 
                     <button
                       className={styles.linkBtn}
                       onClick={() => {
@@ -116,7 +116,7 @@ const ProductImages = () => {
                     >
                       model-color-size
                     </button>
-                  )}
+                  
 
                   <button
                     className={styles.btn}
@@ -202,7 +202,7 @@ const ProductImages = () => {
                   }}
                 >
                   <Link
-                    to={`/admin/products/${page}`}
+                    to={`/admin/products/${page}/${sType}/${sTerm}`}
                     style={{
                       textDecoration: "underline",
                       color: "#7dacee",

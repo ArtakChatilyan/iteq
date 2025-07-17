@@ -7,7 +7,7 @@ import SplashScreen from "../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
 const EditProduct = () => {
-  const { itemId, page, sType } = useParams();
+  const { itemId, page, sType, sTerm } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
@@ -220,7 +220,7 @@ const EditProduct = () => {
             .editProduct(values, itemId)
             .then((data) => {
               setResultMessage("The product updated successfully");
-              return navigate(`/admin/products/${page}/${sType}`);
+              return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't edit product!");
@@ -761,7 +761,7 @@ const EditProduct = () => {
                   type="button"
                   className={styles.btn}
                   onClick={() => {
-                    return navigate(`/admin/products/${page}/${sType}`);
+                    return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
                   }}
                 >
                   cancel

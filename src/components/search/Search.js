@@ -1,4 +1,4 @@
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams } from "react-router-dom";
 import styles from "./Search.module.css";
 import Paging from "../paging/Paging";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { categoryAPI } from "../dalUser/userApi";
 
 const Search = () => {
   const { searchItem, searchType } = useParams();
+  let location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(9);
   const [total, setTotal] = useState(0);
@@ -28,7 +29,7 @@ const Search = () => {
     if(searchType==="category"){
       SearchByCategory(searchItem, currentPage, perPage);
     }
-  }, [currentPage]);
+  }, [currentPage, location]);
 
   const SearchByBrand = (term, page, perpage) => {
        
@@ -47,6 +48,8 @@ const Search = () => {
 
   const SearchByCategory = (term, page, perpage) => {
     categoryAPI.getProductsByCategory(term, page, perpage).then((response) => {
+      console.log(response);
+      
       setTotal(response.data.total);
       setProductList(response.data.products);
     });

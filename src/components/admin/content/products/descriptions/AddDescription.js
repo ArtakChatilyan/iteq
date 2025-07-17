@@ -5,7 +5,7 @@ import { productsAPI } from "../../../dal/api";
 import { useState } from "react";
 
 const AddDescription = ({ productId, closeModal }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
 
   return (

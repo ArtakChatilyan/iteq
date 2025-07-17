@@ -31,6 +31,7 @@ const ProductDetail = () => {
   const [descriptions, setDescriptions] = useState([]);
   const [selectedDescription, setSelectedDescription] = useState("");
 
+  const [selectedCount, setSelectedCount] = useState([]);
   // const [multiColor, setMultiColor] = useState(0);
   // const [multiSize, setMultiSize] = useState(0);
 
@@ -61,11 +62,20 @@ const ProductDetail = () => {
     categoryAPI
       .getProduct(productId)
       .then((response) => {
+        for (let i = 0; i < response.data.models.length; i++) {
+          for (let j = 0; j < response.data.models[i].sizes.length; j++) {
+            selectedCount.push({
+              sId: response.data.models[i].sizes[j].id,
+              selectedCount: 1,
+            });
+          }
+        }
         setProduct(response.data.product);
         setBrand(response.data.brand);
         setModels(response.data.models);
-        if (response.data.models.length > 0)
+        if (response.data.models.length > 0) {
           setSelectedModel(response.data.models[0]);
+        }
 
         // if (response.data.product.productMultyColor) {
         //   setMultiColor(response.data.product.productMultyColor);
@@ -337,7 +347,7 @@ const ProductDetail = () => {
             ))}
             <h1
               className={`${styles.name} ${styles.title}`}
-              onClick={() => console.log(images)}
+              onClick={() => console.log(selectedCount)}
             >
               {lang === "en" && product.productNameEn}
               {lang === "ge" && product.productNameGe}
@@ -528,16 +538,25 @@ const ProductDetail = () => {
                                   className={styles.price}
                                   style={{ marginRight: "6px" }}
                                 >
-                                  {s.newPrice}&#8382;
+                                  {s.newPrice *
+                                    selectedCount.find((sc) => sc.sId === s.id)
+                                      .selectedCount}
+                                  &#8382;
                                 </span>
                                 <span className={styles.old}>
-                                  {s.price}&#8382;
+                                  {s.price *
+                                    selectedCount.find((sc) => sc.sId === s.id)
+                                      .selectedCount}
+                                  &#8382;
                                 </span>
                               </div>
                             ) : (
                               <div>
                                 <span className={styles.price}>
-                                  {s.price}&#8382;
+                                  {s.price *
+                                    selectedCount.find((sc) => sc.sId === s.id)
+                                      .selectedCount}
+                                  &#8382;
                                 </span>
                               </div>
                             )}
@@ -545,12 +564,20 @@ const ProductDetail = () => {
                           <td className={styles.td}>
                             <input
                               className={styles.input}
+                              value={
+                                selectedCount.find((sc) => sc.sId === s.id)
+                                  .selectedCount
+                              }
                               type="number"
                               min={1}
                               max={s.count}
                               onChange={(e) => {
-                                if (parseInt(e.currentTarget.value) > s.count)
+                                if (parseInt(e.currentTarget.value) > s.count) {
                                   e.currentTarget.value = s.count;
+                                  setSelectedCount([...selectedCount.filter(sc=>sc.sId!=s.id), {sId: s.id, selectedCount: e.currentTarget.value}])
+                                }else{
+                                  setSelectedCount([...selectedCount.filter(sc=>sc.sId!=s.id), {sId: s.id, selectedCount: e.currentTarget.value}])
+                                }
                               }}
                             />
                             <span>max: {s.count}</span>

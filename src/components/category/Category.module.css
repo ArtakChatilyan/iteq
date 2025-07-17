@@ -94,11 +94,22 @@
   border-left: 1px solid rgba(242, 165, 87, .4);
 }
 
-.sliderValue{
+.label{
   font-size: 2rem;
-  font-family: 'RobotoLight';
+  font-family: 'SourceSansMedium';
   color: rgb(133, 133, 133);
-  margin:0 6px 10px;
+  text-align: center;
+}
+
+.input{
+  width: 72px;
+  padding: .6rem .8rem;
+  border: 1px solid rgba(128,128,128, .6);
+  border-radius: 4px;
+  font-size: 1.6rem;
+  color: rgb(32, 83, 117);
+  outline: 0;
+  text-align: center;
 }
 
 .hoverUnderlineAnimation {

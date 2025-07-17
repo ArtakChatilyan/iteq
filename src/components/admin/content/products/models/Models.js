@@ -10,7 +10,7 @@ import ModelColors from "../modelColors/ModelColors";
 import ModelSizes from "../modelSizes/ModelSizes";
 
 const Models = () => {
-  const { page, productId } = useParams();
+  const { page, productId,sType, sTerm } = useParams();
   const [loading, setLoading] = useState(true);
 
   const [models, setModels] = useState([]);
@@ -146,7 +146,7 @@ const Models = () => {
           <tr>
             <td colSpan={7}>
               <Link
-                to={`/admin/products/${page}`}
+                to={`/admin/products/${page}/${sType}/${sTerm}`}
                 style={{
                   textDecoration: "underline",
                   color: "#7dacee",

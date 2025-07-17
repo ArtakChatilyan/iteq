@@ -11,7 +11,7 @@ import EditDescription from "./EditDescription";
 import LinkDescription from "./LinkDescriptions";
 
 const ProductDescriptions = () => {
-  const { itemId, page } = useParams();
+  const { itemId, page, sType, sTerm } = useParams();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -155,7 +155,7 @@ const ProductDescriptions = () => {
                   type="button"
                   className={styles.btn}
                   onClick={() => {
-                    return navigate(`/admin/products/${page}`);
+                    return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
                   }}
                 >
                   cancel
