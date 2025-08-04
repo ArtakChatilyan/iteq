@@ -105,7 +105,7 @@ const router = createBrowserRouter([
         element: <RegisterContainer />,
       },
       {
-        path: "/account",
+        path: "/account/:item?",
         element: <AccountContainer />,
       },
       {
@@ -309,7 +309,7 @@ const router = createBrowserRouter([
   },
 ]);
 root.render(
-  // <React.StrictMode>
+  //<React.StrictMode>
   <Provider store={store}>
     <App router={router} />
   </Provider>

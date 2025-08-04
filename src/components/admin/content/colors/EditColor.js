@@ -21,11 +21,7 @@ const EditColor = () => {
   }, []);
 
   const getColor = (id) => {
-    console.log(id);
-
     colorAPI.getColor(id).then((response) => {
-      console.log(response);
-
       if (response) {
         setNameEn(response.data.color.nameEn);
         setNameGe(response.data.color.nameGe);

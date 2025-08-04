@@ -7,18 +7,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { categoryAPI } from "../dalUser/userApi";
 import Cookies from "universal-cookie";
+import LoginContainer from "../login/LoginContainer";
 
-const Header = ({ changeLanguage, isAuth, userRole, userData, logout }) => {
+const Header = ({
+  changeLanguage,
+  isAuth,
+  userRole,
+  userData,
+  logout,
+  basketItemsCount,
+}) => {
   const { t, i18n } = useTranslation();
   const cookies = new Cookies();
   const navigate = useNavigate();
 
   const [accountState, setAccountState] = useState(false);
+  const [loginState, setLoginState] = useState(false);
 
   const [searchItem, setSearchItem] = useState("");
   const [searchType, setSearchType] = useState("brand");
   const [searchData, setSearchData] = useState([]);
   const refMenu = useRef();
+  const refLogin = useRef();
 
   useEffect(() => {
     document.addEventListener("click", outsideClickHandle, true);
@@ -27,6 +37,8 @@ const Header = ({ changeLanguage, isAuth, userRole, userData, logout }) => {
   const outsideClickHandle = (e) => {
     if (refMenu.current)
       if (!refMenu.current.contains(e.target)) setAccountState(false);
+    if (refLogin.current)
+      if (!refLogin.current.contains(e.target)) setLoginState(false);
   };
 
   const searchTextChange = (searchText) => {
@@ -155,9 +167,11 @@ const Header = ({ changeLanguage, isAuth, userRole, userData, logout }) => {
                       {t("adminPanel")}
                     </Link>
                   ) : (
-                    <Link to="/account" style={{ textWrap: "nowrap" }}>
-                      {t("accountPage")}
-                    </Link>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <Link to="/account" style={{ textWrap: "nowrap" }}>
+                        {t("accountPage")}
+                      </Link>
+                    </div>
                   )}
                   <Link onClick={logout} style={{ textWrap: "nowrap" }}>
                     {t("signOut")}
@@ -167,19 +181,38 @@ const Header = ({ changeLanguage, isAuth, userRole, userData, logout }) => {
             </div>
           </div>
         ) : (
-          <button
-            className={styles.btn}
-            onClick={() => {
-              return navigate(`/login`);
-            }}
-          >
-            {t("signIn")}
-          </button>
+          <div className={styles.loginMenu}>
+            <button
+              className={styles.btn}
+              onClick={() => {
+                //return navigate(`/login`);
+                setLoginState((state) => !state);
+                console.log(loginState);
+              }}
+            >
+              {t("signIn")}
+            </button>
+            <div
+              ref={refLogin}
+              // onClick={() => setAccountState((state) => !state)}
+            >
+              {loginState && (
+                <div className={styles.loginPanel}>
+                  <LoginContainer />
+                </div>
+              )}
+            </div>
+          </div>
         )}
 
-        <div className={styles.cart}>
+        <div
+          className={styles.cart}
+          onClick={() => {
+            return navigate(`/account/3?item=${Date.now()}`);
+          }}
+        >
           <img src={cart} />
-          <span className={styles.cartCount}>0</span>
+          <span className={styles.cartCount}>{basketItemsCount}</span>
         </div>
       </div>
     </div>

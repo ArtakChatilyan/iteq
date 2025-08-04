@@ -3,7 +3,7 @@ import styles from "./ModelColorSize.module.css";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { colorAPI, modelAPI } from "../../dal/api";
 
-const ModelColorSize = ({ productId, imageId, product, closeModal }) => {
+const ModelColorSize = ({ productId, imageId, closeModal }) => {
   const [loading, setLoading] = useState(true);
 
   const [models, setModels] = useState([]);
@@ -38,7 +38,7 @@ const ModelColorSize = ({ productId, imageId, product, closeModal }) => {
     LoadModelColors(selectedModel);
     LoadModelSizes(selectedModel);
     LoadImageColorSize(selectedModel, imageId);
-  }, [selectedModel]);
+  }, [selectedModel, imageId]);
 
   const LoadModelColors = (modelId) => {
     colorAPI
@@ -118,7 +118,7 @@ const ModelColorSize = ({ productId, imageId, product, closeModal }) => {
       <div className={styles.itemContent}>
         <div className={styles.modelContent}>
           {models.map((m) => (
-            <div
+            <div key={`modell${m.id}`}
               className={`${styles.modelItem} ${
                 m.id === selectedModel ? styles.selectedModel : ""
               }`}
@@ -212,7 +212,7 @@ const ModelColorSize = ({ productId, imageId, product, closeModal }) => {
 
       {modal && (
         <div className={styles.modal}>
-          <div className={`${styles.btnGroup} ${styles.modalGroup}`}>
+          <div className={`${styles.btnGroup} ${styles.btnGroupExtra}`}>
             <button
               className={styles.delBtn}
               onClick={() => {

@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import SplashScreen from "../../splashscreen/SplashScreen";
 import { modelAPI } from "../../../dal/api";
 
-const EditModel = ({ modelId, closeModal }) => {
+const EditModel = ({ modelId, closeModal,reloadModels }) => {
   const [loading, setLoading] = useState(true);
   const [nameEn, setNameEn] = useState("");
   const [nameGe, setNameGe] = useState("");
@@ -63,7 +63,7 @@ const EditModel = ({ modelId, closeModal }) => {
             .editModel(modelId, values)
             .then((response) => {
               setResultMessage("The model updateded successfully");
-              closeModal();
+              reloadModels();
             })
             .catch((error) => {
               setResultMessage("Failed update model!");

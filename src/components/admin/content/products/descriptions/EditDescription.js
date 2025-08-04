@@ -4,7 +4,7 @@ import SplashScreen from "../../splashscreen/SplashScreen";
 import { productsAPI } from "../../../dal/api";
 import { useEffect, useState } from "react";
 
-const EditDescription = ({ descriptionId, closeModal }) => {
+const EditDescription = ({ descriptionId, closeModal, editDescription }) => {
   const [loading, setLoading] = useState(true);
   const [resultMessage, setResultMessage] = useState("");
   const [name, setName] = useState("");
@@ -36,10 +36,10 @@ const EditDescription = ({ descriptionId, closeModal }) => {
       {loading && <SplashScreen />}
       <Formik
         initialValues={{
-          name:name,
-          descriptionEn:descriptionEn,
-          descriptionGe:descriptionGe,
-          descriptionRu:descriptionRu,
+          name: name,
+          descriptionEn: descriptionEn,
+          descriptionGe: descriptionGe,
+          descriptionRu: descriptionRu,
         }}
         enableReinitialize
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -53,7 +53,7 @@ const EditDescription = ({ descriptionId, closeModal }) => {
             .updateDescription(descriptionId, values)
             .then((data) => {
               setResultMessage("Description updated successfully");
-              closeModal();
+              editDescription();
             })
             .catch((error) => {
               setResultMessage("Failed to update description!");
@@ -73,10 +73,11 @@ const EditDescription = ({ descriptionId, closeModal }) => {
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
-            <div className={styles.form}>
+            <div className={styles.form} style={{ textAlign: "left" }}>
               <span className={styles.label}>description name:</span>
               <div className={styles.formItem}>
-                <input type="input"
+                <input
+                  type="input"
                   className={styles.input}
                   name="name"
                   value={values.name}

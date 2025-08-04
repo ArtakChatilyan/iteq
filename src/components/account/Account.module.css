@@ -1,0 +1,33 @@
+.block {
+padding: 2rem;
+}
+
+.menuContainer{
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.menu {
+  display: flex;
+  list-style: none;
+  display: flex;
+}
+
+.menuItem {
+  color: rgb(134, 134, 149);
+  font-size: 2rem;
+  font-family: "RobotoRegular";
+  padding: 1rem 0;
+  cursor: pointer;
+  margin: 0 2rem;
+  transition: 0.2s;
+  text-wrap: nowrap;
+}
+
+.menuItem:hover {
+  color: rgb(242, 165, 87);
+}
+
+.selected{
+    color: rgb(242, 165, 87);
+}

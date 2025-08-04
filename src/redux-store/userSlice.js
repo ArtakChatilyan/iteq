@@ -1,13 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { usersAPI } from "../components/dalUser/userApi";
+import { basketAPI, usersAPI } from "../components/dalUser/userApi";
 
 let initialState = {
   loading: true,
   isAuth: false,
   userRole: "",
-  user: { id: 0, name: "", phone: "", email: "" },
+  user: { userId: 0, name: "", phone: "", email: "" },
   error: "",
   message: "",
+  registerSuccess: false,
+  basketItemsCount: 0
 };
 
 export const userSlice = createSlice({
@@ -33,12 +35,15 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(register.fulfilled, (state, action) => {
+        console.log(action.payload);
+
         if (action.payload.status) {
           if (action.payload.status === 400) {
             state.error = action.payload.error;
             state.message = "";
           }
         } else {
+          state.registerSuccess = true;
           state.message = "Check your email for activation.";
           state.error = "";
         }
@@ -74,7 +79,7 @@ export const userSlice = createSlice({
         localStorage.removeItem("tokenIteq");
         state.isAuth = false;
         state.userRole = "";
-        state.user = { id: 0, name: "", phone: "", email: "" };
+        state.user = { userId: 0, name: "", phone: "", email: "" };
         state.loading = false;
       })
       .addCase(logout.rejected, (state, action) => {
@@ -98,6 +103,53 @@ export const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(checkAuth.rejected, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(resend.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(resend.fulfilled, (state, action) => {
+        if (action.payload.status) {
+        } else {
+        }
+        state.loading = false;
+      })
+      .addCase(resend.rejected, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(changePassword.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        if (action.payload.status) {
+          if (action.payload.status === 400) {
+            state.error = action.payload.error;
+            state.message = "";
+          }
+        } else {
+          state.error = "";
+          state.message = action.payload.result;
+        }
+        state.loading = false;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.loading = false;
+      }).addCase(getBasketItemsCount.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getBasketItemsCount.fulfilled, (state, action) => {
+        if (action.payload.status) {
+          if (action.payload.status === 400) {
+            state.error = action.payload.error;
+            state.message = "";
+          }
+        } else {
+          state.basketItemsCount=action.payload.total;
+          state.error = "";
+        }
+        state.loading = false;
+      })
+      .addCase(getBasketItemsCount.rejected, (state, action) => {
         state.loading = false;
       });
   },
@@ -138,6 +190,43 @@ export const checkAuth = createAsyncThunk("user/checkAuth", async () => {
     return e.response.data;
   }
 });
+
+export const resend = createAsyncThunk("user/resend", async () => {
+  try {
+    const response = await usersAPI.resend();
+    return response.data;
+  } catch (e) {
+    return e.response.data;
+  }
+});
+
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
+  async (data) => {
+    try {
+      const response = await usersAPI.changePassword(data);
+      return response.data;
+    } catch (e) {
+      return { status: e.response.status, error: e.response.data.message };
+    }
+  }
+);
+
+export const getBasketItemsCount = createAsyncThunk(
+  "user/getBasketItemsCount",
+  async (userId) => {
+    try {
+      if(userId==0){
+        return {total: 0};
+      }else{
+        const response=await basketAPI.getUserTotal(userId);
+        return response.data;
+      }
+    } catch (e) {
+      return { status: e.response.status, error: e.response.data.message };
+    }
+  }
+);
 
 export const { setUser, setAuth, setLoading, setMessage } = userSlice.actions;
 

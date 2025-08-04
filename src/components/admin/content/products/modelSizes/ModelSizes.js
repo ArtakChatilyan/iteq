@@ -1,12 +1,11 @@
 import styles from "../../View.module.css";
 import { useEffect, useState } from "react";
-import Modal from "react-modal";
 import SplashScreen from "../../splashscreen/SplashScreen";
 import AddModelSize from "./AddModelSize";
 import EditModelSize from "./EditModelSize";
 import { modelAPI } from "../../../dal/api";
 
-const ModelSizes = ({ modelId, modelName, closeModal }) => {
+const ModelSizes = ({ modelId, closeModal }) => {
   const [data, setData] = useState([]);
 
   const [deleteId, setDeleteId] = useState(0);
@@ -18,22 +17,9 @@ const ModelSizes = ({ modelId, modelName, closeModal }) => {
 
   const [loading, setLoading] = useState(true);
 
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-    },
-  };
-
-  Modal.setAppElement("#root");
-
   useEffect(() => {
     getSizes(modelId);
-  }, [modalAdd, modalEdit]);
+  }, []);
 
   const getSizes = (id) => {
     modelAPI
@@ -49,8 +35,11 @@ const ModelSizes = ({ modelId, modelName, closeModal }) => {
       });
   };
 
+  const reloadSizes = () => {
+    getSizes(modelId);
+  };
+
   const deleteItem = (id) => {
-    
     setLoading(true);
     modelAPI
       .deleteSize(id)
@@ -102,12 +91,6 @@ const ModelSizes = ({ modelId, modelName, closeModal }) => {
                   >
                     edit
                   </button>
-                  {/* <Link
-                    to={`/admin/editProductSize/${itemId}/${d.id}`}
-                    className={styles.btn}
-                  >
-                    edit
-                  </Link> */}
                 </td>
                 <td>
                   <button
@@ -131,24 +114,11 @@ const ModelSizes = ({ modelId, modelName, closeModal }) => {
         <tfoot>
           <tr>
             <td colSpan={9}>
-              {/* <Link
-                to={`/admin/addProductSize/${itemId}`}
-                style={{
-                  textDecoration: "underline",
-                  color: "#7dacee",
-                  marginRight: "20px",
-                }}
-              >
-                add
-              </Link> */}
-              <button className={styles.funcBtn} onClick={() => closeModal()}>
-                close
+              <button className={styles.btn} onClick={() => setModalAdd(true)}>
+                add new size
               </button>
-              <button
-                className={styles.funcBtn}
-                onClick={() => setModalAdd(true)}
-              >
-                add
+              <button className={styles.btn} onClick={() => closeModal()}>
+                close
               </button>
             </td>
           </tr>
@@ -174,45 +144,25 @@ const ModelSizes = ({ modelId, modelName, closeModal }) => {
           </div>
         </div>
       )}
-      <Modal
-        isOpen={modalAdd}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(255,255,255,.8)",
-          },
-          content: {
-            color: "lightsteelblue",
-            backgroundColor: "rgb(32,32,32)",
-          },
-        }}
-      >
+      {modalAdd && (
         <AddModelSize
           modelId={modelId}
+          sizeAdded={reloadSizes}
           closeModal={() => {
             setModalAdd(false);
           }}
         />
-      </Modal>
-      <Modal
-        isOpen={modalEdit}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(255,255,255,.8)",
-          },
-          content: {
-            color: "lightsteelblue",
-            backgroundColor: "rgb(32,32,32)",
-          },
-        }}
-      >
+      )}
+      {modalEdit && (
         <EditModelSize
           sizeId={editId}
           id={editId}
+          sizeUpdated={reloadSizes}
           closeModal={() => {
             setModalEdit(false);
           }}
         />
-      </Modal>
+      )}
     </div>
   );
 };

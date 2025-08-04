@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import { brandsAPI, productsAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
 import * as Yup from "yup";
+import ProductImages from "./ProductImages";
+import ProductDescriptions from "./descriptions/ProductDescriptions";
+import ProductCategories from "./ProductCategories";
+import Models from "./models/Models";
 
 const EditProduct = () => {
   const { itemId, page, sType, sTerm } = useParams();
@@ -220,10 +224,13 @@ const EditProduct = () => {
             .editProduct(values, itemId)
             .then((data) => {
               setResultMessage("The product updated successfully");
-              return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
+              //return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
             })
             .catch((error) => {
               setResultMessage("Couldn't edit product!");
+            })
+            .finally(() => {
+              setLoading(false);
             });
         }}
       >
@@ -761,10 +768,12 @@ const EditProduct = () => {
                   type="button"
                   className={styles.btn}
                   onClick={() => {
-                    return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
+                    return navigate(
+                      `/admin/products/${page}/${sType}/${sTerm}`
+                    );
                   }}
                 >
-                  cancel
+                  close
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>
@@ -774,6 +783,10 @@ const EditProduct = () => {
           </form>
         )}
       </Formik>
+      <Models productId={itemId} />
+      <ProductCategories productId={itemId} />
+      <ProductImages productId={itemId} />
+      <ProductDescriptions productId={itemId} />
     </div>
   );
 };

@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
 import styles from "./../../View.module.css";
 import { productsAPI } from "../../../dal/api";
-import { Link, useNavigate, useParams } from "react-router-dom";
-
-import Modal from "react-modal";
 import SplashScreen from "../../splashscreen/SplashScreen";
-
+import collapseIcon from "../../../../../assets/circleArrow.png";
 import AddDescription from "./AddDescription";
 import EditDescription from "./EditDescription";
 import LinkDescription from "./LinkDescriptions";
+import { useCollapse } from "react-collapsed";
 
-const ProductDescriptions = () => {
-  const { itemId, page, sType, sTerm } = useParams();
-  const navigate = useNavigate();
+const ProductDescriptions = ({ productId }) => {
 
   const [loading, setLoading] = useState(true);
+  const [isExpanded, setExpanded] = useState(false);
+  const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
 
-  const [product, setProduct] = useState(null);
   const [descriptions, setDescriptions] = useState([]);
   const [selectedId, setSelectedId] = useState(0);
   const [modalAdd, setModalAdd] = useState(false);
@@ -24,38 +21,9 @@ const ProductDescriptions = () => {
   const [modalDelete, setModalDelete] = useState(false);
   const [modalLink, setModalLink] = useState(false);
 
-  // const [resultData, setResultData] = useState([]);
-  // const [modalColorSize, setModalColorSize] = useState(false);
-
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-    },
-  };
-
-  Modal.setAppElement("#root");
-
   useEffect(() => {
-    getProduct(itemId);
-    getDescriptions(itemId);
+    getDescriptions(productId);
   }, []);
-
-  const getProduct = (id) => {
-    productsAPI
-      .getProduct(id)
-      .then((response) => {
-        if (response) {
-          setProduct(response.data.data);
-        }
-      })
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  };
 
   const getDescriptions = (productId) => {
     productsAPI
@@ -65,18 +33,23 @@ const ProductDescriptions = () => {
       .finally(() => setLoading(false));
   };
 
+  const reloadDescriptions = () => {
+    getDescriptions(productId);
+  };
+
   const closeModalHandle = () => {
     setModalAdd(false);
     setModalEdit(false);
     setModalLink(false);
-    getDescriptions(itemId);
+    getDescriptions(productId);
   };
 
   const deleteItem = (id) => {
+    setLoading(true);
     productsAPI
       .deleteDescription(id)
       .then((response) => {
-        getDescriptions(itemId);
+        getDescriptions(productId);
       })
       .catch((error) => console.log(error))
       .finally(() => {
@@ -86,161 +59,137 @@ const ProductDescriptions = () => {
   };
 
   return (
-    <div className={styles.data}>
+    <div className={styles.dataExtra}>
       {loading && <SplashScreen />}
-
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th colSpan={4}>{product && product.productNameEn}</th>
-          </tr>
-          <tr>
-            <th>description name</th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {descriptions.map((d) => (
-            <tr key={`d${d.id}`} className={styles.item}>
-              <td>{d.name}</td>
-              <td>
+      <div
+        className={styles.label}
+        style={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "space-between",
+          padding: "1rem 1rem",
+        }}
+      >
+        <span>descriptions:</span>
+        <img
+          src={collapseIcon}
+          style={{
+            display: "inline-block",
+            width: "28px",
+            cursor: "pointer",
+            transform: isExpanded ? "rotate(90deg)" : "",
+          }}
+          {...getToggleProps({
+            onClick: () => setExpanded((prevExpanded) => !prevExpanded),
+          })}
+        />
+      </div>
+     
+        <div {...getCollapseProps()} className={styles.data}>
+          <table className={styles.table}>
+            <tbody>
+              <tr>
+                <td colSpan={4} style={{ padding: "6px" }}>
+                  <div className={`${styles.formItem}`} style={{ margin: 0 }}>
+                    <button
+                      className={styles.btn}
+                      onClick={() => setModalAdd(true)}
+                    >
+                      add
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              {descriptions.map((d) => (
+                <tr key={`d${d.id}`} className={styles.item}>
+                  <td>{d.name}</td>
+                  <td style={{ width: "140px" }}>
+                    <button
+                      className={styles.btn}
+                      onClick={() => {
+                        setSelectedId(d.id);
+                        setModalLink(true);
+                      }}
+                    >
+                      attachment
+                    </button>
+                  </td>
+                  <td style={{ width: "140px" }}>
+                    <button
+                      className={styles.btn}
+                      onClick={() => {
+                        setSelectedId(d.id);
+                        setModalEdit(true);
+                      }}
+                    >
+                      edit
+                    </button>
+                  </td>
+                  <td style={{ width: "140px" }}>
+                    <button
+                      className={styles.btn}
+                      onClick={() => {
+                        setSelectedId(d.id);
+                        setModalDelete(true);
+                      }}
+                    >
+                      delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+          {modalAdd && (
+            <div>
+              <AddDescription
+                addDescription={reloadDescriptions}
+                productId={productId}
+                closeModal={() => setModalAdd(false)}
+              />
+            </div>
+          )}
+          {modalEdit && (
+            <div>
+              <EditDescription
+                editDescription={reloadDescriptions}
+                descriptionId={selectedId}
+                closeModal={closeModalHandle}
+              />
+            </div>
+          )}
+          {modalDelete && (
+            <div className={styles.modal}>
+              <div className={styles.btnGroup}>
                 <button
-                  className={styles.btn}
+                  className={styles.delBtn}
                   onClick={() => {
-                    setSelectedId(d.id);
-                    setModalLink(true);
-                  }}
-                >
-                  model-color-aize
-                </button>
-              </td>
-              <td>
-                <button
-                  className={styles.btn}
-                  onClick={() => {
-                    setSelectedId(d.id);
-                    setModalEdit(true);
-                  }}
-                >
-                  edit
-                </button>
-              </td>
-              <td>
-                <button
-                  className={styles.btn}
-                  onClick={() => {
-                    setSelectedId(d.id);
-                    setModalDelete(true);
+                    deleteItem(selectedId);
                   }}
                 >
                   delete
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={4}>
-              <div className={`${styles.formItem}`}>
                 <button
-                  className={styles.btn} style={{marginRight: "16px"}}
-                  onClick={() => setModalAdd(true)}
-                >
-                  add
-                </button>
-                <button
-                  type="button"
-                  className={styles.btn}
-                  onClick={() => {
-                    return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
-                  }}
+                  className={styles.delBtn}
+                  onClick={() => setModalDelete(false)}
                 >
                   cancel
                 </button>
               </div>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-      <Modal
-        isOpen={modalLink}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(255,255,255,.8)",
-          },
-          content: {
-            color: "lightsteelblue",
-            backgroundColor: "rgb(32,32,32)",
-          },
-        }}
-      >
-        <LinkDescription productId={itemId} descriptionId={selectedId} closeModal={closeModalHandle} />
-      </Modal>
-      <Modal
-        isOpen={modalAdd}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(255,255,255,.8)",
-          },
-          content: {
-            color: "lightsteelblue",
-            backgroundColor: "rgb(32,32,32)",
-          },
-        }}
-      >
-        <AddDescription productId={itemId} closeModal={closeModalHandle} />
-      </Modal>
-      <Modal
-        isOpen={modalEdit}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(255,255,255,.8)",
-          },
-          content: {
-            color: "lightsteelblue",
-            backgroundColor: "rgb(32,32,32)",
-          },
-        }}
-      >
-        <EditDescription
-          descriptionId={selectedId}
-          closeModal={closeModalHandle}
-        />
-      </Modal>
-      <Modal
-        isOpen={modalDelete}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(255,255,255,0.4)",
-          },
-          content: {
-            color: "lightsteelblue",
-            backgroundColor: "rgba(32,32,32,.4)",
-          },
-        }}
-      >
-        <div className={styles.modal}>
-          <div className={styles.btnGroup}>
-            <button
-              className={styles.delBtn}
-              onClick={() => {
-                deleteItem(selectedId);
-              }}
-            >
-              delete
-            </button>
-            <button
-              className={styles.delBtn}
-              onClick={() => setModalDelete(false)}
-            >
-              cancel
-            </button>
-          </div>
+            </div>
+          )}
+          {modalLink && (
+            <div>
+              <LinkDescription
+                productId={productId}
+                descriptionId={selectedId}
+                closeModal={closeModalHandle}
+              />
+            </div>
+          )}
         </div>
-      </Modal>
+     
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { modelAPI } from "../../../dal/api";
 import SplashScreen from "../../splashscreen/SplashScreen";
 
-const AddModel = ({ productId, closeModal }) => {
+const AddModel = ({ productId, closeModal, reloadModels }) => {
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
 
@@ -26,7 +26,7 @@ const AddModel = ({ productId, closeModal }) => {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           setLoading(true);
           const formData = new FormData();
           for (let value in values) {
@@ -37,7 +37,8 @@ const AddModel = ({ productId, closeModal }) => {
             .addModel(productId, values)
             .then((data) => {
               setResultMessage("The model added successfully");
-              closeModal();
+              resetForm();
+              reloadModels();
             })
             .catch((error) => {
               setResultMessage("Failed to add model!");

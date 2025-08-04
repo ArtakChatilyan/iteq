@@ -12,11 +12,13 @@ import "./fonts/Roboto/Roboto-SemiBold.ttf";
 import "./fonts/Roboto/Roboto-Bold.ttf";
 
 import { RouterProvider } from "react-router-dom";
+//import ChatContainer from "./components/chat/ChatContainer";
 
 function App({ router }) {
   return (
     <div className="App">
       <RouterProvider router={router} />
+      {/* <ChatContainer /> */}
     </div>
   );
 }

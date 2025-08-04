@@ -39,6 +39,7 @@
   color: #bdd2ef;
   cursor: pointer;
   font-family: "SourceSansLight";
+  text-wrap: nowrap;
   transition: 0.15s;
   padding: 10px 20px;
   margin: 10px;
@@ -47,4 +48,9 @@
 .btn:hover {
   background-color: rgb(49, 49, 49);
   color: #fff;
+}
+
+.error{
+  color: red;
+  font-size: 1.4rem;
 }

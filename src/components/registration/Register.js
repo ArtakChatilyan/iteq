@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
-const Register = ({ register, message, error }) => {
+const Register = ({ register,resendLink, message, error, isSuccess }) => {
   // console.log("message:"+message);
   // console.log("error:"+error);
   const { t, i18n } = useTranslation();
@@ -95,7 +95,7 @@ const Register = ({ register, message, error }) => {
     <div className={styles.block}>
       <div className={styles.formItem}>
         <input
-          placeholder={t("email")+'*'}
+          placeholder={t("email") + "*"}
           type="input"
           name="email"
           onChange={(e) => setEmail(e.currentTarget.value)}
@@ -106,7 +106,7 @@ const Register = ({ register, message, error }) => {
       </div>
       <div className={styles.formItem}>
         <input
-          placeholder={t("name")+'*'}
+          placeholder={t("name") + "*"}
           type="input"
           name="name"
           onChange={(e) => setName(e.currentTarget.value)}
@@ -117,7 +117,7 @@ const Register = ({ register, message, error }) => {
       </div>
       <div className={styles.formItem}>
         <input
-          placeholder={t("phone")+'*'}
+          placeholder={t("phone") + "*"}
           type="input"
           name="phone"
           onChange={(e) => setPhone(e.currentTarget.value)}
@@ -128,7 +128,7 @@ const Register = ({ register, message, error }) => {
       </div>
       <div className={styles.formItem}>
         <input
-          placeholder={t("password")+'*'}
+          placeholder={t("password") + "*"}
           type="password"
           name="pass"
           onChange={(e) => setPassword(e.currentTarget.value)}
@@ -139,7 +139,7 @@ const Register = ({ register, message, error }) => {
       </div>
       <div className={styles.formItem}>
         <input
-          placeholder={t("passwordConfirm")+'*'}
+          placeholder={t("passwordConfirm") + "*"}
           type="password"
           name="passConf"
           onChange={(e) => setPasswordConfirm(e.currentTarget.value)}
@@ -160,6 +160,12 @@ const Register = ({ register, message, error }) => {
       <div style={{ clear: "both", margin: "1rem auto" }}>
         <span className={styles.error}>{error}</span>
         <span className={styles.message}>{message}</span>
+        {isSuccess && (
+          <div style={{float: "left"}}>
+            <span className={styles.label}>if you didn't receive the link</span>{" "}
+            <button className={styles.btnLink} onClick={resendLink}>resend activation link</button>
+          </div>
+        )}
       </div>
     </div>
   );

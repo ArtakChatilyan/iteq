@@ -39,7 +39,7 @@ const LinkDescription = ({productId, descriptionId,  closeModal}) => {
     LoadModelColors(selectedModel);
     LoadModelSizes(selectedModel);
     LoadDescriptionsColorSize(selectedModel, descriptionId);
-  }, [selectedModel]);
+  }, [selectedModel, descriptionId]);
 
   const LoadModelColors = (modelId) => {
     colorAPI
@@ -120,7 +120,7 @@ const LinkDescription = ({productId, descriptionId,  closeModal}) => {
       <div className={styles.itemContent}>
         <div className={styles.modelContent}>
           {models.map((m) => (
-            <div
+            <div key={`model${m.id}`}
               className={`${styles.modelItem} ${
                 m.id === selectedModel ? styles.selectedModel : ""
               }`}
@@ -215,7 +215,7 @@ const LinkDescription = ({productId, descriptionId,  closeModal}) => {
 
       {modal && (
         <div className={styles.modal}>
-          <div className={`${styles.btnGroup} ${styles.modalGroup}`}>
+          <div className={`${styles.btnGroup} ${styles.btnGroupExtra}`}>
             <button
               className={styles.delBtn}
               onClick={() => {

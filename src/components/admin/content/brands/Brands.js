@@ -44,9 +44,6 @@ const Brands = () => {
     brandsAPI
       .deleteBrand(id)
       .then((response) => {
-        console.log("navigateing...");
-        console.log(location);
-
         if (data.length === 1) {
           if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
         } else {

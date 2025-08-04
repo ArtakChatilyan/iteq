@@ -1,14 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./ProductDetails.module.css";
 import { Link, useParams } from "react-router-dom";
-import { categoryAPI, imageAPI } from "../../dalUser/userApi";
+import { basketAPI, categoryAPI, imageAPI } from "../../dalUser/userApi";
 import Slider from "react-slick";
 import "./slideExtra.css";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "../../loadingScreen/LoadingScreen";
+import { useDispatch, useSelector } from "react-redux";
+import { getBasketItemsCount } from "../../../redux-store/userSlice";
 
 const ProductDetail = () => {
+  const dispatch=useDispatch();
+  const isAuth = useSelector((state) => state.userReducer.isAuth);
+  const user = useSelector((state) => state.userReducer.user);
   const { productId } = useParams();
 
   const { t, i18n } = useTranslation();
@@ -62,6 +67,8 @@ const ProductDetail = () => {
     categoryAPI
       .getProduct(productId)
       .then((response) => {
+        console.log(response);
+
         for (let i = 0; i < response.data.models.length; i++) {
           for (let j = 0; j < response.data.models[i].sizes.length; j++) {
             selectedCount.push({
@@ -305,6 +312,27 @@ const ProductDetail = () => {
     speed: 500,
     slidesToShow: images.length > 5 ? 5 : images.length,
     slidesToScroll: images.length > 5 ? 1 : 0,
+  };
+
+  const addToBasket = () => {
+    if (!isAuth) {
+      alert("please log in to add product to basket");
+    } else {
+      setLoading(true);
+      basketAPI
+        .addBasket({
+          userId:user.userId,
+          productId,
+          modelId: selectedModel.id,
+          sizeId: selectedSize.id,
+          colorId: selectedColor.id,
+          count: selectedCount.find((c) => c.sId === selectedSize.id)
+            .selectedCount,
+        })
+        .then((response) => dispatch(getBasketItemsCount(user.userId)))
+        .catch((error) => console.log(error))
+        .finally(() => {setLoading(false)});
+    }
   };
 
   return (
@@ -574,9 +602,25 @@ const ProductDetail = () => {
                               onChange={(e) => {
                                 if (parseInt(e.currentTarget.value) > s.count) {
                                   e.currentTarget.value = s.count;
-                                  setSelectedCount([...selectedCount.filter(sc=>sc.sId!=s.id), {sId: s.id, selectedCount: e.currentTarget.value}])
-                                }else{
-                                  setSelectedCount([...selectedCount.filter(sc=>sc.sId!=s.id), {sId: s.id, selectedCount: e.currentTarget.value}])
+                                  setSelectedCount([
+                                    ...selectedCount.filter(
+                                      (sc) => sc.sId != s.id
+                                    ),
+                                    {
+                                      sId: s.id,
+                                      selectedCount: e.currentTarget.value,
+                                    },
+                                  ]);
+                                } else {
+                                  setSelectedCount([
+                                    ...selectedCount.filter(
+                                      (sc) => sc.sId != s.id
+                                    ),
+                                    {
+                                      sId: s.id,
+                                      selectedCount: e.currentTarget.value,
+                                    },
+                                  ]);
                                 }
                               }}
                             />
@@ -587,6 +631,7 @@ const ProductDetail = () => {
                               disabled={selectedSize.id != s.id}
                               className={styles.btn}
                               style={{ margin: "10px 0" }}
+                              onClick={addToBasket}
                             >
                               {t("addToCart")}
                             </button>

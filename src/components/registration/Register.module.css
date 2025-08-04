@@ -38,6 +38,28 @@
   background-color: rgb(243, 174, 104);
 }
 
+.btnLink{
+  border: 0;
+  color: rgb(243, 174, 104);
+  cursor: pointer;
+  background: none;
+  font-size: 1.6rem;
+  font-family: "SourceSansRegular";
+  transition: 0.15s;
+  text-wrap: nowrap;
+  margin: 1rem 0 1rem;
+  text-decoration: underline;
+}
+
+.btnLink:hover{
+  color: rgb(127, 153, 165);
+}
+
+.label{
+  color: rgb(242, 165, 87);
+  font-size: 1.4rem;
+}
+
 .error{
   color: red;
   font-size: 1.4rem;

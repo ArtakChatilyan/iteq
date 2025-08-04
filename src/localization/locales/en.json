@@ -62,6 +62,14 @@
     "color": "color:",
     "description": "Description:", 
 
+    "basket": "Basket",
+    "orders": "Orders",
+    "purchases": "Purchase history",
+    "settings":"Settings",
+    "order":"order",
+    "total":"Total",
+
+
 
 
 

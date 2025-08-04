@@ -6,7 +6,7 @@ import { modelAPI, productsAPI } from "../../../dal/api";
 import SplashScreen from "../../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
-const AddModelSize = ({modelId, closeModal}) => {
+const AddModelSize = ({modelId, closeModal,sizeAdded}) => {
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -54,7 +54,7 @@ const AddModelSize = ({modelId, closeModal}) => {
             .then((data) => {
               setResultMessage("Model size added successfully");
               resetForm();
-              //return navigate(`/admin/productSizes/${id}`);
+              sizeAdded();
             })
             .catch((error) => {
               setResultMessage("Faild to add model size!");

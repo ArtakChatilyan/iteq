@@ -60,7 +60,7 @@ const Search = () => {
       <div className={styles.searchInfo}>search result for '{searchItem}'</div>
       <div className={styles.content}>
         {productList.map((p) => (
-          <NavLink to={`/product/${p.id}`}>
+          <NavLink to={`/product/${p.id}`} target="blank">
             <ProductCard key={p.id} product={p} />
           </NavLink>
         ))}

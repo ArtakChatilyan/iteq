@@ -1,40 +1,39 @@
 import { useEffect, useState } from "react";
-import styles from "./Products.module.css";
+import styles from "./Categories.module.css";
 import { categoryAPI, productsAPI } from "../../dal/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import SplashScreen from "../splashscreen/SplashScreen";
+import collapseIcon from "../../../../assets/circleArrow.png";
+import { useCollapse } from "react-collapsed";
 
-const ProductCategroies = () => {
-  const { itemId, page, sType, sTerm } = useParams();
-  const navigate = useNavigate();
+const ProductCategroies = ({ productId }) => {
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isExpanded, setExpanded] = useState(false);
+  const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
 
   const [data, setData] = useState([]);
-  const [productNameEn, setProductNameEn] = useState("");
-  const [productModel, setProductModel] = useState("");
-
   const [resultData, setResultData] = useState([]);
 
   useEffect(() => {
-    getProduct(itemId);
     getCategoriesForProduct();
-    getProductCategories(itemId);
+    getProductCategories(productId);
   }, []);
-
-  const getProduct = (id) => {
-    productsAPI.getProduct(id).then((response) => {
-      if (response) {
-        setProductNameEn(response.data.data.productNameEn);
-        setProductModel(response.data.data.productModel);
-      }
-    });
-  };
 
   const getCategoriesForProduct = () => {
     categoryAPI.getCategoriesForProduct().then((response) => {
       if (response) {
-        setData(response.data.data);
+        setData(
+          response.data.data.sort((a, b) => {
+            if (a.nameRu < b.nameRu) {
+              return -1;
+            }
+            if (a.nameRu > b.nameRu) {
+              return 1;
+            }
+            return 0;
+          })
+        );
       }
     });
   };
@@ -64,60 +63,74 @@ const ProductCategroies = () => {
   const setProductCategories = () => {
     setLoading(true);
     productsAPI
-      .setProductCategories(itemId, resultData)
+      .setProductCategories(productId, resultData)
       .then((data) => {
         setResultMessage("The product updated successfully");
-        return navigate(`/admin/products/${page}/${sType}/${sTerm}`);
+        hideMessage();
       })
       .catch((error) => {
-        setResultMessage("Couldn't set categories product!");
+        setResultMessage("Failed to set categories for product!");
+      })
+      .finally(() => {
+        setLoading(false);
       });
+  };
+
+  const hideMessage = () => {
+    setTimeout(() => {
+      setResultMessage("");
+    }, 3000);
   };
 
   return (
     <div className={styles.data}>
       {loading && <SplashScreen />}
-      <div className={styles.form}>
-        <div style={{ borderRight: "1px solid rgb(81, 81, 81)" }}>
-          <div className={styles.label} onClick={() => console.log(resultData)}>
-            {productNameEn}
-          </div>
-          <div className={styles.label}>{productModel}</div>
-        </div>
+      <div
+        className={styles.label}
+        style={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "space-between",
+          padding: "1rem 1rem",
+        }}
+      >
+        <span>categories:</span>
+        <img
+          src={collapseIcon}
+          style={{
+            display: "inline-block",
+            width: "28px",
+            cursor: "pointer",
+            transform: isExpanded ? "rotate(90deg)" : "",
+          }}
+          {...getToggleProps({
+            onClick: () => setExpanded((prevExpanded) => !prevExpanded),
+          })}
+        />
+      </div>
 
-        <div>
-          <div className={styles.label} style={{ textAlign: "center" }}>
-            categories:
-          </div>
-          <div
-            className={styles.formItem}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              maxHeight: "70vh",
-              overflowY: "scroll",
-            }}
-          >
-            <div className={styles.itemContent}>
-              {data.map((d) => (
-                <div
-                  key={`d${d.id}`}
-                  className={`${styles.itemWrapper} ${styles.checkBoxWrapper}`}
-                >
-                  <input
-                    type="checkbox"
-                    onChange={checkHandle}
-                    name={`ch_${d.id}`}
-                    checked={resultData.includes(d.id) ? true : false}
-                    style={{ width: "20px", height: "20px", cursor: "pointer" }}
-                  />
-                  <span style={{ margin: "10px", textWrap: "nowrap" }}>
-                    {d.nameEn}
-                  </span>
-                </div>
-              ))}
+      <div {...getCollapseProps()}>
+        <div className={styles.itemContent}>
+          {data.map((d) => (
+            <div
+              key={`d${d.id}`}
+              className={`${styles.itemWrapper} ${styles.checkBoxWrapper}`}
+            >
+              <input
+                type="checkbox"
+                onChange={checkHandle}
+                name={`ch_${d.id}`}
+                checked={resultData.includes(d.id) ? true : false}
+                style={{ width: "20px", height: "20px", cursor: "pointer" }}
+              />
+              <span
+                style={{ margin: "10px", textWrap: "nowrap" }}
+                title={d.nameRu}
+              >
+                {d.nameRu}
+              </span>
             </div>
-          </div>
+          ))}
         </div>
 
         <div className={`${styles.formItem} ${styles.col3}`}>
@@ -128,34 +141,12 @@ const ProductCategroies = () => {
               justifyContent: "flex-start",
             }}
           >
-            <Link
-              to={`/admin/products/${page}/${sType}/${sTerm}`}
-              style={{
-                textDecoration: "underline",
-                color: "#7dacee",
-                margin: "0 4rem 0 2rem",
-              }}
-            >
-              back
-            </Link>
             <button className={styles.btn} onClick={setProductCategories}>
               save
             </button>
           </div>
-
-          {/* <button
-            type="button"
-            className={styles.btn}
-            onClick={() => {
-              return navigate("/admin/products");
-            }}
-          >
-            cancel
-          </button> */}
         </div>
-        <div className={`${styles.formItem} ${styles.col3}`}>
-          {resultMessage}
-        </div>
+        <div className={styles.label}>{resultMessage}</div>
       </div>
     </div>
   );

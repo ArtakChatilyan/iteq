@@ -1,5 +1,7 @@
 .block {
   position: relative;
+  border: 1px solid #fff;
+  border-radius: 10px;
 }
 
 .itemContent {
@@ -10,11 +12,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-.modelContent{
-
-}
-
-.modelItem{
+.modelItem {
   font-size: 1.6rem;
   margin: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.6);
@@ -23,7 +21,7 @@
   cursor: pointer;
 }
 
-.selectedModel{
+.selectedModel {
   border: 1px solid rgb(242, 165, 87);
   color: rgb(242, 165, 87);
 }
@@ -44,12 +42,16 @@
 
 .btnGroup {
   margin-top: 20px;
-  border: 1px solid rgba(255, 255, 255, 0);
+  border: 1px solid rgba(255, 255, 255, 1);
   border-radius: 10px;
-
   display: flex;
   justify-content: center;
-  position: absolute;
+}
+
+.btnGroupExtra{
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 3rem;
+  margin-bottom: 200px;
 }
 
 .btn {
@@ -102,10 +104,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.modalGroup{
-  margin-top: -200px;
 }
 
 .delBtn {

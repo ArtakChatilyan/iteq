@@ -46,6 +46,12 @@ export const usersAPI = {
   registration: (data) => {
     return instance.post("users/registration", data);
   },
+  resend: () => {
+    return instance.get("users/resend");
+  },
+  changePassword: (data) => {
+    return instance.post("users/changePassword", data);
+  },
   logout: () => {
     return instance.post("users/logout");
   },
@@ -130,16 +136,16 @@ export const categoryAPI = {
 
 export const imageAPI = {
   getImagesDefault: (id) => {
-    return instance.get(`user/products/imagesDefault/${id}`)
+    return instance.get(`user/products/imagesDefault/${id}`);
   },
   getImagesByColor: (id) => {
-    return instance.get(`user/products/imagesByColor/${id}`)
+    return instance.get(`user/products/imagesByColor/${id}`);
   },
   getImagesBySize: (id) => {
-    return instance.get(`user/products/imagesBySize/${id}`)
+    return instance.get(`user/products/imagesBySize/${id}`);
   },
   getImagesMix: (id) => {
-    return instance.get(`user/products/imagesMix/${id}`)
+    return instance.get(`user/products/imagesMix/${id}`);
   },
 };
 
@@ -166,3 +172,34 @@ export const settingsAPI = {
     return instance.get("settings/contacts");
   },
 };
+
+export const basketAPI = {
+  getUserBasket: (page, count, userId) => {
+    return instance.get(
+      `basket?page=${page}&perPage=${count}&userId=${userId}`
+    );
+  },
+  getBasket: (id) => {
+    return instance.get(`basket/${id}`);
+  },
+  getUserTotal: (id) => {
+    return instance.get(`basket/total/${id}`);
+  },
+
+  updateBasketCount: (basketId, count) => {
+    return instance.put("basket", { basketId, count });
+  },
+
+  addBasket: (data) => {
+    return instance.post(`basket`, data);
+  },
+  deleteBasket: (id) => {
+    return instance.delete(`basket/${id}`);
+  },
+};
+
+export const orderAPI={
+  addOrder:(data)=>{
+    return instance.post('orders', data);
+  }
+}

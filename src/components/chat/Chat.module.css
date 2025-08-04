@@ -1,0 +1,80 @@
+.block {
+  width: 300px;
+  height: 460px;
+  position: fixed;
+  border: 1px solid rgb(242, 169, 94);
+  border-bottom: none;
+  border-radius: 20px 20px 0 0;
+  bottom: 0;
+  right: 60px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+}
+
+.blockStart{
+    width: 80px;
+    height: 80px;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+}
+
+.mail{
+    width: 100%;
+    cursor: pointer;
+}
+
+.header {
+  height: 40px;
+  background-color: rgb(242, 169, 94);
+  color: rgb(255, 255, 255);
+  font-size: 1.8rem;
+  font-family: "RobotoMedium";
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeBtn {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+
+.content{
+flex-grow: 1;
+}
+
+.group {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+  border-top: 1px solid rgba(81, 81, 81, .4);
+  align-items: flex-end;
+}
+
+.input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid rgba(81, 81, 81, .4);
+  width: 86%;
+  max-width: 90%;
+  resize: none;
+  height: 48px;
+  font-size: 1.6rem;
+  font-family: "RobotoRegular";
+  color: rgb(73, 80, 87);
+  border-radius: 4px;
+}
+
+.btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgb(242, 169, 94);
+  border-radius: 4px;
+  padding: 1px 4px;
+  cursor:pointer;
+}

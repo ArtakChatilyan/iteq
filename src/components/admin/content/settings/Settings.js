@@ -2,21 +2,88 @@ import { useEffect, useState } from "react";
 import styles from "./Settings.module.css";
 import { settingsAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
+import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { changePassword } from "../../../../redux-store/userSlice";
 
 const Settings = () => {
   const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
 
-  const [addressEn, setAddressEn] = useState(' ');
-  const [addressGe, setAddressGe] = useState('');
-  const [addressRu, setAddressRu] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [addressEn, setAddressEn] = useState(" ");
+  const [addressGe, setAddressGe] = useState("");
+  const [addressRu, setAddressRu] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordConfirm, setConfirmPassword] = useState("");
+  const [oldPasswordError, setOldPasswordError] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [newPasswordConfirmError, setConfirmPasswordError] = useState("");
 
   const [addressEnMode, setAddressEnMode] = useState(false);
   const [addressGeMode, setAddressGeMode] = useState(false);
   const [addressRuMode, setAddressRuMode] = useState(false);
   const [emailMode, setEmailMode] = useState(false);
   const [phoneMode, setPhoneMode] = useState(false);
+
+  const validationSchema = Yup.object().shape({
+    oldPassword: Yup.string().required("required"),
+    newPassword: Yup.string()
+      .required("required")
+      .min(6, "password is too short(at least 6 character)")
+      .max(16, "password is too long(max 16 character)"),
+    newPasswordConfirm: Yup.string()
+      .oneOf([Yup.ref("newPassword"), null], "new passwords don't match")
+      .required("required"),
+  });
+
+  const changePasswordHandle = () => {
+    setOldPasswordError("");
+    setNewPasswordError("");
+    setConfirmPasswordError("");
+    validationSchema
+      .validate(
+        {
+          oldPassword,
+          newPassword,
+          newPasswordConfirm,
+        },
+        { abortEarly: false }
+      )
+      .then(function (valid) {
+        dispatch(changePassword({ oldPassword, newPassword })).then(
+          (response) => {
+            console.log(response);
+          }
+        );
+        //changePassword({ oldPassword, newPassword, newPasswordConfirm });
+      })
+      .then(() => {
+        setOldPasswordError("");
+        setNewPasswordError("");
+        setConfirmPasswordError("");
+      })
+      .catch(function (errors) {
+        errors.inner.forEach((error) => {
+          switch (error.path) {
+            case "oldPassword":
+              setOldPasswordError(error.errors[0]);
+              break;
+            case "newPassword":
+              setNewPasswordError(error.errors[0]);
+              break;
+            case "newPasswordConfirm":
+              setConfirmPasswordError(error.errors[0]);
+              break;
+          }
+        });
+      });
+  };
 
   useEffect(() => {
     LoadContacts();
@@ -26,7 +93,6 @@ const Settings = () => {
     settingsAPI
       .getContacts()
       .then((response) => {
-        
         setAddressEn(response.data.contacts.addressEn);
         setAddressGe(response.data.contacts.addressGe);
         setAddressRu(response.data.contacts.addressRu);
@@ -319,6 +385,54 @@ const Settings = () => {
                   edit
                 </button>
               )}
+            </td>
+          </tr>
+          <tr>
+            <td className={styles.label} style={{ verticalAlign: "top" }}>
+              <span>password:</span>
+            </td>
+            <td>
+              <form>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <input
+                    autoComplete="off"
+                    className={styles.input}
+                    placeholder="old password"
+                    type="password"
+                    value={oldPassword}
+                    onChange={(e) => setOldPassword(e.currentTarget.value)}
+                  />
+                  <span className={styles.error}>{oldPasswordError}</span>
+                  <input
+                    autoComplete="off"
+                    className={styles.input}
+                    placeholder="new password"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.currentTarget.value)}
+                  />
+                  <span className={styles.error}>{newPasswordError}</span>
+                  <input
+                    autoComplete="off"
+                    className={styles.input}
+                    placeholder="confirm new password"
+                    type="password"
+                    value={newPasswordConfirm}
+                    onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+                  />
+                  <span className={styles.error}>
+                    {newPasswordConfirmError}
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.btn}
+                    style={{ width: "50%" }}
+                    onClick={changePasswordHandle}
+                  >
+                    change password
+                  </button>
+                </div>
+              </form>
             </td>
           </tr>
         </tbody>

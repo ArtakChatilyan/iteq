@@ -62,6 +62,14 @@
     "color": "цвет:",
     "description": "Описание:", 
 
+    "basket": "Корзина",
+    "orders": "Заказы",
+    "purchases": "Покупки",
+    "settings":"Настройки",
+    "order":"оформить",
+    "total":"Итого",
+    
+
 
 
 

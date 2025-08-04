@@ -6,7 +6,7 @@ import { modelAPI, productsAPI } from "../../../dal/api";
 import SplashScreen from "../../splashscreen/SplashScreen";
 import * as Yup from "yup";
 
-const EditModelSize = ({sizeId, closeModal}) => {
+const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -93,7 +93,7 @@ const EditModelSize = ({sizeId, closeModal}) => {
             .editSize(sizeId, values)
             .then((data) => {
               setResultMessage("Model size updated successfully");
-              // return navigate(`/admin/productSizes/${itemId}`);
+              sizeUpdated();
             })
             .catch((error) => {
               setResultMessage("Failed to update product size!");

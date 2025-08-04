@@ -282,7 +282,7 @@ const Category = () => {
 
       <div className={styles.content}>
         {productList.map((p) => (
-          <NavLink to={`/product/${p.id}`}>
+          <NavLink to={`/product/${p.id}`} target="blank">
             <ProductCard key={p.id} product={p} />
           </NavLink>
         ))}

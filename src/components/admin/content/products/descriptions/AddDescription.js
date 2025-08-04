@@ -3,14 +3,20 @@ import { Formik } from "formik";
 import SplashScreen from "../../splashscreen/SplashScreen";
 import { productsAPI } from "../../../dal/api";
 import { useState } from "react";
+import * as Yup from "yup";
 
-const AddDescription = ({ productId, closeModal }) => {
+const AddDescription = ({ productId, closeModal, addDescription }) => {
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
-
+  const formValidationSchema = Yup.object().shape({
+    descriptionName: Yup.string().required("required"),
+    descriptionEn: Yup.string().required("required"),
+    descriptionGe: Yup.string().required("required"),
+    descriptionRu: Yup.string().required("required"),
+  });
   return (
     <div>
-        {loading && <SplashScreen />}
+      {loading && <SplashScreen />}
       <Formik
         initialValues={{
           descriptionName: "",
@@ -18,6 +24,7 @@ const AddDescription = ({ productId, closeModal }) => {
           descriptionGe: "",
           descriptionRu: "",
         }}
+        validationSchema={formValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setLoading(true);
           const formData = new FormData();
@@ -25,11 +32,19 @@ const AddDescription = ({ productId, closeModal }) => {
             formData.append(value, values[value]);
           }
           values["productId"] = productId;
+          if (
+            !values["descriptionName"] ||
+            !values["descriptionName"] ||
+            !values["descriptionName"] ||
+            !values["descriptionName"]
+          )
+            throw new Error();
           productsAPI
             .addDescription(values)
             .then((data) => {
               setResultMessage("Description added successfully");
               resetForm();
+              addDescription();
             })
             .catch((error) => {
               setResultMessage("Failed to add description!");
@@ -49,7 +64,7 @@ const AddDescription = ({ productId, closeModal }) => {
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
-            <div className={styles.form}>
+            <div className={styles.form} style={{ textAlign: "left" }}>
               <span className={styles.label}>description name:</span>
               <div className={styles.formItem}>
                 <input
@@ -58,12 +73,13 @@ const AddDescription = ({ productId, closeModal }) => {
                   value={values.descriptionName}
                   onChange={handleChange}
                 />
+                <div className={`${styles.label} ${styles.error}`}>
+                  {errors.descriptionEn &&
+                    touched.descriptionEn &&
+                    errors.descriptionEn}
+                </div>
               </div>
-              <span className={`${styles.label} ${styles.error}`}>
-                {errors.descriptionEn &&
-                  touched.descriptionEn &&
-                  errors.descriptionEn}
-              </span>
+
               <span className={styles.label}>description(english):</span>
               <div className={styles.formItem}>
                 <textarea
@@ -72,12 +88,13 @@ const AddDescription = ({ productId, closeModal }) => {
                   value={values.descriptionEn}
                   onChange={handleChange}
                 />
+                <div className={`${styles.label} ${styles.error}`}>
+                  {errors.descriptionEn &&
+                    touched.descriptionEn &&
+                    errors.descriptionEn}
+                </div>
               </div>
-              <span className={`${styles.label} ${styles.error}`}>
-                {errors.descriptionEn &&
-                  touched.descriptionEn &&
-                  errors.descriptionEn}
-              </span>
+
               <span className={styles.label}>description(georgian):</span>
               <div className={styles.formItem}>
                 <textarea
@@ -86,12 +103,13 @@ const AddDescription = ({ productId, closeModal }) => {
                   value={values.descriptionGe}
                   onChange={handleChange}
                 />
+                <div className={`${styles.label} ${styles.error}`}>
+                  {errors.descriptionGe &&
+                    touched.descriptionGe &&
+                    errors.descriptionGe}
+                </div>
               </div>
-              <span className={`${styles.label} ${styles.error}`}>
-                {errors.descriptionGe &&
-                  touched.descriptionGe &&
-                  errors.descriptionGe}
-              </span>
+
               <span className={styles.label}>description(russian):</span>
               <div className={styles.formItem}>
                 <textarea
@@ -100,12 +118,13 @@ const AddDescription = ({ productId, closeModal }) => {
                   value={values.descriptionRu}
                   onChange={handleChange}
                 />
+                <div className={`${styles.label} ${styles.error}`}>
+                  {errors.descriptionRu &&
+                    touched.descriptionRu &&
+                    errors.descriptionRu}
+                </div>
               </div>
-              <span className={`${styles.label} ${styles.error}`}>
-                {errors.descriptionRu &&
-                  touched.descriptionRu &&
-                  errors.descriptionRu}
-              </span>
+
               <div className={`${styles.formItem} ${styles.col3}`}>
                 <button
                   type="submit"

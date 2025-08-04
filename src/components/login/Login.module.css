@@ -1,5 +1,6 @@
 .block {
-  width: 90%;
+  min-width: 400px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -52,19 +53,19 @@
 
 @media screen and (min-width: 576px) {
   .block {
-    width: 80%;
+    width: 400px;
   }
 }
 
 @media screen and (min-width: 768px) {
   .block {
-    width: 70%;
+    width: 400px;
   }
 }
 
 @media screen and (min-width: 1024px) {
   .block {
-    width: 600px;
+    width: 400px;
   }
 }
 

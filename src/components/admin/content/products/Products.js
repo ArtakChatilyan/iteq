@@ -32,7 +32,7 @@ const Products = () => {
     setCurrentPage(pageNumber);
   };
 
-  const getProducts = (sType,sItem, currentPage, perPage) => {
+  const getProducts = (sType, sItem, currentPage, perPage) => {
     if (sType === "brand") {
       searchAPI
         .getProductsByBrand(sItem, currentPage, perPage)
@@ -47,7 +47,6 @@ const Products = () => {
           setLoading(false);
         });
     } else if (sType === "model") {
-      
       searchAPI
         .getProductsByModel(sItem, currentPage, perPage)
         .then((response) => {
@@ -118,7 +117,7 @@ const Products = () => {
   const searchHandle = () => {
     setLoading(true);
     if (currentPage === 1) {
-      getProducts(searchType,searchItem, currentPage, perPage);
+      getProducts(searchType, searchItem, currentPage, perPage);
     } else {
       setCurrentPage(1);
     }
@@ -141,8 +140,9 @@ const Products = () => {
         </div>
         {searchData.length > 0 && (
           <ul className={cssStyle.autofill}>
-            {searchData.map((sd) => (
+            {searchData.map((sd, index) => (
               <li
+                key={`sd${index}`}
                 className={cssStyle.afItem}
                 onClick={(e) => {
                   setSearchItem(e.currentTarget.innerText);
@@ -191,90 +191,60 @@ const Products = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>name(english)</th>
-            <th>name(georgian)</th>
-            <th>name(russian)</th>
-            {/* <th>model</th> */}
+            <th></th>
+            <th>name</th>
+            <th>models</th>
             <th>image</th>
             <th></th>
             <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-           
           </tr>
         </thead>
         <tbody>
           {products.map((d) => (
             <tr key={`tr${d.id}`} className={styles.item}>
+              <td>{d.id}</td>
               <td>{d.productNameEn}</td>
-              <td>{d.productNameGe}</td>
-              <td>{d.productNameRu}</td>
-              {/* <td>{d.productModel}</td> */}
+              <td>
+                {d.modelInfo && d.modelInfo.map((mi) => (
+                  <div key={`mi${mi.id}`}>{mi.nameEn}</div>
+                ))}
+              </td>
+
               <td>
                 <img src={d.imgUrl} className={styles.img} />
               </td>
-              <td>
+              {/* <td>
                 <Link
                   to={`/admin/productCategories/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   categories
                 </Link>
-              </td>
-              <td>
+              </td> */}
+              {/* <td>
                 <Link
                   to={`/admin/models/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   models
                 </Link>
-              </td>
-              {/* <td>
-                <Link
-                  to={`/admin/productColors/${d.id}/${currentPage}`}
-                  className={styles.btn}
-                  style={{
-                    pointerEvents: d.productMultyColor ? "auto" : "none",
-                    color: d.productMultyColor
-                      ? "rgb(189, 210, 239)"
-                      : "grey",
-                  }}
-                >
-                  colors
-                </Link>
               </td> */}
               {/* <td>
-                <Link
-                  to={`/admin/productSizes/${d.id}/${currentPage}`}
-                  className={styles.btn}
-                  style={{
-                    pointerEvents: d.productMultyDimension ? "auto" : "none",
-                    color: d.productMultyDimension
-                      ? "rgb(189, 210, 239)"
-                      : "grey",
-                  }}
-                >
-                  sizes
-                </Link>
-              </td> */}
-              <td>
                 <Link
                   to={`/admin/productImages/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   images
                 </Link>
-              </td>
-              <td>
+              </td> */}
+              {/* <td>
                 <Link
                   to={`/admin/productDescriptions/${d.id}/${currentPage}/${searchType}/${searchItem}`}
                   className={styles.btn}
                 >
                   descriptions
                 </Link>
-              </td>
+              </td> */}
               <td>
                 <Link
                   to={`/admin/editProduct/${d.id}/${currentPage}/${searchType}/${searchItem}`}

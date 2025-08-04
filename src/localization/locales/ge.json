@@ -62,6 +62,12 @@
     "color": "ფერი:",
     "description": "აღწერა:", 
 
+    "basket": "Корзина",
+    "orders": "Заказы",
+    "purchases": "Покупки",
+    "settings":"Настройки",
+    "order":"order",
+    "total":"Total",
 
 
 
