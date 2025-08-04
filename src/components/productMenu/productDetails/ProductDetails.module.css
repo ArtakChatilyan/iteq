@@ -26,9 +26,21 @@
   /* font-size: 2rem; */
 }
 
+.imgContainer{
+  position: relative;
+  overflow: hidden;
+  display: block;
+  padding: 50px;
+  border: 1px solid rgba(242, 165, 87, 0.6);
+  border-radius: 6px;
+}
+
+.imgContainer:hover {
+    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.55), 0 14px 18px rgba(0, 0, 0, 0.55);
+  }
+
 .imgSlide {
   width: 100%;
-
   margin: 40px auto;
 }
 
@@ -80,9 +92,6 @@
   width: 100%;
   height: 400px;
   object-fit: contain;
-  border: 1px solid rgba(242, 165, 87, 0.6);
-  border-radius: 6px;
-  margin-bottom: 20px;
 }
 
 .colorBlock {
@@ -135,6 +144,7 @@
   font-size: 1.6rem;
   color: rgb(32, 83, 117);
   font-family: "RobotoMedium";
+  
 }
 
 .model {

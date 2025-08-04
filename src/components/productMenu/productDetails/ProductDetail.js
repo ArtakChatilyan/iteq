@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./ProductDetails.module.css";
 import { Link, useParams } from "react-router-dom";
 import { basketAPI, categoryAPI, imageAPI } from "../../dalUser/userApi";
@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBasketItemsCount } from "../../../redux-store/userSlice";
 
 const ProductDetail = () => {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.userReducer.isAuth);
   const user = useSelector((state) => state.userReducer.user);
   const { productId } = useParams();
@@ -30,26 +30,16 @@ const ProductDetail = () => {
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
 
-  //const [images, setImages] = useState([]);
   const [images, setImages] = useState([]);
   const [selectedUrl, setSelectedUrl] = useState(null);
   const [descriptions, setDescriptions] = useState([]);
   const [selectedDescription, setSelectedDescription] = useState("");
 
   const [selectedCount, setSelectedCount] = useState([]);
-  // const [multiColor, setMultiColor] = useState(0);
-  // const [multiSize, setMultiSize] = useState(0);
-
-  // const [descriptions, setDescriptions]=useState([]);
-
-  // const [optionsEn, setOptionsEn] = useState([]);
-  // const [optionsGe, setOptionsGe] = useState([]);
-  // const [optionsRu, setOptionsRu] = useState([]);
 
   useEffect(() => {
     LoadProductCategories(productId);
     LoadProduct(productId);
-    //LoadImages(productId);
   }, [productId]);
 
   const LoadProductCategories = (pId) => {
@@ -67,8 +57,6 @@ const ProductDetail = () => {
     categoryAPI
       .getProduct(productId)
       .then((response) => {
-        console.log(response);
-
         for (let i = 0; i < response.data.models.length; i++) {
           for (let j = 0; j < response.data.models[i].sizes.length; j++) {
             selectedCount.push({
@@ -83,27 +71,6 @@ const ProductDetail = () => {
         if (response.data.models.length > 0) {
           setSelectedModel(response.data.models[0]);
         }
-
-        // if (response.data.product.productMultyColor) {
-        //   setMultiColor(response.data.product.productMultyColor);
-
-        //   setColors(response.data.colors);
-        //   if (response.data.colors.length > 0)
-        //     setSelectedColor(response.data.colors[0]);
-        // }
-        // if (response.data.product.productMultyDimension) {
-        //   setMultiSize(response.data.product.productMultyDimension);
-        //   setSizes(response.data.sizes);
-        //   if (response.data.sizes.length > 0) {
-        //     setSelectedSize(response.data.sizes[0]);
-        //   }
-        // }
-
-        // if (response.data.product.productDescriptionEn) {
-        //   setOptionsEn(JSON.parse(response.data.product.productDescriptionEn));
-        //   setOptionsGe(JSON.parse(response.data.product.productDescriptionGe));
-        //   setOptionsRu(JSON.parse(response.data.product.productDescriptionRu));
-        // }
       })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
@@ -180,120 +147,6 @@ const ProductDetail = () => {
     }
   }, [selectedColor, selectedSize]);
 
-  // const LoadImages = (productId) => {
-  //   imageAPI
-  //     .getImagesDefault(productId)
-  //     .then((response) => {
-  //       console.log(response);
-
-  //       setImages(response.data.images);
-  //       // if (response.data.images.length > 0)
-  //       //   setSelectedUrl(response.data.images[0].imgUrl);
-  //       // else setSelectedUrl(null);
-  //     })
-  //     .catch((error) => console.log(error));
-  //   // if (multiColor === 1 && multiSize === 1) {
-  //   //   LoadImagesMix(productId);
-  //   // } else if (multiColor === 0 && multiSize === 1) {
-  //   //   LoadImagesBySize(productId);
-  //   // } else if (multiSize === 0 && multiColor === 1) {
-  //   //   LoadImagesByColor(productId);
-  //   // } else {
-  //   //   LoadImagesDefault(productId);
-  //   // }
-  // };
-
-  const LoadImagesDefault = (productId) => {
-    // imageAPI
-    //   .getImagesDefault(productId)
-    //   .then((response) => {
-    //     setImages((images) => response.data.images);
-    //     if (response.data.images.length > 0)
-    //       setSelectedUrl(response.data.images[0].imgUrl);
-    //     else setSelectedUrl(null);
-    //   })
-    //   .catch((error) => console.log(error));
-  };
-
-  const LoadImagesByColor = (productId) => {
-    // imageAPI
-    //   .getImagesByColor(productId)
-    //   .then((response) => {
-    //     console.log(response);
-    //     setImages(response.data.images);
-    //     if (response.data.images.length > 0)
-    //       setSelectedUrl(response.data.images[0].imgUrl);
-    //     else setSelectedUrl(null);
-    //   })
-    //   .catch((error) => console.log(error));
-  };
-
-  const LoadImagesBySize = (productId) => {
-    // imageAPI
-    //   .getImagesBySize(productId)
-    //   .then((response) => {
-    //     setImages((images) => response.data.images);
-    //     if (response.data.images.length > 0)
-    //       setSelectedUrl(response.data.images[0].imgUrl);
-    //     else setSelectedUrl(null);
-    //   })
-    //   .catch((error) => console.log(error));
-  };
-
-  const LoadImagesMix = (productId) => {
-    // imageAPI
-    //   .getImagesMix(productId)
-    //   .then((response) => {
-    //     setImages(response.data.images);
-    //     if (response.data.images.length > 0)
-    //       setSelectedUrl(response.data.images[0].imgUrl);
-    //     else setSelectedUrl(null);
-    //   })
-    //   .catch((error) => console.log(error));
-  };
-
-  // useEffect(() => {
-  //   // if(images.length>0)
-  //   // LoadSlider();
-  // }, [images, selectedColor, selectedSize]);
-
-  const LoadSlider = () => {
-    // if (selectedColor && selectedSize) {
-    //   const newImages = images
-    //     .filter(
-    //       (c) => c.colorId === selectedColor.id && c.sizeId === selectedSize.id
-    //     )
-    //     .filter(
-    //       (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
-    //     );
-    //   if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
-    //   else setSelectedUrl(null);
-    //   setSelectedImages(newImages);
-    // } else if (selectedColor && !selectedSize) {
-    //   const newImages = images
-    //     .filter((c) => c.colorId === selectedColor.id)
-    //     .filter(
-    //       (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
-    //     );
-    //   if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
-    //   else setSelectedUrl(null);
-    //   setSelectedImages(newImages);
-    // } else if (!selectedColor && selectedSize) {
-    //   const newImages = images
-    //     .filter((c) => c.sizeId === selectedSize.id)
-    //     .filter(
-    //       (obj, index, self) => index === self.findIndex((o) => o.id === obj.id)
-    //     );
-    //   if (newImages.length > 0) setSelectedUrl(newImages[0].imgUrl);
-    //   else setSelectedUrl(null);
-    //   setSelectedImages(newImages);
-    // } else {
-    //   if (images.length > 0) setSelectedUrl(images[0].imgUrl);
-    //   else setSelectedUrl(null);
-    //   setSelectedImages(images);
-    // }
-  };
-
   const selectActiveModel = (modelId) => {
     setSelectedModel(models.find((m) => m.id === modelId));
   };
@@ -321,7 +174,7 @@ const ProductDetail = () => {
       setLoading(true);
       basketAPI
         .addBasket({
-          userId:user.userId,
+          userId: user.userId,
           productId,
           modelId: selectedModel.id,
           sizeId: selectedSize.id,
@@ -331,17 +184,81 @@ const ProductDetail = () => {
         })
         .then((response) => dispatch(getBasketItemsCount(user.userId)))
         .catch((error) => console.log(error))
-        .finally(() => {setLoading(false)});
+        .finally(() => {
+          setLoading(false);
+        });
     }
   };
+  const sourceRef = useRef(null);
+  const targetRef = useRef(null);
+  const containerRef = useRef(null);
+  const [opacity, setOpacity] = useState(0);
+  const [offset, setOffset] = useState({ left: 0, top: 0 });
+  const handleMouseEnter = () => {
+    setOpacity(1);
+  };
 
+  const handleMouseLeave = () => {
+    setOpacity(0);
+  };
+  const handleMouseMove = (e) => {
+    const targetRect = targetRef.current.getBoundingClientRect();
+    const sourceRect = sourceRef.current.getBoundingClientRect();
+    const containerRect = containerRef.current.getBoundingClientRect();
+
+    const xRatio = (targetRect.width - containerRect.width) / sourceRect.width;
+    const yRatio =
+      (targetRect.height - containerRect.height) / sourceRect.height;
+
+    const left = Math.max(
+      Math.min(e.pageX - sourceRect.left, sourceRect.width),
+      0
+    );
+    const top = Math.max(
+      Math.min(e.pageY - sourceRect.top, sourceRect.height),
+      0
+    );
+
+    setOffset({
+      left: left * -xRatio,
+      top: top * -yRatio,
+    });
+  };
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
       {product && (
         <div className={styles.content}>
           <div className={styles.imgSlide}>
-            <img src={selectedUrl} className={styles.selectedImage} />
+            <div
+              className={styles.imgContainer}
+              ref={containerRef}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onMouseMove={handleMouseMove}
+            >
+              <img
+                src={selectedUrl}
+                ref={sourceRef}
+                className={styles.selectedImage}
+                style={{
+                  display: "block",
+                  opacity: opacity ? 0 : 1,
+                }}
+              />
+
+              <img
+                ref={targetRef}
+                src={selectedUrl}
+                style={{
+                  display: "block",
+                  position: "absolute",
+                  left: offset.left,
+                  top: offset.top,
+                  opacity: opacity,
+                }}
+              />
+            </div>
             <Slider {...settings}>
               {images.map((im) => (
                 <div
@@ -410,49 +327,27 @@ const ProductDetail = () => {
                 </div>
               )}
             </div>
-            {/* {!product.productMultyDimension &&
-              (product.productDiscount === 1 ? (
-                <div>
-                  <span className={styles.price}>
-                    {product.productNewPrice}&#8382;
-                  </span>
-                  <span className={styles.old}>
-                    {product.productPrice}&#8382;
-                  </span>
-                </div>
-              ) : (
-                <div>
-                  <span className={styles.price}>
-                    {product.productPrice}&#8382;
-                  </span>
-                </div>
-              ))} */}
-
             <table className={styles.mainTable}>
               <tbody>
-                {product.productModel && (
-                  <tr>
-                    <td className={styles.maintd}>
-                      <span className={styles.label}>{t("model")}</span>
-                    </td>
-                    <td className={styles.maintd}>
-                      {models.map((m) => (
-                        <span
-                          onClick={() => selectActiveModel(m.id)}
-                          className={`${styles.model} ${
-                            m.id === selectedModel.id
-                              ? styles.selectedModel
-                              : ""
-                          }`}
-                        >
-                          {lang === "en" && m.nameEn}
-                          {lang === "ge" && m.nameGe}
-                          {lang === "ru" && m.nameRu}
-                        </span>
-                      ))}
-                    </td>
-                  </tr>
-                )}
+                <tr>
+                  <td className={styles.maintd}>
+                    <span className={styles.label}>{t("model")}</span>
+                  </td>
+                  <td className={styles.maintd}>
+                    {models.map((m) => (
+                      <span
+                        onClick={() => selectActiveModel(m.id)}
+                        className={`${styles.model} ${
+                          m.id === selectedModel.id ? styles.selectedModel : ""
+                        }`}
+                      >
+                        {lang === "en" && m.nameEn}
+                        {lang === "ge" && m.nameGe}
+                        {lang === "ru" && m.nameRu}
+                      </span>
+                    ))}
+                  </td>
+                </tr>
 
                 {brand && (
                   <tr>
@@ -464,32 +359,6 @@ const ProductDetail = () => {
                     </td>
                   </tr>
                 )}
-
-                {/* {product.productDimension && (
-                  <tr>
-                    <td className={styles.maintd}>
-                      <span className={styles.label}>{t("dimension")}</span>
-                    </td>
-                    <td className={styles.maintd}>
-                      <span className={styles.name}>
-                        {product.productDimension}
-                      </span>
-                    </td>
-                  </tr>
-                )} */}
-
-                {/* {product.productWeight && (
-                  <tr>
-                    <td className={styles.maintd}>
-                      <span className={styles.label}>{t("weight")}</span>
-                    </td>
-                    <td className={styles.maintd}>
-                      <span className={styles.name}>
-                        {product.productWeight}
-                      </span>
-                    </td>
-                  </tr>
-                )} */}
 
                 {product.productCountryEn && (
                   <tr>
@@ -505,24 +374,8 @@ const ProductDetail = () => {
                     </td>
                   </tr>
                 )}
-                {/* {!product.productMultyDimension && (
-                  <tr>
-                    <td className={styles.maintd}>
-                      <span className={styles.label}>{t("count")}</span>
-                    </td>
-                    <td className={styles.maintd}>
-                      <input className={styles.input} />
-                    </td>
-                  </tr>
-                )} */}
               </tbody>
             </table>
-            {/* {!product.productMultyDimension && (
-              <div className={styles.item}>
-                <button className={styles.btn}>{t("addToCart")}</button>
-              </div>
-            )} */}
-
             <div className={styles.optionsContent}>
               <table>
                 <thead>
@@ -554,7 +407,12 @@ const ProductDetail = () => {
                           onClick={() => selectActiveSize(s.id)}
                         >
                           <td className={styles.td}>
-                            <span className={styles.name}>{s.dimension}</span>
+                            <span
+                              className={styles.name}
+                              style={{ textWrap: "nowrap" }}
+                            >
+                              {s.dimension}
+                            </span>
                           </td>
                           <td className={styles.td}>
                             <span className={styles.name}>{s.weight}</span>
@@ -660,54 +518,6 @@ const ProductDetail = () => {
                       ))}
                     </td>
                   </tr>
-                  {/* {lang === "en" &&
-                    optionsEn &&
-                    optionsEn.map((inputField, index) => (
-                      <tr>
-                        <td className={styles.td}>
-                          <span className={styles.label}>
-                            {inputField.optionNameEn}:
-                          </span>
-                        </td>
-                        <td className={styles.td}>
-                          <span className={styles.name}>
-                            {inputField.optionValueEn}
-                          </span>
-                        </td>
-                      </tr>
-                    ))} */}
-                  {/* {lang === "ge" &&
-                    optionsGe &&
-                    optionsGe.map((inputField, index) => (
-                      <tr>
-                        <td className={styles.td}>
-                          <span className={styles.label}>
-                            {inputField.optionNameGe}:
-                          </span>
-                        </td>
-                        <td className={styles.td}>
-                          <span className={styles.name}>
-                            {inputField.optionValueGe}
-                          </span>
-                        </td>
-                      </tr>
-                    ))} */}
-                  {/* {lang === "ru" &&
-                    optionsRu &&
-                    optionsRu.map((inputField, index) => (
-                      <tr>
-                        <td className={styles.td}>
-                          <span className={styles.label}>
-                            {inputField.optionNameRu}:
-                          </span>
-                        </td>
-                        <td className={styles.td}>
-                          <span className={styles.name}>
-                            {inputField.optionValueRu}
-                          </span>
-                        </td>
-                      </tr>
-                    ))} */}
                 </tbody>
               </table>
             </div>

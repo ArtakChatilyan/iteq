@@ -86,7 +86,7 @@ const Products = () => {
         if (products.length === 1) {
           if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
         } else {
-          getProducts(searchType, currentPage, perPage);
+          getProducts(searchType, searchItem, currentPage, perPage);
         }
       })
       .catch((error) => {

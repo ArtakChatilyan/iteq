@@ -221,43 +221,45 @@ const Category = () => {
         <span className={styles.partTitle}>Price range</span>
         <div style={{ marginTop: "6px" }}>
           <table>
-            <tr>
-              <td className={styles.label}>
-                <span>{dbMinPrice}</span>
-              </td>
-              <td className={styles.label}>
-                <span>-</span>
-              </td>
-              <td className={styles.label}>
-                <span>
-                  <span className={styles.label}>{dbMaxPrice}</span>
-                  <span className={styles.label}>&#8382; </span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input
-                  type="text"
-                  value={minPrice}
-                  className={styles.input}
-                  onChange={(e) => chnageMinPrice(e.target.value)}
-                  onBlur={priceHandler}
-                />
-              </td>
-              <td>
-                <span className={styles.label}>-</span>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={maxPrice}
-                  className={styles.input}
-                  onChange={(e) => chnageMaxPrice(e.target.value)}
-                  onBlur={priceHandler}
-                />
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td className={styles.label}>
+                  <span>{dbMinPrice}</span>
+                </td>
+                <td className={styles.label}>
+                  <span>-</span>
+                </td>
+                <td className={styles.label}>
+                  <span>
+                    <span className={styles.label}>{dbMaxPrice}</span>
+                    <span className={styles.label}>&#8382; </span>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    value={minPrice}
+                    className={styles.input}
+                    onChange={(e) => chnageMinPrice(e.target.value)}
+                    onBlur={priceHandler}
+                  />
+                </td>
+                <td>
+                  <span className={styles.label}>-</span>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={maxPrice}
+                    className={styles.input}
+                    onChange={(e) => chnageMaxPrice(e.target.value)}
+                    onBlur={priceHandler}
+                  />
+                </td>
+              </tr>
+            </tbody>
           </table>
           {/* <div
             style={{ display: "flex", justifyContent: "space-between" }}
