@@ -11,7 +11,7 @@ import ProductCategories from "./ProductCategories";
 import Models from "./models/Models";
 
 const EditProduct = () => {
-  const { itemId, page, sType, sTerm } = useParams();
+  const { itemId, page, sType, sTerm, sCat } = useParams();
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
@@ -769,7 +769,7 @@ const EditProduct = () => {
                   className={styles.btn}
                   onClick={() => {
                     return navigate(
-                      `/admin/products/${page}/${sType}/${sTerm}`
+                      `/admin/products/${page}/${sType}/${sTerm}/${sCat}`
                     );
                   }}
                 >

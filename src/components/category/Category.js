@@ -91,6 +91,7 @@ const Category = () => {
             titleGe: response.data.categories[i].nameGe,
             titleRu: response.data.categories[i].nameRu,
             parentId: response.data.categories[i].parentId,
+            categoryOrder: response.data.categories[i].categoryOrder,
             children: [],
           });
         }
@@ -111,9 +112,14 @@ const Category = () => {
             result
               .find((c) => c.id === result[i].parentId)
               .children.unshift(result[i]);
+            result
+              .find((c) => c.id === result[i].parentId)
+              .children.sort((a, b) => a.categoryOrder - b.categoryOrder);
           }
         }
-        result = result.filter((c) => c.parentId === 0);
+        result = result
+          .filter((c) => c.parentId === 0)
+          .sort((a, b) => a.categoryOrder - b.categoryOrder);
         let searchResult = result.find((r) => r.id == searchId);
 
         if (searchResult.children.length > 0) {
@@ -151,8 +157,6 @@ const Category = () => {
     categoryAPI
       .getProducts(categoryId, page, count, brandList, minPrice, maxPrice)
       .then((response) => {
-        console.log(response);
-
         setProductList(response.data.products);
         setTotal(response.data.total);
 

@@ -65,7 +65,7 @@ const SubCategories = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th colSpan={6}>
+            <th colSpan={7}>
               {parents
                 ? parents.map((p) => (
                     <Link key={`l${p.id}`}
@@ -87,6 +87,7 @@ const SubCategories = () => {
             <th>name(english)</th>
             <th>name(georgian)</th>
             <th>name(russian)</th>
+            <th>order</th>
             <th></th>
             <th></th>
             <th></th>
@@ -101,6 +102,7 @@ const SubCategories = () => {
                 </td>
                 <td>{d.nameGe}</td>
                 <td>{d.nameRu}</td>
+                <td>{d.categoryOrder}</td>
                 <td><Link to={`/admin/subCategories/${d.id}`}>subcategories</Link></td>
 
                 <td>

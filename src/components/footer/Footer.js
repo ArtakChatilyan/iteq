@@ -49,7 +49,11 @@ const Footer = ({ lang }) => {
     categoryAPI
       .getMainCategories()
       .then((response) => {
-        setCategoryList(response.data.categories);
+        setCategoryList(
+          response.data.categories.sort(
+            (a, b) => a.categoryOrder - b.categoryOrder
+          )
+        );
       })
       .catch((error) => {
         console.log(error);

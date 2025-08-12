@@ -74,6 +74,7 @@ const MainCategories = () => {
             <th>name(georgian)</th>
             <th>name(russian)</th>
             <th>image</th>
+            <th>order</th>
             <th></th>
             <th></th>
             <th></th>
@@ -84,21 +85,20 @@ const MainCategories = () => {
           {data.length > 0 ? (
             data.map((d) => (
               <tr className={styles.item} key={`tr${d.id}`}>
-                <td>
-                  {d.nameEn}
-                </td>
+                <td>{d.nameEn}</td>
                 <td>{d.nameGe}</td>
                 <td>{d.nameRu}</td>
                 <td>
                   <img src={d.imgUrl} className={styles.img} />
                 </td>
+                <td>{d.categoryOrder}</td>
                 <td>
                   <Link to={`/admin/subCategories/${d.id}`}>subcategories</Link>
                 </td>
                 <td>
                   <button
                     className={styles.btn}
-                    style={{fontSize: "1.6rem"}}
+                    style={{ fontSize: "1.6rem" }}
                     onClick={() => {
                       setCatId(d.id);
                       setCatTitle(d.nameEn);
@@ -145,7 +145,7 @@ const MainCategories = () => {
                 add
               </Link>
             </td>
-            <td colSpan={6}>
+            <td colSpan={8}>
               <div style={{ textAlign: "right" }}>
                 <Paging
                   totalCount={total}
@@ -183,7 +183,7 @@ const MainCategories = () => {
           },
           content: {
             color: "lightsteelblue",
-            backgroundColor: "rgb(32,32,32)"
+            backgroundColor: "rgb(32,32,32)",
           },
         }}
       >

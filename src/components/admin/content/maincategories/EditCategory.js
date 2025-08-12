@@ -1,18 +1,29 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styles from "../Update.module.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { categoryAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const EditCategory = () => {
-  const {categoryId}=useParams();
+  const { categoryId } = useParams();
   const [loading, setLoading] = useState(true);
   const [nameEn, setNameEn] = useState("");
   const [nameGe, setNameGe] = useState("");
   const [nameRu, setNameRu] = useState("");
+  const [categoryOrder, setCategoryOrder] = useState(0);
   const [imgUrl, setImgUrl] = useState(null);
   const [onTop, setOnTop] = useState(false);
+  const formValidationSchema = Yup.object().shape({
+      categoryOrder: Yup.string().matches(
+        /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+        "not valid"
+      ),
+      nameEn: Yup.string().required("required"),
+      nameGe: Yup.string().required("required"),
+      nameRu: Yup.string().required("required"),
+    });
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -25,6 +36,7 @@ const EditCategory = () => {
         setNameEn(data.data.data.nameEn);
         setNameGe(data.data.data.nameGe);
         setNameRu(data.data.data.nameRu);
+        setCategoryOrder(data.data.data.categoryOrder);
         setImgUrl(data.data.data.imgUrl);
         setOnTop(data.data.data.onTop);
       }
@@ -40,21 +52,28 @@ const EditCategory = () => {
     <div className={styles.data}>
       {loading && <SplashScreen />}
       <Formik
-        initialValues={{nameEn: nameEn, nameGe:nameGe, nameRu:nameRu, onTop: onTop}}
-        enableReinitialize
-        validate={(values) => {
-          const errors = {};
-          if (!values.nameEn) {
-            errors.nameEn = "Required";
-          }
-          if (!values.nameGe) {
-            errors.nameGe = "Required";
-          }
-          if (!values.nameRu) {
-            errors.nameRu = "Required";
-          }
-          return errors;
+        initialValues={{
+          nameEn: nameEn,
+          nameGe: nameGe,
+          nameRu: nameRu,
+          categoryOrder: categoryOrder,
+          onTop: onTop,
         }}
+        enableReinitialize
+        // validate={(values) => {
+        //   const errors = {};
+        //   if (!values.nameEn) {
+        //     errors.nameEn = "Required";
+        //   }
+        //   if (!values.nameGe) {
+        //     errors.nameGe = "Required";
+        //   }
+        //   if (!values.nameRu) {
+        //     errors.nameRu = "Required";
+        //   }
+        //   return errors;
+        // }}
+        validationSchema={formValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
           setLoading(true);
           const formData = new FormData();
@@ -63,9 +82,9 @@ const EditCategory = () => {
           }
           categoryAPI
             .editCategory(formData, categoryId)
-            .then(({data}) => {
+            .then(({ data }) => {
               setResultMessage("The category updated successfully");
-              return navigate('/admin/categories');
+              return navigate("/admin/categories");
             })
             .catch((error) => {
               setResultMessage("Couldn't add category!");
@@ -136,6 +155,29 @@ const EditCategory = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameRu && touched.nameRu && errors.nameRu}
               </span>
+              <span className={styles.label}>order:</span>
+              <div
+                className={styles.formItem}
+                style={{textAlign:"left",paddingLeft: "5%",}}
+              >
+                <input
+                  type="input"
+                  name="categoryOrder"
+                  onChange={(e) => {
+                    setCategoryOrder(e.target.value);
+                    values.categoryOrder = e.target.value;
+                  }}
+                  onBlur={handleBlur}
+                  value={categoryOrder}
+                  className={styles.input}
+                  style={{width:"60px", textAlign:"center"}}
+                />
+              </div>
+              <span className={`${styles.label} ${styles.error}`}>
+                {errors.categoryOrder &&
+                  touched.categoryOrder &&
+                  errors.categoryOrder}
+              </span>
               <span className={styles.label}>on top page:</span>
               <div
                 className={styles.formItem}
@@ -146,12 +188,14 @@ const EditCategory = () => {
                   alignItems: "center",
                 }}
               >
-                <Field onChange={checkHandle}
+                <Field
+                  onChange={checkHandle}
                   type="checkbox"
                   name="onTop"
                   style={{ width: "20px", height: "20px", cursor: "pointer" }}
                 />
-              </div><span></span>
+              </div>
+              <span></span>
               <span className={styles.label}>image:</span>
               <div className={styles.formItem}>
                 <img src={imgUrl} style={{ width: "200px", margin: "20px" }} />
@@ -176,7 +220,9 @@ const EditCategory = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate('/admin/categories');}}
+                  onClick={() => {
+                    return navigate("/admin/categories");
+                  }}
                 >
                   cancel
                 </button>

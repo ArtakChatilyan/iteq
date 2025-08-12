@@ -175,15 +175,15 @@ const router = createBrowserRouter([
         element: <EditBrand />,
       },
       {
-        path: "/admin/products/:page?/:sType?/:sTerm?",
+        path: "/admin/products/:page?/:sType?/:sTerm?/:sCat?",
         element: <Products />,
       },
       {
-        path: "/admin/addProduct/:page/:sType/:sTerm?",
+        path: "/admin/addProduct/:page/:sType/:sTerm?/:sCat?",
         element: <AddProduct />,
       },
       {
-        path: "/admin/editProduct/:itemId/:page/:sType/:sTerm?",
+        path: "/admin/editProduct/:itemId/:page/:sType/:sTerm?/:sCat?",
         element: <EditProduct />,
       },
       {

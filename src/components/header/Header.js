@@ -42,43 +42,54 @@ const Header = ({
   };
 
   const searchTextChange = (searchText) => {
+    const searchItems = searchText.split(" ");
+    console.log(searchItems);
+
     setSearchItem(searchText);
     if (searchText) {
-      if (searchType === "brand") {
-        categoryAPI.searchByBrand(searchText).then((response) => {
-          setSearchData(response.data.map((bd) => ({ text: bd.brandName })));
-        });
-      } else if (searchType === "model") {
-        categoryAPI.searchByModel(searchText).then((response) => {
-          setSearchData(response.data.map((md) => ({ text: md.nameEn })));
-        });
-      } else {
-        categoryAPI.searchByCategory(searchText).then((response) => {
-          const dataArray = [];
-          const lang = cookies.get("langIteq");
-
-          response.data.forEach((cd) => {
-            if (cd.nameEn.toLowerCase().includes(searchText.toLowerCase())) {
-              dataArray.push({ text: cd.nameEn });
-            } else if (cd.nameGe.includes(searchText)) {
-              dataArray.push({ text: cd.nameGe });
-            } else if (cd.nameRu.includes(searchText)) {
-              dataArray.push({ text: cd.nameGe });
-            }
-            // if (lang === "en") {
-            //   dataArray.push({ text: cd.nameEn });
-            // } else if (lang === "ge") {
-            //   dataArray.push({ text: cd.nameGe });
-            // } else {
-            //   dataArray.push({ text: cd.nameRu });
-            // }
-          });
-          setSearchData(dataArray);
-        });
-      }
+      categoryAPI
+        .searchProducts(searchText)
+        .then((response) => {
+          console.log(response);
+          setSearchData(response.data.searchData);
+        })
+        .catch((error) => console.log(error))
+        .finally(() => {});
     } else {
       setSearchData([]);
     }
+    // if (searchType === "brand") {
+    //   categoryAPI.searchByBrand(searchText).then((response) => {
+    //     setSearchData(response.data.map((bd) => ({ text: bd.brandName })));
+    //   });
+    // } else if (searchType === "model") {
+    //   categoryAPI.searchByModel(searchText).then((response) => {
+    //     setSearchData(response.data.map((md) => ({ text: md.nameEn })));
+    //   });
+    // } else {
+    //   categoryAPI.searchByCategory(searchText).then((response) => {
+    //     const dataArray = [];
+    //     const lang = cookies.get("langIteq");
+
+    //     response.data.forEach((cd) => {
+    //       if (cd.nameEn.toLowerCase().includes(searchText.toLowerCase())) {
+    //         dataArray.push({ text: cd.nameEn });
+    //       } else if (cd.nameGe.includes(searchText)) {
+    //         dataArray.push({ text: cd.nameGe });
+    //       } else if (cd.nameRu.includes(searchText)) {
+    //         dataArray.push({ text: cd.nameGe });
+    //       }
+    //       // if (lang === "en") {
+    //       //   dataArray.push({ text: cd.nameEn });
+    //       // } else if (lang === "ge") {
+    //       //   dataArray.push({ text: cd.nameGe });
+    //       // } else {
+    //       //   dataArray.push({ text: cd.nameRu });
+    //       // }
+    //     });
+    //     setSearchData(dataArray);
+    //   });
+    // }
   };
 
   const searchHandle = () => {
@@ -113,12 +124,12 @@ const Header = ({
                   setSearchData([]);
                 }}
               >
-                {sd.text}
+                {sd.name}
               </li>
             ))}
           </ul>
         )}
-        <div className={styles.selectGroup}>
+        {/* <div className={styles.selectGroup}>
           <input
             type="radio"
             value="brand"
@@ -140,8 +151,7 @@ const Header = ({
             name="searchType"
             onChange={(e) => setSearchType(e.currentTarget.value)}
           />{" "}
-          {t("byModel")}
-        </div>
+        </div> */}
       </div>
 
       <div className={styles.personal}>

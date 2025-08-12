@@ -1,14 +1,19 @@
 import styles from "../View.module.css";
 import cssStyle from "./Search.module.css";
 import search from "../../../../assets/iconSearch.svg";
-import { productsAPI, searchAPI } from "../../dal/api";
+import { categoryAPI, productsAPI, searchAPI } from "../../dal/api";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
 
 const Products = () => {
-  const { page, sType, sTerm } = useParams();
+  const [loading, setLoading] = useState(true);
+
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+
+  const { page, sType, sTerm, sCat } = useParams();
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(parseInt(page || 1));
   const [perPage, setPerPage] = useState(10);
@@ -17,13 +22,43 @@ const Products = () => {
   const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
 
+  const [selectedCategory, setSelectedCategory] = useState(sCat);
   const [searchItem, setSearchItem] = useState(sTerm || "");
   const [searchType, setSearchType] = useState(sType || "default");
   const [searchData, setSearchData] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   useEffect(() => {
+    if (sCat) getBrands(sCat);
+  }, [sCat]);
+
+  const getCategories = () => {
+    categoryAPI
+      .getMainCategories()
+      .then((response) => {
+        setCategories(response.data.data);
+      })
+      .catch((error) => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const getBrands = (catId) => {
+    categoryAPI
+      .getCategoryBrands(catId)
+      .then((response) => {
+        setBrands(response.data.data);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {});
+  };
+
+  useEffect(() => {
+    getCategories();
     getProducts(searchType, searchItem, currentPage, perPage);
   }, [currentPage]);
 
@@ -33,6 +68,7 @@ const Products = () => {
   };
 
   const getProducts = (sType, sItem, currentPage, perPage) => {
+    setLoading(true);
     if (sType === "brand") {
       searchAPI
         .getProductsByBrand(sItem, currentPage, perPage)
@@ -138,6 +174,7 @@ const Products = () => {
             <img src={search} onClick={searchHandle} />
           </span>
         </div>
+
         {searchData.length > 0 && (
           <ul className={cssStyle.autofill}>
             {searchData.map((sd, index) => (
@@ -188,6 +225,37 @@ const Products = () => {
         </div>
       </div>
 
+      <div className={cssStyle.itemContent}>
+        {categories.map((cat) => (
+          <div
+            key={`cat${cat.id}`}
+            className={cssStyle.categoryItem}
+            onClick={() => {
+              setSelectedCategory(cat.id);
+              getBrands(cat.id);
+            }}
+          >
+            {cat.nameEn}
+          </div>
+        ))}
+      </div>
+      <div className={cssStyle.itemContent}>
+        {brands.map((br) => (
+          <div
+            key={`br${br.id}`}
+            className={`${cssStyle.categoryItem} ${cssStyle.brandItem}`}
+            onClick={() => {
+              setLoading(true);
+              setSearchType("brand");
+              setSearchItem(br.brandName);
+              getProducts("brand", br.brandName, 1, perPage);
+            }}
+          >
+            {br.brandName}
+          </div>
+        ))}
+      </div>
+
       <table className={styles.table}>
         <thead>
           <tr>
@@ -205,9 +273,10 @@ const Products = () => {
               <td>{d.id}</td>
               <td>{d.productNameEn}</td>
               <td>
-                {d.modelInfo && d.modelInfo.map((mi) => (
-                  <div key={`mi${mi.id}`}>{mi.nameEn}</div>
-                ))}
+                {d.modelInfo &&
+                  d.modelInfo.map((mi) => (
+                    <div key={`mi${mi.id}`}>{mi.nameEn}</div>
+                  ))}
               </td>
 
               <td>
@@ -247,7 +316,7 @@ const Products = () => {
               </td> */}
               <td>
                 <Link
-                  to={`/admin/editProduct/${d.id}/${currentPage}/${searchType}/${searchItem}`}
+                  to={`/admin/editProduct/${d.id}/${currentPage}/${searchType}/${searchItem}/${selectedCategory}`}
                   className={styles.btn}
                 >
                   edit

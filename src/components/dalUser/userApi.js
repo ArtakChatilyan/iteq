@@ -132,6 +132,9 @@ export const categoryAPI = {
       `user/search/productsByCategory?term=${term}&page=${page}&perPage=${perPage}`
     );
   },
+  searchProducts:(term)=>{
+    return instance.get(`user/search/general?term=${term}`);
+  }
 };
 
 export const imageAPI = {

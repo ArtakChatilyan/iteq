@@ -44,6 +44,7 @@ const Navbar = () => {
             titleGe: response.data.categories[i].nameGe,
             titleRu: response.data.categories[i].nameRu,
             parentId: response.data.categories[i].parentId,
+            categoryOrder: response.data.categories[i].categoryOrder,
             collapsed: false,
             children: [],
           });
@@ -57,9 +58,14 @@ const Navbar = () => {
             result
               .find((c) => c.id === result[i].parentId)
               .children.unshift(result[i]);
+            result
+              .find((c) => c.id === result[i].parentId)
+              .children.sort((a, b) => a.categoryOrder - b.categoryOrder);
           }
         }
-        result = result.filter((c) => c.parentId === 0);
+        result = result
+          .filter((c) => c.parentId === 0)
+          .sort((a, b) => a.categoryOrder - b.categoryOrder);
         setCategoryist(result);
       })
       .catch((error) => {

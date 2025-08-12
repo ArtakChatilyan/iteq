@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../Update.module.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
 import { useState } from "react";
 import { subcategoryAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
@@ -10,24 +11,34 @@ const AddSubCategory = () => {
   const [loading, setLoading]=useState(false);
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
+  const formValidationSchema = Yup.object().shape({
+        categoryOrder: Yup.string().matches(
+          /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
+          "not valid"
+        ),
+        nameEn: Yup.string().required("required"),
+        nameGe: Yup.string().required("required"),
+        nameRu: Yup.string().required("required"),
+      });
   return (
     <div className={styles.data}>
       {loading && <SplashScreen />}
       <Formik
-        initialValues={{ nameEn: "", nameGe: "", nameRu: "", onTop: false }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.nameEn) {
-            errors.nameEn = "Required";
-          }
-          if (!values.nameGe) {
-            errors.nameGe = "Required";
-          }
-          if (!values.nameRu) {
-            errors.nameRu = "Required";
-          }
-          return errors;
-        }}
+        initialValues={{ nameEn: "", nameGe: "", nameRu: "",categoryOrder: 0, onTop: false }}
+        // validate={(values) => {
+        //   const errors = {};
+        //   if (!values.nameEn) {
+        //     errors.nameEn = "Required";
+        //   }
+        //   if (!values.nameGe) {
+        //     errors.nameGe = "Required";
+        //   }
+        //   if (!values.nameRu) {
+        //     errors.nameRu = "Required";
+        //   }
+        //   return errors;
+        // }}
+        validationSchema={formValidationSchema}
         onSubmit={(values, { setSubmitting }) => {
           setLoading(true);
           const formData = new FormData();
@@ -100,6 +111,21 @@ const AddSubCategory = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameRu && touched.nameRu && errors.nameRu}
+              </span>
+              <span className={styles.label}>order:</span>
+              <div className={styles.formItem} style={{textAlign:"left",paddingLeft: "5%",}}>
+                <input
+                  type="input"
+                  name="categoryOrder"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.categoryOrder}
+                  className={styles.input}
+                  style={{width:"60px", textAlign:"center"}}
+                />
+              </div>
+              <span className={`${styles.label} ${styles.error}`}>
+                {errors.categoryOrder && touched.categoryOrder && errors.categoryOrder}
               </span>
               <span className={styles.label}>on top page:</span>
               <div
