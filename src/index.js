@@ -51,6 +51,8 @@ import AddColor from "./components/admin/content/colors/AddColor";
 import EditColor from "./components/admin/content/colors/EditColor";
 import Models from "./components/admin/content/products/models/Models";
 import ProductDescriptions from "./components/admin/content/products/descriptions/ProductDescriptions";
+import Orders from "./components/admin/content/clients/Orders";
+import History from "./components/admin/content/clients/History";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -246,12 +248,20 @@ const router = createBrowserRouter([
         element: <AddNews />,
       },
       {
+        path: "/admin/editNews/:itemId",
+        element: <EditNews />,
+      },
+      {
         path: "/admin/clients",
         element: <Clients />,
       },
       {
-        path: "/admin/editNews/:itemId",
-        element: <EditNews />,
+        path: "/admin/orders/:clientId?",
+        element: <Orders />,
+      },
+      {
+        path: "/admin/history/:clientId",
+        element: <History />,
       },
       {
         path: "/admin/settings",

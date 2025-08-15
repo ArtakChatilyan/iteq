@@ -1,22 +1,41 @@
-.block{
-    padding: 2rem 10vw;
-    border-top: 2px solid rgb(243, 171, 98);
+.block {
+  padding: 0 5vw 20px;
+  margin: 0 auto;
+  border-top: 2px solid rgb(243, 171, 98);
 }
 
-.title{
-    font-size: 2.8rem;
-    font-family: "RobotoRegular";
-    color: rgb(160, 160, 160);
+.title {
+  font-size: 2.8rem;
+  font-family: "RobotoRegular";
+  color: rgb(160, 160, 160);
 }
 
-.strong{
-    color: rgb(242, 165, 87);
+.strong {
+  color: rgb(242, 165, 87);
 }
 
-.info{
-    font-size: 1.8rem;
-    font-family: "RobotoRegular";
-    color:rgb(114, 113, 113);
-    text-align: justify;
-    text-indent: 2rem;
+.info {
+  font-size: 1.8rem;
+  font-family: "RobotoRegular";
+  color: rgb(114, 113, 113);
+  text-align: justify;
+  text-indent: 2rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .block {
+    padding: 0 10vw 20px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .block {
+    padding: 0 15vw 20px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .block {
+    padding: 0 20vw 20px;
+  }
 }

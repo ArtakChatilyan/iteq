@@ -1,0 +1,108 @@
+.block {
+  border: 1px solid rgba(242, 165, 87, 0.6);
+  border-radius: 10px;
+  max-width: 1200px;
+  padding: 2rem;
+  margin: 2rem auto;
+  text-align: left;
+}
+
+.card {
+  display: flex;
+  text-align: center;
+  align-items: flex-start;
+}
+.check {
+  margin-bottom: 2rem;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.img {
+  width: 230px;
+  min-width: 230px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.55);
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.55);
+  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.55);
+}
+
+.img img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+.infoContent {
+  margin-left: 2rem;
+  text-align: left;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.contentEnd {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  color: rgb(32, 83, 117);
+  font-size: 2.4rem;
+  font-family: "RobotoMedium";
+  display: block;
+  margin: 1rem;
+}
+
+.titleLight {
+  color: rgba(242, 165, 87);
+}
+
+.info {
+  color: rgb(83, 106, 116);
+  font-size: 1.6rem;
+  font-family: "RobotoRegular";
+  display: block;
+  margin: 1rem;
+}
+
+.infoLight {
+  color: rgb(242, 165, 87);
+}
+
+.detail {
+  font-size: 1.4rem;
+  color: rgb(32, 83, 117);
+  font-family: "RobotoRegular";
+}
+
+.label {
+  font-size: 1.3rem;
+  font-family: "RobotoRegular";
+  color: rgb(83, 106, 116);
+  display: inline-block;
+  margin: 0.4rem 1rem;
+}
+
+.input {
+  width: 80px;
+  font-size: 1.6rem;
+  font-family: "RobotoRegular";
+  padding: 0.7rem 1rem;
+  outline: 0;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 6px;
+}
+
+.deleteIcon {
+  padding: 0.3rem;
+  border-radius: 6px;
+  transition: 0.15s;
+  cursor: pointer;
+  border: 1px solid rgba(200, 200, 200, 0);
+}
+
+.deleteIcon:hover {
+  border: 1px solid rgba(200, 200, 200, 0.8);
+  stroke: red;
+}

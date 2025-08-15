@@ -7,7 +7,7 @@ import "./styleExtra.css";
 import ProductCard from "./productCard/ProductCard";
 import { Link } from "react-router-dom";
 
-const ProductMenu = ({ title, products}) => {
+const ProductMenu = ({ title, products }) => {
   const settings = {
     infinite: true,
     speed: 500,
@@ -46,22 +46,21 @@ const ProductMenu = ({ title, products}) => {
       },
     ],
   };
- 
+
   return (
     <div className={styles.block}>
       <div className={styles.slideContainer}>
         <div className={styles.categoryTitle}>
-            <Link to="/discounts"> <h2 className={`${styles.hoverUnderlineAnimation} ${styles.left}`}>{title}</h2></Link>
+          <Link to="/discounts">
+            {" "}
+            <h2 className={`${styles.hoverUnderlineAnimation} ${styles.left}`}>
+              {title}
+            </h2>
+          </Link>
         </div>
         <Slider {...settings}>
           {products.map((p) => (
-            <div>
-              <ProductCard
-                key={p.id}
-                product={p}
-                styles={{ margin: "0 auto" }}
-              />
-            </div>
+            <ProductCard key={p.id} product={p} styles={{ margin: "0 auto" }} />
           ))}
         </Slider>
       </div>

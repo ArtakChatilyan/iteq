@@ -202,6 +202,11 @@ export const basketAPI = {
 };
 
 export const orderAPI={
+  getUserOrders: (page, count, userId) => {
+    return instance.get(
+      `orders?page=${page}&perPage=${count}&userId=${userId}`
+    );
+  },
   addOrder:(data)=>{
     return instance.post('orders', data);
   }

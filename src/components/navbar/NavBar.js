@@ -94,7 +94,9 @@ const Navbar = () => {
       />
       <ul className={`${styles.list} ${!menuState && styles.collapse}`}>
         <li key="discounts" className={styles.listItem}>
-          <Link to="/discounts">{t("discount")}</Link>
+          <Link to="/discounts" onClick={() => setMenuState(false)}>
+            {t("discount")}
+          </Link>
         </li>
         <li
           key="products"
@@ -117,19 +119,28 @@ const Navbar = () => {
             <Menu
               items={categoryList}
               isChildNode={false}
-              hide={hide}
+              hide={() => {
+                hide();
+                setMenuState(false);
+              }}
               lang={lang}
             />
           </div>
         </li>
         <li key="aboutus" className={styles.listItem}>
-          <Link to="/about">{t("aboutUs")}</Link>
+          <Link to="/about" onClick={() => setMenuState(false)}>
+            {t("aboutUs")}
+          </Link>
         </li>
         <li key="contacts" className={styles.listItem}>
-          <Link to="/contacts">{t("contacts")}</Link>
+          <Link to="/contacts" onClick={() => setMenuState(false)}>
+            {t("contacts")}
+          </Link>
         </li>
         <li key="news" className={styles.listItem}>
-          <Link to="/news">{t("news")}</Link>
+          <Link to="/news" onClick={() => setMenuState(false)}>
+            {t("news")}
+          </Link>
         </li>
       </ul>
     </div>

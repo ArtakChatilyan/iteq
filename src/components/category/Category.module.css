@@ -1,17 +1,44 @@
 .block {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   position: relative;
 }
 
-.filter{
-  margin-top: 30px;
+.filter {
+  background: #fff;
+  border: 1px solid rgb(127, 153, 165);
+  padding: 0.4rem 1rem 2rem;
+  min-width: 100%;
   text-align: left;
+  position: absolute;
+  z-index: 999;
+}
+
+.btn {
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 1.8rem;
+  font-family: "RobotoRegular";
+  cursor: pointer;
+  color: rgb(242, 165, 87);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid rgb(242, 165, 87);
+}
+
+.btnClose {
+  float: right;
+  cursor: pointer;
+}
+
+.paging {
+  margin: 10px;
 }
 
 .list {
+  clear: both;
   margin: 0;
   list-style-type: none;
   font-size: 1.8rem;
@@ -20,24 +47,23 @@
 }
 
 .list li {
-  width: 100%;
   text-align: left;
   color: rgb(83, 106, 116);
   cursor: pointer;
-  margin: .8rem 0;
-  transition: .15s;
+  margin: 0.8rem 0;
+  transition: 0.15s;
 }
 
-.list li:hover{
+.list li:hover {
   color: rgb(31, 29, 29);
 }
 
-.listLeft{
+.listLeft {
   padding-left: 10px;
 }
 
-.listLeft li{
-  margin: .4rem 0;
+.listLeft li {
+  margin: 0.4rem 0;
 }
 
 .title {
@@ -46,13 +72,13 @@
   transition: 0.15s;
   border-radius: 0px;
   font-family: "RobotoRegular";
+  margin-right: 1rem;
 }
 
 .arrow {
   float: right;
   width: 24px;
   height: 24px;
-  
   border-radius: 50%;
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(242, 165, 87);
@@ -75,10 +101,10 @@
   transform: rotate(90deg);
 }
 
-.partTitle{
+.partTitle {
   font-size: 2.4rem;
-  font-family: 'RobotoLight';
-  color:rgb(242, 165, 87);
+  font-family: "RobotoLight";
+  color: rgb(242, 165, 87);
   display: inline-block;
   margin: 3rem 0 2rem;
 }
@@ -91,20 +117,19 @@
   margin: 3rem 3vw;
   padding: 1rem;
   overflow: hidden;
-  border-left: 1px solid rgba(242, 165, 87, .4);
 }
 
-.label{
+.label {
   font-size: 2rem;
-  font-family: 'SourceSansMedium';
+  font-family: "SourceSansMedium";
   color: rgb(133, 133, 133);
   text-align: center;
 }
 
-.input{
+.input {
   width: 72px;
-  padding: .6rem .8rem;
-  border: 1px solid rgba(128,128,128, .6);
+  padding: 0.6rem 0.8rem;
+  border: 1px solid rgba(128, 128, 128, 0.6);
   border-radius: 4px;
   font-size: 1.6rem;
   color: rgb(32, 83, 117);
@@ -118,7 +143,7 @@
 }
 
 .hoverUnderlineAnimation::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   transform: scaleX(0);
@@ -159,6 +184,36 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .block {
+    width: 80%;
+    grid-template-columns: auto 1fr;
+  }
+
+  .paging {
+    grid-column: 2 / 3;
+  }
+
+  .btn {
+    display: none;
+  }
+
+  .btnClose {
+    display: none;
+  }
+
+  .filter {
+    border: none;
+    padding: 2rem;
+    text-align: left;
+    position: static;
+  }
+
+  .content {
+    border-left: 1px solid rgba(242, 165, 87, 0.4);
+  }
+}
+
 @media (min-width: 1400px) {
   .content {
     grid-template-columns: repeat(3, auto);
@@ -170,6 +225,3 @@
     grid-template-columns: repeat(3, auto);
   }
 }
-
-
-

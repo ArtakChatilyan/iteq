@@ -71,8 +71,8 @@ const Account = ({ user, item }) => {
       </div>
 
       <div className={styles.content}>
-        {selectedItem == 1 && <Orders />}
-        {selectedItem == 2 && <Purchases />}
+        {selectedItem == 1 && <Orders userId={user.userId}/>}
+        {selectedItem == 2 && <Purchases userId={user.userId}/>}
         {selectedItem == 3 && <Basket userId={user.userId}/>}
         {selectedItem == 4 && <Password />}
       </div>

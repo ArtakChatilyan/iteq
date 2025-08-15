@@ -4,20 +4,35 @@ import { useContext, useEffect, useState } from "react";
 import { categoryAPI } from "../dalUser/userApi";
 import ProductCard from "../productMenu/productCard/ProductCard";
 import Paging from "../paging/Paging";
-import "react-range-slider-input/dist/style.css";
+//import "react-range-slider-input/dist/style.css";
 import "./extra.css";
 import { LanguageContext } from "../../contexts/LanguageContext";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
+import closeIcon from "../../assets/close.svg";
 
 const Category = () => {
   const params = useParams();
   const lang = useContext(LanguageContext);
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+    setFilterMode(window.innerWidth> 1024 ? true : false)
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const location = useLocation();
   const [catId, setCatId] = useState(params.categoryId);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(9);
   const [total, setTotal] = useState(0);
+  const [filterMode, setFilterMode] = useState(screenWidth> 1024 ? true : false);
 
   const [categoryList, setCategoryist] = useState([]);
   const [brandList, setBrandList] = useState([]);
@@ -65,12 +80,14 @@ const Category = () => {
   };
 
   const priceHandler = () => {
+    setFilterMode(false);
     setLoading(true);
     setCurrentPage(1);
     setPriceFilter((p) => !p);
   };
 
   const LoadFilterCategory = (categoryId) => {
+    setFilterMode(false);
     if (catId === categoryId) return;
     setLoading(true);
     setCurrentPage(1);
@@ -175,6 +192,7 @@ const Category = () => {
   };
 
   const addToSelected = (e, id) => {
+    setFilterMode(false);
     setLoading(true);
     setCurrentPage(1);
     if (e.currentTarget.checked) {
@@ -195,7 +213,26 @@ const Category = () => {
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
-      <div className={styles.filter}>
+      {
+        <button
+          className={`${styles.btn} ${styles.hoverUnderlineAnimation} ${styles.left}`}
+          onClick={() => setFilterMode(true)}
+        >
+          Filters
+        </button>
+      }
+      <div
+        className={`${
+          filterMode
+            ? "animate__animated animate__slideInLeft animate__faster"
+            : "animate__animated animate__slideOutLeft animate__faster"
+        } ${styles.filter}`}
+      >
+        <img
+          src={closeIcon}
+          className={styles.btnClose}
+          onClick={() => setFilterMode(false)}
+        />
         <Menu
           items={categoryList}
           selectItems={LoadFilterCategory}
@@ -265,27 +302,8 @@ const Category = () => {
               </tr>
             </tbody>
           </table>
-          {/* <div
-            style={{ display: "flex", justifyContent: "space-between" }}
-          ></div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span className={styles.label}>-</span>
-          </div> */}
-          {/* <RangeSlider
-            min={sliderMin}
-            max={sliderMax}
-            value={[priceMin, priceMax]}
-            step={1}
-            onInput={(e) => {
-              setPriceMin(e[0]);
-              setPriceMax(e[1]);
-            }}
-            onThumbDragEnd={priceHandler}
-            onRangeDragEnd={priceHandler}
-          /> */}
         </div>
       </div>
-
       <div className={styles.content}>
         {productList.map((p) => (
           <NavLink to={`/product/${p.id}`} target="blank">
@@ -294,7 +312,7 @@ const Category = () => {
         ))}
       </div>
 
-      <div style={{ gridColumn: "2 / 3", margin: "10px" }}>
+      <div className={styles.paging}>
         <Paging
           mode="user"
           totalCount={total}
@@ -320,31 +338,33 @@ function Menu({ items, selectItems, lang }) {
         else titleValue = item.titleRu;
         return (
           <li key={item.id}>
-            <span
-              className={`${styles.title} ${styles.hoverUnderlineAnimation} ${styles.left}`}
-              onClick={() => {
-                selectItems(item.id);
-              }}
-            >
-              {titleValue}
-            </span>{" "}
-            {item.children.length > 0 && (
-              <button
-                className={styles.arrow}
+            <div style={{ display: "flex", alignItems:"center" }}>
+              <span
+                className={`${styles.title} ${styles.hoverUnderlineAnimation} ${styles.left}`}
                 onClick={() => {
-                  setDisplayChildren({
-                    ...displayChildren,
-                    [item.titleEn]: !displayChildren[item.titleEn],
-                  });
+                  selectItems(item.id);
                 }}
               >
-                {displayChildren[item.titleEn] ? (
-                  <span className={styles.opened}>&gt;</span>
-                ) : (
-                  <span className={styles.closed}>&gt;</span>
-                )}
-              </button>
-            )}
+                {titleValue}
+              </span>{" "}
+              {item.children.length > 0 && (
+                <button
+                  className={styles.arrow}
+                  onClick={() => {
+                    setDisplayChildren({
+                      ...displayChildren,
+                      [item.titleEn]: !displayChildren[item.titleEn],
+                    });
+                  }}
+                >
+                  {displayChildren[item.titleEn] ? (
+                    <span className={styles.opened}>&gt;</span>
+                  ) : (
+                    <span className={styles.closed}>&gt;</span>
+                  )}
+                </button>
+              )}
+            </div>
             {displayChildren[item.titleEn] && item.children && (
               <Menu
                 items={item.children}

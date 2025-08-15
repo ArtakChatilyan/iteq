@@ -26,7 +26,7 @@
   /* font-size: 2rem; */
 }
 
-.imgContainer{
+.imgContainer {
   position: relative;
   overflow: hidden;
   display: block;
@@ -36,8 +36,10 @@
 }
 
 .imgContainer:hover {
-    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.55), 0 14px 18px rgba(0, 0, 0, 0.55);
-  }
+  box-shadow: 1px -3px 25px -4px rgba(0, 0, 0, 0.56);
+  -webkit-box-shadow: 1px -3px 25px -4px rgba(0, 0, 0, 0.56);
+  -moz-box-shadow: 1px -3px 25px -4px rgba(0, 0, 0, 0.56);
+}
 
 .imgSlide {
   width: 100%;
@@ -144,7 +146,6 @@
   font-size: 1.6rem;
   color: rgb(32, 83, 117);
   font-family: "RobotoMedium";
-  
 }
 
 .model {

@@ -47,6 +47,7 @@ const Clients = () => {
             <th>name</th>
             <th>phone</th>
             <th>orders</th>
+            <th>history</th>
           </tr>
         </thead>
         <tbody>
@@ -59,23 +60,31 @@ const Clients = () => {
 
                 <td>
                   <Link
-                    to={'/'}
+                    to={`/admin/orders/${d.userId}`}
                     className={styles.btn}
                   >
                     orders
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    to={`/admin/history/${d.userId}`}
+                    className={styles.btn}
+                  >
+                    history
                   </Link>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={4}>no clients data to preview</td>
+              <td colSpan={5}>no clients data to preview</td>
             </tr>
           )}
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={4}>
+            <td colSpan={5}>
               <div style={{ textAlign: "right" }}>
                 <Paging
                   totalCount={total}
