@@ -179,35 +179,43 @@ export const settingsAPI = {
 export const basketAPI = {
   getUserBasket: (page, count, userId) => {
     return instance.get(
-      `basket?page=${page}&perPage=${count}&userId=${userId}`
+      `user/basket?page=${page}&perPage=${count}&userId=${userId}`
     );
   },
   getBasket: (id) => {
-    return instance.get(`basket/${id}`);
+    return instance.get(`user/basket/${id}`);
   },
   getUserTotal: (id) => {
-    return instance.get(`basket/total/${id}`);
+    return instance.get(`user/basket/total/${id}`);
   },
 
   updateBasketCount: (basketId, count) => {
-    return instance.put("basket", { basketId, count });
+    return instance.put("user/basket", { basketId, count });
   },
 
   addBasket: (data) => {
-    return instance.post(`basket`, data);
+    return instance.post(`user/basket`, data);
   },
   deleteBasket: (id) => {
-    return instance.delete(`basket/${id}`);
+    return instance.delete(`user/basket/${id}`);
   },
 };
 
 export const orderAPI={
   getUserOrders: (page, count, userId) => {
     return instance.get(
-      `orders?page=${page}&perPage=${count}&userId=${userId}`
+      `user/orders?page=${page}&perPage=${count}&userId=${userId}`
     );
   },
   addOrder:(data)=>{
-    return instance.post('orders', data);
+    return instance.post('user/orders', data);
   }
+}
+
+export const historyAPI={
+  getUserHistory: (page, count, userId) => {
+    return instance.get(
+      `user/history?page=${page}&perPage=${count}&userId=${userId}`
+    );
+  },
 }

@@ -166,34 +166,6 @@ export const productsAPI = {
     return instance.post(`products/productCategories`, { id, result });
   },
 
-  // getProductColors: (id) => {
-  //   return instance.get(`products/productColors/${id}`);
-  // },
-
-  // setProductColors: (id, result) => {
-  //   return instance.post(`products/productColors`, { id, result });
-  // },
-
-  // getSizes: (id) => {
-  //   return instance.get(`products/productsizes/${id}`);
-  // },
-
-  // getSize: (id) => {
-  //   return instance.get(`products/productsize/${id}`);
-  // },
-
-  // deleteSize: (id) => {
-  //   return instance.delete(`products/productsize/${id}`);
-  // },
-
-  // addProductSize: (data) => {
-  //   return instance.post(`products/productsizes`, data);
-  // },
-
-  // editProductSize: (id, data) => {
-  //   return instance.put(`products/productsize/${id}`, data);
-  // },
-
   getProductImages: (id) => {
     return instance.get(`products/productImages/${id}`);
   },
@@ -221,18 +193,6 @@ export const productsAPI = {
   deleteDescription: (descriptionId) => {
     return instance.delete(`products/descriptions/${descriptionId}`);
   },
-
-  // getImageColorSize: (id) => {
-  //   return instance.get(`products/productImageColorSize/${id}`);
-  // },
-
-  // setImageColorSize: (data) => {
-  //   return instance.post(`products/productImageColorSize`, data);
-  // },
-
-  // deleteImageColorSize: (id) => {
-  //   return instance.delete(`products/productImageColorSize/${id}`);
-  // },
 };
 
 export const modelAPI = {
@@ -291,7 +251,9 @@ export const modelAPI = {
   },
 
   getDescriptionColorSize: (modelId, descriptionId) => {
-    return instance.get(`models/modelDescriptionColorSize/${modelId}/${descriptionId}`);
+    return instance.get(
+      `models/modelDescriptionColorSize/${modelId}/${descriptionId}`
+    );
   },
 
   setDescriptionColorSize: (data) => {
@@ -432,5 +394,25 @@ export const settingsAPI = {
   },
   updateContact: (data) => {
     return instance.put("settings/contacts", data);
+  },
+};
+
+export const orderApi = {
+  getOrders: (page, count) => {
+    return instance.get(`orders?page=${page}&perPage=${count}`);
+  },
+  getOrdersByClient: (page, count, clientId) => {
+    return instance.get(`orders/byClient?userId=${clientId}&page=${page}&perPage=${count}`);
+  },
+
+  closeOrder:(closeId,orderId)=>{
+    return instance.post("orders", {closeId, orderId});
+  },
+
+  getHistory: (page, count) => {
+    return instance.get(`orders/history?page=${page}&perPage=${count}`);
+  },
+  getHistoryByClient: (page, count, clientId) => {
+    return instance.get(`orders/history/byClient?userId=${clientId}&page=${page}&perPage=${count}`);
   },
 };

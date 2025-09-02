@@ -24,7 +24,7 @@ const Orders = ({ userId }) => {
     orderAPI
       .getUserOrders(currentPage, perPage, userId)
       .then((response) => {
-        setOrderList(response.data.basketList);
+        setOrderList(response.data.orderList);
         setTotal(response.data.total);
       })
       .catch((error) => console.log(error))
@@ -40,9 +40,9 @@ const Orders = ({ userId }) => {
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
-      {orderList.map((b) => (
+      {orderList.map((order) => (
         <OrderCard
-          basket={b}
+          order={order}
         />
       ))}
       <Paging

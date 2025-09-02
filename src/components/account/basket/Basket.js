@@ -133,6 +133,7 @@ const Basket = ({ userId }) => {
         })
         .then((response) => {
           dispatch(getBasketItemsCount(userId));
+          setBasketList(basketList.filter((b) => !b.isIncluded));
         })
         .catch((error) => console.log(error))
         .finally(() => {

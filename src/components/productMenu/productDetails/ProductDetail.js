@@ -1,9 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./ProductDetails.module.css";
 import { Link, useParams } from "react-router-dom";
+import useScreenSize from "../../tools/ScreenSize";
 import { basketAPI, categoryAPI, imageAPI } from "../../dalUser/userApi";
 import Slider from "react-slick";
-import "./slideExtra.css";
+import "./slideExtraDetail.css";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "../../loadingScreen/LoadingScreen";
@@ -19,6 +20,8 @@ const ProductDetail = () => {
   const { t, i18n } = useTranslation();
   const lang = useContext(LanguageContext);
   const [loading, setLoading] = useState(true);
+
+  const { width, height } = useScreenSize();
 
   const [product, setProduct] = useState(null);
   const [brand, setBrand] = useState(null);
@@ -140,6 +143,7 @@ const ProductDetail = () => {
         } else {
           infoData = selectedModel.descriptionLinks;
         }
+
         setDescriptions(infoData);
       } else {
         setDescriptions([]);
@@ -265,6 +269,7 @@ const ProductDetail = () => {
                   style={{
                     width: "200px",
                     maxWidth: "200px",
+                    maxHeight:"120px",
                     border: "0",
                     cursor: "pointer",
                   }}
@@ -279,20 +284,21 @@ const ProductDetail = () => {
             </Slider>
           </div>
           <div className={styles.infoContent}>
-            {categories.map((c) => (
-              <Link
-                key={`c${c.id}`}
-                to={`/category/${c.categoryId}`}
-                className={styles.categoryTitle}
-              >
-                {lang === "en" && c.nameEn}
-                {lang === "ge" && c.nameGe}
-                {lang === "ru" && c.nameRu}
-              </Link>
-            ))}
+            <div className={styles.categoryContent}>
+              {categories.map((c) => (
+                <Link
+                  key={`c${c.id}`}
+                  to={`/category/${c.categoryId}`}
+                  className={styles.categoryTitle}
+                >
+                  {lang === "en" && c.nameEn}
+                  {lang === "ge" && c.nameGe}
+                  {lang === "ru" && c.nameRu}
+                </Link>
+              ))}
+            </div>
             <h1
-              className={`${styles.name} ${styles.title}`}
-              onClick={() => console.log(selectedCount)}
+              className={styles.title}
             >
               {lang === "en" && product.productNameEn}
               {lang === "ge" && product.productNameGe}
@@ -377,7 +383,7 @@ const ProductDetail = () => {
               </tbody>
             </table>
             <div className={styles.optionsContent}>
-              <table>
+              <table className={styles.dataTable}>
                 <thead>
                   <tr>
                     <td className={styles.td}>
@@ -491,7 +497,8 @@ const ProductDetail = () => {
                               style={{ margin: "10px 0" }}
                               onClick={addToBasket}
                             >
-                              {t("addToCart")}
+                              <span className={styles.addLong}>{t("addToCart")}</span>
+                              <span className={styles.addShort}>+</span>
                             </button>
                           </td>
                         </tr>
@@ -505,12 +512,12 @@ const ProductDetail = () => {
               <table>
                 <tbody>
                   <tr>
-                    <td className={styles.td}>
+                    <td className={`${styles.td} ${styles.description}`}>
                       <span className={styles.label}>{t("description")}</span>
                     </td>
                     <td className={styles.td}>
                       {descriptions.map((d) => (
-                        <span className={styles.name}>
+                        <span className={styles.descriptionContent}>
                           {lang === "en" && d.descriptionEn}
                           {lang === "ge" && d.descriptionGe}
                           {lang === "ru" && d.descriptionRu}

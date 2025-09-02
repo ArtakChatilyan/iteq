@@ -4,14 +4,18 @@ import inst from "../../assets/icons8-instagram.svg";
 import twit from "../../assets/icons8-twitter-bird.svg";
 import { useEffect, useState } from "react";
 import { categoryAPI, settingsAPI } from "../dalUser/userApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "universal-cookie";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
+import { useDispatch } from "react-redux";
+import { setCategory } from "../../redux-store/filterSlice";
 
 const Footer = ({ lang }) => {
   const { t, i18n } = useTranslation();
   const cookies = new Cookies();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [addressEn, setAddressEn] = useState(" ");
   const [addressGe, setAddressGe] = useState("");
@@ -62,6 +66,12 @@ const Footer = ({ lang }) => {
         setLoading(false);
       });
   };
+
+  const SelectCategory = (catId) => {
+    dispatch(setCategory({ selectedCategory: catId }));
+    return navigate("/category");
+  };
+
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={false} />}
@@ -85,7 +95,9 @@ const Footer = ({ lang }) => {
               else if (lang === "ru") textValue = c.nameRu;
               return (
                 <li key={`cat${c.id}`}>
-                  <Link to={`/category/${c.id}`}>{textValue}</Link>
+                  <Link to="#" onClick={() => SelectCategory(c.id)}>
+                    {textValue}
+                  </Link>
                 </li>
               );
             })}

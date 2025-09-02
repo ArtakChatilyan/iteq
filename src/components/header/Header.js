@@ -197,7 +197,6 @@ const Header = ({
               onClick={() => {
                 //return navigate(`/login`);
                 setLoginState((state) => !state);
-                console.log(loginState);
               }}
             >
               {t("signIn")}
@@ -208,7 +207,7 @@ const Header = ({
             >
               {loginState && (
                 <div className={styles.loginPanel}>
-                  <LoginContainer />
+                  <LoginContainer close={() => setLoginState(false)} />
                 </div>
               )}
             </div>

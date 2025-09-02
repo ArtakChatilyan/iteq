@@ -58,13 +58,14 @@ const Products = () => {
   };
 
   useEffect(() => {
-    getCategories();
-    getProducts(searchType, searchItem, currentPage, perPage);
+    //getCategories();
+    //getProducts(searchType, searchItem, currentPage, perPage);
   }, [currentPage]);
 
   const pagingHandler = (pageNumber) => {
     setLoading(true);
     setCurrentPage(pageNumber);
+    getProducts(searchType, searchItem, pageNumber, perPage);
   };
 
   const getProducts = (sType, sItem, currentPage, perPage) => {
@@ -233,6 +234,8 @@ const Products = () => {
             onClick={() => {
               setSelectedCategory(cat.id);
               getBrands(cat.id);
+              setProducts([]);
+              setCurrentPage(1);
             }}
           >
             {cat.nameEn}
@@ -248,6 +251,7 @@ const Products = () => {
               setLoading(true);
               setSearchType("brand");
               setSearchItem(br.brandName);
+              setCurrentPage(1);
               getProducts("brand", br.brandName, 1, perPage);
             }}
           >
@@ -255,7 +259,6 @@ const Products = () => {
           </div>
         ))}
       </div>
-
       <table className={styles.table}>
         <thead>
           <tr>

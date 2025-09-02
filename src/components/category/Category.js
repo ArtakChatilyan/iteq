@@ -1,218 +1,38 @@
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./Category.module.css";
 import { useContext, useEffect, useState } from "react";
-import { categoryAPI } from "../dalUser/userApi";
 import ProductCard from "../productMenu/productCard/ProductCard";
 import Paging from "../paging/Paging";
-//import "react-range-slider-input/dist/style.css";
 import "./extra.css";
 import { LanguageContext } from "../../contexts/LanguageContext";
-import LoadingScreen from "../loadingScreen/LoadingScreen";
 import closeIcon from "../../assets/close.svg";
+import searchIcon from "../../assets/iconSearch.svg";
 
-const Category = () => {
-  const params = useParams();
+const Category = ({
+  categoryList,
+  brandList,
+  selectedBrands,
+  productList,
+  SetCategory,
+  FilterByBrand,
+  FilterByPrice,
+  currentPage,
+  perPage,
+  total,
+  setNewPage,
+  filterMode,
+  dbMinPrice,
+  dbMaxPrice,
+  minPrice,
+  maxPrice,
+  chnageMinPrice, 
+  chnageMaxPrice,
+  setFilterMode={setFilterMode}
+}) => {
   const lang = useContext(LanguageContext);
-
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const handleResize = () => {
-    setScreenWidth(window.innerWidth);
-    setFilterMode(window.innerWidth> 1024 ? true : false)
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const location = useLocation();
-  const [catId, setCatId] = useState(params.categoryId);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(9);
-  const [total, setTotal] = useState(0);
-  const [filterMode, setFilterMode] = useState(screenWidth> 1024 ? true : false);
-
-  const [categoryList, setCategoryist] = useState([]);
-  const [brandList, setBrandList] = useState([]);
-  const [selectedBrands, setSelectedBrands] = useState([]);
-  const [productList, setProductList] = useState([]);
-
-  const [dbMinPrice, setDBMinPrice] = useState(0);
-  const [dbMaxPrice, setDBMaxPrice] = useState(0);
-
-  const [minPrice, setMinPrice] = useState(-1);
-  const [maxPrice, setMaxPrice] = useState(-1);
-  const [priceFilter, setPriceFilter] = useState(false);
-
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setCatId(params.categoryId);
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    setCatId(params.categoryId);
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    LoadBrands(params.categoryId);
-    LoadCategories();
-  }, [catId]);
-
-  useEffect(() => {
-    LoadProducts(
-      catId,
-      currentPage,
-      perPage,
-      selectedBrands,
-      minPrice,
-      maxPrice
-    );
-  }, [selectedBrands, priceFilter, catId, currentPage]);
-
-  const pagingHandler = (pageNumber) => {
-    setLoading(true);
-    setCurrentPage(pageNumber);
-  };
-
-  const priceHandler = () => {
-    setFilterMode(false);
-    setLoading(true);
-    setCurrentPage(1);
-    setPriceFilter((p) => !p);
-  };
-
-  const LoadFilterCategory = (categoryId) => {
-    setFilterMode(false);
-    if (catId === categoryId) return;
-    setLoading(true);
-    setCurrentPage(1);
-    setMinPrice(-1);
-    setMaxPrice(-1);
-    setCatId(categoryId);
-  };
-
-  const LoadCategories = () => {
-    categoryAPI
-      .getCategories()
-      .then((response) => {
-        let result = [];
-        for (let i = 0; i < response.data.categories.length; i++) {
-          result.push({
-            id: response.data.categories[i].id,
-            titleEn: response.data.categories[i].nameEn,
-            titleGe: response.data.categories[i].nameGe,
-            titleRu: response.data.categories[i].nameRu,
-            parentId: response.data.categories[i].parentId,
-            categoryOrder: response.data.categories[i].categoryOrder,
-            children: [],
-          });
-        }
-        result.sort(function (a, b) {
-          return a.parentId - b.parentId;
-        });
-
-        let searchId = catId;
-        let searchParentId = result.find((c) => c.id == searchId).parentId;
-
-        while (searchParentId > 0) {
-          searchId = searchParentId;
-          searchParentId = result.find((c) => c.id == searchId).parentId;
-        }
-
-        for (let i = result.length - 1; i > 0; i--) {
-          if (result[i].parentId > 0) {
-            result
-              .find((c) => c.id === result[i].parentId)
-              .children.unshift(result[i]);
-            result
-              .find((c) => c.id === result[i].parentId)
-              .children.sort((a, b) => a.categoryOrder - b.categoryOrder);
-          }
-        }
-        result = result
-          .filter((c) => c.parentId === 0)
-          .sort((a, b) => a.categoryOrder - b.categoryOrder);
-        let searchResult = result.find((r) => r.id == searchId);
-
-        if (searchResult.children.length > 0) {
-          setCategoryist(searchResult.children);
-        } else {
-          setCategoryist([searchResult]);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {});
-  };
-
-  const LoadBrands = (catId) => {
-    categoryAPI
-      .getBrandsForCategory(catId)
-      .then((response) => {
-        setBrandList(response.data.brands);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {});
-  };
-
-  const LoadProducts = (
-    categoryId,
-    page,
-    count,
-    brandList,
-    minPrice,
-    maxPrice
-  ) => {
-    categoryAPI
-      .getProducts(categoryId, page, count, brandList, minPrice, maxPrice)
-      .then((response) => {
-        setProductList(response.data.products);
-        setTotal(response.data.total);
-
-        setDBMinPrice(response.data.minPrice);
-        setDBMaxPrice(response.data.maxPrice);
-
-        if (minPrice === -1) setMinPrice(response.data.minPrice);
-        if (maxPrice === -1) setMaxPrice(response.data.maxPrice);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const addToSelected = (e, id) => {
-    setFilterMode(false);
-    setLoading(true);
-    setCurrentPage(1);
-    if (e.currentTarget.checked) {
-      setSelectedBrands((brands) => [...brands, id]);
-    } else {
-      setSelectedBrands((brands) => [...brands.filter((b) => b != id)]);
-    }
-  };
-
-  const chnageMinPrice = (newValue) => {
-    setMinPrice(newValue);
-  };
-
-  const chnageMaxPrice = (newValue) => {
-    setMaxPrice(newValue);
-  };
 
   return (
     <div className={styles.block}>
-      {loading && <LoadingScreen showGif={true} />}
       {
         <button
           className={`${styles.btn} ${styles.hoverUnderlineAnimation} ${styles.left}`}
@@ -233,11 +53,7 @@ const Category = () => {
           className={styles.btnClose}
           onClick={() => setFilterMode(false)}
         />
-        <Menu
-          items={categoryList}
-          selectItems={LoadFilterCategory}
-          lang={lang}
-        />
+        <Menu items={categoryList} selectItems={SetCategory} lang={lang} />
 
         <span className={styles.partTitle}>Brands</span>
         <ul className={styles.list}>
@@ -252,7 +68,7 @@ const Category = () => {
                   marginRight: "8px",
                   backgroundColor: "red",
                 }}
-                onChange={(e) => addToSelected(e, b.brandId)}
+                onChange={(e) => FilterByBrand(e, b.brandId)}
               />
               {b.brandName}
             </li>
@@ -284,7 +100,6 @@ const Category = () => {
                     value={minPrice}
                     className={styles.input}
                     onChange={(e) => chnageMinPrice(e.target.value)}
-                    onBlur={priceHandler}
                   />
                 </td>
                 <td>
@@ -296,8 +111,12 @@ const Category = () => {
                     value={maxPrice}
                     className={styles.input}
                     onChange={(e) => chnageMaxPrice(e.target.value)}
-                    onBlur={priceHandler}
                   />
+                </td>
+                <td>
+                  <span className={styles.icon}>
+                    <img src={searchIcon} onClick={FilterByPrice} />
+                  </span>
                 </td>
               </tr>
             </tbody>
@@ -318,7 +137,7 @@ const Category = () => {
           totalCount={total}
           currentPage={currentPage}
           pageSize={perPage}
-          paging={pagingHandler}
+          paging={setNewPage}
         />
       </div>
     </div>
@@ -338,7 +157,7 @@ function Menu({ items, selectItems, lang }) {
         else titleValue = item.titleRu;
         return (
           <li key={item.id}>
-            <div style={{ display: "flex", alignItems:"center" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <span
                 className={`${styles.title} ${styles.hoverUnderlineAnimation} ${styles.left}`}
                 onClick={() => {

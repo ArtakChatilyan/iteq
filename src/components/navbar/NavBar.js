@@ -2,10 +2,12 @@ import styles from "./NavBar.module.css";
 import menuIcon from "../../assets/menuIcon.svg";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { categoryAPI } from "../dalUser/userApi";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
 import { LanguageContext } from "../../contexts/LanguageContext";
+import { useDispatch } from "react-redux";
+import { setCategory } from "../../redux-store/filterSlice";
 
 const Navbar = () => {
   const [menuState, setMenuState] = useState(false);
@@ -15,6 +17,8 @@ const Navbar = () => {
   const [categoryList, setCategoryist] = useState([]);
   const [loading, setLoading] = useState(true);
   const refMenu = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick, true);
@@ -84,6 +88,11 @@ const Navbar = () => {
     LoadCategories();
   }, []);
 
+  const SelectCategory = (catId) => {
+    dispatch(setCategory({selectedCategory:catId}));
+    return navigate("/category");
+  };
+
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={false} />}
@@ -124,6 +133,7 @@ const Navbar = () => {
                 setMenuState(false);
               }}
               lang={lang}
+              setCategory={SelectCategory}
             />
           </div>
         </li>
@@ -149,7 +159,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-function Menu({ items, hide, isChildNode, lang }) {
+function Menu({ items, hide, isChildNode, lang, setCategory }) {
   const [displayChildren, setDisplayChildren] = useState({});
   return (
     <div>
@@ -171,7 +181,7 @@ function Menu({ items, hide, isChildNode, lang }) {
                   <div
                     className={`${styles.hoverUnderlineAnimation} ${styles.left}`}
                   >
-                    <Link to={`/category/${item.id}`}>
+                    <Link to="#" onClick={() => setCategory(item.id)}>
                       {lang === "en" && item.titleEn}
                       {lang === "ge" && item.titleGe}
                       {lang === "ru" && item.titleRu}

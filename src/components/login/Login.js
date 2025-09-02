@@ -4,27 +4,27 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
-const Login = ({login, error}) => {
+const Login = ({ login, error, close }) => {
   const { t, i18n } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-   const validationSchema = Yup.object().shape({
-      email: Yup.string()
-        .required(t("required"))
-        .matches(
-          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-          t("incorrectEmail")
-        ),
-      password: Yup.string()
-        .required(t("required"))
-        .min(6, t("wrongPassword"))
-        .max(16, t("wrongPassword")),
-    });
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .required(t("required"))
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        t("incorrectEmail")
+      ),
+    password: Yup.string()
+      .required(t("required"))
+      .min(6, t("wrongPassword"))
+      .max(16, t("wrongPassword")),
+  });
 
-    const validate = () => {
+  const validate = () => {
     setEmailError("");
     setPasswordError("");
     validationSchema
@@ -55,7 +55,7 @@ const Login = ({login, error}) => {
         });
       });
   };
-  
+
   return (
     <div className={styles.block}>
       <div className={styles.formItem}>
@@ -85,8 +85,10 @@ const Login = ({login, error}) => {
           {t("login")}
         </button>
       </div>
-      <div style={{clear: 'both', float: 'left'}}>
-        <Link to='/register' className={styles.link}>{t("registration")}</Link>
+      <div style={{ clear: "both", float: "left" }}>
+        <Link to="/register" className={styles.link} onClick={close}>
+          {t("registration")}
+        </Link>
       </div>
       <div style={{ clear: "both", margin: "1rem auto" }}>
         <span className={styles.error}>{error}</span>

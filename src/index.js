@@ -25,6 +25,7 @@ import Content from "./components/admin/content/Content";
 
 import Main from "./components/main/Main";
 import Category from "./components/category/Category";
+import CategoryContainer from "./components/category/CategoryContainer"
 import ProductDetail from "./components/productMenu/productDetails/ProductDetail";
 import News from "./components/admin/content/news/News";
 import AddNews from "./components/admin/content/news/AddNews";
@@ -79,8 +80,8 @@ const router = createBrowserRouter([
         element: <Contacts />,
       },
       {
-        path: "/category/:categoryId",
-        element: <Category />,
+        path: "/category/:categoryId?",
+        element: <CategoryContainer />,
       },
       {
         path: "/product/:productId",
@@ -260,7 +261,7 @@ const router = createBrowserRouter([
         element: <Orders />,
       },
       {
-        path: "/admin/history/:clientId",
+        path: "/admin/history/:clientId?",
         element: <History />,
       },
       {

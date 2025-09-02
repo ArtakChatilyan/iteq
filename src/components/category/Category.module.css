@@ -16,6 +16,19 @@
   z-index: 999;
 }
 
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  background-color: rgb(242, 165, 87);
+  border: 0;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  width: 38px;
+  transition: 0.15s;
+}
+
 .btn {
   padding: 1rem;
   margin-top: 1rem;

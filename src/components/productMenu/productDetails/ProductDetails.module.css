@@ -1,8 +1,8 @@
 .block {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   position: relative;
-  padding: 2rem 0;
+  padding: 2rem 1rem;
 }
 
 .content {
@@ -13,24 +13,18 @@
   text-align: center;
 }
 
-.categoryTitle {
-  color: rgb(127, 153, 165);
-  font-size: 1.8rem;
-  font-family: "SourceSansMedium";
-  margin-top: 1rem;
-  margin-right: 1rem;
-  text-decoration: underline;
-}
-
-.categoryTitle:hover {
-  /* font-size: 2rem; */
+/* slider */
+/**********/
+.imgSlide {
+  width: 100%;
+  margin: 10px auto;
 }
 
 .imgContainer {
   position: relative;
   overflow: hidden;
   display: block;
-  padding: 50px;
+  padding: 10px;
   border: 1px solid rgba(242, 165, 87, 0.6);
   border-radius: 6px;
 }
@@ -41,62 +35,45 @@
   -moz-box-shadow: 1px -3px 25px -4px rgba(0, 0, 0, 0.56);
 }
 
-.imgSlide {
-  width: 100%;
-  margin: 40px auto;
-}
-
-.sliderBlock {
-  width: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.arrow {
-  position: absolute;
-  top: 50%;
-  cursor: pointer;
-  transform: translate(0, -50%);
-}
-
-.toLeft {
-  left: 0;
-}
-
-.toRight {
-  right: 0;
-}
-
-.sliderContent {
-  width: 80%;
-  display: flex;
-  align-items: center;
-  overflow-x: hidden;
-}
-
-.sliderContainer {
-  display: flex;
-  align-items: center;
-}
-
-.imgItem {
-  width: 20%;
-  margin: 6px;
-  cursor: pointer;
-  user-drag: none;
-  -webkit-user-drag: none;
-  -moz-user-select: none;
-  display: block;
-}
-
 .selectedImage {
   width: 100%;
   height: 400px;
   object-fit: contain;
 }
 
+.title {
+  font-size: 2.6rem;
+  color: rgb(32, 83, 117);
+  font-family: "RobotoMedium";
+  display: inline-block;
+  text-align: center;
+}
+/* info */
+/**********/
+.infoContent {
+  padding-top: 1rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.categoryContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.categoryTitle {
+  color: rgb(127, 153, 165);
+  font-size: 1.8rem;
+  font-family: "SourceSansMedium";
+  margin-top: 1rem;
+  margin-right: 1rem;
+  text-decoration: underline;
+  text-wrap: nowrap;
+}
+
 .colorBlock {
+  margin: 0 2rem;
   font-size: 1.6rem;
   color: rgb(32, 83, 117);
   font-family: "SourceSansMedium";
@@ -127,27 +104,6 @@
   opacity: 1;
 }
 
-.sizeItem {
-  cursor: pointer;
-  opacity: 0.4;
-}
-
-.selectedSize {
-  opacity: 1;
-}
-
-.infoContent {
-  padding-top: 1rem;
-  margin: 2vw auto;
-  min-width: 60%;
-}
-
-.name {
-  font-size: 1.6rem;
-  color: rgb(32, 83, 117);
-  font-family: "RobotoMedium";
-}
-
 .model {
   display: block;
   font-size: 1.6rem;
@@ -172,15 +128,73 @@
   border: 1px solid rgb(242, 165, 87);
 }
 
-.title {
-  font-size: 2.6rem;
+.mainTable {
+  margin: 20px;
+}
+
+.maintd {
+  padding: 4px 10px 4px 0;
+  margin: 0;
+  font-family: "RobotoLight";
+  vertical-align: top;
+}
+
+.optionsContent {
+  border: 1px solid rgb(200, 200, 200);
+  margin-top: 20px;
+  padding: 0;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.dataTable {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.dataTable tbody tr:nth-child(odd) {
+  background-color: rgb(231, 238, 244);
+}
+
+.dataTable .td {
+  padding: 4px 2px;
+  margin: 0;
+  font-family: "RobotoLight";
+  text-align: center;
+}
+
+.label {
+  display: inline-block;
+  text-wrap: nowrap;
+  margin: 0 2px 0 2px;
+  font-size: 1.6rem;
+  color: rgb(17, 43, 60);
+  font-family: "RobotoLight";
+}
+
+.sizeItem {
+  cursor: pointer;
+  opacity: 0.4;
+}
+
+.selectedSize {
+  opacity: 1;
+}
+
+.name {
+  font-size: 1.6rem;
+  color: rgb(32, 83, 117);
+  font-family: "RobotoMedium";
+  display: inline-block;
+  text-align: center;
+  width: 90%;
 }
 
 .price {
   font-size: 2rem;
   color: rgb(242, 165, 87);
-  margin-right: 20px;
   font-family: "RobotoRegular";
+  text-align: center;
 }
 
 .old {
@@ -188,19 +202,17 @@
   color: rgb(160, 160, 160);
   text-decoration: line-through;
   font-family: "RobotoRegular";
-}
-
-.item {
-  margin: 6px 0;
-}
-
-.label {
   display: inline-block;
-  text-wrap: nowrap;
-  margin-right: 10px;
+}
+
+.input {
+  width: 40px;
   font-size: 1.6rem;
-  color: rgb(17, 43, 60);
-  font-family: "RobotoLight";
+  font-family: "RobotoRegular";
+  padding: 0.7rem 1rem;
+  outline: 0;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 6px;
 }
 
 .btn {
@@ -221,48 +233,36 @@
   background-color: rgb(243, 174, 104);
 }
 
-.optionsContent {
-  border: 1px solid rgb(200, 200, 200);
-  margin-top: 20px;
-  padding: 0;
-  border-radius: 6px;
-  width: 100%;
+.addLong {
+  display: none;
 }
 
-.optionsContent table {
-  width: 100%;
-  border-spacing: 0;
-}
-
-.optionsContent table tbody tr:nth-child(odd) {
-  background-color: rgb(231, 238, 244);
-}
-
-.mainTable {
-  margin-top: 20px;
-}
-
-.maintd {
-  padding: 4px 10px 4px 0;
-  margin: 0;
-  font-family: "RobotoLight";
-  vertical-align: top;
-}
-
-.td {
-  padding: 10px 20px;
-  margin: 0;
-  font-family: "RobotoLight";
-}
-
-.input {
-  width: 80px;
+.descriptionContent {
   font-size: 1.6rem;
-  font-family: "RobotoRegular";
-  padding: 0.7rem 1rem;
-  outline: 0;
-  border: 1px solid rgb(200, 200, 200);
-  border-radius: 6px;
+  color: rgb(32, 83, 117);
+  font-family: "RobotoMedium";
+  display: inline-block;
+  text-align: justify;
+  width: 94%;
+}
+
+.description {
+  display: none;
+}
+
+@media screen and (min-width: 492px) {
+  .addLong {
+    display: block;
+  }
+  .addShort {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 660px) {
+  .input {
+    width: 80px;
+  }
 }
 
 @media screen and (min-width: 1128px) {
@@ -279,5 +279,17 @@
     padding-left: 2vw;
     border-left: 1px solid rgba(0, 0, 0, 0.2);
     text-align: left;
+  }
+
+  .categoryContent {
+    justify-content: left;
+  }
+  .descriptionContent {
+    margin: 1rem;
+    text-align: left;
+  }
+  .description {
+    margin: 1rem;
+    display: block;
   }
 }

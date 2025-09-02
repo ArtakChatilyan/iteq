@@ -85,6 +85,16 @@ const Admin = ({ logout }) => {
             Orders
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to="/admin/history"
+            className={({ isActive }) => {
+              return isActive ? styles.active : "";
+            }}
+          >
+            Order History
+          </NavLink>
+        </li>
         {/* <li>
           <NavLink
             to="/admin/sliders"
