@@ -1,39 +1,38 @@
-import styles from "./Category.module.css";
-import closeIcon from "../../assets/close.svg";
-import searchIcon from "../../assets/iconSearch.svg";
-import { LanguageContext } from "../../contexts/LanguageContext";
-import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
+import styles from "./Category.module.css";
+import { useContext, useEffect, useState } from "react";
 import ProductCard from "../productMenu/productCard/ProductCard";
 import Paging from "../paging/Paging";
-import LoadingScreen from "../loadingScreen/LoadingScreen";
+import "./extra.css";
+import { LanguageContext } from "../../contexts/LanguageContext";
+import closeIcon from "../../assets/close.svg";
+import searchIcon from "../../assets/iconSearch.svg";
 
 const Category = ({
-  selectedCategory,
-  loading,
-  filterMode,
-  setFilterMode,
   categoryList,
-  SetCategory,
   brandList,
-  FilterByBrand,
+  selectedBrands,
   productList,
+  SetCategory,
+  FilterByBrand,
+  FilterByPrice,
   currentPage,
   perPage,
   total,
   setNewPage,
+  filterMode,
   dbMinPrice,
   dbMaxPrice,
   minPrice,
   maxPrice,
   chnageMinPrice, 
   chnageMaxPrice,
-  FilterByPrice
+  setFilterMode={setFilterMode}
 }) => {
   const lang = useContext(LanguageContext);
+
   return (
     <div className={styles.block}>
-      {loading && <LoadingScreen showGif={true} />}
       {
         <button
           className={`${styles.btn} ${styles.hoverUnderlineAnimation} ${styles.left}`}

@@ -218,6 +218,7 @@ function Menu({ items, hide, isChildNode, lang, setCategory }) {
                   isChildNode={true}
                   hide={hide}
                   lang={lang}
+                  setCategory={setCategory}
                 />
               )}
               {/* </div> */}

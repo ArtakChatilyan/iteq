@@ -1,17 +1,15 @@
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { categoryAPI } from "../dalUser/userApi";
 import Category from "./Category";
+import { useEffect, useState } from "react";
+import LoadingScreen from "../loadingScreen/LoadingScreen";
+import { categoryAPI } from "../dalUser/userApi";
 import { setCategory } from "../../redux-store/filterSlice";
 
-const CategoryContainer = () => {
+const CatgeoryContainer = ({ changeLanguage }) => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [filterMode, SetFilterMode] = useState(
-    screenWidth > 1024 ? true : false
-  );
   const handleResize = () => {
     setScreenWidth(window.innerWidth);
-    SetFilterMode(window.innerWidth > 1024 ? true : false);
+    setFilterMode(window.innerWidth > 1024 ? true : false);
   };
 
   useEffect(() => {
@@ -21,46 +19,26 @@ const CategoryContainer = () => {
     };
   }, []);
 
-  const dispatch = useDispatch();
   const selectedCategory = useSelector(
     (state) => state.filterReducer.selectedCategory
   );
-
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(9);
+  const [total, setTotal] = useState(0);
+
+  const [filterMode, setFilterMode] = useState(
+    screenWidth > 1024 ? true : false
+  );
+
   const [categoryList, setCategoryist] = useState([]);
   const [brandList, setBrandList] = useState([]);
-  const [selectedBrands, SetSelectedBrands] = useState([]);
-
-  const [productList, SetProductList] = useState([]);
-  const [currentPage, SetCurrentPage] = useState(1);
-  const [perPage, SetPerPage] = useState(9);
-  const [total, SetTotal] = useState(0);
+  const [selectedBrands, setSelectedBrands] = useState([]);
+  const [productList, setProductList] = useState([]);
 
   const [dbMinPrice, setDBMinPrice] = useState(0);
   const [dbMaxPrice, setDBMaxPrice] = useState(0);
-  const [minPrice, setMinPrice] = useState(-1);
-  const [maxPrice, setMaxPrice] = useState(-1);
-
-  const chnageMinPrice = (newValue) => {
-    setMinPrice(newValue);
-  };
-
-  const chnageMaxPrice = (newValue) => {
-    setMaxPrice(newValue);
-  };
-
-  const priceHandler = () => {
-    if (window.innerWidth <= 1024) SetFilterMode(false);
-    setLoading(true);
-    LoadProducts(
-      selectedCategory,
-      currentPage,
-      perPage,
-      selectedBrands,
-      minPrice,
-      maxPrice
-    );
-  };
 
   useEffect(() => {
     if (selectedCategory) {
@@ -80,14 +58,25 @@ const CategoryContainer = () => {
     );
   }, [selectedBrands, selectedCategory, currentPage]);
 
+  const pagingHandler = (pageNumber) => {
+    setLoading(true);
+    setCurrentPage(pageNumber);
+  };
+
+  const priceHandler = () => {
+    if (window.innerWidth <= 1024) setFilterMode(false);
+    setLoading(true);
+    setCurrentPage(1);
+  };
+
   const SetCategory = (categoryId) => {
-    if (window.innerWidth <= 1024) SetFilterMode(false);
+    if (window.innerWidth <= 1024) setFilterMode(false);
     if (categoryId === selectedCategory) return;
     setLoading(true);
-    // setCurrentPage(1);
-    // setMinPrice(-1);
-    // setMaxPrice(-1);
-    dispatch(setCategory({ selectedCategory: categoryId }));
+    setCurrentPage(1);
+    setMinPrice(-1);
+    setMaxPrice(-1);
+    dispatch(setCategory({selectedCategory:categoryId}));
   };
 
   const LoadCategories = () => {
@@ -157,17 +146,6 @@ const CategoryContainer = () => {
       .finally(() => {});
   };
 
-  const SelectBrands = (e, id) => {
-    if (window.innerWidth <= 1024) SetFilterMode(false);
-    setLoading(true);
-    SetCurrentPage(1);
-    if (e.currentTarget.checked) {
-      SetSelectedBrands((brands) => [...brands, id]);
-    } else {
-      SetSelectedBrands((brands) => [...brands.filter((b) => b != id)]);
-    }
-  };
-
   const LoadProducts = (
     categoryId,
     page,
@@ -180,8 +158,8 @@ const CategoryContainer = () => {
     categoryAPI
       .getProducts(categoryId, page, count, brandList, minPrice, maxPrice)
       .then((response) => {
-        SetProductList(response.data.products);
-        SetTotal(response.data.total);
+        setProductList(response.data.products);
+        setTotal(response.data.total);
 
         setDBMinPrice(response.data.minPrice);
         setDBMaxPrice(response.data.maxPrice);
@@ -197,35 +175,54 @@ const CategoryContainer = () => {
       });
   };
 
-  const pagingHandler = (pageNumber) => {
+  const addToSelected = (e, id) => {
+    if (window.innerWidth <= 1024) setFilterMode(false);
     setLoading(true);
-    SetCurrentPage(pageNumber);
+    setCurrentPage(1);
+    if (e.currentTarget.checked) {
+      setSelectedBrands((brands) => [...brands, id]);
+    } else {
+      setSelectedBrands((brands) => [...brands.filter((b) => b != id)]);
+    }
   };
 
+  const [minPrice, setMinPrice] = useState(-1);
+  const [maxPrice, setMaxPrice] = useState(-1);
+
+  const chnageMinPrice = (newValue) => {
+    setMinPrice(newValue);
+  };
+
+  const chnageMaxPrice = (newValue) => {
+    setMaxPrice(newValue);
+  };
+
+  if (loading) {
+    return <LoadingScreen showGif={true} />;
+  }
   return (
     <Category
-      loading={loading}
-      selectedCategory={selectedCategory}
-      filterMode={filterMode}
-      setFilterMode={SetFilterMode}
       categoryList={categoryList}
-      SetCategory={SetCategory}
       brandList={brandList}
-      FilterByBrand={SelectBrands}
+      selectedBrands={selectedBrands}
       productList={productList}
+      SetCategory={SetCategory}
+      FilterByBrand={addToSelected}
+      FilterByPrice={priceHandler}
       currentPage={currentPage}
       perPage={perPage}
       total={total}
       setNewPage={pagingHandler}
+      filterMode={filterMode}
+      setFilterMode={setFilterMode}
       dbMinPrice={dbMinPrice}
       dbMaxPrice={dbMaxPrice}
       minPrice={minPrice}
       maxPrice={maxPrice}
       chnageMinPrice={chnageMinPrice}
       chnageMaxPrice={chnageMaxPrice}
-      FilterByPrice={priceHandler}
     />
   );
 };
 
-export default CategoryContainer;
+export default CatgeoryContainer;
