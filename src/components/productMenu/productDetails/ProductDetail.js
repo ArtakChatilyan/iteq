@@ -182,7 +182,7 @@ const ProductDetail = () => {
           productId,
           modelId: selectedModel.id,
           sizeId: selectedSize.id,
-          colorId: selectedColor.id,
+          colorId:selectedColor ? selectedColor.id : 0,
           count: selectedCount.find((c) => c.sId === selectedSize.id)
             .selectedCount,
         })
@@ -269,7 +269,7 @@ const ProductDetail = () => {
                   style={{
                     width: "200px",
                     maxWidth: "200px",
-                    maxHeight:"120px",
+                    maxHeight: "120px",
                     border: "0",
                     cursor: "pointer",
                   }}
@@ -297,9 +297,7 @@ const ProductDetail = () => {
                 </Link>
               ))}
             </div>
-            <h1
-              className={styles.title}
-            >
+            <h1 className={styles.title}>
               {lang === "en" && product.productNameEn}
               {lang === "ge" && product.productNameGe}
               {lang === "ru" && product.productNameRu}
@@ -386,12 +384,16 @@ const ProductDetail = () => {
               <table className={styles.dataTable}>
                 <thead>
                   <tr>
-                    <td className={styles.td}>
-                      <span className={styles.label}>{t("dimension")}</span>
-                    </td>
-                    <td className={styles.td}>
-                      <span className={styles.label}>{t("weight")}</span>
-                    </td>
+                    {selectedModel.sizes.some((s) => s.dimension) && (
+                      <td className={styles.td}>
+                        <span className={styles.label}>{t("dimension")}</span>
+                      </td>
+                    )}
+                    {selectedModel.sizes.some((s) => s.weight) && (
+                      <td className={styles.td}>
+                        <span className={styles.label}>{t("weight")}</span>
+                      </td>
+                    )}
                     <td className={styles.td}>
                       <span className={styles.label}>{t("price")}&#8382;</span>
                     </td>
@@ -412,17 +414,23 @@ const ProductDetail = () => {
                           }`}
                           onClick={() => selectActiveSize(s.id)}
                         >
-                          <td className={styles.td}>
-                            <span
-                              className={styles.name}
-                              style={{ textWrap: "nowrap" }}
-                            >
-                              {s.dimension}
-                            </span>
-                          </td>
-                          <td className={styles.td}>
-                            <span className={styles.name}>{s.weight}</span>
-                          </td>
+                          {s.dimension && (
+                            <td className={styles.td}>
+                              <span
+                                className={styles.name}
+                                style={{ textWrap: "nowrap" }}
+                              >
+                                {s.dimension}
+                              </span>
+                            </td>
+                          )}
+
+                          {s.weight && (
+                            <td className={styles.td}>
+                              <span className={styles.name}>{s.weight}</span>
+                            </td>
+                          )}
+
                           <td className={styles.td}>
                             {s.discount === 1 ? (
                               <div>
@@ -497,7 +505,9 @@ const ProductDetail = () => {
                               style={{ margin: "10px 0" }}
                               onClick={addToBasket}
                             >
-                              <span className={styles.addLong}>{t("addToCart")}</span>
+                              <span className={styles.addLong}>
+                                {t("addToCart")}
+                              </span>
                               <span className={styles.addShort}>+</span>
                             </button>
                           </td>

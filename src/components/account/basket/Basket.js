@@ -32,6 +32,8 @@ const Basket = ({ userId }) => {
     basketAPI
       .getUserBasket(currentPage, perPage, userId)
       .then((response) => {
+        console.log(response);
+        
         for (let i = 0; i < response.data.basketList.length; i++) {
           response.data.basketList[i].alertOnCount = false;
           response.data.basketList[i].isIncluded = true;

@@ -3,7 +3,7 @@ import styles from "./OrderCard.module.css";
 import { useTranslation } from "react-i18next";
 import { LanguageContext } from "../../../../contexts/LanguageContext";
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, cancel }) => {
   const [model, setModel] = useState(null);
 
   useEffect(() => {
@@ -67,6 +67,7 @@ const OrderCard = ({ order }) => {
           </div>
         </div>
       </div>
+      {cancel && <button>cancel order</button>}
     </div>
   );
 };

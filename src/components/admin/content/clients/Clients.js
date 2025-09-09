@@ -20,6 +20,7 @@ const Clients = () => {
   }, [currentPage]);
 
   const pagingHandler = (pageNumber) => {
+    setCurrentPage(pageNumber);
     setLoading(true);
   };
 

@@ -39,7 +39,7 @@ const Purchases = ({ userId }) => {
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
       {historyList.map((order) => (
-        <OrderCard order={order} />
+        <OrderCard order={order} cancel={false}/>
       ))}
       <Paging
         mode="user"

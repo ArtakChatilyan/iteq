@@ -3,18 +3,16 @@ import closeIcon from "../../assets/close.svg";
 import searchIcon from "../../assets/iconSearch.svg";
 import { LanguageContext } from "../../contexts/LanguageContext";
 import { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ProductCard from "../productMenu/productCard/ProductCard";
 import Paging from "../paging/Paging";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
 
 const Category = ({
-  selectedCategory,
   loading,
   filterMode,
   setFilterMode,
   categoryList,
-  SetCategory,
   brandList,
   FilterByBrand,
   productList,
@@ -26,9 +24,9 @@ const Category = ({
   dbMaxPrice,
   minPrice,
   maxPrice,
-  chnageMinPrice, 
+  chnageMinPrice,
   chnageMaxPrice,
-  FilterByPrice
+  FilterByPrice,
 }) => {
   const lang = useContext(LanguageContext);
   return (
@@ -54,7 +52,7 @@ const Category = ({
           className={styles.btnClose}
           onClick={() => setFilterMode(false)}
         />
-        <Menu items={categoryList} selectItems={SetCategory} lang={lang} />
+        <Menu items={categoryList} lang={lang} />
 
         <span className={styles.partTitle}>Brands</span>
         <ul className={styles.list}>
@@ -147,7 +145,7 @@ const Category = ({
 
 export default Category;
 
-function Menu({ items, selectItems, lang }) {
+function Menu({ items, lang }) {
   const [displayChildren, setDisplayChildren] = useState({});
   return (
     <ul className={`${styles.list} ${styles.listLeft}`}>
@@ -161,11 +159,8 @@ function Menu({ items, selectItems, lang }) {
             <div style={{ display: "flex", alignItems: "center" }}>
               <span
                 className={`${styles.title} ${styles.hoverUnderlineAnimation} ${styles.left}`}
-                onClick={() => {
-                  selectItems(item.id);
-                }}
               >
-                {titleValue}
+                <Link className={styles.linkTitle} to={`/category/${item.id}`}>{titleValue}</Link>
               </span>{" "}
               {item.children.length > 0 && (
                 <button
@@ -186,11 +181,7 @@ function Menu({ items, selectItems, lang }) {
               )}
             </div>
             {displayChildren[item.titleEn] && item.children && (
-              <Menu
-                items={item.children}
-                selectItems={selectItems}
-                lang={lang}
-              />
+              <Menu items={item.children} lang={lang} />
             )}
           </li>
         );

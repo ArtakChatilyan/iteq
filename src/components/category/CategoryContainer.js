@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { categoryAPI } from "../dalUser/userApi";
 import Category from "./Category";
 import { setCategory } from "../../redux-store/filterSlice";
+import { useParams } from "react-router-dom";
 
 const CategoryContainer = () => {
+  const selectedCategory = useParams().categoryId;
+
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [filterMode, SetFilterMode] = useState(
     screenWidth > 1024 ? true : false
@@ -21,10 +24,10 @@ const CategoryContainer = () => {
     };
   }, []);
 
-  const dispatch = useDispatch();
-  const selectedCategory = useSelector(
-    (state) => state.filterReducer.selectedCategory
-  );
+  // const dispatch = useDispatch();
+  // const selectedCategory = useSelector(
+  //   (state) => state.filterReducer.selectedCategory
+  // );
 
   const [loading, setLoading] = useState(true);
   const [categoryList, setCategoryist] = useState([]);
@@ -50,7 +53,7 @@ const CategoryContainer = () => {
   };
 
   const priceHandler = () => {
-    if (window.innerWidth <= 1024) SetFilterMode(false);
+    
     setLoading(true);
     LoadProducts(
       selectedCategory,
@@ -80,15 +83,15 @@ const CategoryContainer = () => {
     );
   }, [selectedBrands, selectedCategory, currentPage]);
 
-  const SetCategory = (categoryId) => {
-    if (window.innerWidth <= 1024) SetFilterMode(false);
-    if (categoryId === selectedCategory) return;
-    setLoading(true);
-    // setCurrentPage(1);
-    // setMinPrice(-1);
-    // setMaxPrice(-1);
-    dispatch(setCategory({ selectedCategory: categoryId }));
-  };
+  // const SetCategory = (categoryId) => {
+  //   if (window.innerWidth <= 1024) SetFilterMode(false);
+  //   if (categoryId === selectedCategory) return;
+  //   setLoading(true);
+  //   // setCurrentPage(1);
+  //   // setMinPrice(-1);
+  //   // setMaxPrice(-1);
+  //   //dispatch(setCategory({ selectedCategory: categoryId }));
+  // };
 
   const LoadCategories = () => {
     categoryAPI
@@ -158,7 +161,7 @@ const CategoryContainer = () => {
   };
 
   const SelectBrands = (e, id) => {
-    if (window.innerWidth <= 1024) SetFilterMode(false);
+    //if (window.innerWidth <= 1024) SetFilterMode(false);
     setLoading(true);
     SetCurrentPage(1);
     if (e.currentTarget.checked) {
@@ -193,6 +196,7 @@ const CategoryContainer = () => {
         console.log(error);
       })
       .finally(() => {
+        if (window.innerWidth <= 1024) SetFilterMode(false);
         setLoading(false);
       });
   };
@@ -209,7 +213,6 @@ const CategoryContainer = () => {
       filterMode={filterMode}
       setFilterMode={SetFilterMode}
       categoryList={categoryList}
-      SetCategory={SetCategory}
       brandList={brandList}
       FilterByBrand={SelectBrands}
       productList={productList}

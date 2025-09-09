@@ -40,6 +40,8 @@ const Orders = () => {
     orderApi
       .getOrdersByClient(page, count, clientId)
       .then((response) => {
+        console.log(response.data);
+        
         setOrderList(response.data.orderList);
         setTotal(response.data.total);
       })

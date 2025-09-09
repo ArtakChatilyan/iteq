@@ -130,7 +130,6 @@ const Navbar = () => {
               isChildNode={false}
               hide={() => {
                 hide();
-                setMenuState(false);
               }}
               lang={lang}
               setCategory={SelectCategory}
@@ -159,7 +158,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-function Menu({ items, hide, isChildNode, lang, setCategory }) {
+function Menu({ items, hide, isChildNode, lang }) {
   const [displayChildren, setDisplayChildren] = useState({});
   return (
     <div>
@@ -181,7 +180,7 @@ function Menu({ items, hide, isChildNode, lang, setCategory }) {
                   <div
                     className={`${styles.hoverUnderlineAnimation} ${styles.left}`}
                   >
-                    <Link to="#" onClick={() => setCategory(item.id)}>
+                    <Link to={`/category/${item.id}`}>
                       {lang === "en" && item.titleEn}
                       {lang === "ge" && item.titleGe}
                       {lang === "ru" && item.titleRu}
@@ -218,7 +217,7 @@ function Menu({ items, hide, isChildNode, lang, setCategory }) {
                   isChildNode={true}
                   hide={hide}
                   lang={lang}
-                  setCategory={setCategory}
+                  
                 />
               )}
               {/* </div> */}

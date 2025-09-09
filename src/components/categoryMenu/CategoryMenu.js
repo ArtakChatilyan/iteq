@@ -17,7 +17,7 @@ const CategoryMenu = ({ categories }) => {
     <div className={styles.block}>
       <div className={styles.content}>
         {categories.map((c) => (
-          <Link to='#' onClick={()=>SelectCategory(c.id)}>
+          <Link to={`/category/${c.id}`}>
             <CategoryCard key={c.id} category={c} />
           </Link>
         ))}

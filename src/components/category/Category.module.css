@@ -88,6 +88,15 @@
   margin-right: 1rem;
 }
 
+.linkTitle {
+  color: rgb(83, 106, 116);
+  transition: 0.15s;
+}
+
+.linkTitle:hover {
+  color: rgb(31, 29, 29);
+}
+
 .arrow {
   float: right;
   width: 24px;

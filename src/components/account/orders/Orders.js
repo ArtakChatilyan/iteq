@@ -41,9 +41,7 @@ const Orders = ({ userId }) => {
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
       {orderList.map((order) => (
-        <OrderCard
-          order={order}
-        />
+        <OrderCard order={order} cancel={true} />
       ))}
       <Paging
         mode="user"
