@@ -83,7 +83,7 @@ export const categoryAPI = {
     return instance.get(`user/categories`);
   },
   getCategoriesById: (categoryId) => {
-    return instance.get(`user/categories/?categoryId=${categoryId}`);
+    return instance.get(`/category/:categoryId?/:brands?/:minPrice?/:maxPrice?/:page?=${categoryId}`);
   },
   getProducts: (catId, page, count, brandList, minPrice, maxPrice) => {
     return instance.get(

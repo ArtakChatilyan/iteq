@@ -30,8 +30,6 @@ const Category = ({
   search,
 }) => {
   const lang = useContext(LanguageContext);
-  console.log(selectedBrands);
-  
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}

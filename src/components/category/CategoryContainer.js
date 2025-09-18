@@ -173,6 +173,8 @@ const CategoryContainer = () => {
     categoryAPI
       .getProducts(categoryId, page, count, brandList, minPrice, maxPrice)
       .then((response) => {
+        console.log(response);
+        
         SetProductList(response.data.products);
         SetTotal(response.data.total);
 
