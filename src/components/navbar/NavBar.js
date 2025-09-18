@@ -180,7 +180,7 @@ function Menu({ items, hide, isChildNode, lang }) {
                   <div
                     className={`${styles.hoverUnderlineAnimation} ${styles.left}`}
                   >
-                    <Link to={`/category/${item.id}`}>
+                    <Link to={`/category/${item.id}/${0}/${-1}/${-1}/${1}`}>
                       {lang === "en" && item.titleEn}
                       {lang === "ge" && item.titleGe}
                       {lang === "ru" && item.titleRu}

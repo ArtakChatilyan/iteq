@@ -31,10 +31,6 @@ const Password = () => {
   });
 
   const changePasswordHandle = async () => {
-    // dispatch(changePassword({ oldPassword, newPassword })).then((response) => {
-    //   //console.log(response);
-    // });
-
     setOldPasswordError("");
     setNewPasswordError("");
     setConfirmPasswordError("");

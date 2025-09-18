@@ -1,5 +1,5 @@
 import Login from "./Login";
-import { login } from "../../redux-store/userSlice";
+import { login, recover } from "../../redux-store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const LoginContainer = ({close}) => {
@@ -9,7 +9,11 @@ const LoginContainer = ({close}) => {
     dispatch(login(data));
   };
 
-  return <Login login={loginHandle} error={error} close={close}/>;
+  const sendLinkHandler=(data)=>{
+    dispatch(recover(data));
+  }
+
+  return <Login login={loginHandle} error={error} close={close} sendLink={sendLinkHandler}/>;
 };
 
 export default LoginContainer;

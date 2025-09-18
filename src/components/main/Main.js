@@ -36,9 +36,10 @@ const Main = () => {
       .getDiscountsAll()
       .then((response) => {
         const products = response.data.products;
+        setDiscountProducts(response.data.products);
         if (products.length > 0) {
           let i = 0;
-          while (products.length < 5) {
+          while (products.length < 2) {
             products.push(response.data.products[i]);
             i++;
             if (i === response.data.products.length) i = 0;

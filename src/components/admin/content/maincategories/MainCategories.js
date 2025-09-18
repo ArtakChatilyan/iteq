@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
 import BrandsForCategories from "./BrandsForCategories/BrandsForCategories";
+import { useTranslation } from "react-i18next";
 
 const MainCategories = () => {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ const MainCategories = () => {
   const [modalBrands, setModalBrands] = useState(false);
   const [catId, setCatId] = useState(0);
   const [catTitle, setCatTitle] = useState("");
+  const { t } = useTranslation();
 
   useEffect(() => {
     getCategories(currentPage, perPage);
@@ -70,11 +72,11 @@ const MainCategories = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>name(english)</th>
-            <th>name(georgian)</th>
-            <th>name(russian)</th>
-            <th>image</th>
-            <th>order</th>
+            <th>{t("admin_nameEn")}</th>
+            <th>{t("admin_nameGe")}</th>
+            <th>{t("admin_nameRu")}</th>
+            <th>{t("admin_image")}</th>
+            <th>{t("admin_categoryOrder")}</th>
             <th></th>
             <th></th>
             <th></th>
@@ -93,7 +95,7 @@ const MainCategories = () => {
                 </td>
                 <td>{d.categoryOrder}</td>
                 <td>
-                  <Link to={`/admin/subCategories/${d.id}`}>subcategories</Link>
+                  <Link to={`/admin/subCategories/${d.id}`}>{t("admin_subcategories")}</Link>
                 </td>
                 <td>
                   <button
@@ -105,7 +107,7 @@ const MainCategories = () => {
                       setModalBrands(true);
                     }}
                   >
-                    brands
+                    {t("admin_catBrands")}
                   </button>
                 </td>
                 <td>
@@ -113,7 +115,7 @@ const MainCategories = () => {
                     to={`/admin/editCategory/${d.id}`}
                     className={styles.btn}
                   >
-                    edit
+                    {t("admin_edit")}
                   </Link>
                 </td>
                 <td>
@@ -124,7 +126,7 @@ const MainCategories = () => {
                       setModal(true);
                     }}
                   >
-                    delete
+                    {t("admin_delete")}
                   </button>
                 </td>
               </tr>
@@ -142,7 +144,7 @@ const MainCategories = () => {
                 to={`/admin/addCategory`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
-                add
+                {t("admin_add")}
               </Link>
             </td>
             <td colSpan={8}>
@@ -167,10 +169,10 @@ const MainCategories = () => {
                 deleteItem(deleteId);
               }}
             >
-              delete
+              {t("admin_delete")}
             </button>
             <button className={styles.delBtn} onClick={() => setModal(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>

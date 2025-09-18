@@ -69,6 +69,38 @@
     "order":"order",
     "total":"Total",
 
+    "forgotPassword":"forgot password?",
+    "wrongRecoveryLink":"Wrong link or the link has expired",
+
+    "admin_categories": "Categories",
+    "admin_products":"Products",
+    "admin_colors":"Colors",
+    "admin_brands":"Brands",
+    "admin_orders":"Orders",
+    "admin_orderHistory":"Order History",
+    "admin_aboutUs":"About us",
+    "admin_news":"News",
+    "admin_clients":"Clients",
+    "admin_settings":"Settings",
+    "admin_logOut":"log out",
+    "admin_nameEn":"name(english)",
+    "admin_nameGe":"name(georgian)",
+    "admin_nameRu":"name(russian)",
+    "admin_image":"image",
+    "admin_categoryOrder":"order",
+    "admin_subcategories":"subcategories",
+    "admin_catBrands":"brands",
+    "admin_edit":"edit",
+    "admin_delete":"delete",
+    "admin_add":"add",
+    "admin_cancel":"cancel",
+    "admin_close":"close",
+    "admin_onTop":"on top",
+    "admin_required":"required",
+    "admin_notValid":"not valid",
+
+
+
 
 
 

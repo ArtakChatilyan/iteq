@@ -25,7 +25,7 @@ import Content from "./components/admin/content/Content";
 
 import Main from "./components/main/Main";
 import Category from "./components/category/Category";
-import CategoryContainer from "./components/category/CategoryContainer"
+import CategoryContainer from "./components/category/CategoryContainer";
 import ProductDetail from "./components/productMenu/productDetails/ProductDetail";
 import News from "./components/admin/content/news/News";
 import AddNews from "./components/admin/content/news/AddNews";
@@ -54,6 +54,7 @@ import Models from "./components/admin/content/products/models/Models";
 import ProductDescriptions from "./components/admin/content/products/descriptions/ProductDescriptions";
 import Orders from "./components/admin/content/clients/Orders";
 import History from "./components/admin/content/clients/History";
+import PasswordRecovery from "./components/passwordRecovery/PasswordRecovery";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -80,7 +81,7 @@ const router = createBrowserRouter([
         element: <Contacts />,
       },
       {
-        path: "/category/:categoryId?",
+        path: "/category/:categoryId?/:brands?/:minPrice?/:maxPrice?/:page?",
         element: <CategoryContainer />,
       },
       {
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
       {
         path: "/account/:item?",
         element: <AccountContainer />,
+      },
+      {
+        path: "/passwordRecovery/:userId?",
+        element: <PasswordRecovery />,
       },
       {
         path: "*",
@@ -221,9 +226,7 @@ const router = createBrowserRouter([
       //   path: "/admin/editProductSize/:itemId/:id",
       //   element: <EditProductSize />,
       // },
-      
-      
-      
+
       {
         path: "/admin/colors",
         element: <Colors />,

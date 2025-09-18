@@ -5,8 +5,10 @@ import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import { categoryAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const EditCategory = () => {
+  const { t } = useTranslation();
   const { categoryId } = useParams();
   const [loading, setLoading] = useState(true);
   const [nameEn, setNameEn] = useState("");
@@ -18,11 +20,11 @@ const EditCategory = () => {
   const formValidationSchema = Yup.object().shape({
       categoryOrder: Yup.string().matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "not valid"
+        t("admin_notValid")
       ),
-      nameEn: Yup.string().required("required"),
-      nameGe: Yup.string().required("required"),
-      nameRu: Yup.string().required("required"),
+      nameEn: Yup.string().required(t("admin_required")),
+      nameGe: Yup.string().required(t("admin_required")),
+      nameRu: Yup.string().required(t("admin_required")),
     });
 
   const navigate = useNavigate();

@@ -200,6 +200,15 @@ export const resend = createAsyncThunk("user/resend", async () => {
   }
 });
 
+export const recover = createAsyncThunk("user/recover", async (data) => {
+  try {
+    const response = await usersAPI.recover(data);
+    return response.data;
+  } catch (e) {
+    return { status: e.response.status, error: e.response.data.message };
+  }
+});
+
 export const changePassword = createAsyncThunk(
   "user/changePassword",
   async (data) => {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
-const Login = ({ login, error, close }) => {
+const Login = ({ login, error, close, sendLink }) => {
   const { t, i18n } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +22,15 @@ const Login = ({ login, error, close }) => {
       .required(t("required"))
       .min(6, t("wrongPassword"))
       .max(16, t("wrongPassword")),
+  });
+
+  const validationSchemaRecover = Yup.object().shape({
+    email: Yup.string()
+      .required(t("required"))
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        t("incorrectEmail")
+      ),
   });
 
   const validate = () => {
@@ -56,6 +65,33 @@ const Login = ({ login, error, close }) => {
       });
   };
 
+  const validateForRecover = () => {
+    setEmailError("");
+    setPasswordError("");
+    validationSchemaRecover
+      .validate(
+        {
+          email,
+        },
+        { abortEarly: false }
+      )
+      .then(function (valid) {
+        sendLink({ email });
+      })
+      .then(() => {
+        //alert message aboute sending link
+      })
+      .catch(function (errors) {
+        errors.inner.forEach((error) => {
+          switch (error.path) {
+            case "email":
+              setEmailError(error.errors[0]);
+              break;
+          }
+        });
+      });
+  };
+
   return (
     <div className={styles.block}>
       <div className={styles.formItem}>
@@ -80,8 +116,23 @@ const Login = ({ login, error, close }) => {
         />
         <span className={styles.error}>{passwordError}</span>
       </div>
+      <div style={{ clear: "both", float: "left" }}>
+        <Link
+          to="#"
+          className={styles.link}
+          style={{ color: "dodgerblue" }}
+          onClick={()=>validateForRecover()}
+        >
+          {t("forgotPassword")}
+        </Link>
+      </div>
       <div>
-        <button type="button" className={styles.btn} onClick={() => validate()}>
+        <button
+          type="button"
+          className={styles.btn}
+          style={{ clear: "both"}}
+          onClick={() => validate()}
+        >
           {t("login")}
         </button>
       </div>

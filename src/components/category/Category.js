@@ -14,7 +14,8 @@ const Category = ({
   setFilterMode,
   categoryList,
   brandList,
-  FilterByBrand,
+  selectedBrands,
+  SelectBrands,
   productList,
   currentPage,
   perPage,
@@ -26,9 +27,11 @@ const Category = ({
   maxPrice,
   chnageMinPrice,
   chnageMaxPrice,
-  FilterByPrice,
+  search,
 }) => {
   const lang = useContext(LanguageContext);
+  console.log(selectedBrands);
+  
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
@@ -52,7 +55,12 @@ const Category = ({
           className={styles.btnClose}
           onClick={() => setFilterMode(false)}
         />
-        <Menu items={categoryList} lang={lang} />
+        <Menu
+          items={categoryList}
+          lang={lang}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+        />
 
         <span className={styles.partTitle}>Brands</span>
         <ul className={styles.list}>
@@ -60,6 +68,7 @@ const Category = ({
             <li key={`chk${b.brandId}`}>
               <input
                 type="checkbox"
+                checked={selectedBrands.includes(b.brandId)}
                 style={{
                   width: "16px",
                   height: "16px",
@@ -67,7 +76,7 @@ const Category = ({
                   marginRight: "8px",
                   backgroundColor: "red",
                 }}
-                onChange={(e) => FilterByBrand(e, b.brandId)}
+                onChange={(e) => SelectBrands(e, b.brandId)}
               />
               {b.brandName}
             </li>
@@ -112,14 +121,17 @@ const Category = ({
                     onChange={(e) => chnageMaxPrice(e.target.value)}
                   />
                 </td>
-                <td>
+                {/* <td>
                   <span className={styles.icon}>
                     <img src={searchIcon} onClick={FilterByPrice} />
                   </span>
-                </td>
+                </td> */}
               </tr>
             </tbody>
           </table>
+          <span className={styles.icon}>
+            <img src={searchIcon} onClick={search} />
+          </span>
         </div>
       </div>
       <div className={styles.content}>
@@ -134,7 +146,7 @@ const Category = ({
         <Paging
           mode="user"
           totalCount={total}
-          currentPage={currentPage}
+          currentPage={parseInt(currentPage)}
           pageSize={perPage}
           paging={setNewPage}
         />
@@ -145,7 +157,7 @@ const Category = ({
 
 export default Category;
 
-function Menu({ items, lang }) {
+function Menu({ items, lang, minPrice, maxPrice }) {
   const [displayChildren, setDisplayChildren] = useState({});
   return (
     <ul className={`${styles.list} ${styles.listLeft}`}>
@@ -160,7 +172,14 @@ function Menu({ items, lang }) {
               <span
                 className={`${styles.title} ${styles.hoverUnderlineAnimation} ${styles.left}`}
               >
-                <Link className={styles.linkTitle} to={`/category/${item.id}`}>{titleValue}</Link>
+                <Link
+                  className={styles.linkTitle}
+                  to={`/category/${
+                    item.id
+                  }/${0}/${minPrice}/${maxPrice}/${1}`}
+                >
+                  {titleValue}
+                </Link>
               </span>{" "}
               {item.children.length > 0 && (
                 <button
@@ -181,7 +200,12 @@ function Menu({ items, lang }) {
               )}
             </div>
             {displayChildren[item.titleEn] && item.children && (
-              <Menu items={item.children} lang={lang} />
+              <Menu
+                items={item.children}
+                lang={lang}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+              />
             )}
           </li>
         );

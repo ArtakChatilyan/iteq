@@ -11,8 +11,9 @@ const Orders = () => {
   const [total, setTotal] = useState(0);
   const [orderList, setOrderList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modal, setModal] = useState(false);
-  const [closeId, setCloseId] = useState(0);
+  const [modalClose, setModalClose] = useState(false);
+   const [modalCancel, setModalCancel] = useState(false);
+  const [selectedId, setSelectedId] = useState(0);
   const [selectedOrderId, setSelectedOrderId] = useState(0);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const Orders = () => {
       .getOrdersByClient(page, count, clientId)
       .then((response) => {
         console.log(response.data);
-        
+
         setOrderList(response.data.orderList);
         setTotal(response.data.total);
       })
@@ -57,9 +58,31 @@ const Orders = () => {
 
   const CloseOrder = () => {
     setLoading(true);
-    setModal(false);
+    setModalClose(false);
     orderApi
-      .closeOrder(closeId, selectedOrderId)
+      .closeOrder(selectedId, selectedOrderId)
+      .then((response) => {
+        if (orderList.length === 1 && currentPage > 1) {
+          setCurrentPage((currentPage) => currentPage - 1);
+        } else {
+          if (clientId) {
+            LoadOrdersByClient(currentPage, perPage, clientId);
+          } else {
+            LoadOrders(currentPage, perPage);
+          }
+        }
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const CancelOrder = () => {
+    setLoading(true);
+    setModalCancel(false);
+    orderApi
+      .cancelOrder(selectedId, selectedOrderId)
       .then((response) => {
         if (orderList.length === 1 && currentPage > 1) {
           setCurrentPage((currentPage) => currentPage - 1);
@@ -93,6 +116,7 @@ const Orders = () => {
             <th>client</th>
             <th>order date</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -112,25 +136,51 @@ const Orders = () => {
                 <button
                   className={styles.btn}
                   onClick={() => {
-                    setCloseId(ol.id);
+                    setSelectedId(ol.id);
                     setSelectedOrderId(ol.orderId);
-                    setModal(true);
+                    setModalClose(true);
                   }}
                 >
                   close order
                 </button>
               </td>
+              {ol.state===1 && (
+                <td>
+                  <button
+                    className={styles.btn}
+                    onClick={() => {
+                      setSelectedId(ol.id);
+                      setSelectedOrderId(ol.orderId);
+                      setModalCancel(true);
+                    }}
+                  >
+                    cancel order
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
       </table>
-      {modal && (
+      {modalClose && (
         <div className={styles.modal}>
           <div className={styles.btnGroup}>
             <button className={styles.delBtn} onClick={CloseOrder}>
               close
             </button>
-            <button className={styles.delBtn} onClick={() => setModal(false)}>
+            <button className={styles.delBtn} onClick={() => setModalClose(false)}>
+              cancel
+            </button>
+          </div>
+        </div>
+      )}
+      {modalCancel && (
+        <div className={styles.modal}>
+          <div className={styles.btnGroup}>
+            <button className={styles.delBtn} onClick={CancelOrder}>
+              cancel
+            </button>
+            <button className={styles.delBtn} onClick={() => setModalCancel(false)}>
               cancel
             </button>
           </div>

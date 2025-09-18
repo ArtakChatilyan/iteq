@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { categoryAPI } from "../dalUser/userApi";
 import Category from "./Category";
-import { setCategory } from "../../redux-store/filterSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CategoryContainer = () => {
-  const selectedCategory = useParams().categoryId;
+  const urlCategory = useParams().categoryId;
+  const urlBrands = useParams().brands;
+  const urlMinPrice = useParams().minPrice;
+  const urlMaxPrice = useParams().maxPrice;
+  const urlPage = useParams().page;
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [filterMode, SetFilterMode] = useState(
@@ -24,74 +26,36 @@ const CategoryContainer = () => {
     };
   }, []);
 
-  // const dispatch = useDispatch();
-  // const selectedCategory = useSelector(
-  //   (state) => state.filterReducer.selectedCategory
-  // );
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [categoryList, setCategoryist] = useState([]);
   const [brandList, setBrandList] = useState([]);
-  const [selectedBrands, SetSelectedBrands] = useState([]);
+  const [selectedBrands, SetSelectedBrands] = useState(urlBrands.split("_").map(Number));
 
   const [productList, SetProductList] = useState([]);
-  const [currentPage, SetCurrentPage] = useState(1);
   const [perPage, SetPerPage] = useState(9);
   const [total, SetTotal] = useState(0);
 
   const [dbMinPrice, setDBMinPrice] = useState(0);
   const [dbMaxPrice, setDBMaxPrice] = useState(0);
-  const [minPrice, setMinPrice] = useState(-1);
-  const [maxPrice, setMaxPrice] = useState(-1);
-
-  const chnageMinPrice = (newValue) => {
-    setMinPrice(newValue);
-  };
-
-  const chnageMaxPrice = (newValue) => {
-    setMaxPrice(newValue);
-  };
-
-  const priceHandler = () => {
-    
-    setLoading(true);
-    LoadProducts(
-      selectedCategory,
-      currentPage,
-      perPage,
-      selectedBrands,
-      minPrice,
-      maxPrice
-    );
-  };
+  const [minPrice, setMinPrice] = useState(urlMinPrice);
+  const [maxPrice, setMaxPrice] = useState(urlMaxPrice);
 
   useEffect(() => {
-    if (selectedCategory) {
-      LoadBrands(selectedCategory);
+    if (urlCategory) {
+      LoadBrands(urlCategory);
       LoadCategories();
     }
-  }, [selectedCategory]);
+  }, [urlCategory]);
 
   useEffect(() => {
-    LoadProducts(
-      selectedCategory,
-      currentPage,
-      perPage,
-      selectedBrands,
-      minPrice,
-      maxPrice
-    );
-  }, [selectedBrands, selectedCategory, currentPage]);
+    setMinPrice(urlMinPrice);
+    setMaxPrice(urlMaxPrice);
+  }, [urlMinPrice, urlMaxPrice]);
 
-  // const SetCategory = (categoryId) => {
-  //   if (window.innerWidth <= 1024) SetFilterMode(false);
-  //   if (categoryId === selectedCategory) return;
-  //   setLoading(true);
-  //   // setCurrentPage(1);
-  //   // setMinPrice(-1);
-  //   // setMaxPrice(-1);
-  //   //dispatch(setCategory({ selectedCategory: categoryId }));
-  // };
+  useEffect(() => {
+    SetSelectedBrands(urlBrands.split("_").map(Number));
+  }, [urlBrands]);
 
   const LoadCategories = () => {
     categoryAPI
@@ -113,7 +77,7 @@ const CategoryContainer = () => {
           return a.parentId - b.parentId;
         });
 
-        let searchId = selectedCategory;
+        let searchId = urlCategory;
         let searchParentId = result.find((c) => c.id == searchId).parentId;
 
         while (searchParentId > 0) {
@@ -160,15 +124,41 @@ const CategoryContainer = () => {
       .finally(() => {});
   };
 
+  useEffect(() => {
+    LoadProducts(
+      urlCategory,
+      urlPage,
+      perPage,
+      urlBrands,
+      urlMinPrice,
+      urlMaxPrice
+    );
+  }, [urlCategory, urlBrands, urlMinPrice, urlMaxPrice, urlPage]);
+
   const SelectBrands = (e, id) => {
-    //if (window.innerWidth <= 1024) SetFilterMode(false);
-    setLoading(true);
-    SetCurrentPage(1);
     if (e.currentTarget.checked) {
-      SetSelectedBrands((brands) => [...brands, id]);
+      SetSelectedBrands((selectedBrands) => [...selectedBrands, id]);
     } else {
-      SetSelectedBrands((brands) => [...brands.filter((b) => b != id)]);
+      SetSelectedBrands((selectedBrands) => [
+        ...selectedBrands.filter((b) => b != id),
+      ]);
     }
+  };
+
+  const chnageMinPrice = (newValue) => {
+    setMinPrice(newValue);
+  };
+
+  const chnageMaxPrice = (newValue) => {
+    setMaxPrice(newValue);
+  };
+
+  const searchHandler = () => {
+    return navigate(
+      `/category/${urlCategory}/${selectedBrands.join(
+        "_"
+      )}/${minPrice}/${maxPrice}/${1}`
+    );
   };
 
   const LoadProducts = (
@@ -189,8 +179,8 @@ const CategoryContainer = () => {
         setDBMinPrice(response.data.minPrice);
         setDBMaxPrice(response.data.maxPrice);
 
-        if (minPrice === -1) setMinPrice(response.data.minPrice);
-        if (maxPrice === -1) setMaxPrice(response.data.maxPrice);
+        if (urlMinPrice == -1) setMinPrice(response.data.minPrice);
+        if (urlMaxPrice == -1) setMaxPrice(response.data.maxPrice);
       })
       .catch((error) => {
         console.log(error);
@@ -202,21 +192,23 @@ const CategoryContainer = () => {
   };
 
   const pagingHandler = (pageNumber) => {
-    setLoading(true);
-    SetCurrentPage(pageNumber);
+    return navigate(
+      `/category/${urlCategory}/${urlBrands}/${minPrice}/${maxPrice}/${pageNumber}`
+    );
   };
 
   return (
     <Category
       loading={loading}
-      selectedCategory={selectedCategory}
+      selectedCategory={urlCategory}
       filterMode={filterMode}
       setFilterMode={SetFilterMode}
       categoryList={categoryList}
       brandList={brandList}
-      FilterByBrand={SelectBrands}
+      selectedBrands={selectedBrands}
+      SelectBrands={SelectBrands}
       productList={productList}
-      currentPage={currentPage}
+      currentPage={urlPage}
       perPage={perPage}
       total={total}
       setNewPage={pagingHandler}
@@ -226,7 +218,7 @@ const CategoryContainer = () => {
       maxPrice={maxPrice}
       chnageMinPrice={chnageMinPrice}
       chnageMaxPrice={chnageMaxPrice}
-      FilterByPrice={priceHandler}
+      search={searchHandler}
     />
   );
 };

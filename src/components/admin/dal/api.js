@@ -406,7 +406,10 @@ export const orderApi = {
   },
 
   closeOrder:(closeId,orderId)=>{
-    return instance.post("orders", {closeId, orderId});
+    return instance.post("orders/close", {closeId, orderId});
+  },
+  cancelOrder:(cancelId, orderId)=>{
+    return instance.post("orders/cancel", {cancelId, orderId});
   },
 
   getHistory: (page, count) => {

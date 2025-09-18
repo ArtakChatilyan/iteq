@@ -17,7 +17,7 @@ const CategoryMenu = ({ categories }) => {
     <div className={styles.block}>
       <div className={styles.content}>
         {categories.map((c) => (
-          <Link to={`/category/${c.id}`}>
+          <Link to={`/category/${c.id}/${0}/${-1}/${-1}/${1}`}>
             <CategoryCard key={c.id} category={c} />
           </Link>
         ))}

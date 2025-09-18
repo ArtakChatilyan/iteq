@@ -58,6 +58,12 @@ export const usersAPI = {
   checkAuth: () => {
     return instance.get("users/refresh");
   },
+  recover: (data) => {
+    return instance.post("users/recover", data);
+  },
+  setPassword: (userId, password) => {
+    return instance.post("users/setPassword", {userId, password});
+  },
   getUsers: () => {
     return instance.get("users");
   },
@@ -132,9 +138,9 @@ export const categoryAPI = {
       `user/search/productsByCategory?term=${term}&page=${page}&perPage=${perPage}`
     );
   },
-  searchProducts:(term)=>{
+  searchProducts: (term) => {
     return instance.get(`user/search/general?term=${term}`);
-  }
+  },
 };
 
 export const imageAPI = {
@@ -201,21 +207,24 @@ export const basketAPI = {
   },
 };
 
-export const orderAPI={
+export const orderAPI = {
   getUserOrders: (page, count, userId) => {
     return instance.get(
       `user/orders?page=${page}&perPage=${count}&userId=${userId}`
     );
   },
-  addOrder:(data)=>{
-    return instance.post('user/orders', data);
-  }
-}
+  addOrder: (data) => {
+    return instance.post("user/orders", data);
+  },
+  cancelOrder: (id) => {
+    return instance.put(`user/orders/${id}`);
+  },
+};
 
-export const historyAPI={
+export const historyAPI = {
   getUserHistory: (page, count, userId) => {
     return instance.get(
       `user/history?page=${page}&perPage=${count}&userId=${userId}`
     );
   },
-}
+};

@@ -4,15 +4,16 @@ import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, withMargin }) => {
   const modelInfo = product.viewInfo;
   const priceInfo = modelInfo ? modelInfo.viewInfo : null;
 
   const { t, i18n } = useTranslation();
   const lang = useContext(LanguageContext);
+  const marginStyle = { margin: withMargin ? "0 2rem" : "0 auto" };
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} style={marginStyle}>
       <span className={styles.stock}>
         {priceInfo && priceInfo.inStock ? (
           <span className={styles.inStock}>{t("inStock")}</span>

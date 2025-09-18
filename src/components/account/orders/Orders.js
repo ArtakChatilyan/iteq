@@ -37,11 +37,22 @@ const Orders = ({ userId }) => {
     setCurrentPage(pageNumber);
   };
 
+  const cancelOrder=(orderId)=>{
+    setLoading(true);
+    orderAPI.cancelOrder(orderId).then((response) => {
+        LoadOrders(userId, currentPage, perPage);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
       {orderList.map((order) => (
-        <OrderCard order={order} cancel={true} />
+        <OrderCard order={order} allowCancel={true} cancelOrder={cancelOrder}/>
       ))}
       <Paging
         mode="user"

@@ -1,9 +1,12 @@
 import { Link, Navigate, NavLink, Outlet } from "react-router-dom";
+import Cookies from "universal-cookie";
 import styles from "./Admin.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { checkAuth, logout, setLoading } from "../../redux-store/userSlice";
 import SplashScreen from "./content/splashscreen/SplashScreen";
+import i18n from "../../localization/i18n";
+import { useTranslation } from "react-i18next";
 
 const AdminContainer = () => {
   const dispatch = useDispatch();
@@ -24,16 +27,47 @@ const AdminContainer = () => {
 
   if (loading) return <SplashScreen />;
 
-  if (userRole === "admin") return <Admin logout={logOutHandle}/>;
+  if (userRole === "admin") return <Admin logout={logOutHandle} />;
   else return <Navigate to="/login" replace />;
 };
 
 const Admin = ({ logout }) => {
+  const cookies = new Cookies(null, {path: '/'});
+  const [language, setLanguage] = useState(null);
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    cookies.set("langIteq", lang, {
+      expires: new Date(Date.now() + 6 * 30 * 24 * 60 * 60 * 1000),
+    });
+    setLanguage(lang);
+  };
+
+  useEffect(() => {
+    let lang = cookies.get("langIteq");
+
+    if (lang) {
+      setLanguage(lang);
+      i18n.changeLanguage(lang);
+    } else {
+      setLanguage("ge");
+    }
+  }, []);
+  const { t } = useTranslation();
   return (
     <div className={styles.block}>
-      <Link onClick={logout} className={styles.logOut}>
-        log out
-      </Link>
+      <div className={styles.setBar}>
+        <div className={styles.langBar}>
+          <span onClick={() => changeLanguage("ge")}>geo</span>
+          <span></span>
+          <span onClick={() => changeLanguage("en")}>eng</span>
+          <span></span>
+          <span onClick={() => changeLanguage("ru")}>rus</span>
+        </div>
+        <Link onClick={logout} className={styles.logOut}>
+          {t("admin_logOut")}
+        </Link>
+      </div>
       <ul className={styles.list}>
         <li>
           <NavLink
@@ -42,7 +76,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            Categories
+            {t("admin_categories")}
           </NavLink>
         </li>
         <li>
@@ -52,7 +86,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            Products
+            {t("admin_products")}
           </NavLink>
         </li>
         <li>
@@ -62,7 +96,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            Colors
+            {t("admin_colors")}
           </NavLink>
         </li>
         <li>
@@ -72,7 +106,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            Brands
+            {t("admin_brands")}
           </NavLink>
         </li>
         <li>
@@ -82,7 +116,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            Orders
+            {t("admin_orders")}
           </NavLink>
         </li>
         <li>
@@ -92,7 +126,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            Order History
+            {t("admin_orderHistory")}
           </NavLink>
         </li>
         {/* <li>
@@ -132,7 +166,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            AboutUs
+            {t("admin_aboutUs")}
           </NavLink>
         </li>
         <li>
@@ -142,7 +176,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            News
+            {t("admin_news")}
           </NavLink>
         </li>
         <li>
@@ -152,7 +186,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            Clients
+            {t("admin_clients")}
           </NavLink>
         </li>
         <li>
@@ -162,7 +196,7 @@ const Admin = ({ logout }) => {
               return isActive ? styles.active : "";
             }}
           >
-            Settings
+            {t("admin_settings")}
           </NavLink>
         </li>
       </ul>

@@ -20,13 +20,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 30px;
+  height: 52px;
   background-color: rgb(242, 165, 87);
   border: 0;
-  border-radius: 0 10px 10px 0;
+  border-radius: 20px;
   cursor: pointer;
-  width: 38px;
+  width: 80%;
   transition: 0.15s;
+  margin-top: 2rem;
 }
 
 .btn {
