@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://iteq.shop/sitemap-categories.xml</loc>
-  </sitemap>
-  <sitemap>
-    <loc>https://iteq.shop/sitemap-brands.xml</loc>
-  </sitemap>
-  <sitemap>
     <loc>https://iteq.shop/sitemap-products-1.xml</loc>
   </sitemap>
 </sitemapindex>
