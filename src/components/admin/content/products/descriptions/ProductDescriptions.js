@@ -7,9 +7,10 @@ import AddDescription from "./AddDescription";
 import EditDescription from "./EditDescription";
 import LinkDescription from "./LinkDescriptions";
 import { useCollapse } from "react-collapsed";
+import { useTranslation } from "react-i18next";
 
 const ProductDescriptions = ({ productId }) => {
-
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
@@ -70,7 +71,7 @@ const ProductDescriptions = ({ productId }) => {
           padding: "1rem 1rem",
         }}
       >
-        <span>descriptions:</span>
+        <span>{t("admin_descriptions")}</span>
         <img
           src={collapseIcon}
           style={{
@@ -95,7 +96,7 @@ const ProductDescriptions = ({ productId }) => {
                       className={styles.btn}
                       onClick={() => setModalAdd(true)}
                     >
-                      add
+                      {t("admin_add")}
                     </button>
                   </div>
                 </td>
@@ -111,7 +112,7 @@ const ProductDescriptions = ({ productId }) => {
                         setModalLink(true);
                       }}
                     >
-                      attachment
+                      {t("admin_attachment")}
                     </button>
                   </td>
                   <td style={{ width: "140px" }}>
@@ -122,7 +123,7 @@ const ProductDescriptions = ({ productId }) => {
                         setModalEdit(true);
                       }}
                     >
-                      edit
+                      {t("admin_edit")}
                     </button>
                   </td>
                   <td style={{ width: "140px" }}>
@@ -133,7 +134,7 @@ const ProductDescriptions = ({ productId }) => {
                         setModalDelete(true);
                       }}
                     >
-                      delete
+                      {t("admin_delete")}
                     </button>
                   </td>
                 </tr>
@@ -168,13 +169,13 @@ const ProductDescriptions = ({ productId }) => {
                     deleteItem(selectedId);
                   }}
                 >
-                  delete
+                  {t("admin_delete")}
                 </button>
                 <button
                   className={styles.delBtn}
                   onClick={() => setModalDelete(false)}
                 >
-                  cancel
+                  {t("admin_cancel")}
                 </button>
               </div>
             </div>

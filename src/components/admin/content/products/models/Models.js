@@ -8,11 +8,13 @@ import ModelColors from "../modelColors/ModelColors";
 import ModelSizes from "../modelSizes/ModelSizes";
 import collapseIcon from "../../../../../assets/circleArrow.png";
 import { useCollapse } from "react-collapsed";
+import { useTranslation } from "react-i18next";
 
 const Models = ({ productId }) => {
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const [models, setModels] = useState([]);
 
@@ -78,7 +80,7 @@ const Models = ({ productId }) => {
           padding: "1rem 1rem",
         }}
       >
-        <span>models:</span>
+        <span>{t("admin_models")}:</span>
         <img
           {...getToggleProps({
             onClick: () => setExpanded((prevExpanded) => !prevExpanded),
@@ -97,9 +99,9 @@ const Models = ({ productId }) => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>name(english)</th>
-              <th>name(georgian)</th>
-              <th>name(russian)</th>
+              <th>{t("admin_nameEn")}</th>
+              <th>{t("admin_nameGe")}</th>
+              <th>{t("admin_nameRu")}</th>
               <th></th>
               <th></th>
               <th></th>
@@ -115,7 +117,7 @@ const Models = ({ productId }) => {
                     setModalAdd(true);
                   }}
                 >
-                  add new model
+                  {t("admin_add")}
                 </button>
               </td>
             </tr>
@@ -136,7 +138,7 @@ const Models = ({ productId }) => {
                               setModalColor(true);
                             }}
                           >
-                            colors
+                            {t("admin_modelcolors")}
                           </button>
                         </td>
                         <td>
@@ -147,7 +149,7 @@ const Models = ({ productId }) => {
                               setModalSize(true);
                             }}
                           >
-                            sizes
+                            {t("admin_sizes")}
                           </button>
                         </td>
                         <td>
@@ -158,7 +160,7 @@ const Models = ({ productId }) => {
                               setModalEdit(true);
                             }}
                           >
-                            edit
+                            {t("admin_edit")}
                           </button>
                         </td>
                         <td>
@@ -169,7 +171,7 @@ const Models = ({ productId }) => {
                               setModalDelete(true);
                             }}
                           >
-                            delete
+                            {t("admin_delete")}
                           </button>
                         </td>
                       </tr>
@@ -227,13 +229,13 @@ const Models = ({ productId }) => {
                   deleteItem(selectedId);
                 }}
               >
-                delete
+                {t("admin_delete")}
               </button>
               <button
                 className={styles.delBtn}
                 onClick={() => setModalDelete(false)}
               >
-                cancel
+                {t("admin_cancel")}
               </button>
             </div>
           </div>

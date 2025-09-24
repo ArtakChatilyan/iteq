@@ -34,12 +34,12 @@ const Settings = () => {
   const validationSchema = Yup.object().shape({
     oldPassword: Yup.string().required("required"),
     newPassword: Yup.string()
-      .required("required")
-      .min(6, "password is too short(at least 6 character)")
-      .max(16, "password is too long(max 16 character)"),
+      .required(t("admin_required"))
+      .min(6, t("admin_passwordTooShort"))
+      .max(16, t("admin_passwordTooLong")),
     newPasswordConfirm: Yup.string()
-      .oneOf([Yup.ref("newPassword"), null], "new passwords don't match")
-      .required("required"),
+      .oneOf([Yup.ref("newPassword"), null], t("admin_passwordsDontMatch"))
+      .required(t("required")),
   });
 
   const changePasswordHandle = () => {
@@ -190,7 +190,7 @@ const Settings = () => {
         <tbody>
           <tr>
             <td className={styles.label}>
-              <span>address(english):</span>
+              <span>{t("admin_addressEn")}:</span>
             </td>
             <td>
               {addressEnMode ? (
@@ -208,13 +208,13 @@ const Settings = () => {
               {addressEnMode ? (
                 <div>
                   <button className={styles.btn} onClick={updateAddressEn}>
-                    save
+                    {t("admin_save")}
                   </button>
                   <button
                     className={styles.btn}
                     onClick={() => setAddressEnMode(false)}
                   >
-                    cancel
+                    {t("admin_cancel")}
                   </button>
                 </div>
               ) : (
@@ -222,14 +222,14 @@ const Settings = () => {
                   className={styles.btn}
                   onClick={() => setAddressEnMode(true)}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
               )}
             </td>
           </tr>
           <tr>
             <td className={styles.label}>
-              <span>address(georgian):</span>
+              <span>{t("admin_addressGe")}:</span>
             </td>
             <td>
               {addressGeMode ? (
@@ -248,13 +248,13 @@ const Settings = () => {
               {addressGeMode ? (
                 <div>
                   <button className={styles.btn} onClick={updateAddressGe}>
-                    save
+                    {t("admin_save")}
                   </button>
                   <button
                     className={styles.btn}
                     onClick={() => setAddressGeMode(false)}
                   >
-                    cancel
+                    {t("admin_cancel")}
                   </button>
                 </div>
               ) : (
@@ -262,14 +262,14 @@ const Settings = () => {
                   className={styles.btn}
                   onClick={() => setAddressGeMode(true)}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
               )}
             </td>
           </tr>
           <tr>
             <td className={styles.label}>
-              <span>address(russian):</span>
+              <span>{t("admin_addressRu")}:</span>
             </td>
             <td>
               {addressRuMode ? (
@@ -288,13 +288,13 @@ const Settings = () => {
               {addressRuMode ? (
                 <div>
                   <button className={styles.btn} onClick={updateAddressRu}>
-                    save
+                    {t("admin_save")}
                   </button>
                   <button
                     className={styles.btn}
                     onClick={() => setAddressRuMode(false)}
                   >
-                    cancel
+                    {t("admin_cancel")}
                   </button>
                 </div>
               ) : (
@@ -302,7 +302,7 @@ const Settings = () => {
                   className={styles.btn}
                   onClick={() => setAddressRuMode(true)}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
               )}
             </td>
@@ -328,13 +328,13 @@ const Settings = () => {
               {emailMode ? (
                 <div>
                   <button className={styles.btn} onClick={updateEmail}>
-                    save
+                    {t("admin_save")}
                   </button>
                   <button
                     className={styles.btn}
                     onClick={() => setEmailMode(false)}
                   >
-                    cancel
+                    {t("admin_cancel")}
                   </button>
                 </div>
               ) : (
@@ -342,14 +342,14 @@ const Settings = () => {
                   className={styles.btn}
                   onClick={() => setEmailMode(true)}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
               )}
             </td>
           </tr>
           <tr>
             <td className={styles.label}>
-              <span>phone:</span>
+              <span>{t("admin_phone")}:</span>
             </td>
             <td>
               {phoneMode ? (
@@ -368,13 +368,13 @@ const Settings = () => {
               {phoneMode ? (
                 <div>
                   <button className={styles.btn} onClick={updatePhone}>
-                    save
+                    {t("admin_save")}
                   </button>
                   <button
                     className={styles.btn}
                     onClick={() => setPhoneMode(false)}
                   >
-                    cancel
+                    {t("admin_cancel")}
                   </button>
                 </div>
               ) : (
@@ -382,14 +382,14 @@ const Settings = () => {
                   className={styles.btn}
                   onClick={() => setPhoneMode(true)}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
               )}
             </td>
           </tr>
           <tr>
             <td className={styles.label} style={{ verticalAlign: "top" }}>
-              <span>password:</span>
+              <span>{t("admin_password")}:</span>
             </td>
             <td>
               <form>
@@ -397,7 +397,7 @@ const Settings = () => {
                   <input
                     autoComplete="off"
                     className={styles.input}
-                    placeholder="old password"
+                    placeholder={t("admin_oldPassword")}
                     type="password"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.currentTarget.value)}
@@ -406,7 +406,7 @@ const Settings = () => {
                   <input
                     autoComplete="off"
                     className={styles.input}
-                    placeholder="new password"
+                    placeholder={t("admin_newPassword")}
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.currentTarget.value)}
@@ -415,7 +415,7 @@ const Settings = () => {
                   <input
                     autoComplete="off"
                     className={styles.input}
-                    placeholder="confirm new password"
+                    placeholder={t("admin_confirmNewPassword")}
                     type="password"
                     value={newPasswordConfirm}
                     onChange={(e) => setConfirmPassword(e.currentTarget.value)}
@@ -429,7 +429,7 @@ const Settings = () => {
                     style={{ width: "50%" }}
                     onClick={changePasswordHandle}
                   >
-                    change password
+                    {t("admin_changePassword")}
                   </button>
                 </div>
               </form>

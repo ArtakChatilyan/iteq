@@ -57,6 +57,9 @@ const Admin = ({ logout }) => {
   return (
     <div className={styles.block}>
       <div className={styles.setBar}>
+        <Link to="/" className={styles.logOut}>
+          {t("admin_toMain")}
+        </Link>
         <div className={styles.langBar}>
           <span onClick={() => changeLanguage("ge")}>geo</span>
           <span></span>

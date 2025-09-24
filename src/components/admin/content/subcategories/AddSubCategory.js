@@ -5,20 +5,22 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { subcategoryAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const AddSubCategory = () => {
   const { parentId, parentType } = useParams();
   const [loading, setLoading]=useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [resultMessage, setResultMessage] = useState("");
   const formValidationSchema = Yup.object().shape({
         categoryOrder: Yup.string().matches(
           /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-          "not valid"
+          t("admin_notValid")
         ),
-        nameEn: Yup.string().required("required"),
-        nameGe: Yup.string().required("required"),
-        nameRu: Yup.string().required("required"),
+        nameEn: Yup.string().required(t("admin_required")),
+        nameGe: Yup.string().required(t("admin_required")),
+        nameRu: Yup.string().required(t("admin_required")),
       });
   return (
     <div className={styles.data}>
@@ -49,11 +51,11 @@ const AddSubCategory = () => {
           subcategoryAPI
             .addSubCategory(parentId, parentType, values)
             .then((data) => {
-              setResultMessage("The sub category added successfully");
+              setResultMessage(t("admin_subcategoryaddsuccess"));
               return navigate(`/admin/subCategories/${parentId}`);
             })
             .catch((error) => {
-              setResultMessage("Couldn't add sub category!");
+              setResultMessage(t("admin_subcategoryaddfailed"));
             });
         }}
       >
@@ -70,7 +72,7 @@ const AddSubCategory = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-              <span className={styles.label}>name(english):</span>
+              <span className={styles.label}>{t("admin_nameEn")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -84,7 +86,7 @@ const AddSubCategory = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameEn && touched.nameEn && errors.nameEn}
               </span>
-              <span className={styles.label}>name(georgian):</span>
+              <span className={styles.label}>{t("admin_nameGe")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -98,7 +100,7 @@ const AddSubCategory = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameGe && touched.nameGe && errors.nameGe}
               </span>
-              <span className={styles.label}>name(russian):</span>
+              <span className={styles.label}>{t("admin_nameRu")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -112,7 +114,7 @@ const AddSubCategory = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameRu && touched.nameRu && errors.nameRu}
               </span>
-              <span className={styles.label}>order:</span>
+              <span className={styles.label}>{t("admin_categoryOrder")}:</span>
               <div className={styles.formItem} style={{textAlign:"left",paddingLeft: "5%",}}>
                 <input
                   type="input"
@@ -127,7 +129,7 @@ const AddSubCategory = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.categoryOrder && touched.categoryOrder && errors.categoryOrder}
               </span>
-              <span className={styles.label}>on top page:</span>
+              <span className={styles.label}>{t("admin_onTop")}:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -155,14 +157,14 @@ const AddSubCategory = () => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  add
+                  {t("admin_add")}
                 </button>
                 <button
                   type="button"
                   className={styles.btn}
                   onClick={()=>{ return navigate(`/admin/subCategories/${parentId}`);}}
                 >
-                  cancel
+                  {t("admin_cancel")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

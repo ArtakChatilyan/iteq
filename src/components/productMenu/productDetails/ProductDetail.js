@@ -288,7 +288,7 @@ const ProductDetail = () => {
               {categories.map((c) => (
                 <Link
                   key={`c${c.id}`}
-                  to={`/category/${c.categoryId}`}
+                  to={`/category/${c.categoryId}/${0}/${-1}/${-1}/${1}`}
                   className={styles.categoryTitle}
                 >
                   {lang === "en" && c.nameEn}

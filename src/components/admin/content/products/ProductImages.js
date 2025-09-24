@@ -6,6 +6,7 @@ import SplashScreen from "../splashscreen/SplashScreen";
 import ModelColorSize from "./ModelColorSize";
 import collapseIcon from "../../../../assets/circleArrow.png";
 import { useCollapse } from "react-collapsed";
+import { useTranslation } from "react-i18next";
 
 const ProductImages = ({ productId }) => {
   const [resultMessage, setResultMessage] = useState("");
@@ -13,6 +14,7 @@ const ProductImages = ({ productId }) => {
   const [isExpanded, setExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
   const [detailes, setDetailes] = useState(false);
+  const { t } = useTranslation();
 
   const fileInputRef = useRef(null);
   const [images, setImages] = useState([]);
@@ -61,7 +63,7 @@ const ProductImages = ({ productId }) => {
           padding: "1rem 1rem",
         }}
       >
-        <span>images:</span>
+        <span>{t("admin_images")}:</span>
         <img
           src={collapseIcon}
           style={{
@@ -128,7 +130,7 @@ const ProductImages = ({ productId }) => {
                 <form onSubmit={handleSubmit}>
                   <div className={styles.form}>
                     <div className={styles.formItem}>
-                      <span className={styles.label}>image:</span>
+                      <span className={styles.label}>{t("admin_image")}:</span>
                       <input
                         type="file"
                         name="imgUrl"
@@ -144,7 +146,7 @@ const ProductImages = ({ productId }) => {
                         disabled={isSubmitting}
                         className={styles.btn}
                       >
-                        add
+                        {t("admin_add")}
                       </button>
                     </div>
                     <span
@@ -188,7 +190,7 @@ const ProductImages = ({ productId }) => {
                         setModal(true);
                       }}
                     >
-                      delete
+                      {t("admin_delete")}
                     </button>
                   </div>
                 ))}
@@ -205,13 +207,13 @@ const ProductImages = ({ productId }) => {
                       deleteItem(deleteId);
                     }}
                   >
-                    delete
+                    {t("admin_delete")}
                   </button>
                   <button
                     className={styles.delBtn}
                     onClick={() => setModal(false)}
                   >
-                    cancel
+                    {t("admin_cancel")}
                   </button>
                 </div>
               </div>

@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const News = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,10 +54,10 @@ const News = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>title(english):</th>
-            <th>title(georgian):</th>
-            <th>title(russian):</th>
-            <th>image:</th>
+            <th>{t("admin_titleEn")}:</th>
+            <th>{t("admin_titleGe")}:</th>
+            <th>{t("admin_titleRu")}:</th>
+            <th>{t("admin_image")}:</th>
             <th></th>
             <th></th>
           </tr>
@@ -75,7 +77,7 @@ const News = () => {
                     to={`/admin/editNews/${d.id}`}
                     className={styles.btn}
                   >
-                    edit
+                    {t("admin_edit")}
                   </Link>
                 </td>
                 <td>
@@ -86,7 +88,7 @@ const News = () => {
                       setModal(true);
                     }}
                   >
-                    delete
+                    {t("admin_delete")}
                   </button>
                 </td>
               </tr>
@@ -104,7 +106,7 @@ const News = () => {
                 to={`/admin/addNews`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
-                add
+                {t("admin_add")}
               </Link>
             </td>
             <td colSpan={6}>
@@ -129,10 +131,10 @@ const News = () => {
                 deleteItem(deleteId);
               }}
             >
-              delete
+              {t("admin_delete")}
             </button>
             <button className={styles.delBtn} onClick={() => setModal(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>

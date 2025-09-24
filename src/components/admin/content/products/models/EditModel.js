@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Formik } from "formik";
 import SplashScreen from "../../splashscreen/SplashScreen";
 import { modelAPI } from "../../../dal/api";
+import { useTranslation } from "react-i18next";
 
 const EditModel = ({ modelId, closeModal,reloadModels }) => {
   const [loading, setLoading] = useState(true);
@@ -10,6 +11,7 @@ const EditModel = ({ modelId, closeModal,reloadModels }) => {
   const [nameGe, setNameGe] = useState("");
   const [nameRu, setNameRu] = useState("");
   const [resultMessage, setResultMessage] = useState("");
+  const { t } = useTranslation();
 
   useEffect(() => {
     getModel(modelId);
@@ -42,13 +44,13 @@ const EditModel = ({ modelId, closeModal,reloadModels }) => {
         validate={(values) => {
           const errors = {};
           if (!values.nameEn) {
-            errors.nameEn = "Required";
+            errors.nameEn = t("admin_required");
           }
           if (!values.nameGe) {
-            errors.nameGe = "Required";
+            errors.nameGe = t("admin_required");
           }
           if (!values.nameRu) {
-            errors.nameRu = "Required";
+            errors.nameRu = t("admin_required");
           }
           return errors;
         }}
@@ -62,11 +64,11 @@ const EditModel = ({ modelId, closeModal,reloadModels }) => {
           modelAPI
             .editModel(modelId, values)
             .then((response) => {
-              setResultMessage("The model updateded successfully");
+              setResultMessage(t("admin_modelUpdateSuccess"));
               reloadModels();
             })
             .catch((error) => {
-              setResultMessage("Failed update model!");
+              setResultMessage(t("admin_modelUpdateFailed"));
             })
             .finally(() => {
               setLoading(false);
@@ -86,7 +88,7 @@ const EditModel = ({ modelId, closeModal,reloadModels }) => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-              <span className={styles.label}>name(english):</span>
+              <span className={styles.label}>{t("admin_nameEn")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -103,7 +105,7 @@ const EditModel = ({ modelId, closeModal,reloadModels }) => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameEn && touched.nameEn && errors.nameEn}
               </span>
-              <span className={styles.label}>name(georgian):</span>
+              <span className={styles.label}>{t("admin_nameGe")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -120,7 +122,7 @@ const EditModel = ({ modelId, closeModal,reloadModels }) => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameGe && touched.nameGe && errors.nameGe}
               </span>
-              <span className={styles.label}>name(russian):</span>
+              <span className={styles.label}>{t("admin_nameRu")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -143,7 +145,7 @@ const EditModel = ({ modelId, closeModal,reloadModels }) => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
                 <button
                   type="button"
@@ -152,7 +154,7 @@ const EditModel = ({ modelId, closeModal,reloadModels }) => {
                     closeModal();
                   }}
                 >
-                  close
+                  {t("admin_close")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

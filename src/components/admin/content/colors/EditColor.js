@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { Field, Formik } from "formik";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { colorAPI } from "../../dal/api";
+import { useTranslation } from "react-i18next";
 
 const EditColor = () => {
   const { itemId } = useParams();
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const [nameEn, setNameEn] = useState("");
   const [nameGe, setNameGe] = useState("");
@@ -45,13 +47,13 @@ const EditColor = () => {
         validate={(values) => {
           const errors = {};
           if (!values.nameEn) {
-            errors.nameEn = "Required";
+            errors.nameEn = t("admin_required");
           }
           if (!values.nameGe) {
-            errors.nameGe = "Required";
+            errors.nameGe = t("admin_required");
           }
           if (!values.nameRu) {
-            errors.nameRu = "Required";
+            errors.nameRu = t("admin_required");
           }
           return errors;
         }}
@@ -65,11 +67,11 @@ const EditColor = () => {
           colorAPI
             .editColor(formData, itemId)
             .then((data) => {
-              setResultMessage("The color data updateded successfully");
+              setResultMessage(t("admin_colorUpdateSuccess"));
               return navigate("/admin/colors");
             })
             .catch((error) => {
-              setResultMessage("Couldn't update color data!");
+              setResultMessage(t("admin_colorupdateFailed"));
             });
         }}
       >
@@ -86,7 +88,7 @@ const EditColor = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-              <span className={styles.label}>name(english):</span>
+              <span className={styles.label}>{t("admin_nameEn")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -103,7 +105,7 @@ const EditColor = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameEn && touched.nameEn && errors.nameEn}
               </span>
-              <span className={styles.label}>name(georgian):</span>
+              <span className={styles.label}>{t("admin_nameGe")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -120,7 +122,7 @@ const EditColor = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameGe && touched.nameGe && errors.nameGe}
               </span>
-              <span className={styles.label}>name(russian):</span>
+              <span className={styles.label}>{t("admin_nameRu")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -155,7 +157,7 @@ const EditColor = () => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
                 <button
                   type="button"
@@ -164,7 +166,7 @@ const EditColor = () => {
                     return navigate("/admin/colors");
                   }}
                 >
-                  cancel
+                  {t("admin_cancel")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

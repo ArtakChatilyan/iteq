@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import SplashScreen from "../splashscreen/SplashScreen";
 import collapseIcon from "../../../../assets/circleArrow.png";
 import { useCollapse } from "react-collapsed";
+import { useTranslation } from "react-i18next";
 
 const ProductCategroies = ({ productId }) => {
   const [resultMessage, setResultMessage] = useState("");
@@ -14,6 +15,7 @@ const ProductCategroies = ({ productId }) => {
 
   const [data, setData] = useState([]);
   const [resultData, setResultData] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     getCategoriesForProduct();
@@ -65,11 +67,11 @@ const ProductCategroies = ({ productId }) => {
     productsAPI
       .setProductCategories(productId, resultData)
       .then((data) => {
-        setResultMessage("The product updated successfully");
+        setResultMessage(t("admin_producteditsucces"));
         hideMessage();
       })
       .catch((error) => {
-        setResultMessage("Failed to set categories for product!");
+        setResultMessage(t("admin_setcategoriesforproductfailed"));
       })
       .finally(() => {
         setLoading(false);
@@ -94,7 +96,7 @@ const ProductCategroies = ({ productId }) => {
           padding: "1rem 1rem",
         }}
       >
-        <span>categories:</span>
+        <span>{t("admin_categories")}:</span>
         <img
           src={collapseIcon}
           style={{
@@ -142,7 +144,7 @@ const ProductCategroies = ({ productId }) => {
             }}
           >
             <button className={styles.btn} onClick={setProductCategories}>
-              save
+              {t("admin_save")}
             </button>
           </div>
         </div>

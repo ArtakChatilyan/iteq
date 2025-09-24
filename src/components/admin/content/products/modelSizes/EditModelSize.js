@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { modelAPI, productsAPI } from "../../../dal/api";
 import SplashScreen from "../../splashscreen/SplashScreen";
 import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 
 const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [resultMessage, setResultMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const[dimension, setDimension]=useState("");
@@ -22,15 +24,15 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
     
     price: Yup.string().matches(
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
+      t("admin_notValid")
     ),
     newPrice: Yup.string().matches(
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
+      t("admin_notValid")
     ),
     count: Yup.string().matches(
       /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      "not valid"
+      t("admin_notValid")
     ),
   });
 
@@ -92,11 +94,11 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
           modelAPI
             .editSize(sizeId, values)
             .then((data) => {
-              setResultMessage("Model size updated successfully");
+              setResultMessage(t("admin_sizeUpdateSuccess"));
               sizeUpdated();
             })
             .catch((error) => {
-              setResultMessage("Failed to update product size!");
+              setResultMessage(t("admin_sizeUpdateFailed"));
             }).finally(()=>{
               setLoading(false);
             });
@@ -115,7 +117,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-              <span className={styles.label}>dimension:</span>
+              <span className={styles.label}>{t("admin_size")}:</span>
               <div className={styles.formItem} style={{ textAlign: "left", paddingLeft: "5%" }}>
                 <input
                   type="input"
@@ -133,7 +135,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.dimension && touched.dimension && errors.dimension}
               </span>
-              <span className={styles.label}>weight:</span>
+              <span className={styles.label}>{t("admin_weight")}:</span>
               <div className={styles.formItem} style={{ textAlign: "left", paddingLeft: "5%" }}>
                 <input
                   type="input"
@@ -151,7 +153,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.weight && touched.weight && errors.weight}
               </span>
-              <span className={styles.label}>price: &#8382;</span>
+              <span className={styles.label}>{t("admin_price")}: &#8382;</span>
               <div className={styles.formItem}
               style={{ textAlign: "left", paddingLeft: "5%" }}>
                 <input
@@ -170,7 +172,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.price && touched.price && errors.price}
               </span>
-              <span className={styles.label}>discount:</span>
+              <span className={styles.label}>{t("admin_discount")}:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -184,7 +186,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
-              <span className={styles.label}>new price: &#8382;</span>
+              <span className={styles.label}>{t("admin_newPrice")}: &#8382;</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -206,7 +208,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.productNewPrice}
               </span>
-              <span className={styles.label}>quantity:</span>
+              <span className={styles.label}>{t("admin_count")}:</span>
               <div
                 className={styles.formItem}
                 style={{ textAlign: "left", paddingLeft: "5%" }}
@@ -228,7 +230,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
                 {errors.count && touched.count && errors.count}
               </span>
 
-              <span className={styles.label}>in stock:</span>
+              <span className={styles.label}>{t("admin_inStock")}:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -247,7 +249,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
                 <button
                   type="button"
@@ -255,7 +257,7 @@ const EditModelSize = ({sizeId, closeModal, sizeUpdated}) => {
                   // onClick={()=>{ return navigate(`/admin/productSizes/${itemId}`);}}
                   onClick={()=>closeModal()}
                 >
-                  close
+                  {t("admin_close")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

@@ -85,11 +85,11 @@ const EditCategory = () => {
           categoryAPI
             .editCategory(formData, categoryId)
             .then(({ data }) => {
-              setResultMessage("The category updated successfully");
+              setResultMessage(t("admin_categoryeditsuccess"));
               return navigate("/admin/categories");
             })
             .catch((error) => {
-              setResultMessage("Couldn't add category!");
+              setResultMessage(t("admin_categoryeditfailed"));
             });
         }}
       >
@@ -217,7 +217,7 @@ const EditCategory = () => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  edit
+                   {t("admin_edit")}
                 </button>
                 <button
                   type="button"
@@ -226,7 +226,7 @@ const EditCategory = () => {
                     return navigate("/admin/categories");
                   }}
                 >
-                  cancel
+                   {t("admin_cancel")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

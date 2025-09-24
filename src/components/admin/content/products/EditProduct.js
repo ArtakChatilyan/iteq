@@ -9,6 +9,7 @@ import ProductImages from "./ProductImages";
 import ProductDescriptions from "./descriptions/ProductDescriptions";
 import ProductCategories from "./ProductCategories";
 import Models from "./models/Models";
+import { useTranslation } from "react-i18next";
 
 const EditProduct = () => {
   const { itemId, page, sType, sTerm, sCat } = useParams();
@@ -16,6 +17,7 @@ const EditProduct = () => {
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const [productNameEn, setProductNameEn] = useState("");
   const [productNameGe, setProductNameGe] = useState("");
@@ -95,10 +97,10 @@ const EditProduct = () => {
           productsAPI
             .editProduct(values, itemId)
             .then((data) => {
-              setResultMessage("The product updated successfully");
+              setResultMessage(t("admin_producteditsuccess"));
             })
             .catch((error) => {
-              setResultMessage("Couldn't edit product!");
+              setResultMessage(t("admin_producteditfailed"));
             })
             .finally(() => {
               setLoading(false);
@@ -118,7 +120,7 @@ const EditProduct = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-              <span className={styles.label}>name(english):</span>
+              <span className={styles.label}>{t("admin_nameEn")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -137,7 +139,7 @@ const EditProduct = () => {
                   touched.productNameEn &&
                   errors.productNameEn}
               </span>
-              <span className={styles.label}>name(georgian):</span>
+              <span className={styles.label}>{t("admin_nameGe")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -156,7 +158,7 @@ const EditProduct = () => {
                   touched.productNameGe &&
                   errors.productNameGe}
               </span>
-              <span className={styles.label}>name(russian):</span>
+              <span className={styles.label}>{t("admin_nameRu")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -175,7 +177,7 @@ const EditProduct = () => {
                   touched.productNameRu &&
                   errors.productNameRu}
               </span>
-              <span className={styles.label}>brand:</span>
+              <span className={styles.label}>{t("admin_brand")}:</span>
               <div className={styles.formItem}>
                 <Field
                   as="select"
@@ -198,7 +200,7 @@ const EditProduct = () => {
                   errors.productBrand}
               </span>
 
-              <span className={styles.label}>country(english):</span>
+              <span className={styles.label}>{t("admin_countryEn")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -214,7 +216,7 @@ const EditProduct = () => {
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
 
-              <span className={styles.label}>country(georgian):</span>
+              <span className={styles.label}>{t("admin_countryGe")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -229,7 +231,7 @@ const EditProduct = () => {
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
-              <span className={styles.label}>country(russian):</span>
+              <span className={styles.label}>{t("admin_countryRu")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -244,7 +246,7 @@ const EditProduct = () => {
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
-              <span className={styles.label}>in stock:</span>
+              <span className={styles.label}>{t("admin_inStock")}:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -261,7 +263,7 @@ const EditProduct = () => {
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
-              <span className={styles.label}>on top:</span>
+              <span className={styles.label}>{t("admin_onTop")}:</span>
               <div
                 className={styles.formItem}
                 style={{
@@ -286,7 +288,7 @@ const EditProduct = () => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
                 <button
                   type="button"
@@ -297,7 +299,7 @@ const EditProduct = () => {
                     );
                   }}
                 >
-                  close
+                  {t("admin_cancel")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

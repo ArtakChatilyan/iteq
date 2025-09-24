@@ -4,8 +4,10 @@ import { clientAPI} from "../../dal/api";
 import { Link, useLocation, useNavigate} from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const Clients = () => {
+  const { t, i18n } = useTranslation();
   const [loading, setLoading]=useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,10 +47,10 @@ const Clients = () => {
         <thead>
           <tr>
             <th>email</th>
-            <th>name</th>
-            <th>phone</th>
-            <th>orders</th>
-            <th>history</th>
+            <th>{t("admin_clientName")}</th>
+            <th>{t("admin_phone")}</th>
+            <th>{t("admin_clientOrders")}</th>
+            <th>{t("admin_clientOrderHistory")}</th>
           </tr>
         </thead>
         <tbody>
@@ -64,7 +66,7 @@ const Clients = () => {
                     to={`/admin/orders/${d.userId}`}
                     className={styles.btn}
                   >
-                    orders
+                    {t("admin_clientOrders")}
                   </Link>
                 </td>
                 <td>
@@ -72,7 +74,7 @@ const Clients = () => {
                     to={`/admin/history/${d.userId}`}
                     className={styles.btn}
                   >
-                    history
+                    {t("admin_clientOrderHistory")}
                   </Link>
                 </td>
               </tr>

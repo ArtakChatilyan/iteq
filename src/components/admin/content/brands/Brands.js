@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const Brands = () => {
+  const { t } = useTranslation();
   const { page } = useParams();
   const location = useLocation();
   const [data, setData] = useState([]);
@@ -64,9 +66,9 @@ const Brands = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>brand name</th>
-            <th>brand url</th>
-            <th>image</th>
+            <th>{t("admin_brandName")}</th>
+            <th>{t("admin_brandUrl")}</th>
+            <th>{t("admin_image")}</th>
             <th></th>
             <th></th>
           </tr>
@@ -87,7 +89,7 @@ const Brands = () => {
                     to={`/admin/editBrand/${d.id}/${currentPage}`}
                     className={styles.btn}
                   >
-                    edit
+                    {t("admin_edit")}
                   </Link>
                 </td>
                 <td>
@@ -98,7 +100,7 @@ const Brands = () => {
                       setModal(true);
                     }}
                   >
-                    delete
+                    {t("admin_delete")}
                   </button>
                 </td>
               </tr>
@@ -116,7 +118,7 @@ const Brands = () => {
                 to={`/admin/addBrand/${currentPage}`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
-                add
+                {t("admin_add")}
               </Link>
             </td>
             <td colSpan={6}>
@@ -141,10 +143,10 @@ const Brands = () => {
                 deleteItem(deleteId);
               }}
             >
-              delete
+              {t("admin_delete")}
             </button>
             <button className={styles.delBtn} onClick={() => setModal(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>

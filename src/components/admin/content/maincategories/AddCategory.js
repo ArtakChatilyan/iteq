@@ -59,11 +59,11 @@ const AddCategory = () => {
           categoryAPI
             .addCategory(formData)
             .then((data) => {
-              setResultMessage("The category added successfully");
+              setResultMessage(t("admin_categoryaddsuccess"));
               return navigate("/admin/categories");
             })
             .catch((error) => {
-              setResultMessage("Couldn't add category!");
+              setResultMessage(t("admin_categoryaddfailed"));
             });
         }}
       >

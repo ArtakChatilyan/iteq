@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const Products = () => {
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -166,7 +168,7 @@ const Products = () => {
         <div className={cssStyle.inputGroup}>
           <input
             type="text"
-            placeholder="search..."
+            placeholder={t("search")}
             className={cssStyle.input}
             value={searchItem}
             onChange={(e) => searchTextChange(e.currentTarget.value)}
@@ -202,7 +204,7 @@ const Products = () => {
               setSearchType(e.currentTarget.value);
             }}
           />{" "}
-          {"byDefault"}
+          {t("admin_byDefault")}
           <input
             type="radio"
             value="brand"
@@ -212,7 +214,7 @@ const Products = () => {
               setSearchType(e.currentTarget.value);
             }}
           />{" "}
-          {"byBrand"}
+          {t("admin_byBrand")}
           <input
             type="radio"
             value="model"
@@ -222,7 +224,7 @@ const Products = () => {
               setSearchType(e.currentTarget.value);
             }}
           />{" "}
-          {"byModel"}
+          {t("admin_byModel")}
         </div>
       </div>
 
@@ -263,9 +265,9 @@ const Products = () => {
         <thead>
           <tr>
             <th></th>
-            <th>name</th>
-            <th>models</th>
-            <th>image</th>
+            <th>{t("admin_name")}</th>
+            <th>{t("admin_models")}</th>
+            <th>{t("admin_image")}</th>
             <th></th>
             <th></th>
           </tr>
@@ -322,7 +324,7 @@ const Products = () => {
                   to={`/admin/editProduct/${d.id}/${currentPage}/${searchType}/${searchItem}/${selectedCategory}`}
                   className={styles.btn}
                 >
-                  edit
+                  {t("admin_edit")}
                 </Link>
               </td>
               <td>
@@ -333,7 +335,7 @@ const Products = () => {
                     setModal(true);
                   }}
                 >
-                  delete
+                  {t("admin_delete")}
                 </button>
               </td>
             </tr>
@@ -346,7 +348,7 @@ const Products = () => {
                 to={`/admin/addProduct/${currentPage}/${searchType}/${searchItem}`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
-                add
+                {t("admin_add")}
               </Link>
             </td>
             <td colSpan={10}>
@@ -371,10 +373,10 @@ const Products = () => {
                 deleteItem(deleteId);
               }}
             >
-              delete
+              {t("admin_delete")}
             </button>
             <button className={styles.delBtn} onClick={() => setModal(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>

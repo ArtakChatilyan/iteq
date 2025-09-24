@@ -4,6 +4,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { brandsAPI, categoryAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const EditBrand = () => {
   const { itemId, page } = useParams();
@@ -13,6 +14,7 @@ const EditBrand = () => {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
   useEffect(() => {
     getBrand(itemId);
   }, []);
@@ -38,7 +40,7 @@ const EditBrand = () => {
         validate={(values) => {
           const errors = {};
           if (!values.brandName) {
-            errors.brandName = "Required";
+            errors.brandName =t("admin_required");
           }
 
           return errors;
@@ -52,11 +54,11 @@ const EditBrand = () => {
           brandsAPI
             .editBrand(formData, itemId)
             .then((data) => {
-              setResultMessage("The brand updated successfully");
+              setResultMessage(t("admin_brandUpdateSuccess"));
               return navigate(`/admin/brands/${page}`);
             })
             .catch((error) => {
-              setResultMessage("Couldn't update category!");
+              setResultMessage(t("admin_brandUpdateFailed"));
             });
         }}
       >
@@ -73,7 +75,7 @@ const EditBrand = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-              <span className={styles.label}>barnd name:</span>
+              <span className={styles.label}>{t("admin_brandName")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -87,7 +89,7 @@ const EditBrand = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameEn && touched.nameEn && errors.nameEn}
               </span>
-              <span className={styles.label}>brand url:</span>
+              <span className={styles.label}>{t("admin_brandUrl")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -101,7 +103,7 @@ const EditBrand = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.brandUrl && touched.brandUrl && errors.brandUrl}
               </span>
-              <span className={styles.label}>image:</span>
+              <span className={styles.label}>{t("admin_image")}:</span>
               <div className={styles.formItem}>
                 <img src={imgUrl} style={{ width: "200px", margin: "20px" }} />
                 <input
@@ -123,14 +125,14 @@ const EditBrand = () => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
                 <button
                   type="button"
                   className={styles.btn}
                   onClick={()=>{ return navigate(`/admin/brands/${page}`);}}
                 >
-                  cancel
+                  {t("admin_cancel")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

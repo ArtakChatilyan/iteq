@@ -7,6 +7,7 @@ import { Link, NavLink } from "react-router-dom";
 import ProductCard from "../productMenu/productCard/ProductCard";
 import Paging from "../paging/Paging";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
+import { useTranslation } from "react-i18next";
 
 const Category = ({
   loading,
@@ -30,6 +31,7 @@ const Category = ({
   search,
 }) => {
   const lang = useContext(LanguageContext);
+  const {t}=useTranslation();
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
@@ -60,7 +62,7 @@ const Category = ({
           maxPrice={maxPrice}
         />
 
-        <span className={styles.partTitle}>Brands</span>
+        <span className={styles.partTitle}>{t("Brands")}</span>
         <ul className={styles.list}>
           {brandList.map((b) => (
             <li key={`chk${b.brandId}`}>
@@ -81,7 +83,7 @@ const Category = ({
           ))}
         </ul>
 
-        <span className={styles.partTitle}>Price range</span>
+        <span className={styles.partTitle}>{t("Pricerange")}</span>
         <div style={{ marginTop: "6px" }}>
           <table>
             <tbody>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./../Products.module.css";
 import { colorAPI } from "../../../dal/api";
 import SplashScreen from "../../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const ModelColors = ({ modelId, closeModal }) => {
   const [resultMessage, setResultMessage] = useState("");
@@ -9,6 +10,7 @@ const ModelColors = ({ modelId, closeModal }) => {
 
   const [colors, setColors] = useState([]);
   const [resultData, setResultData] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     getColors();
@@ -55,10 +57,10 @@ const ModelColors = ({ modelId, closeModal }) => {
     colorAPI
       .setModelColors(modelId, resultData)
       .then((response) => {
-        setResultMessage("Colors set successfully");
+        setResultMessage(t("admin_colorsSetSuccess"));
       })
       .catch((error) => {
-        setResultMessage("Failed set colors for model!");
+        setResultMessage(t("admin_colorsSetFailed"));
       })
       .finally(() => setLoading(false));
   };
@@ -99,11 +101,11 @@ const ModelColors = ({ modelId, closeModal }) => {
               className={styles.btn}
               onClick={() => setModelColors(modelId)}
             >
-              save
+              {t("admin_save")}
             </button>
 
             <button className={styles.btn} onClick={closeModal}>
-              close
+              {t("admin_close")}
             </button>
           </div>
         </div>

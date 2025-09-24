@@ -3,8 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import { orderApi } from "../../dal/api";
 import styles from "../View.module.css";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const Orders = () => {
+  const { t, i18n } = useTranslation();
   const { clientId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -106,15 +108,15 @@ const Orders = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>product</th>
-            <th>model</th>
-            <th>size</th>
-            <th>color</th>
-            <th>count</th>
-            <th>price</th>
-            <th>total</th>
-            <th>client</th>
-            <th>order date</th>
+            <th>{t("admin_product")}</th>
+            <th>{t("admin_model")}</th>
+            <th>{t("admin_size")}</th>
+            <th>{t("admin_color")}</th>
+            <th>{t("admin_count")}</th>
+            <th>{t("admin_price")}</th>
+            <th>{t("admin_total")}</th>
+            <th>{t("admin_client")}</th>
+            <th>{t("admin_orderDate")}</th>
             <th></th>
             <th></th>
           </tr>
@@ -141,7 +143,7 @@ const Orders = () => {
                     setModalClose(true);
                   }}
                 >
-                  close order
+                  {t("admin_closeOrder")}
                 </button>
               </td>
               {ol.state===1 && (
@@ -154,7 +156,7 @@ const Orders = () => {
                       setModalCancel(true);
                     }}
                   >
-                    cancel order
+                    {t("admin_cancelOrder")}
                   </button>
                 </td>
               )}
@@ -166,10 +168,10 @@ const Orders = () => {
         <div className={styles.modal}>
           <div className={styles.btnGroup}>
             <button className={styles.delBtn} onClick={CloseOrder}>
-              close
+              {t("admin_closeOrder")}
             </button>
             <button className={styles.delBtn} onClick={() => setModalClose(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>
@@ -178,10 +180,10 @@ const Orders = () => {
         <div className={styles.modal}>
           <div className={styles.btnGroup}>
             <button className={styles.delBtn} onClick={CancelOrder}>
-              cancel
+              {t("admin_cancelOrder")}
             </button>
             <button className={styles.delBtn} onClick={() => setModalCancel(false)}>
-              cancel
+              {t("admin_close")}
             </button>
           </div>
         </div>

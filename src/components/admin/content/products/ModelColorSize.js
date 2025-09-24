@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import styles from "./ModelColorSize.module.css";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { colorAPI, modelAPI } from "../../dal/api";
+import { useTranslation } from "react-i18next";
 
 const ModelColorSize = ({ productId, imageId, closeModal }) => {
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const [models, setModels] = useState([]);
   const [selectedModel, setSelectedModel] = useState(0);
@@ -188,7 +190,7 @@ const ModelColorSize = ({ productId, imageId, closeModal }) => {
                   setModal(true);
                 }}
               >
-                delete
+                {t("admin_delete")}
               </button>
             </div>
           ))}
@@ -196,16 +198,16 @@ const ModelColorSize = ({ productId, imageId, closeModal }) => {
       </div>
       <div className={styles.btnGroup}>
         <button className={styles.btn} onClick={setColorSize}>
-          add
+          {t("admin_add")}
         </button>
         <button className={styles.btn} onClick={closeModal}>
-          close
+          {t("admin_cancel")}
         </button>
         <button className={styles.btn} onClick={()=>{
             setSelectedColor(null);
             setSelectedSize(null);
         }}>
-          reset
+          {t("admin_reset")}
         </button>
       </div>
       <div className={styles.error}>{resultMessage}</div>
@@ -219,10 +221,10 @@ const ModelColorSize = ({ productId, imageId, closeModal }) => {
                 deleteItem(deleteId);
               }}
             >
-              delete
+              {t("admin_delete")}
             </button>
             <button className={styles.delBtn} onClick={() => setModal(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>

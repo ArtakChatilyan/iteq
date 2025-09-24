@@ -4,15 +4,18 @@ import SplashScreen from "../../splashscreen/SplashScreen";
 import { productsAPI } from "../../../dal/api";
 import { useState } from "react";
 import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 
 const AddDescription = ({ productId, closeModal, addDescription }) => {
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
+  const { t } = useTranslation();
+
   const formValidationSchema = Yup.object().shape({
-    descriptionName: Yup.string().required("required"),
-    descriptionEn: Yup.string().required("required"),
-    descriptionGe: Yup.string().required("required"),
-    descriptionRu: Yup.string().required("required"),
+    descriptionName: Yup.string().required(t("admin_required")),
+    descriptionEn: Yup.string().required(t("admin_required")),
+    descriptionGe: Yup.string().required(t("admin_required")),
+    descriptionRu: Yup.string().required(t("admin_required")),
   });
   return (
     <div>
@@ -42,12 +45,12 @@ const AddDescription = ({ productId, closeModal, addDescription }) => {
           productsAPI
             .addDescription(values)
             .then((data) => {
-              setResultMessage("Description added successfully");
+              setResultMessage(t("admin_descriptionAddedSuccessfully"));
               resetForm();
               addDescription();
             })
             .catch((error) => {
-              setResultMessage("Failed to add description!");
+              setResultMessage(t("admin_failedAddDescription"));
             })
             .finally(() => setLoading(false));
         }}
@@ -65,7 +68,7 @@ const AddDescription = ({ productId, closeModal, addDescription }) => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form} style={{ textAlign: "left" }}>
-              <span className={styles.label}>description name:</span>
+              <span className={styles.label}>{t("admin_descriptionName")}:</span>
               <div className={styles.formItem}>
                 <input
                   className={styles.input}
@@ -80,7 +83,7 @@ const AddDescription = ({ productId, closeModal, addDescription }) => {
                 </div>
               </div>
 
-              <span className={styles.label}>description(english):</span>
+              <span className={styles.label}>{t("admin_descriptionEn")}:</span>
               <div className={styles.formItem}>
                 <textarea
                   className={`${styles.input} ${styles.area}`}
@@ -95,7 +98,7 @@ const AddDescription = ({ productId, closeModal, addDescription }) => {
                 </div>
               </div>
 
-              <span className={styles.label}>description(georgian):</span>
+              <span className={styles.label}>{t("admin_descriptionGe")}:</span>
               <div className={styles.formItem}>
                 <textarea
                   className={`${styles.input} ${styles.area}`}
@@ -110,7 +113,7 @@ const AddDescription = ({ productId, closeModal, addDescription }) => {
                 </div>
               </div>
 
-              <span className={styles.label}>description(russian):</span>
+              <span className={styles.label}>{t("admin_descriptionRu")}:</span>
               <div className={styles.formItem}>
                 <textarea
                   className={`${styles.input} ${styles.area}`}
@@ -131,14 +134,14 @@ const AddDescription = ({ productId, closeModal, addDescription }) => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  add
+                  {t("admin_add")}
                 </button>
                 <button
                   type="button"
                   className={styles.btn}
                   onClick={() => closeModal()}
                 >
-                  close
+                  {t("admin_close")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

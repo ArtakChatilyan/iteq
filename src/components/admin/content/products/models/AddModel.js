@@ -3,10 +3,12 @@ import { Field, Formik } from "formik";
 import { useState } from "react";
 import { modelAPI } from "../../../dal/api";
 import SplashScreen from "../../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const AddModel = ({ productId, closeModal, reloadModels }) => {
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
+  const { t } = useTranslation();
 
   return (
     <div className={styles.data}>
@@ -16,13 +18,13 @@ const AddModel = ({ productId, closeModal, reloadModels }) => {
         validate={(values) => {
           const errors = {};
           if (!values.nameEn) {
-            errors.nameEn = "Required";
+            errors.nameEn = t("admin_required");
           }
           if (!values.nameGe) {
-            errors.nameGe = "Required";
+            errors.nameGe = t("admin_required");
           }
           if (!values.nameRu) {
-            errors.nameRu = "Required";
+            errors.nameRu = t("admin_required");
           }
           return errors;
         }}
@@ -36,12 +38,12 @@ const AddModel = ({ productId, closeModal, reloadModels }) => {
           modelAPI
             .addModel(productId, values)
             .then((data) => {
-              setResultMessage("The model added successfully");
+              setResultMessage(t("admin_modelAddSuccess"));
               resetForm();
               reloadModels();
             })
             .catch((error) => {
-              setResultMessage("Failed to add model!");
+              setResultMessage(t("admin_modelAddFailed"));
             })
             .finally(() => setLoading(false));
         }}
@@ -59,7 +61,7 @@ const AddModel = ({ productId, closeModal, reloadModels }) => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-              <span className={styles.label}>name(english):</span>
+              <span className={styles.label}>{t("admin_nameEn")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -73,7 +75,7 @@ const AddModel = ({ productId, closeModal, reloadModels }) => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameEn && touched.nameEn && errors.nameEn}
               </span>
-              <span className={styles.label}>name(georgian):</span>
+              <span className={styles.label}>{t("admin_nameGe")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -87,7 +89,7 @@ const AddModel = ({ productId, closeModal, reloadModels }) => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameGe && touched.nameGe && errors.nameGe}
               </span>
-              <span className={styles.label}>name(russian):</span>
+              <span className={styles.label}>{t("admin_nameRu")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -108,14 +110,14 @@ const AddModel = ({ productId, closeModal, reloadModels }) => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  add
+                  {t("admin_add")}
                 </button>
                 <button
                   type="button"
                   className={styles.btn}
                   onClick={() => closeModal()}
                 >
-                  close
+                  {t("admin_close")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

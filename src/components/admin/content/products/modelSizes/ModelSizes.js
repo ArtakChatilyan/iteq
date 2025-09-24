@@ -4,6 +4,7 @@ import SplashScreen from "../../splashscreen/SplashScreen";
 import AddModelSize from "./AddModelSize";
 import EditModelSize from "./EditModelSize";
 import { modelAPI } from "../../../dal/api";
+import { useTranslation } from "react-i18next";
 
 const ModelSizes = ({ modelId, closeModal }) => {
   const [data, setData] = useState([]);
@@ -16,6 +17,7 @@ const ModelSizes = ({ modelId, closeModal }) => {
   const [modalDelete, setModalDelete] = useState(false);
 
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     getSizes(modelId);
@@ -59,13 +61,13 @@ const ModelSizes = ({ modelId, closeModal }) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>size</th>
-            <th>weight</th>
-            <th>price</th>
-            <th>discount</th>
-            <th>new price</th>
-            <th>count</th>
-            <th>in stock</th>
+            <th>{t("admin_size")}</th>
+            <th>{t("admin_weight")}</th>
+            <th>{t("admin_price")}</th>
+            <th>{t("admin_discount")}</th>
+            <th>{t("admin_newPrice")}</th>
+            <th>{t("admin_count")}</th>
+            <th>{t("admin_inStock")}</th>
             <th></th>
             <th></th>
           </tr>
@@ -89,7 +91,7 @@ const ModelSizes = ({ modelId, closeModal }) => {
                       setModalEdit(true);
                     }}
                   >
-                    edit
+                    {t("admin_edit")}
                   </button>
                 </td>
                 <td>
@@ -100,7 +102,7 @@ const ModelSizes = ({ modelId, closeModal }) => {
                       setModalDelete(true);
                     }}
                   >
-                    delete
+                    {t("admin_delete")}
                   </button>
                 </td>
               </tr>
@@ -115,10 +117,10 @@ const ModelSizes = ({ modelId, closeModal }) => {
           <tr>
             <td colSpan={9}>
               <button className={styles.btn} onClick={() => setModalAdd(true)}>
-                add new size
+                {t("admin_add")}
               </button>
               <button className={styles.btn} onClick={() => closeModal()}>
-                close
+                {t("admin_close")}
               </button>
             </td>
           </tr>
@@ -133,13 +135,13 @@ const ModelSizes = ({ modelId, closeModal }) => {
                 deleteItem(deleteId);
               }}
             >
-              delete
+              {t("admin_delete")}
             </button>
             <button
               className={styles.delBtn}
               onClick={() => setModalDelete(false)}
             >
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>

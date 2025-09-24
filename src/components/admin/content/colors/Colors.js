@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { Link } from "react-router-dom";
 import { colorAPI } from "../../dal/api";
+import { useTranslation } from "react-i18next";
 
 const Colors = () => {
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const [colors, setColors] = useState([]);
   const [modal, setModal] = useState(false);
@@ -43,10 +45,10 @@ const Colors = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>name(english)</th>
-            <th>name(georgian)</th>
-            <th>name(russian)</th>
-            <th>image</th>
+            <th>{t("admin_nameEn")}</th>
+            <th>{t("admin_nameGe")}</th>
+            <th>{t("admin_nameRu")}</th>
+            <th>{t("admin_image")}</th>
             <th></th>
             <th></th>
           </tr>
@@ -61,7 +63,7 @@ const Colors = () => {
                 <td><img src={c.iconUrl} className={styles.img} /></td>
                 <td>
                   <Link to={`/admin/editColor/${c.id}`} className={styles.btn}>
-                    edit
+                    {t("admin_edit")}
                   </Link>
                 </td>
                 <td>
@@ -72,7 +74,7 @@ const Colors = () => {
                       setModal(true);
                     }}
                   >
-                    delete
+                    {t("admin_delete")}
                   </button>
                 </td>
               </tr>
@@ -90,7 +92,7 @@ const Colors = () => {
                 to={`/admin/addColor`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
-                add
+                {t("admin_add")}
               </Link>
             </td>
           </tr>
@@ -105,10 +107,10 @@ const Colors = () => {
                 deleteItem(deleteId);
               }}
             >
-              delete
+              {t("admin_delete")}
             </button>
             <button className={styles.delBtn} onClick={() => setModal(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>

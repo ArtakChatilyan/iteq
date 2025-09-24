@@ -4,11 +4,13 @@ import { subcategoryAPI } from "../../dal/api";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const SubCategories = () => {
   const { parentId } = useParams();
   const [parents, setParents] = useState([]);
   const [loading, setLoading]=useState(true);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -84,10 +86,10 @@ const SubCategories = () => {
             </th>
           </tr>
           <tr>
-            <th>name(english)</th>
-            <th>name(georgian)</th>
-            <th>name(russian)</th>
-            <th>order</th>
+            <th>{t("admin_nameEn")}</th>
+            <th>{t("admin_nameGe")}</th>
+            <th>{t("admin_nameRu")}</th>
+            <th>{t("admin_categoryOrder")}</th>
             <th></th>
             <th></th>
             <th></th>
@@ -103,14 +105,14 @@ const SubCategories = () => {
                 <td>{d.nameGe}</td>
                 <td>{d.nameRu}</td>
                 <td>{d.categoryOrder}</td>
-                <td><Link to={`/admin/subCategories/${d.id}`}>subcategories</Link></td>
+                <td><Link to={`/admin/subCategories/${d.id}`}>{t("admin_subcategories")}</Link></td>
 
                 <td>
                   <Link
                     to={`/admin/editSubCategory/${d.id}`}
                     className={styles.btn}
                   >
-                    edit
+                    {t("admin_edit")}
                   </Link>
                 </td>
                 <td>
@@ -121,7 +123,7 @@ const SubCategories = () => {
                       setModal(true);
                     }}
                   >
-                    delete
+                    {t("admin_delete")}
                   </button>
                 </td>
               </tr>
@@ -139,7 +141,7 @@ const SubCategories = () => {
                 to={`/admin/addSubCategory/${parentId}`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
-                add
+                {t("admin_add")}
               </Link>
             </td>
             <td colSpan={6}>
@@ -164,10 +166,10 @@ const SubCategories = () => {
                 deleteItem(deleteId);
               }}
             >
-              delete
+              {t("admin_delete")}
             </button>
             <button className={styles.delBtn} onClick={() => setModal(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         </div>

@@ -5,8 +5,10 @@ import styles from "./AboutUs.module.css";
 import { stateFromHTML } from "draft-js-import-html";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { settingsAPI } from "../../dal/api";
+import { useTranslation } from "react-i18next";
 
 const AboutUs = () => {
+  const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const refAboutEn = createRef();
@@ -110,17 +112,17 @@ const AboutUs = () => {
         {editMode && (
           <div>
             <button className={styles.btn} onClick={updateContent}>
-              save
+              {t("admin_save")}
             </button>
             <button className={styles.btn} onClick={() => setEditMode(false)}>
-              cancel
+              {t("admin_cancel")}
             </button>
           </div>
         )}
         {editMode || (
           <div>
             <button className={styles.btn} onClick={() => setEditMode(true)}>
-              edit
+              {t("admin_edit")}
             </button>
           </div>
         )}

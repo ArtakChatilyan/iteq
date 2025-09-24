@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import styles from "./BrandsForCategories.module.css";
 import { brandsAPI, categoryAPI } from "../../../dal/api";
 import SplashScreen from "../../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const BrandsForCategories = ({ categoryId, categoryTitle, closeModal }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [resultData, setResultData] = useState([]);
   const [resultMessage, setResultMessage]=useState('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     LoadBrands();
@@ -61,7 +63,7 @@ const BrandsForCategories = ({ categoryId, categoryTitle, closeModal }) => {
   return (
     <div className={styles.block}>
       {loading && <SplashScreen />}
-      brands for <span className={styles.title}>{categoryTitle}</span>
+      {t("admin_brandsFor")} <span className={styles.title}>{categoryTitle}</span>
       <div className={styles.itemContent}>
         {data.map((d) => (
           <div
@@ -83,10 +85,10 @@ const BrandsForCategories = ({ categoryId, categoryTitle, closeModal }) => {
       </div>
       <div className={styles.btnGroup}>
         <button className={styles.btn} onClick={setCategoryBrands}>
-          save
+          {t("admin_save")}
         </button>
         <button className={styles.btn} onClick={closeModal}>
-          cancel
+          {t("admin_cancel")}
         </button>
       </div>
       <div className={styles.error}>

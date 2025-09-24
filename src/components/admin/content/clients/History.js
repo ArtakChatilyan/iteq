@@ -3,8 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import styles from "../View.module.css";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { orderApi } from "../../dal/api";
+import { useTranslation } from "react-i18next";
 
 const History = () => {
+  const { t, i18n } = useTranslation();
   const { clientId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -56,15 +58,15 @@ const History = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>product</th>
-            <th>model</th>
-            <th>size</th>
-            <th>color</th>
-            <th>count</th>
-            <th>price</th>
-            <th>total</th>
-            <th>client</th>
-            <th>order date</th>
+             <th>{t("admin_product")}</th>
+            <th>{t("admin_model")}</th>
+            <th>{t("admin_size")}</th>
+            <th>{t("admin_color")}</th>
+            <th>{t("admin_count")}</th>
+            <th>{t("admin_price")}</th>
+            <th>{t("admin_total")}</th>
+            <th>{t("admin_client")}</th>
+            <th>{t("admin_orderDate")}</th>
           </tr>
         </thead>
         <tbody>

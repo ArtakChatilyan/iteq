@@ -7,8 +7,10 @@ import RichTextEditor from "../../richtext/richText";
 import "draft-js/dist/Draft.css";
 import { stateFromHTML } from "draft-js-import-html";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const EditPartner = () => {
+  const { t } = useTranslation();
   const { itemId } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -68,11 +70,11 @@ const EditPartner = () => {
           newsAPI
             .editNews(formData, itemId)
             .then((data, itemId) => {
-              setResultMessage("News data updated successfully");
+              setResultMessage(t("admin_newsUpdateSuccess"));
               return navigate("/admin/news");
             })
             .catch((error) => {
-              setResultMessage("Couldn't update news data!");
+              setResultMessage(t("admin_newsUpdateFailed"));
             });
         }}
       >
@@ -89,7 +91,7 @@ const EditPartner = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-            <span className={styles.label}>title(english):</span>
+            <span className={styles.label}>{t("admin_titleEn")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -101,7 +103,7 @@ const EditPartner = () => {
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
-              <span className={styles.label}>title(georgian):</span>
+              <span className={styles.label}>{t("admin_titleGe")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -113,7 +115,7 @@ const EditPartner = () => {
                 />
               </div>
               <span className={`${styles.label} ${styles.error}`}></span>
-              <span className={styles.label}>title(russian):</span>
+              <span className={styles.label}>{t("admin_titleRu")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -127,7 +129,7 @@ const EditPartner = () => {
               <span className={`${styles.label} ${styles.error}`}></span>
 
 
-              <span className={styles.label}>image:</span>
+              <span className={styles.label}>{t("admin_image")}:</span>
               <div className={styles.formItem}>
                 <img src={imgUrl} style={{ width: "200px", margin: "20px" }} />
                 <input
@@ -144,7 +146,7 @@ const EditPartner = () => {
                 {errors.imgUrl && touched.imgUrl && errors.imgUrl}
               </span>
               <span className={styles.label}>
-                Partner information(english):
+                {t("admin_contentEn")}:
               </span>
               <div className={styles.formItem}>
                 <div style={{ width: "90%", margin: "1rem auto" }}>
@@ -157,7 +159,7 @@ const EditPartner = () => {
               </div>
               <span />
               <span className={styles.label}>
-                Partner information(georgian):
+                {t("admin_contentGe")}:
               </span>
               <div className={styles.formItem}>
                 <div style={{ width: "90%", margin: "1rem auto" }}>
@@ -170,7 +172,7 @@ const EditPartner = () => {
               </div>
               <span />
               <span className={styles.label}>
-                Partner information(russian):
+                {t("admin_contentRu")}:
               </span>
               <div className={styles.formItem}>
                 <div style={{ width: "90%", margin: "1rem auto" }}>
@@ -188,14 +190,14 @@ const EditPartner = () => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  edit
+                  {t("admin_edit")}
                 </button>
                 <button
                   type="button"
                   className={styles.btn}
                   onClick={()=>{ return navigate('/admin/news');}}
                 >
-                  cancel
+                  {t("admin_cancel")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

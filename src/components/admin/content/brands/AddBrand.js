@@ -4,8 +4,10 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { brandsAPI, categoryAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
+import { useTranslation } from "react-i18next";
 
 const AddBrand = () => {
+  const { t } = useTranslation();
   const {page}=useParams();
   const navigate = useNavigate();
   const[loading, setLoading]=useState(false);
@@ -18,7 +20,7 @@ const AddBrand = () => {
         validate={(values) => {
           const errors = {};
           if (!values.brandName) {
-            errors.brandName = "Required";
+            errors.brandName =t("admin_required");
           }
 
           return errors;
@@ -32,11 +34,11 @@ const AddBrand = () => {
           brandsAPI
             .addBrand(formData)
             .then((data) => {
-              setResultMessage("The brand added successfully");
+              setResultMessage(t("admin_brandAddSuccess"));
               return navigate(`/admin/brands/${page}`);
             })
             .catch((error) => {
-              setResultMessage("Couldn't add category!");
+              setResultMessage(t("admin_brandAddFailed"));
             });
         }}
       >
@@ -53,7 +55,7 @@ const AddBrand = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form}>
-              <span className={styles.label}>barnd name:</span>
+              <span className={styles.label}>{t("admin_brandName")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -67,7 +69,7 @@ const AddBrand = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.nameEn && touched.nameEn && errors.nameEn}
               </span>
-              <span className={styles.label}>brand url:</span>
+              <span className={styles.label}>{t("admin_brandUrl")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -81,7 +83,7 @@ const AddBrand = () => {
               <span className={`${styles.label} ${styles.error}`}>
                 {errors.brandUrl && touched.brandUrl && errors.brandUrl}
               </span>
-              <span className={styles.label}>image:</span>
+              <span className={styles.label}>{t("admin_image")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="file"
@@ -102,14 +104,14 @@ const AddBrand = () => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  add
+                  {t("admin_add")}
                 </button>
                 <button
                   type="button"
                   className={styles.btn}
                   onClick={()=>{ return navigate(`/admin/brands/${page}`);}}
                 >
-                  cancel
+                  {t("admin_cancel")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>

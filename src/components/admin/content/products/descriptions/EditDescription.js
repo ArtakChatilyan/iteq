@@ -3,9 +3,11 @@ import { Formik } from "formik";
 import SplashScreen from "../../splashscreen/SplashScreen";
 import { productsAPI } from "../../../dal/api";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const EditDescription = ({ descriptionId, closeModal, editDescription }) => {
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
   const [resultMessage, setResultMessage] = useState("");
   const [name, setName] = useState("");
   const [descriptionEn, setDescriptionEn] = useState("");
@@ -52,11 +54,11 @@ const EditDescription = ({ descriptionId, closeModal, editDescription }) => {
           productsAPI
             .updateDescription(descriptionId, values)
             .then((data) => {
-              setResultMessage("Description updated successfully");
+              setResultMessage(t("admin_descriptionUpdateSuccessfully"));
               editDescription();
             })
             .catch((error) => {
-              setResultMessage("Failed to update description!");
+              setResultMessage(t("admin_failedUpdateDescription"));
             })
             .finally(() => setLoading(false));
         }}
@@ -74,7 +76,7 @@ const EditDescription = ({ descriptionId, closeModal, editDescription }) => {
         }) => (
           <form onSubmit={handleSubmit}>
             <div className={styles.form} style={{ textAlign: "left" }}>
-              <span className={styles.label}>description name:</span>
+              <span className={styles.label}>{t("admin_descriptionName")}:</span>
               <div className={styles.formItem}>
                 <input
                   type="input"
@@ -92,7 +94,7 @@ const EditDescription = ({ descriptionId, closeModal, editDescription }) => {
                   touched.descriptionEn &&
                   errors.descriptionEn}
               </span>
-              <span className={styles.label}>description(english):</span>
+              <span className={styles.label}>{t("admin_descriptionEn")}:</span>
               <div className={styles.formItem}>
                 <textarea
                   className={`${styles.input} ${styles.area}`}
@@ -109,7 +111,7 @@ const EditDescription = ({ descriptionId, closeModal, editDescription }) => {
                   touched.descriptionEn &&
                   errors.descriptionEn}
               </span>
-              <span className={styles.label}>description(georgian):</span>
+              <span className={styles.label}>{t("admin_descriptionGe")}:</span>
               <div className={styles.formItem}>
                 <textarea
                   className={`${styles.input} ${styles.area}`}
@@ -126,7 +128,7 @@ const EditDescription = ({ descriptionId, closeModal, editDescription }) => {
                   touched.descriptionGe &&
                   errors.descriptionGe}
               </span>
-              <span className={styles.label}>description(russian):</span>
+              <span className={styles.label}>{t("admin_descriptionRu")}:</span>
               <div className={styles.formItem}>
                 <textarea
                   className={`${styles.input} ${styles.area}`}
@@ -149,14 +151,14 @@ const EditDescription = ({ descriptionId, closeModal, editDescription }) => {
                   disabled={isSubmitting}
                   className={styles.btn}
                 >
-                  save
+                  {t("admin_save")}
                 </button>
                 <button
                   type="button"
                   className={styles.btn}
                   onClick={() => closeModal()}
                 >
-                  close
+                  {t("admin_close")}
                 </button>
               </div>
               <div className={`${styles.formItem} ${styles.col3}`}>
