@@ -14,7 +14,7 @@ const Orders = () => {
   const [orderList, setOrderList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalClose, setModalClose] = useState(false);
-   const [modalCancel, setModalCancel] = useState(false);
+  const [modalCancel, setModalCancel] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
   const [selectedOrderId, setSelectedOrderId] = useState(0);
 
@@ -56,6 +56,19 @@ const Orders = () => {
 
   const pagingHandler = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const approveOrder = (orderId) => {
+    setLoading(true);
+    orderApi
+      .approveOrder(orderId)
+      .then((response) => {
+        LoadOrders(currentPage, perPage);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const CloseOrder = () => {
@@ -134,19 +147,33 @@ const Orders = () => {
 
               <td>{ol.email}</td>
               <td>{ol.orderDate}</td>
-              <td>
-                <button
-                  className={styles.btn}
-                  onClick={() => {
-                    setSelectedId(ol.id);
-                    setSelectedOrderId(ol.orderId);
-                    setModalClose(true);
-                  }}
-                >
-                  {t("admin_closeOrder")}
-                </button>
-              </td>
-              {ol.state===1 && (
+              {ol.state === 0 && (
+                <td>
+                  <button
+                    className={styles.btn}
+                    onClick={() => {
+                      approveOrder(ol.id);
+                    }}
+                  >
+                    {t("admin_approveOrder")}
+                  </button>
+                </td>
+              )}
+              {(ol.state === 1 || ol.state === 2) && (
+                <td>
+                  <button
+                    className={styles.btn}
+                    onClick={() => {
+                      setSelectedId(ol.id);
+                      setSelectedOrderId(ol.orderId);
+                      setModalClose(true);
+                    }}
+                  >
+                    {t("admin_closeOrder")}
+                  </button>
+                </td>
+              )}
+              {/* {ol.state === 2 && ( */}
                 <td>
                   <button
                     className={styles.btn}
@@ -159,7 +186,7 @@ const Orders = () => {
                     {t("admin_cancelOrder")}
                   </button>
                 </td>
-              )}
+              {/* )} */}
             </tr>
           ))}
         </tbody>
@@ -170,7 +197,10 @@ const Orders = () => {
             <button className={styles.delBtn} onClick={CloseOrder}>
               {t("admin_closeOrder")}
             </button>
-            <button className={styles.delBtn} onClick={() => setModalClose(false)}>
+            <button
+              className={styles.delBtn}
+              onClick={() => setModalClose(false)}
+            >
               {t("admin_cancel")}
             </button>
           </div>
@@ -182,7 +212,10 @@ const Orders = () => {
             <button className={styles.delBtn} onClick={CancelOrder}>
               {t("admin_cancelOrder")}
             </button>
-            <button className={styles.delBtn} onClick={() => setModalCancel(false)}>
+            <button
+              className={styles.delBtn}
+              onClick={() => setModalCancel(false)}
+            >
               {t("admin_close")}
             </button>
           </div>

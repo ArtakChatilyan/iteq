@@ -158,8 +158,8 @@ const Register = ({ register,resendLink, message, error, isSuccess }) => {
         </button>
       </div>
       <div style={{ clear: "both", margin: "1rem auto" }}>
-        <span className={styles.error}>{error}</span>
-        <span className={styles.message}>{message}</span>
+        <div className={styles.error}>{error}</div>
+        <div className={styles.message}>{message}</div>
         {isSuccess && (
           <div style={{float: "left"}}>
             <span className={styles.label}>if you didn't receive the link</span>{" "}

@@ -9,11 +9,11 @@ const BasketCard = ({ basket, deleteBasket, setCount, checkBasket }) => {
   const [model, setModel] = useState(null);
   const [selectedCount, setSelectedCount] = useState(basket.count);
   const [isChecked, setIsChecked] = useState(true);
-  const [alertOnCount, setAlertOnCount] = useState(false);
+  // const [alertOnCount, setAlertOnCount] = useState(false);
 
   useEffect(() => {
     setModel(basket.modelInfo);
-    setAlertOnCount(selectedCount > basket.modelInfo.count);
+    // setAlertOnCount(selectedCount > basket.modelInfo.count);
   }, [basket]);
 
   const setBasketCount = (count) => {
@@ -93,22 +93,21 @@ const BasketCard = ({ basket, deleteBasket, setCount, checkBasket }) => {
             value={selectedCount}
             type="number"
             min={1}
-            max={model && model.count}
+            // max={model && model.count}
             onChange={(e) => {
-              
-              
-              if (parseInt(e.currentTarget.value) > model.count) {
-                e.currentTarget.value = model.count;
-                setBasketCount(model.count);
-              } else {
+              setBasketCount(e.currentTarget.value);
+              // if (parseInt(e.currentTarget.value) > model.count) {
+              //   e.currentTarget.value = model.count;
+              //   setBasketCount(model.count);
+              // } else {
                 
-                setBasketCount(e.currentTarget.value);
-              }
-              setAlertOnCount(false);
+              //   setBasketCount(e.currentTarget.value);
+              // }
+              // setAlertOnCount(false);
             }}
           />
           <div style={{ textAlign: "center", flexGrow: 1 }}>
-            <span
+            {/* <span
               style={{
                 paddingBottom:"1rem",
                 display: "inline-block",
@@ -118,7 +117,7 @@ const BasketCard = ({ basket, deleteBasket, setCount, checkBasket }) => {
             >
               {" "}
               max: {model && model.count}
-            </span>
+            </span> */}
           </div>
           <div>
             <img

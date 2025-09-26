@@ -63,3 +63,10 @@
   font-family: "RobotoMedium";
   margin: 1rem;
 }
+
+.info{
+  font-family: "RobotoRegular";
+  font-size: 1.8rem;
+  color: rgb(17, 43, 60);
+  margin-bottom: 1rem;
+}

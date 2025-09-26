@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 
 const AddProduct = () => {
   const { page, sType, sTerm, sCat } = useParams();
+  
   const navigate = useNavigate();
   const [resultMessage, setResultMessage] = useState("");
   const [brandData, setBrandData] = useState([]);
@@ -38,7 +39,7 @@ const AddProduct = () => {
           productNameEn: "",
           productNameGe: "",
           productNameRu: "",
-          productBrand: 0,
+          productBrand: brandData.length>0 ? brandData.filter(bd=>bd.brandName==sTerm)[0].id : 0,
           productCountryEn: "",
           productCountryGe: "",
           productCountryRu: "",
@@ -136,7 +137,7 @@ const AddProduct = () => {
                   name="productBrand"
                   className={styles.options}
                 >
-                  <option value="0"></option>
+                  <option value={0}></option>
                   {brandData.map((d) => (
                     <option key={`br${d.id}`} value={d.id}>
                       {d.brandName}

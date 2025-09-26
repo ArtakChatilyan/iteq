@@ -47,7 +47,6 @@ const EditProduct = () => {
   const getProduct = (id) => {
     productsAPI.getProduct(id).then((response) => {
       if (response.data.data.id) {
-        console.log(response.data.data);
         
         setProductNameEn(response.data.data.productNameEn);
         setProductNameGe(response.data.data.productNameGe);

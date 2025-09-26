@@ -61,7 +61,8 @@ const Products = () => {
 
   useEffect(() => {
     //getCategories();
-    //getProducts(searchType, searchItem, currentPage, perPage);
+    if(sCat)
+    getProducts(searchType, searchItem, currentPage, perPage);
   }, [currentPage]);
 
   const pagingHandler = (pageNumber) => {
@@ -287,38 +288,6 @@ const Products = () => {
               <td>
                 <img src={d.imgUrl} className={styles.img} />
               </td>
-              {/* <td>
-                <Link
-                  to={`/admin/productCategories/${d.id}/${currentPage}/${searchType}/${searchItem}`}
-                  className={styles.btn}
-                >
-                  categories
-                </Link>
-              </td> */}
-              {/* <td>
-                <Link
-                  to={`/admin/models/${d.id}/${currentPage}/${searchType}/${searchItem}`}
-                  className={styles.btn}
-                >
-                  models
-                </Link>
-              </td> */}
-              {/* <td>
-                <Link
-                  to={`/admin/productImages/${d.id}/${currentPage}/${searchType}/${searchItem}`}
-                  className={styles.btn}
-                >
-                  images
-                </Link>
-              </td> */}
-              {/* <td>
-                <Link
-                  to={`/admin/productDescriptions/${d.id}/${currentPage}/${searchType}/${searchItem}`}
-                  className={styles.btn}
-                >
-                  descriptions
-                </Link>
-              </td> */}
               <td>
                 <Link
                   to={`/admin/editProduct/${d.id}/${currentPage}/${searchType}/${searchItem}/${selectedCategory}`}
@@ -345,7 +314,7 @@ const Products = () => {
           <tr>
             <td>
               <Link
-                to={`/admin/addProduct/${currentPage}/${searchType}/${searchItem}`}
+                to={`/admin/addProduct/${currentPage}/${searchType}/${searchItem}/${selectedCategory}`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
                 {t("admin_add")}

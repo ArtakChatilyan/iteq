@@ -63,15 +63,12 @@
 .error{
   color: red;
   font-size: 1.4rem;
-  display: inline-block;
-  margin-left: 10px;
 }
 
 .message{
   color: rgb(242, 165, 87);
   font-size: 1.8rem;
-  display: inline-block;
-  margin-left: 10px;
+  text-align: left;
 }
 
 

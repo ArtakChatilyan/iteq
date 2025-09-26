@@ -40,6 +40,9 @@ const ProductDetail = () => {
 
   const [selectedCount, setSelectedCount] = useState([]);
 
+  const [modalInfo, setModalInfo] = useState(false);
+  const [isAnimateInfo, setIsAnimateInfo] = useState(false);
+
   useEffect(() => {
     LoadProductCategories(productId);
     LoadProduct(productId);
@@ -182,11 +185,15 @@ const ProductDetail = () => {
           productId,
           modelId: selectedModel.id,
           sizeId: selectedSize.id,
-          colorId:selectedColor ? selectedColor.id : 0,
+          colorId: selectedColor ? selectedColor.id : 0,
           count: selectedCount.find((c) => c.sId === selectedSize.id)
             .selectedCount,
         })
-        .then((response) => dispatch(getBasketItemsCount(user.userId)))
+        .then((response) => {
+          dispatch(getBasketItemsCount(user.userId));
+          setModalInfo(true);
+          setIsAnimateInfo(true);
+        })
         .catch((error) => console.log(error))
         .finally(() => {
           setLoading(false);
@@ -228,9 +235,32 @@ const ProductDetail = () => {
       top: top * -yRatio,
     });
   };
+
+  const closeModalInfo = () => {
+    setIsAnimateInfo(false);
+    setTimeout(() => {
+      setModalInfo(false);
+    }, 600);
+  };
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
+      <div className={modalInfo ? styles.modal : styles.hide}>
+        <div
+          className={
+            isAnimateInfo
+              ? "animate__animated animate__bounceInDown"
+              : "animate__animated animate__bounceOutUp"
+          }
+        >
+          <div className={styles.infoGroup}>
+            <div className={styles.info}>product added to basket</div>
+            <button className={styles.btn} onClick={closeModalInfo}>
+              ok
+            </button>
+          </div>
+        </div>
+      </div>
       {product && (
         <div className={styles.content}>
           <div className={styles.imgSlide}>
@@ -470,33 +500,44 @@ const ProductDetail = () => {
                               }
                               type="number"
                               min={1}
-                              max={s.count}
                               onChange={(e) => {
-                                if (parseInt(e.currentTarget.value) > s.count) {
-                                  e.currentTarget.value = s.count;
-                                  setSelectedCount([
-                                    ...selectedCount.filter(
-                                      (sc) => sc.sId != s.id
-                                    ),
-                                    {
-                                      sId: s.id,
-                                      selectedCount: e.currentTarget.value,
-                                    },
-                                  ]);
-                                } else {
-                                  setSelectedCount([
-                                    ...selectedCount.filter(
-                                      (sc) => sc.sId != s.id
-                                    ),
-                                    {
-                                      sId: s.id,
-                                      selectedCount: e.currentTarget.value,
-                                    },
-                                  ]);
-                                }
+                                setSelectedCount([
+                                  ...selectedCount.filter(
+                                    (sc) => sc.sId != s.id
+                                  ),
+                                  {
+                                    sId: s.id,
+                                    selectedCount: e.currentTarget.value,
+                                  },
+                                ]);
                               }}
+                              // max={s.count}
+                              // onChange={(e) => {
+                              //   if (parseInt(e.currentTarget.value) > s.count) {
+                              //     e.currentTarget.value = s.count;
+                              //     setSelectedCount([
+                              //       ...selectedCount.filter(
+                              //         (sc) => sc.sId != s.id
+                              //       ),
+                              //       {
+                              //         sId: s.id,
+                              //         selectedCount: e.currentTarget.value,
+                              //       },
+                              //     ]);
+                              //   } else {
+                              //     setSelectedCount([
+                              //       ...selectedCount.filter(
+                              //         (sc) => sc.sId != s.id
+                              //       ),
+                              //       {
+                              //         sId: s.id,
+                              //         selectedCount: e.currentTarget.value,
+                              //       },
+                              //     ]);
+                              //   }
+                              // }}
                             />
-                            <span>max: {s.count}</span>
+                            {/* <span>max: {s.count}</span> */}
                           </td>
                           <td className={styles.td}>
                             <button

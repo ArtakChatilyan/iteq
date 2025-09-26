@@ -19,9 +19,9 @@ const Basket = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState(0);
   const [modalDelete, setModalDelete] = useState(false);
-  const [modalCount, setModalCount] = useState(false);
+  const [modalOrder, setModalOrder] = useState(false);
   const [isAnimateDelete, setIsAnimateDelete] = useState(false);
-  const [isAnimateCount, setIsAnimateCount] = useState(false);
+  const [isAnimateOrder, setIsAnimateOrder] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
@@ -105,41 +105,46 @@ const Basket = ({ userId }) => {
     }, 600);
   };
 
-  const closeModalCount = () => {
-    setModalCount(false);
-    setIsAnimateCount(false);
+  const closeModalOrder = () => {
+    setIsAnimateOrder(false);
+    setTimeout(() => {
+      setModalOrder(false);
+    }, 600);
   };
 
   const orderBasket = () => {
-    if (
-      basketList.filter((b) => b.isIncluded && b.count > b.modelInfo.count)
-        .length > 0
-    ) {
-      setModalCount(true);
-      setIsAnimateCount(true);
-    } else {
-      setLoading(true);
-      let date = new Date();
-      orderAPI
-        .addOrder({
-          orders: basketList.filter((b) => b.isIncluded),
-          totalPrice: totalPrice,
-          orderDate: new Date(
-            new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-          )
-            .toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
-        })
-        .then((response) => {
-          dispatch(getBasketItemsCount(userId));
-          setBasketList(basketList.filter((b) => !b.isIncluded));
-        })
-        .catch((error) => console.log(error))
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+    // if (
+    //   basketList.filter((b) => b.isIncluded && b.count > b.modelInfo.count)
+    //     .length > 0
+    // ) {
+    //   setModalCount(true);
+    //   setIsAnimateCount(true);
+    // }
+    //else {
+    setLoading(true);
+    let date = new Date();
+    orderAPI
+      .addOrder({
+        orders: basketList.filter((b) => b.isIncluded),
+        totalPrice: totalPrice,
+        orderDate: new Date(
+          new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+        )
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
+      })
+      .then((response) => {
+        dispatch(getBasketItemsCount(userId));
+        setBasketList(basketList.filter((b) => !b.isIncluded));
+        setModalOrder(true);
+        setIsAnimateOrder(true);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
+    //}
   };
 
   return (
@@ -163,7 +168,26 @@ const Basket = ({ userId }) => {
           </div>
         </div>
       </div>
-      <div className={modalCount ? styles.modal : styles.hide}>
+      <div className={modalOrder ? styles.modal : styles.hide}>
+        <div
+          className={
+            isAnimateOrder
+              ? "animate__animated animate__bounceInDown"
+              : "animate__animated animate__bounceOutUp"
+          }
+        >
+          <div className={styles.btnGroup}>
+            <div className={styles.info}>
+              <p style={{ marginBottom: "1rem" }}>Your order is pending.</p>{" "}
+              <p>You will receive an order confirmation by email.</p>
+            </div>
+            <button className={styles.btn} onClick={closeModalOrder}>
+              ok
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* <div className={modalCount ? styles.modal : styles.hide}>
         <div
           className={
             isAnimateCount
@@ -178,7 +202,7 @@ const Basket = ({ userId }) => {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
       {basketList.map((b) => (
         <BasketCard
           basket={b}

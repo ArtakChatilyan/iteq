@@ -402,20 +402,28 @@ export const orderApi = {
     return instance.get(`orders?page=${page}&perPage=${count}`);
   },
   getOrdersByClient: (page, count, clientId) => {
-    return instance.get(`orders/byClient?userId=${clientId}&page=${page}&perPage=${count}`);
+    return instance.get(
+      `orders/byClient?userId=${clientId}&page=${page}&perPage=${count}`
+    );
   },
 
-  closeOrder:(closeId,orderId)=>{
-    return instance.post("orders/close", {closeId, orderId});
+  approveOrder: (orderId) => {
+    return instance.put(`orders/byClient`, { orderId });
   },
-  cancelOrder:(cancelId, orderId)=>{
-    return instance.post("orders/cancel", {cancelId, orderId});
+
+  closeOrder: (closeId, orderId) => {
+    return instance.post("orders/close", { closeId, orderId });
+  },
+  cancelOrder: (cancelId, orderId) => {
+    return instance.post("orders/cancel", { cancelId, orderId });
   },
 
   getHistory: (page, count) => {
     return instance.get(`orders/history?page=${page}&perPage=${count}`);
   },
   getHistoryByClient: (page, count, clientId) => {
-    return instance.get(`orders/history/byClient?userId=${clientId}&page=${page}&perPage=${count}`);
+    return instance.get(
+      `orders/history/byClient?userId=${clientId}&page=${page}&perPage=${count}`
+    );
   },
 };
