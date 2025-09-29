@@ -426,4 +426,8 @@ export const orderApi = {
       `orders/history/byClient?userId=${clientId}&page=${page}&perPage=${count}`
     );
   },
+
+  getOrdersCount:()=>{
+    return instance.get('orders/count');
+  }
 };

@@ -4,6 +4,7 @@ import { orderApi } from "../../dal/api";
 import styles from "../View.module.css";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { useTranslation } from "react-i18next";
+import Paging from "../../../paging/Paging";
 
 const Orders = () => {
   const { t, i18n } = useTranslation();
@@ -11,6 +12,7 @@ const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [total, setTotal] = useState(0);
+  const [totalCanceled, setTotalCanceled]=useState(0);
   const [orderList, setOrderList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalClose, setModalClose] = useState(false);
@@ -24,7 +26,37 @@ const Orders = () => {
     } else {
       LoadOrders(currentPage, perPage);
     }
-  }, [currentPage, clientId]);
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    if (clientId) {
+      LoadOrdersByClient(1, perPage, clientId);
+    } else {
+      LoadOrders(1, perPage);
+    }
+  }, [clientId, total, totalCanceled]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        orderApi
+          .getOrdersCount()
+          .then((response) => {
+            setTotal(response.data.total);
+            setTotalCanceled(response.data.totalCanceled);
+          })
+          .catch((error) => console.log(error))
+          .finally(() => {});
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    const intervalId = setInterval(fetchData, 1000*60*3); 
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   const LoadOrders = (page, count) => {
     orderApi
@@ -43,8 +75,6 @@ const Orders = () => {
     orderApi
       .getOrdersByClient(page, count, clientId)
       .then((response) => {
-        console.log(response.data);
-
         setOrderList(response.data.orderList);
         setTotal(response.data.total);
       })
@@ -121,6 +151,7 @@ const Orders = () => {
       <table className={styles.table}>
         <thead>
           <tr>
+            <th></th>
             <th>{t("admin_product")}</th>
             <th>{t("admin_model")}</th>
             <th>{t("admin_size")}</th>
@@ -137,6 +168,25 @@ const Orders = () => {
         <tbody>
           {orderList.map((ol) => (
             <tr key={`l${ol.id}`} className={styles.item}>
+              <td>
+                {ol.state === 1 && (
+                  <div
+                    style={{
+                      color: "red",
+                      fontSize: "2rem",
+                      border: "1px solid red",
+                      borderRadius: "50%",
+                      display: "inline-flex",
+                      width: "3rem",
+                      height: "3rem",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    !
+                  </div>
+                )}
+              </td>
               <td>{ol.productInfo[0].productNameEn}</td>
               <td>{ol.modelInfo.modelNameEn}</td>
               <td>{ol.modelInfo.dimension && ol.modelInfo.dimension}</td>
@@ -147,7 +197,7 @@ const Orders = () => {
 
               <td>{ol.email}</td>
               <td>{ol.orderDate}</td>
-              {ol.state === 0 && (
+              {/* {ol.state === 0 && (
                 <td>
                   <button
                     className={styles.btn}
@@ -158,38 +208,52 @@ const Orders = () => {
                     {t("admin_approveOrder")}
                   </button>
                 </td>
-              )}
-              {(ol.state === 1 || ol.state === 2) && (
-                <td>
-                  <button
-                    className={styles.btn}
-                    onClick={() => {
-                      setSelectedId(ol.id);
-                      setSelectedOrderId(ol.orderId);
-                      setModalClose(true);
-                    }}
-                  >
-                    {t("admin_closeOrder")}
-                  </button>
-                </td>
-              )}
+              )} */}
+              {/* {(ol.state === 0) && ( */}
+              <td>
+                <button
+                  className={styles.btn}
+                  onClick={() => {
+                    setSelectedId(ol.id);
+                    setSelectedOrderId(ol.orderId);
+                    setModalClose(true);
+                  }}
+                >
+                  {t("admin_closeOrder")}
+                </button>
+              </td>
+              {/* )} */}
               {/* {ol.state === 2 && ( */}
-                <td>
-                  <button
-                    className={styles.btn}
-                    onClick={() => {
-                      setSelectedId(ol.id);
-                      setSelectedOrderId(ol.orderId);
-                      setModalCancel(true);
-                    }}
-                  >
-                    {t("admin_cancelOrder")}
-                  </button>
-                </td>
+              <td>
+                <button
+                  className={styles.btn}
+                  onClick={() => {
+                    setSelectedId(ol.id);
+                    setSelectedOrderId(ol.orderId);
+                    setModalCancel(true);
+                  }}
+                >
+                  {t("admin_cancelOrder")}
+                </button>
+              </td>
               {/* )} */}
             </tr>
           ))}
         </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={12}>
+              <div style={{ textAlign: "right" }}>
+                <Paging
+                  totalCount={total}
+                  currentPage={currentPage}
+                  pageSize={perPage}
+                  paging={pagingHandler}
+                />
+              </div>
+            </td>
+          </tr>
+        </tfoot>
       </table>
       {modalClose && (
         <div className={styles.modal}>

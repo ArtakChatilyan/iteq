@@ -178,8 +178,7 @@ const Basket = ({ userId }) => {
         >
           <div className={styles.btnGroup}>
             <div className={styles.info}>
-              <p style={{ marginBottom: "1rem" }}>Your order is pending.</p>{" "}
-              <p>You will receive an order confirmation by email.</p>
+              <p style={{ marginBottom: "1rem" }}>Your order has been confirmed.</p>{" "}
             </div>
             <button className={styles.btn} onClick={closeModalOrder}>
               ok

@@ -7,6 +7,7 @@ import { checkAuth, logout, setLoading } from "../../redux-store/userSlice";
 import SplashScreen from "./content/splashscreen/SplashScreen";
 import i18n from "../../localization/i18n";
 import { useTranslation } from "react-i18next";
+import { orderApi } from "./dal/api";
 
 const AdminContainer = () => {
   const dispatch = useDispatch();
@@ -25,14 +26,45 @@ const AdminContainer = () => {
     dispatch(logout());
   };
 
+  const [orderCount, setOrderCount] = useState(0);
+  const [canceledOrderCount, setCanceledOrderCount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        orderApi
+          .getOrdersCount()
+          .then((response) => {
+            setOrderCount(response.data.total);
+            setCanceledOrderCount(response.data.totalCanceled);
+          })
+          .catch((error) => console.log(error))
+          .finally(() => {});
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    const intervalId = setInterval(fetchData, 1000*60*3); 
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   if (loading) return <SplashScreen />;
 
-  if (userRole === "admin") return <Admin logout={logOutHandle} />;
+  if (userRole === "admin")
+    return (
+      <Admin
+        logout={logOutHandle}
+        orderCount={orderCount}
+        canceledOrderCount={canceledOrderCount}
+      />
+    );
   else return <Navigate to="/login" replace />;
 };
 
-const Admin = ({ logout }) => {
-  const cookies = new Cookies(null, {path: '/'});
+const Admin = ({ logout, orderCount, canceledOrderCount }) => {
+  const cookies = new Cookies(null, { path: "/" });
   const [language, setLanguage] = useState(null);
 
   const changeLanguage = (lang) => {
@@ -120,6 +152,22 @@ const Admin = ({ logout }) => {
             }}
           >
             {t("admin_orders")}
+            {orderCount > 0 && (
+              <span
+                style={{
+                  color: "green",
+                  margin: "0 1rem",
+                  fontFamily: "RobotMedium",
+                }}
+              >
+                {orderCount}
+              </span>
+            )}
+            {canceledOrderCount > 0 && (
+              <span style={{ color: "red", fontFamily: "RobotMedium" }}>
+                {canceledOrderCount}
+              </span>
+            )}
           </NavLink>
         </li>
         <li>

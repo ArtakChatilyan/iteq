@@ -4,8 +4,6 @@ import { useTranslation } from "react-i18next";
 import { LanguageContext } from "../../../../contexts/LanguageContext";
 
 const OrderCard = ({ order, allowCancel, cancelOrder }) => {
-  console.log(order);
-
   const [model, setModel] = useState(null);
 
   useEffect(() => {
@@ -17,8 +15,9 @@ const OrderCard = ({ order, allowCancel, cancelOrder }) => {
 
   return (
     <div className={styles.block}>
-      {order.state === 0 && <div className={styles.pending}>pending for approve order</div>}
-      {order.state === 2 && <div className={styles.pending}>pending for cancel order</div>}
+      {order.state === 1 && (
+        <div className={styles.pending}>pending for cancel order</div>
+      )}
       <div className={styles.card}>
         <div className={styles.img}>
           <img src={order.image.imgUrl} />
@@ -72,14 +71,11 @@ const OrderCard = ({ order, allowCancel, cancelOrder }) => {
         </div>
       </div>
 
-      {allowCancel &&
-        (order.state === 1 ? (
-          <span className={styles.info}>pending cancelation</span>
-        ) : (
-          <button className={styles.btn} onClick={() => cancelOrder(order.id)}>
-            cancel order
-          </button>
-        ))}
+      {allowCancel && order.state === 0 && (
+        <button className={styles.btn} onClick={() => cancelOrder(order.id)}>
+          cancel order
+        </button>
+      )}
     </div>
   );
 };
