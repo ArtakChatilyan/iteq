@@ -217,7 +217,7 @@ const Header = ({
         <div
           className={styles.cart}
           onClick={() => {
-            return navigate(`/account/3?item=${Date.now()}`);
+            return navigate('/account');
           }}
         >
           <img src={cart} />

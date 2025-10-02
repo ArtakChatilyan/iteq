@@ -215,42 +215,13 @@
     "admin_toMain":"to main page",
 
     "admin_approveOrder":"approve order",
-
-    
-
-
-
-
+    "expectedPayment":"Order approved. Please proceed with the payment.",
+    "basketEmpty":"there is no any products in your basket",
+    "ordersEmpty":"there is no any orders",
+    "purchasesEmpty":"purchase history is empty",
 
 
-
-
-
-
-
-
-
-
-    "services": "Services",
-    "solutions": "Solutions",
-    "portfolio": "Portfolio",
-    "partners": "Partners",
-
-    
-    "servicesPage":"servicesEn",
-    "serviceCardTitle1": "Security planning",
-    "serviceCardContent1": "We will consult with you, evaluate your request and create (plan) the most rational security system possible.",
-    "serviceCardTitle2": "Security decision",
-    "serviceCardContent2": "In our showroom, professionals will advise you and help you choose the product tailored to your needs.",
-    "serviceCardTitle3": "Security guarantee",
-    "serviceCardContent3": "Our team will give you a multi-year warranty, however, as we understand the need for preliminary accident control, we will provide post-purchase repair / consulting services within this warranty.",
-
-    "hotelSolutions":"Hotel Solutions",
-    "doors":"Doors",
-    "bankSecurity":"Bank Security",
-    "securitySystem":"Security System",
-    "elevators":"Elevators",
-    "healthAndSafety":"Health and Safety",
-    "lockingSystems":"Locking Systems",
-    "safes":"Safes"
+    "orderMessage":"Your order has been received and is awaiting confirmation. We will contact you soon.",
+    "cancelOrderMessage":"You have requested to cancel the order. The cancellation is processed.",
+    "paymentOrderMessage":"Payment has been received. Your order is being processed."
   }

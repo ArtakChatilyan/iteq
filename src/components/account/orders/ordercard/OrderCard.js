@@ -3,7 +3,7 @@ import styles from "./OrderCard.module.css";
 import { useTranslation } from "react-i18next";
 import { LanguageContext } from "../../../../contexts/LanguageContext";
 
-const OrderCard = ({ order, allowCancel, cancelOrder }) => {
+const OrderCard = ({ order, cancelOrder, makePayment }) => {
   const [model, setModel] = useState(null);
 
   useEffect(() => {
@@ -15,9 +15,15 @@ const OrderCard = ({ order, allowCancel, cancelOrder }) => {
 
   return (
     <div className={styles.block}>
+      {/* {order.state === 0 && (
+        <div className={styles.pending}>pending for aproovement</div>
+      )} */}
       {order.state === 1 && (
-        <div className={styles.pending}>pending for cancel order</div>
+        <div className={styles.pending}>{t("expectedPayment")}</div>
       )}
+      {/* {order.state === 3 && (
+        <div className={styles.pending}>pending for cancel</div>
+      )} */}
       <div className={styles.card}>
         <div className={styles.img}>
           <img src={order.image.imgUrl} />
@@ -71,10 +77,25 @@ const OrderCard = ({ order, allowCancel, cancelOrder }) => {
         </div>
       </div>
 
-      {allowCancel && order.state === 0 && (
-        <button className={styles.btn} onClick={() => cancelOrder(order.id)}>
-          cancel order
-        </button>
+      {order.state === 1 && (
+        <div>
+          <button
+            className={styles.btn}
+            onClick={() => makePayment(order.id, 2)}
+          >
+            make payment
+          </button>
+        </div>
+      )}
+      {(order.state === 0 || order.state === 1 || order.state === 2) && (
+        <div>
+          <button
+            className={styles.btn}
+            onClick={() => cancelOrder(order.id, 3)}
+          >
+            cancel order
+          </button>
+        </div>
       )}
     </div>
   );

@@ -134,7 +134,8 @@ export const userSlice = createSlice({
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.loading = false;
-      }).addCase(getBasketItemsCount.pending, (state, action) => {
+      })
+      .addCase(getBasketItemsCount.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(getBasketItemsCount.fulfilled, (state, action) => {

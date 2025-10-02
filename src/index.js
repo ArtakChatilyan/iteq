@@ -55,6 +55,10 @@ import ProductDescriptions from "./components/admin/content/products/description
 import Orders from "./components/admin/content/clients/Orders";
 import History from "./components/admin/content/clients/History";
 import PasswordRecovery from "./components/passwordRecovery/PasswordRecovery";
+import UserOrders from "./components/account/orders/UserOrders";
+import Basket from "./components/account/basket/Basket";
+import Purchases from "./components/account/purchases/Purchases";
+import Password from "./components/account/password/Password";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -109,8 +113,30 @@ const router = createBrowserRouter([
         element: <RegisterContainer />,
       },
       {
-        path: "/account/:item?",
+        path: "/account",
         element: <AccountContainer />,
+        children: [
+          {
+            path: "",
+            element: <div>welcome</div>,
+          },
+          {
+            path: "/account/basket/:userId",
+            element: <Basket />,
+          },
+          {
+            path: "/account/orders/:userId",
+            element: <UserOrders />,
+          },
+          {
+            path: "/account/orderHistory/:userId",
+            element: <Purchases />,
+          },
+          {
+            path: "/account/settings/:userId",
+            element: <Password />,
+          },
+        ],
       },
       {
         path: "/passwordRecovery/:userId?",

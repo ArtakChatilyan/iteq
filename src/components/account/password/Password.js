@@ -88,7 +88,7 @@ const Password = () => {
       <div style={{ display: "flex", flexDirection: "column" }}>
         <input
           className={styles.input}
-          placeholder="old password"
+          placeholder={t("admin_oldPassword")}
           type="password"
           value={oldPassword}
           onChange={(e) => setOldPassword(e.currentTarget.value)}
@@ -96,7 +96,7 @@ const Password = () => {
         <span className={styles.error}>{oldPasswordError}</span>
         <input
           className={styles.input}
-          placeholder="new password"
+          placeholder={t("admin_newPassword")}
           type="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.currentTarget.value)}
@@ -104,7 +104,7 @@ const Password = () => {
         <span className={styles.error}>{newPasswordError}</span>
         <input
           className={styles.input}
-          placeholder="confirm new password"
+          placeholder={t("admin_confirmNewPassword")}
           type="password"
           value={newPasswordConfirm}
           onChange={(e) => setConfirmPassword(e.currentTarget.value)}
@@ -115,7 +115,7 @@ const Password = () => {
           style={{ width: "50%" }}
           onClick={changePasswordHandle}
         >
-          change password
+          {t("admin_changePassword")}
         </button>
       </div>
     </div>

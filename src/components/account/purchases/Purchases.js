@@ -5,8 +5,10 @@ import Paging from "../../paging/Paging";
 import { historyAPI } from "../../dalUser/userApi";
 import { useTranslation } from "react-i18next";
 import OrderCard from "../orders/ordercard/OrderCard";
+import { useParams } from "react-router-dom";
 
-const Purchases = ({ userId }) => {
+const Purchases = () => {
+  const { userId } = useParams();
   const { t, i18n } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -39,15 +41,18 @@ const Purchases = ({ userId }) => {
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
       {historyList.map((order) => (
-        <OrderCard order={order} cancel={false}/>
+        <OrderCard order={order} cancel={false} />
       ))}
-      <Paging
-        mode="user"
-        totalCount={total}
-        currentPage={currentPage}
-        pageSize={perPage}
-        paging={pagingHandler}
-      />
+      {historyList.length > 0 && (
+        <Paging
+          mode="user"
+          totalCount={total}
+          currentPage={currentPage}
+          pageSize={perPage}
+          paging={pagingHandler}
+        />
+      )}
+      {(historyList.length === 0 && !loading) && <div className={styles.info}>{t("purchasesEmpty")}</div>}
     </div>
   );
 };

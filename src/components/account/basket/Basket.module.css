@@ -70,3 +70,11 @@
   color: rgb(17, 43, 60);
   margin-bottom: 1rem;
 }
+
+.emptyInfo{
+    font-size: 2rem;
+    font-family: "RobotRegular";
+    color: #f2a557;
+    margin:2rem 6rem;
+    text-align: left;
+}

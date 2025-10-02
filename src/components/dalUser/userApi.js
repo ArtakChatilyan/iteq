@@ -216,8 +216,8 @@ export const orderAPI = {
   addOrder: (data) => {
     return instance.post("user/orders", data);
   },
-  cancelOrder: (id) => {
-    return instance.put(`user/orders/${id}`);
+  updateOrder: (id, actionType) => {
+    return instance.put(`user/orders/${id}/${actionType}`);
   },
 };
 

@@ -155,6 +155,7 @@ const Orders = () => {
             <th>{t("admin_product")}</th>
             <th>{t("admin_model")}</th>
             <th>{t("admin_size")}</th>
+            <th>{t("admin_weight")}</th>
             <th>{t("admin_color")}</th>
             <th>{t("admin_count")}</th>
             <th>{t("admin_price")}</th>
@@ -169,7 +170,7 @@ const Orders = () => {
           {orderList.map((ol) => (
             <tr key={`l${ol.id}`} className={styles.item}>
               <td>
-                {ol.state === 1 && (
+                {ol.state === 3 && (
                   <div
                     style={{
                       color: "red",
@@ -190,6 +191,7 @@ const Orders = () => {
               <td>{ol.productInfo[0].productNameEn}</td>
               <td>{ol.modelInfo.modelNameEn}</td>
               <td>{ol.modelInfo.dimension && ol.modelInfo.dimension}</td>
+               <td>{ol.modelInfo.weight && ol.modelInfo.weight}</td>
               <td>{ol.modelInfo.colorNameRu && ol.modelInfo.colorNameRu}</td>
               <td>{ol.count}</td>
               <td>{ol.price}&#8382;</td>
@@ -197,7 +199,7 @@ const Orders = () => {
 
               <td>{ol.email}</td>
               <td>{ol.orderDate}</td>
-              {/* {ol.state === 0 && (
+              {ol.state === 0 && (
                 <td>
                   <button
                     className={styles.btn}
@@ -208,8 +210,8 @@ const Orders = () => {
                     {t("admin_approveOrder")}
                   </button>
                 </td>
-              )} */}
-              {/* {(ol.state === 0) && ( */}
+              )}
+              { (ol.state === 1 || ol.state === 2) && ( 
               <td>
                 <button
                   className={styles.btn}
@@ -222,8 +224,7 @@ const Orders = () => {
                   {t("admin_closeOrder")}
                 </button>
               </td>
-              {/* )} */}
-              {/* {ol.state === 2 && ( */}
+               )} 
               <td>
                 <button
                   className={styles.btn}
@@ -236,13 +237,12 @@ const Orders = () => {
                   {t("admin_cancelOrder")}
                 </button>
               </td>
-              {/* )} */}
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={12}>
+            <td colSpan={13}>
               <div style={{ textAlign: "right" }}>
                 <Paging
                   totalCount={total}

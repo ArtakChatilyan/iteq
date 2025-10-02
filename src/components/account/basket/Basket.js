@@ -8,8 +8,10 @@ import BasketCard from "../basketcard/BasketCard";
 import { useDispatch } from "react-redux";
 import { getBasketItemsCount } from "../../../redux-store/userSlice";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
-const Basket = ({ userId }) => {
+const Basket = () => {
+  const { userId } = useParams();
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
@@ -178,7 +180,7 @@ const Basket = ({ userId }) => {
         >
           <div className={styles.btnGroup}>
             <div className={styles.info}>
-              <p style={{ marginBottom: "1rem" }}>Your order has been confirmed.</p>{" "}
+              <p style={{ marginBottom: "1rem" }}>{t("orderMessage")}</p>{" "}
             </div>
             <button className={styles.btn} onClick={closeModalOrder}>
               ok
@@ -210,22 +212,28 @@ const Basket = ({ userId }) => {
           checkBasket={checkBasket}
         />
       ))}
-      <Paging
-        mode="user"
-        totalCount={total}
-        currentPage={currentPage}
-        pageSize={perPage}
-        paging={pagingHandler}
-      />
-      <div className={styles.order}>
-        <button type="button" className={styles.btn} onClick={orderBasket}>
-          {t("order")}
-        </button>
-        <div>
-          <span className={styles.price}>{t("total")}</span>
-          <span className={styles.price}>{totalPrice}&#8382;</span>
+      {basketList.length > 0 && (
+        <Paging
+          mode="user"
+          totalCount={total}
+          currentPage={currentPage}
+          pageSize={perPage}
+          paging={pagingHandler}
+        />
+      )}
+
+      {basketList.length > 0 && (
+        <div className={styles.order}>
+          <button type="button" className={styles.btn} onClick={orderBasket}>
+            {t("order")}
+          </button>
+          <div>
+            <span className={styles.price}>{t("total")}</span>
+            <span className={styles.price}>{totalPrice}&#8382;</span>
+          </div>
         </div>
-      </div>
+      )}
+      {(basketList.length === 0 && !loading) && <div className={styles.emptyInfo}>{t("basketEmpty")}</div>}
     </div>
   );
 };
