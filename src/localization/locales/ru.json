@@ -218,6 +218,9 @@
     "purchasesEmpty":"История покупок пуста.",
 
   "orderMessage": "Ваш заказ принят и ожидает подтверждения. Мы свяжемся с вами в ближайшее время.",
-  "cancelOrderMessage": "You have requested to cancel the order. The cancellation is processed.",
-  "paymentOrderMessage": "Payment has been received. Your order is being processed."
+  "cancelOrderMessage": "Вы запросили отмену заказа. Отмена обрабатывается.",
+  "paymentOrderMessage": "Оплата получена. Ваш заказ находится в обработке.",
+  "recoveryLink":"Вы получите ссылку на почту для восстановления пароля.",
+  "passwordChanged":"Пароль изменен."
+
 }

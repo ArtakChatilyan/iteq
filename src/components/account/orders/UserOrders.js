@@ -51,6 +51,13 @@ const UserOrders = () => {
       .updateOrder(orderId, value)
       .then((response) => {
         LoadOrders(userId, currentPage, perPage);
+        if(value===2){
+          setModalPayment(true);
+          setIsAnimatePayment(true);
+        }else if(value===3){
+          setModalCancel(true);
+          setIsAnimateCancel(true);
+        }
       })
       .catch((error) => console.log(error))
       .finally(() => {

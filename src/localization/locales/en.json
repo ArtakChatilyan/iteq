@@ -223,5 +223,7 @@
 
     "orderMessage":"Your order has been received and is awaiting confirmation. We will contact you soon.",
     "cancelOrderMessage":"You have requested to cancel the order. The cancellation is processed.",
-    "paymentOrderMessage":"Payment has been received. Your order is being processed."
+    "paymentOrderMessage":"Payment has been received. Your order is being processed.",
+    "recoveryLink":"You will receive a link by email to reset your password.",
+    "passwordChanged":"Password changed."
   }

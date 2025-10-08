@@ -15,14 +15,18 @@ const PasswordRecovery = () => {
   const [passwordError, setPasswordError] = useState("");
   const [passwordConfirmError, setPasswordConfirmError] = useState("");
 
+  const [modal, setModal] = useState(false);
+  const [isAnimate, setIsAnimate] = useState(false);
+
+
   const validationSchema = Yup.object().shape({
     password: Yup.string()
-      .required("required")
-      .min(6, "password is too short(at least 6 character)")
-      .max(16, "password is too long(max 16 character)"),
+      .required(t("admin_required"))
+      .min(6, t("admin_passwordTooShort"))
+      .max(16, t("admin_passwordTooLong")),
     passwordConfirm: Yup.string()
-      .oneOf([Yup.ref("password"), null], "passwords don't match")
-      .required("required"),
+      .oneOf([Yup.ref("password"), null], t("admin_passwordsDontMatch"))
+      .required(t("admin_required")),
   });
 
   const changePasswordHandle = async () => {
@@ -43,7 +47,10 @@ const PasswordRecovery = () => {
             userId,
             password
           )
-          .then((response) => console.log(response))
+          .then((response) => {
+            setModal(true);
+            setIsAnimate(true);
+          })
           .finally(() => setLoading(false));
       })
       .then(() => {
@@ -64,6 +71,13 @@ const PasswordRecovery = () => {
           }
         });
       });
+  };
+
+  const closeModal = () => {
+    setIsAnimate(false);
+    setTimeout(() => {
+      setModal(false);
+    }, 600);
   };
 
   return (
@@ -98,6 +112,24 @@ const PasswordRecovery = () => {
       ) : (
         <span className={styles.wrong}>{t("wrongRecoveryLink")}</span>
       )}
+      <div className={modal ? styles.modal : styles.hide}>
+        <div
+          className={
+            isAnimate
+              ? "animate__animated animate__bounceInDown"
+              : "animate__animated animate__bounceOutUp"
+          }
+        >
+          <div className={styles.btnGroup}>
+            <div className={styles.info}>
+              <p style={{ marginBottom: "1rem" }}>{t("passwordChanged")}</p>{" "}
+            </div>
+            <button className={styles.btnClose} onClick={closeModal}>
+              {t("admin_close")}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -11,6 +11,9 @@ const Login = ({ login, error, close, sendLink }) => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
+  const [modal, setModal] = useState(false);
+  const [isAnimate, setIsAnimate] = useState(false);
+
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .required(t("required"))
@@ -79,7 +82,8 @@ const Login = ({ login, error, close, sendLink }) => {
         sendLink({ email });
       })
       .then(() => {
-        //alert message aboute sending link
+        setModal(true);
+        setIsAnimate(true);
       })
       .catch(function (errors) {
         errors.inner.forEach((error) => {
@@ -92,8 +96,21 @@ const Login = ({ login, error, close, sendLink }) => {
       });
   };
 
+  const loginKeyDown = (event) => {
+    if (event.key === "Enter") {
+      validate();
+    }
+  };
+
+  const closeModal = () => {
+    setIsAnimate(false);
+    setTimeout(() => {
+      setModal(false);
+    }, 600);
+  };
+
   return (
-    <div className={styles.block}>
+    <div className={styles.block} onKeyDown={loginKeyDown}>
       <div className={styles.formItem}>
         <input
           placeholder={t("email")}
@@ -121,7 +138,7 @@ const Login = ({ login, error, close, sendLink }) => {
           to="#"
           className={styles.link}
           style={{ color: "dodgerblue" }}
-          onClick={()=>validateForRecover()}
+          onClick={() => validateForRecover()}
         >
           {t("forgotPassword")}
         </Link>
@@ -130,7 +147,7 @@ const Login = ({ login, error, close, sendLink }) => {
         <button
           type="button"
           className={styles.btn}
-          style={{ clear: "both"}}
+          style={{ clear: "both" }}
           onClick={() => validate()}
         >
           {t("login")}
@@ -143,6 +160,24 @@ const Login = ({ login, error, close, sendLink }) => {
       </div>
       <div style={{ clear: "both", margin: "1rem auto" }}>
         <span className={styles.error}>{error}</span>
+      </div>
+      <div className={modal ? styles.modal : styles.hide}>
+        <div
+          className={
+            isAnimate
+              ? "animate__animated animate__bounceInDown"
+              : "animate__animated animate__bounceOutUp"
+          }
+        >
+          <div className={styles.btnGroup}>
+            <div className={styles.info}>
+              <p style={{ marginBottom: "1rem" }}>{t("recoveryLink")}</p>{" "}
+            </div>
+            <button className={styles.btnClose} onClick={closeModal}>
+              {t("admin_close")}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

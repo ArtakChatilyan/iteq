@@ -8,6 +8,7 @@ import SplashScreen from "./content/splashscreen/SplashScreen";
 import i18n from "../../localization/i18n";
 import { useTranslation } from "react-i18next";
 import { orderApi } from "./dal/api";
+import { LanguageContext } from "../../contexts/LanguageContext";
 
 const AdminContainer = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const AdminContainer = () => {
       }
     };
 
-    const intervalId = setInterval(fetchData, 1000*60*3); 
+    const intervalId = setInterval(fetchData, 1000 * 60 * 3);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -251,8 +252,9 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
           </NavLink>
         </li>
       </ul>
-
-      <Outlet />
+      <LanguageContext.Provider value={language}>
+        <Outlet lang={language} />
+      </LanguageContext.Provider>
     </div>
   );
 };

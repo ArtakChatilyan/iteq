@@ -30,6 +30,14 @@ const Header = ({
   const refMenu = useRef();
   const refLogin = useRef();
 
+  const searchKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      console.log('Enter key pressed! search value:');
+    }
+  };
+
+  
+
   useEffect(() => {
     document.addEventListener("click", outsideClickHandle, true);
   }, []);
@@ -43,8 +51,6 @@ const Header = ({
 
   const searchTextChange = (searchText) => {
     const searchItems = searchText.split(" ");
-    console.log(searchItems);
-
     setSearchItem(searchText);
     if (searchText) {
       categoryAPI
@@ -109,6 +115,7 @@ const Header = ({
             className={styles.input}
             value={searchItem}
             onChange={(e) => searchTextChange(e.currentTarget.value)}
+            onKeyDown={searchKeyDown}
           />
           <span className={styles.icon}>
             <img src={search} onClick={searchHandle} />

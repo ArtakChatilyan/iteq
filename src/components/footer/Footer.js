@@ -1,7 +1,7 @@
 import styles from "./Footer.module.css";
 import fb from "../../assets/icons8-facebook.svg";
 import inst from "../../assets/icons8-instagram.svg";
-import twit from "../../assets/icons8-twitter-bird.svg";
+import tik from "../../assets/icon-tiktok.svg";
 import { useEffect, useState } from "react";
 import { categoryAPI, settingsAPI } from "../dalUser/userApi";
 import { Link } from "react-router-dom";
@@ -86,7 +86,7 @@ const Footer = ({ lang }) => {
               else if (lang === "ru") textValue = c.nameRu;
               return (
                 <li key={`cat${c.id}`}>
-                  <Link to={`/category/${c.id}/${0}/${-1}/${-1}/${1}`} >
+                  <Link to={`/category/${c.id}/${0}/${-1}/${-1}/${1}`}>
                     {textValue}
                   </Link>
                 </li>
@@ -110,9 +110,26 @@ const Footer = ({ lang }) => {
         </div>
         <div className={styles.socialContent}>
           <div>
-            <img src={fb} className={styles.social} />
-            <img src={inst} className={styles.social} />
-            <img src={twit} className={styles.social} />
+            <Link
+              to="https://www.facebook.com/share/14Ntk7ZEf8t/?mibextid=wwXIfr"
+              target="blank"
+            >
+              <img src={fb} className={styles.social} />
+            </Link>
+
+            <Link
+              to="https://www.instagram.com/iteqgeorgia?igsh=OHJkZjN5aXl4cWNn"
+              target="blank"
+            >
+              <img src={inst} className={styles.social} />
+            </Link>
+
+            <Link
+              to="https://www.tiktok.com/@iteqgeorgiallc?_t=ZS-90EzqCy69Hr&_r=1"
+              target="blank"
+            >
+              <img src={tik} className={styles.social} />{" "}
+            </Link>
           </div>
           <div className={styles.info}>
             <span className={styles.infoItem}>

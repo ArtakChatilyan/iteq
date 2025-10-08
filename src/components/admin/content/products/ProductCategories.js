@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./Categories.module.css";
 import { categoryAPI, productsAPI } from "../../dal/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import SplashScreen from "../splashscreen/SplashScreen";
 import collapseIcon from "../../../../assets/circleArrow.png";
 import { useCollapse } from "react-collapsed";
 import { useTranslation } from "react-i18next";
+import { LanguageContext } from "../../../../contexts/LanguageContext";
 
 const ProductCategroies = ({ productId }) => {
   const [resultMessage, setResultMessage] = useState("");
@@ -16,6 +17,8 @@ const ProductCategroies = ({ productId }) => {
   const [data, setData] = useState([]);
   const [resultData, setResultData] = useState([]);
   const { t } = useTranslation();
+
+  const lang = useContext(LanguageContext);
 
   useEffect(() => {
     getCategoriesForProduct();
@@ -129,7 +132,9 @@ const ProductCategroies = ({ productId }) => {
                 style={{ margin: "10px", textWrap: "nowrap" }}
                 title={d.nameRu}
               >
-                {d.nameRu}
+                {lang==="en" && d.nameEn}
+                {lang==="ge" && d.nameGe}
+                {lang==="ru" && d.nameRu}
               </span>
             </div>
           ))}

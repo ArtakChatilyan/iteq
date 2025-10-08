@@ -91,8 +91,14 @@ const Register = ({ register,resendLink, message, error, isSuccess }) => {
       });
   };
 
+  const registerKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      validation();
+    }
+  };
+
   return (
-    <div className={styles.block}>
+    <div className={styles.block} onKeyDown={registerKeyDown}>
       <div className={styles.formItem}>
         <input
           placeholder={t("email") + "*"}
