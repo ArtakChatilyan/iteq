@@ -1,3 +1,8 @@
+.block {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .modal {
   position: fixed;
   left: 0;
@@ -22,4 +27,12 @@
   color: #f2a557;
   margin: 2rem 6rem;
   text-align: left;
+}
+
+.emptyInfo{
+    font-size: 2rem;
+    font-family: "RobotRegular";
+    color: #f2a557;
+    margin:2rem 6rem;
+    text-align: left;
 }

@@ -1,0 +1,83 @@
+.block {
+  padding: 0 5vw 20px;
+  margin: 0 auto;
+  border-top: 2px solid rgb(243, 171, 98);
+  position: relative;
+}
+
+.card {
+  width: 100%;
+  background-color: rgb(235, 239, 241);
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-start;
+  margin: 20px 0;
+  border-bottom: 1px solid rgb(243, 171, 98);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  padding: 2rem;
+  font-size: 1.6rem;
+  margin: 1rem 0;
+  text-align: left;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-family: "RobotoLight";
+  font-style: italic;
+  color: #378194;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+p {
+  margin: 0;
+}
+
+.info {
+  font-size: 2rem;
+  font-family: "RobotoMedium";
+  color: #004d61;
+  text-align: left;
+  text-indent: 2rem;
+  line-height: 2.2rem;
+  width: 100%;
+  align-self: flex-end;
+}
+
+@media screen and (min-width: 1024px) {
+  .block {
+    padding: 0 10vw 20px;
+  }
+
+  .card {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .info{
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .block {
+    padding: 0 15vw 20px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .block {
+    padding: 0 20vw 20px;
+  }
+  .info{
+    width: 60%;
+  }
+}

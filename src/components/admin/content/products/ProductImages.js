@@ -85,7 +85,7 @@ const ProductImages = ({ productId }) => {
               validate={(values) => {
                 const errors = {};
                 if (!values.imgUrl) {
-                  errors.imgUrl = "Image source required";
+                  errors.imgUrl = t("admin_required");
                 }
                 return errors;
               }}
@@ -103,7 +103,7 @@ const ProductImages = ({ productId }) => {
                 productsAPI
                   .addProductImage(formData)
                   .then((data) => {
-                    setResultMessage("The image added successfully");
+                    setResultMessage(t("admin_imageAddSuccess"));
                     getProductImages(productId);
                     resetForm();
                     if (fileInputRef.current) {
@@ -112,7 +112,7 @@ const ProductImages = ({ productId }) => {
                     hideMessage();
                   })
                   .catch((error) => {
-                    setResultMessage("Failed to add image!");
+                    setResultMessage(t("Failed to add image"));
                   });
               }}
             >

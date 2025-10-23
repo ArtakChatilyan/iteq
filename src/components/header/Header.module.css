@@ -84,8 +84,15 @@
 .afItem {
   font-size: 1.6rem;
   font-family: "RobotoRegular";
-  margin: 0.6rem 0;
+  margin: 0.6rem 0.6rem;
+  border-radius: 6px;
+  padding: 1rem;
   cursor: pointer;
+  color:rgb(70, 69, 68);
+}
+
+.afItemSelected{
+  background-color: rgb(204, 214, 219);
 }
 
 .personal {

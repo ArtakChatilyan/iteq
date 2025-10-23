@@ -102,6 +102,15 @@ export const categoryAPI = {
   getDiscountsAll: () => {
     return instance.get(`user/discounts/all`);
   },
+
+  getBrandProducts: (brandId, page, count) => {
+    return instance.get(`user/brandProducts/?brandId=${brandId}&page=${page}&perPage=${count}`);
+  },
+
+  getBrandById: (brandId) => {
+    return instance.get(`user/brands/byId/?brandId=${brandId}`);
+  },
+
   getBrands: () => {
     return instance.get(`user/brands`);
   },
@@ -140,6 +149,9 @@ export const categoryAPI = {
   },
   searchProducts: (term) => {
     return instance.get(`user/search/general?term=${term}`);
+  },
+  searchProductsByGeneral: (term, page, perPage) => {
+    return instance.get(`user/search/generalProducts?term=${term}&page=${page}&perPage=${perPage}`);
   },
 };
 
@@ -225,6 +237,14 @@ export const historyAPI = {
   getUserHistory: (page, count, userId) => {
     return instance.get(
       `user/history?page=${page}&perPage=${count}&userId=${userId}`
+    );
+  },
+};
+
+export const faqsAPI = {
+  getFaqs: (page, count) => {
+    return instance.get(
+      `user/questions?page=${page}&perPage=${count}`
     );
   },
 };

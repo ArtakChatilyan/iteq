@@ -24,6 +24,7 @@
     "react-i18next": "^15.4.1",
     "react-modal": "^3.16.3",
     "react-multi-carousel": "^2.8.5",
+    "react-player": "^3.3.3",
     "react-range-slider-input": "^3.2.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.5.0",

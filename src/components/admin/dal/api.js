@@ -170,12 +170,24 @@ export const productsAPI = {
     return instance.get(`products/productImages/${id}`);
   },
 
+  getProductMedias: (id) => {
+    return instance.get(`products/productMedias/${id}`);
+  },
+
   addProductImage: (data) => {
     return instance.post(`products/productImages`, data);
   },
 
+  addProductMedia: (data) => {
+    return instance.post(`products/productMedias`, data);
+  },
+
   deleteImage: (id) => {
     return instance.delete(`products/productImage/${id}`);
+  },
+
+  deleteMedia: (id) => {
+    return instance.delete(`products/productMedia/${id}`);
   },
 
   getDescriptions: (productId) => {
@@ -248,6 +260,18 @@ export const modelAPI = {
 
   deleteImageColorSize: (id) => {
     return instance.delete(`models/modelImageColorSize/${id}`);
+  },
+
+  getMediaColorSize: (modelId, mediaId) => {
+    return instance.get(`models/modelMediaColorSize/${modelId}/${mediaId}`);
+  },
+
+  setMediaColorSize: (data) => {
+    return instance.post(`models/modelMediaColorSize`, data);
+  },
+
+  deleteMediaColorSize: (id) => {
+    return instance.delete(`models/modelMediaColorSize/${id}`);
   },
 
   getDescriptionColorSize: (modelId, descriptionId) => {
@@ -431,3 +455,21 @@ export const orderApi = {
     return instance.get('orders/count');
   }
 };
+
+export const questionsApi={
+  getQuestions: (page, count) => {
+    return instance.get(`questions?page=${page}&perPage=${count}`);
+  },
+  addQuestion: (data) => {
+    return instance.post(`questions`, data);
+  },
+  getQuestionById: (id) => {
+    return instance.get(`questions/${id}`);
+  },
+  editQuestion: (data, id) => {
+    return instance.put(`questions/${id}`, data);
+  },
+  deleteQuestion: (id) => {
+    return instance.delete(`questions/${id}`);
+  },
+}

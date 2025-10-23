@@ -225,5 +225,24 @@
     "cancelOrderMessage":"You have requested to cancel the order. The cancellation is processed.",
     "paymentOrderMessage":"Payment has been received. Your order is being processed.",
     "recoveryLink":"You will receive a link by email to reset your password.",
-    "passwordChanged":"Password changed."
+    "passwordChanged":"Password has been changed.",
+    "admin_questions":"Frequently Asked Questions",
+    "admin_questionEn":"question(english)",
+    "admin_questionGe":"question(georgian)",
+    "admin_questionRu":"question(russian)",
+    "admin_answerEn":"answer(english)",
+    "admin_answerGe":"answer(georgian)",
+    "admin_answerRu":"answer(russian)",
+    "admin_questionAddSuccess":"Paragraph successfully added",
+    "admin_questionAddFailed":"Failed to add paragraph",
+    "admin_questionUpdateSuccess":"Paragraph successfully updated",
+    "admin_questionUpdateFailed":"Failed to update paragraph",
+    "faqs":"FAQ-Frequently Asked Questions",
+
+    "admin_videos":"media files",
+    "admin_video":"media file",
+    "admin_imageAddSuccess":"The image added successfully",
+    "admin_videoAddSuccess":"The media file added successfully",
+    "admin_imageAddFailed":"Failed to add image",
+    "admin_videoAddFailed":"Failed to add media file"
   }

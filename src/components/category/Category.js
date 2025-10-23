@@ -136,7 +136,7 @@ const Category = ({
       </div>
       <div className={styles.content}>
         {productList.map((p) => (
-          <NavLink to={`/product/${p.id}`} target="blank">
+          <NavLink key={`nl${p.id}`} to={`/product/${p.id}`} target="blank">
             <ProductCard key={p.id} product={p} />
           </NavLink>
         ))}

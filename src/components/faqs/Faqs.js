@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
-import { categoryAPI } from "../dalUser/userApi";
-import styles from "./Story.module.css";
+import { faqsAPI } from "../dalUser/userApi";
 import Paging from "../paging/Paging";
-import StoryCard from "./StoryCard";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
+import styles from "./Faqs.module.css";
+import FaqsCard from "./FaqsCard";
 
-const Story = () => {
+const Faqs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(9);
   const [total, setTotal] = useState(0);
-  const [storyList, setStoryList] = useState([]);
+  const [faqsList, setFaqsList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    LoadStories(currentPage, perPage);
+    LoadFaqs(currentPage, perPage);
   }, [currentPage]);
 
-  const LoadStories = (page, count) => {
+  const LoadFaqs = (page, count) => {
     setLoading(true);
-    categoryAPI
-      .getStories(page, count)
+    faqsAPI
+      .getFaqs(page, count)
       .then((response) => {
-        setStoryList(response.data.stories);
+        setFaqsList(response.data.faqs);
         setTotal(response.data.total);
+        console.log(response);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -36,11 +38,10 @@ const Story = () => {
     setCurrentPage(pageNumber);
   };
 
-  return (
-    <div className={styles.block}>
+  return <div><div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
-      {storyList.map((s) => (
-        <StoryCard key={s.id} story={s} />
+      {faqsList.map((fs) => (
+        <FaqsCard key={fs.id} faqs={fs} />
       ))}
       {total > 0 && (
         <Paging
@@ -51,8 +52,7 @@ const Story = () => {
           paging={pagingHandler}
         />
       )}
-    </div>
-  );
+    </div></div>;
 };
 
-export default Story;
+export default Faqs;

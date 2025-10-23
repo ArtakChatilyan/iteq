@@ -1,3 +1,8 @@
+.block {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .info{
     font-size: 2rem;
     font-family: "RobotRegular";

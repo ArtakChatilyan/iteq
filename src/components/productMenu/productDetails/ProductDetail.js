@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import LoadingScreen from "../../loadingScreen/LoadingScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { getBasketItemsCount } from "../../../redux-store/userSlice";
+import ReactPlayer from "react-player";
+import playIcon from "../../../assets/playIcon.png";
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -34,7 +36,9 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState(null);
 
   const [images, setImages] = useState([]);
+  const [medias, setMedias] = useState([]);
   const [selectedUrl, setSelectedUrl] = useState(null);
+  const [selectedFileType, setSelectedFileType] = useState(false);
   const [descriptions, setDescriptions] = useState([]);
   const [selectedDescription, setSelectedDescription] = useState("");
 
@@ -122,9 +126,41 @@ const ProductDetail = () => {
         }
 
         setImages(imageData);
-        if (imageData.length > 0) setSelectedUrl(imageData[0].imgUrl);
+        if (imageData.length > 0) {
+          setSelectedUrl(imageData[0].imgUrl);
+          setSelectedFileType(false);
+        }
       } else {
         setImages([]);
+        setSelectedUrl(null);
+      }
+
+      if (selectedModel.mediaLinks.length > 0) {
+        let mediaData = [];
+        if (selectedColor != null && selectedSize != null) {
+          mediaData = selectedModel.mediaLinks.filter(
+            (i) =>
+              i.colorId === selectedColor.id && i.sizeId === selectedSize.id
+          );
+        } else if (selectedColor != null && selectedSize === null) {
+          mediaData = selectedModel.mediaLinks.filter(
+            (i) => i.colorId === selectedColor.id
+          );
+        } else if (selectedColor === null && selectedSize != null) {
+          mediaData = selectedModel.mediaLinks.filter(
+            (i) => i.sizeId === selectedSize.id
+          );
+        } else {
+          mediaData = selectedModel.mediaLinks;
+        }
+
+        setMedias(mediaData);
+        if (mediaData.length > 0) {
+          setSelectedUrl(mediaData[0].mediaUrl);
+          setSelectedFileType(true);
+        }
+      } else {
+        setMedias([]);
         setSelectedUrl(null);
       }
 
@@ -168,10 +204,11 @@ const ProductDetail = () => {
 
   const settings = {
     dots: false,
-    infinite: images.length > 5,
+    infinite: images.length + medias.length > 5,
     speed: 500,
-    slidesToShow: images.length > 5 ? 5 : images.length,
-    slidesToScroll: images.length > 5 ? 1 : 0,
+    slidesToShow:
+      images.length + medias.length > 5 ? 5 : images.length + medias.length,
+    slidesToScroll: images.length + medias.length > 5 ? 1 : 0,
   };
 
   const addToBasket = () => {
@@ -264,36 +301,75 @@ const ProductDetail = () => {
       {product && (
         <div className={styles.content}>
           <div className={styles.imgSlide}>
-            <div
-              className={styles.imgContainer}
-              ref={containerRef}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              onMouseMove={handleMouseMove}
-            >
-              <img
-                src={selectedUrl}
-                ref={sourceRef}
-                className={styles.selectedImage}
-                style={{
-                  display: "block",
-                  opacity: opacity ? 0 : 1,
-                }}
-              />
+            {selectedFileType && (
+              <div>
+                <ReactPlayer
+                  className={styles.imgContainer}
+                  style={{ width: "100%" }}
+                  src={selectedUrl}
+                  playing={true}
+                  controls={true}
+                  muted={true}
+                />
+              </div>
+            )}
+            {!selectedFileType && (
+              <div
+                className={styles.imgContainer}
+                ref={containerRef}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onMouseMove={handleMouseMove}
+              >
+                <div>
+                  <img
+                    src={selectedUrl}
+                    ref={sourceRef}
+                    className={styles.selectedImage}
+                    style={{
+                      display: "block",
+                      opacity: opacity ? 0 : 1,
+                    }}
+                  />
 
-              <img
-                ref={targetRef}
-                src={selectedUrl}
-                style={{
-                  display: "block",
-                  position: "absolute",
-                  left: offset.left,
-                  top: offset.top,
-                  opacity: opacity,
-                }}
-              />
-            </div>
+                  <img
+                    ref={targetRef}
+                    src={selectedUrl}
+                    style={{
+                      display: "block",
+                      position: "absolute",
+                      left: offset.left,
+                      top: offset.top,
+                      opacity: opacity,
+                    }}
+                  />
+                </div>
+              </div>
+            )}
             <Slider {...settings}>
+              {medias.map((md) => (
+                <div className={styles.playerWrapper}>
+                  <ReactPlayer
+                    style={{
+                      position: "absolute",
+                      width: "100%",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                    key={md.id}
+                    src={md.mediaUrl}
+                  />
+                  <img
+                    src={playIcon}
+                    className={styles.playIcon}
+                    onClick={(e) => {
+                      setSelectedUrl(md.mediaUrl);
+                      setSelectedFileType(true);
+                    }}
+                  />
+                </div>
+              ))}
               {images.map((im) => (
                 <div
                   style={{
@@ -307,7 +383,10 @@ const ProductDetail = () => {
                   <img
                     key={im.id}
                     src={im.imgUrl}
-                    onClick={(e) => setSelectedUrl(e.currentTarget.src)}
+                    onClick={(e) => {
+                      setSelectedUrl(e.currentTarget.src);
+                      setSelectedFileType(false);
+                    }}
                   />
                 </div>
               ))}
@@ -370,6 +449,7 @@ const ProductDetail = () => {
                   <td className={styles.maintd}>
                     {models.map((m) => (
                       <span
+                        key={m.id}
                         onClick={() => selectActiveModel(m.id)}
                         className={`${styles.model} ${
                           m.id === selectedModel.id ? styles.selectedModel : ""
@@ -568,7 +648,7 @@ const ProductDetail = () => {
                     </td>
                     <td className={styles.td}>
                       {descriptions.map((d) => (
-                        <span className={styles.descriptionContent}>
+                        <span key={d.id} className={styles.descriptionContent}>
                           {lang === "en" && d.descriptionEn}
                           {lang === "ge" && d.descriptionGe}
                           {lang === "ru" && d.descriptionRu}

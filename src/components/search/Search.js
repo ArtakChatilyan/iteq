@@ -6,7 +6,7 @@ import ProductCard from "../productMenu/productCard/ProductCard";
 import { categoryAPI } from "../dalUser/userApi";
 
 const Search = () => {
-  const { searchItem, searchType } = useParams();
+  const { searchItem } = useParams();
   let location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(9);
@@ -19,40 +19,16 @@ const Search = () => {
   };
 
   useEffect(() => {
-    if (searchType === "brand") {
-      SearchByBrand(searchItem, currentPage, perPage);
-    }
-    if (searchType === "model") {
-      SearchByModel(searchItem, currentPage, perPage);
-    }
-
-    if(searchType==="category"){
-      SearchByCategory(searchItem, currentPage, perPage);
-    }
+    if (searchItem) SearchProducts(searchItem, currentPage, perPage);
   }, [currentPage, location]);
 
-  const SearchByBrand = (term, page, perpage) => {
-       
-    categoryAPI.getProductsByBrand(term, page, perpage).then((response) => {
-      setTotal(response.data.total);
-      setProductList(response.data.products);
-    });
-  };
-
-  const SearchByModel = (term, page, perpage) => {
-    categoryAPI.getProductsByModel(term, page, perpage).then((response) => {
-      setTotal(response.data.total);
-      setProductList(response.data.products);
-    });
-  };
-
-  const SearchByCategory = (term, page, perpage) => {
-    categoryAPI.getProductsByCategory(term, page, perpage).then((response) => {
-      console.log(response);
-      
-      setTotal(response.data.total);
-      setProductList(response.data.products);
-    });
+  const SearchProducts = (term, page, perPage) => {
+    categoryAPI
+      .searchProductsByGeneral(term, page, perPage)
+      .then((response) => {
+        setTotal(response.data.total);
+        setProductList(response.data.products);
+      });
   };
 
   return (

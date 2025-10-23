@@ -41,7 +41,7 @@ const Purchases = () => {
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
       {historyList.map((order) => (
-        <OrderCard order={order} cancel={false} />
+        <OrderCard key={order.id} order={order} cancel={false} />
       ))}
       {historyList.length > 0 && (
         <Paging
@@ -52,7 +52,9 @@ const Purchases = () => {
           paging={pagingHandler}
         />
       )}
-      {(historyList.length === 0 && !loading) && <div className={styles.info}>{t("purchasesEmpty")}</div>}
+      {historyList.length === 0 && !loading && (
+        <div className={styles.info}>{t("purchasesEmpty")}</div>
+      )}
     </div>
   );
 };

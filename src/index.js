@@ -59,6 +59,11 @@ import UserOrders from "./components/account/orders/UserOrders";
 import Basket from "./components/account/basket/Basket";
 import Purchases from "./components/account/purchases/Purchases";
 import Password from "./components/account/password/Password";
+import Questions from "./components/admin/content/questions/Questions";
+import AddQuestion from "./components/admin/content/questions/AddQuestion";
+import EditQuestion from "./components/admin/content/questions/EditQuestion";
+import Faqs from "./components/faqs/Faqs";
+import BrandProducts from "./components/brandProducts/BrandProducts";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -81,6 +86,10 @@ const router = createBrowserRouter([
         element: <Discounts />,
       },
       {
+        path: "/brands/:brandId",
+        element: <BrandProducts />,
+      },
+      {
         path: "/contacts",
         element: <Contacts />,
       },
@@ -97,11 +106,15 @@ const router = createBrowserRouter([
         element: <Story />,
       },
       {
+        path: "/faqs",
+        element: <Faqs />,
+      },
+      {
         path: "/news/:newsId",
         element: <StoryDetail />,
       },
       {
-        path: "/search/:searchItem/:searchType",
+        path: "/search/:searchItem",
         element: <Search />,
       },
       {
@@ -270,15 +283,15 @@ const router = createBrowserRouter([
         element: <AboutUsAdmin />,
       },
       {
-        path: "/admin/news",
+        path: "/admin/news/:page?",
         element: <News />,
       },
       {
-        path: "/admin/addNews",
+        path: "/admin/addNews/:page",
         element: <AddNews />,
       },
       {
-        path: "/admin/editNews/:itemId",
+        path: "/admin/editNews/:itemId/:page",
         element: <EditNews />,
       },
       {
@@ -292,6 +305,18 @@ const router = createBrowserRouter([
       {
         path: "/admin/history/:clientId?",
         element: <History />,
+      },
+      {
+        path: "/admin/questions/:page?",
+        element: <Questions />,
+      },
+      {
+        path: "/admin/editQuestion/:itemId/:page",
+        element: <EditQuestion />,
+      },
+      {
+        path: "/admin/addQuestion/:page",
+        element: <AddQuestion />,
       },
       {
         path: "/admin/settings",

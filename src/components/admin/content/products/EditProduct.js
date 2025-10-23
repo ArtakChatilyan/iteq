@@ -10,6 +10,7 @@ import ProductDescriptions from "./descriptions/ProductDescriptions";
 import ProductCategories from "./ProductCategories";
 import Models from "./models/Models";
 import { useTranslation } from "react-i18next";
+import ProductVideos from "./ProductVideos";
 
 const EditProduct = () => {
   const { itemId, page, sType, sTerm, sCat } = useParams();
@@ -311,6 +312,7 @@ const EditProduct = () => {
       <Models productId={itemId} />
       <ProductCategories productId={itemId} />
       <ProductImages productId={itemId} />
+      <ProductVideos productId={itemId} />
       <ProductDescriptions productId={itemId} />
     </div>
   );

@@ -107,6 +107,55 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
       <ul className={styles.list}>
         <li>
           <NavLink
+            to="/admin/orders"
+            className={({ isActive }) => {
+              return isActive ? styles.active : "";
+            }}
+          >
+            {t("admin_orders")}
+            {orderCount > 0 && (
+              <span
+                style={{
+                  color: "green",
+                  margin: "0 1rem",
+                  fontFamily: "RobotMedium",
+                }}
+              >
+                {orderCount}
+              </span>
+            )}
+            {canceledOrderCount > 0 && (
+              <span style={{ color: "red", fontFamily: "RobotMedium" }}>
+                {canceledOrderCount}
+              </span>
+            )}
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/admin/history"
+            className={({ isActive }) => {
+              return isActive ? styles.active : "";
+            }}
+          >
+            {t("admin_orderHistory")}
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/admin/clients"
+            className={({ isActive }) => {
+              return isActive ? styles.active : "";
+            }}
+          >
+            {t("admin_clients")}
+          </NavLink>
+        </li>
+        <li>
+          <hr></hr>
+        </li>
+        <li>
+          <NavLink
             to="/admin/categories"
             className={({ isActive, isPending }) => {
               return isActive ? styles.active : "";
@@ -146,40 +195,7 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
           </NavLink>
         </li>
         <li>
-          <NavLink
-            to="/admin/orders"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_orders")}
-            {orderCount > 0 && (
-              <span
-                style={{
-                  color: "green",
-                  margin: "0 1rem",
-                  fontFamily: "RobotMedium",
-                }}
-              >
-                {orderCount}
-              </span>
-            )}
-            {canceledOrderCount > 0 && (
-              <span style={{ color: "red", fontFamily: "RobotMedium" }}>
-                {canceledOrderCount}
-              </span>
-            )}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/history"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_orderHistory")}
-          </NavLink>
+          <hr></hr>
         </li>
         {/* <li>
           <NavLink
@@ -233,12 +249,12 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
         </li>
         <li>
           <NavLink
-            to="/admin/clients"
+            to="/admin/questions"
             className={({ isActive }) => {
               return isActive ? styles.active : "";
             }}
           >
-            {t("admin_clients")}
+            {t("admin_questions")}
           </NavLink>
         </li>
         <li>

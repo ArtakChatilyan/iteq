@@ -106,6 +106,9 @@ const Footer = ({ lang }) => {
             <li key="news" className={styles.listItem}>
               <Link to="/news">{t("news")}</Link>
             </li>
+            <li key="faqs" className={styles.listItem}>
+              <Link to="/faqs">{t("faqs")}</Link>
+            </li>
           </ul>
         </div>
         <div className={styles.socialContent}>

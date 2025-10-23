@@ -9,9 +9,9 @@ import { stateFromHTML } from "draft-js-import-html";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { useTranslation } from "react-i18next";
 
-const EditPartner = () => {
+const EditNews = () => {
   const { t } = useTranslation();
-  const { itemId } = useParams();
+  const { itemId, page } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
@@ -71,7 +71,7 @@ const EditPartner = () => {
             .editNews(formData, itemId)
             .then((data, itemId) => {
               setResultMessage(t("admin_newsUpdateSuccess"));
-              return navigate("/admin/news");
+              return navigate(`/admin/news/${page}`);
             })
             .catch((error) => {
               setResultMessage(t("admin_newsUpdateFailed"));
@@ -195,7 +195,7 @@ const EditPartner = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate('/admin/news');}}
+                  onClick={()=>{ return navigate(`/admin/news/${page}`);}}
                 >
                   {t("admin_cancel")}
                 </button>
@@ -211,4 +211,4 @@ const EditPartner = () => {
   );
 };
 
-export default EditPartner;
+export default EditNews;

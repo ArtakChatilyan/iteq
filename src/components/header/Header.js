@@ -29,14 +29,42 @@ const Header = ({
   const [searchData, setSearchData] = useState([]);
   const refMenu = useRef();
   const refLogin = useRef();
+  const searchRef = useRef(null);
 
-  const searchKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      console.log('Enter key pressed! search value:');
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [showHints, setShowHints] = useState(false);
+
+  const searchKeyDown = (e) => {
+    if (searchItem && (searchData.length === 0 || activeIndex < 0)) {
+      if (e.key === "Enter") {
+        searchHandle();
+      }
+    }
+    if (!showHints || searchData.length === 0) return;
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setActiveIndex((prev) => (prev + 1) % searchData.length);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setActiveIndex((prev) =>
+          prev <= 0 ? searchData.length - 1 : prev - 1
+        );
+        break;
+      case "Enter":
+        if (activeIndex >= 0 && activeIndex < searchData.length) {
+          handleSelect(searchData[activeIndex].name);
+        }
+        break;
+      case "Escape":
+        setShowHints(false);
+        break;
+      default:
+        break;
     }
   };
-
-  
 
   useEffect(() => {
     document.addEventListener("click", outsideClickHandle, true);
@@ -58,11 +86,13 @@ const Header = ({
         .then((response) => {
           console.log(response);
           setSearchData(response.data.searchData);
+          setShowHints(true);
         })
         .catch((error) => console.log(error))
         .finally(() => {});
     } else {
       setSearchData([]);
+      setShowHints(false);
     }
     // if (searchType === "brand") {
     //   categoryAPI.searchByBrand(searchText).then((response) => {
@@ -98,8 +128,31 @@ const Header = ({
     // }
   };
 
+  const handleSelect = (value) => {
+    const parts = searchItem.trim().split(/\s+/);
+    parts[parts.length - 1] = value;
+    const newQuery = parts.join(" ") + " ";
+    setSearchItem(newQuery);
+    setSearchData([]);
+    searchRef.current.focus();
+  };
+
+  const highlightMatchJSX = (text) => {
+    const lastTerm = searchItem.split(/\s+/).pop();
+    const parts = text.split(new RegExp(`(${lastTerm})`, "ig"));
+    return parts.map((part, i) =>
+      part.toLowerCase() === lastTerm.toLowerCase() ? (
+        <span style={{ color: "rgba(199, 110, 21, 1)" }} key={i}>
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
   const searchHandle = () => {
-    return navigate(`/search/${searchItem}/${searchType}`);
+    return navigate(`/search/${encodeURIComponent(searchItem)}`);
   };
 
   return (
@@ -114,24 +167,34 @@ const Header = ({
             placeholder={t("search")}
             className={styles.input}
             value={searchItem}
-            onChange={(e) => searchTextChange(e.currentTarget.value)}
+            onChange={(e) => {
+              searchTextChange(e.currentTarget.value);
+              setActiveIndex(-1);
+            }}
             onKeyDown={searchKeyDown}
+            ref={searchRef}
+            onFocus={() => searchItem && setShowHints(true)}
+            onBlur={() => setTimeout(() => setShowHints(false), 150)}
           />
           <span className={styles.icon}>
             <img src={search} onClick={searchHandle} />
           </span>
         </div>
-        {searchData.length > 0 && (
+        {showHints && searchData.length > 0 && (
           <ul className={styles.autofill}>
-            {searchData.map((sd) => (
+            {searchData.map((sd, i) => (
               <li
-                className={styles.afItem}
+                className={`${styles.afItem} ${
+                  activeIndex === i ? styles.afItemSelected : ""
+                }`}
                 onClick={(e) => {
                   setSearchItem(e.currentTarget.innerText);
                   setSearchData([]);
+                  searchRef.current.focus();
                 }}
+                onMouseDown={() => handleSelect(sd.name)}
               >
-                {sd.name}
+                {highlightMatchJSX(sd.name)}
               </li>
             ))}
           </ul>
@@ -224,7 +287,7 @@ const Header = ({
         <div
           className={styles.cart}
           onClick={() => {
-            return navigate('/account');
+            return navigate("/account");
           }}
         >
           <img src={cart} />

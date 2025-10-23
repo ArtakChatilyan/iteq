@@ -1,14 +1,15 @@
 import styles from "../View.module.css";
-import { newsAPI } from "../../dal/api";
-import { useEffect, useState } from "react";
+import { questionsApi } from "../../dal/api";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Paging from "../../../paging/Paging";
 import SplashScreen from "../splashscreen/SplashScreen";
 import { useTranslation } from "react-i18next";
+import { LanguageContext } from "../../../../contexts/LanguageContext";
 
-const News = () => {
+const Questions = () => {
+  const { page } = useParams();
   const { t } = useTranslation();
-  const { page} = useParams();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(parseInt(page || 1));
@@ -17,19 +18,20 @@ const News = () => {
 
   const [modal, setModal] = useState(false);
   const [deleteId, setDeleteId] = useState(0);
+  const lang = useContext(LanguageContext);
 
   useEffect(() => {
-    getNews(currentPage, perPage);
+    getQuestions(currentPage, perPage);
   }, []);
 
   const pagingHandler = (pageNumber) => {
     setLoading(true);
-    getNews(pageNumber, perPage);
+    getQuestions(pageNumber, perPage);
   };
 
-  const getNews = (currentPage, perPage) => {
-    newsAPI
-      .getNews(currentPage, perPage)
+  const getQuestions = (currentPage, perPage) => {
+    questionsApi
+      .getQuestions(currentPage, perPage)
       .then((response) => {
         setData(response.data.data);
         setTotal(response.data.total);
@@ -43,13 +45,14 @@ const News = () => {
 
   const deleteItem = (id) => {
     setLoading(true);
-    newsAPI
-      .deleteNews(id)
+    setModal(false);
+    questionsApi
+      .deleteQuestion(id)
       .then((response) => {
         if (data.length === 1) {
           if (currentPage > 1) setCurrentPage((currentPage) => currentPage - 1);
         } else {
-          getNews(currentPage, perPage);
+          getQuestions(currentPage, perPage);
         }
       })
       .catch((error) => {
@@ -67,26 +70,27 @@ const News = () => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>{t("admin_titleEn")}:</th>
-            <th>{t("admin_titleGe")}:</th>
-            <th>{t("admin_titleRu")}:</th>
-            <th>{t("admin_image")}:</th>
-            <th></th>
-            <th></th>
+            <th style={{ width: "70%" }}></th>
+            <th style={{ maxWidth: "250px" }}></th>
+            <th style={{ maxWidth: "250px" }}></th>
           </tr>
         </thead>
         <tbody>
           {data.length > 0 ? (
             data.map((d) => (
               <tr className={styles.item} key={`tr${d.id}`}>
-                <td>{d.titleEn}</td>
-                <td>{d.titleGe}</td>
-                <td>{d.titleRu}</td>
                 <td>
-                  <img src={d.imgUrl} className={styles.img} />
+                  <div style={{ margin: "1rem" }}>
+                    {lang === "en" && d.questionEn}
+                    {lang === "ge" && d.questionGe}
+                    {lang === "ru" && d.questionRu}
+                  </div>
                 </td>
                 <td>
-                  <Link to={`/admin/editNews/${d.id}/${currentPage}`} className={styles.btn}>
+                  <Link
+                    to={`/admin/editQuestion/${d.id}/${currentPage}`}
+                    className={styles.btn}
+                  >
                     {t("admin_edit")}
                   </Link>
                 </td>
@@ -113,13 +117,13 @@ const News = () => {
           <tr>
             <td>
               <Link
-                to={`/admin/addNews/${currentPage}`}
+                to={`/admin/addQuestion/${currentPage}`}
                 style={{ textDecoration: "underline", color: "#7dacee" }}
               >
                 {t("admin_add")}
               </Link>
             </td>
-            <td colSpan={6}>
+            <td colSpan={2}>
               <div style={{ textAlign: "right" }}>
                 <Paging
                   totalCount={total}
@@ -153,4 +157,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default Questions;

@@ -51,10 +51,10 @@ const UserOrders = () => {
       .updateOrder(orderId, value)
       .then((response) => {
         LoadOrders(userId, currentPage, perPage);
-        if(value===2){
+        if (value === 2) {
           setModalPayment(true);
           setIsAnimatePayment(true);
-        }else if(value===3){
+        } else if (value === 3) {
           setModalCancel(true);
           setIsAnimateCancel(true);
         }
@@ -84,6 +84,7 @@ const UserOrders = () => {
       {loading && <LoadingScreen showGif={true} />}
       {orderList.map((order) => (
         <OrderCard
+          key={order.id}
           order={order}
           cancelOrder={updateOrder}
           makePayment={updateOrder}
@@ -98,7 +99,7 @@ const UserOrders = () => {
           paging={pagingHandler}
         />
       )}
-      {(orderList.length === 0 && !loading) && <div className={styles.info}>{t("ordersEmpty")}</div>}
+
       <div className={modalPayment ? styles.modal : styles.hide}>
         <div
           className={
@@ -135,6 +136,9 @@ const UserOrders = () => {
           </div>
         </div>
       </div>
+      {orderList.length === 0 && !loading && (
+        <div className={styles.emptyInfo}>{t("ordersEmpty")}</div>
+      )}
     </div>
   );
 };

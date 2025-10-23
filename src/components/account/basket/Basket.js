@@ -206,6 +206,7 @@ const Basket = () => {
       </div> */}
       {basketList.map((b) => (
         <BasketCard
+          key={b.id}
           basket={b}
           deleteBasket={deleteBasketHandle}
           setCount={setCount}
@@ -233,7 +234,9 @@ const Basket = () => {
           </div>
         </div>
       )}
-      {(basketList.length === 0 && !loading) && <div className={styles.emptyInfo}>{t("basketEmpty")}</div>}
+      {basketList.length === 0 && !loading && (
+        <div className={styles.emptyInfo}>{t("basketEmpty")}</div>
+      )}
     </div>
   );
 };

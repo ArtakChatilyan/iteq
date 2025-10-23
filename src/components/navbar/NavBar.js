@@ -151,6 +151,11 @@ const Navbar = () => {
             {t("news")}
           </Link>
         </li>
+        <li key="faqs" className={styles.listItem}>
+          <Link to="/faqs" onClick={() => setMenuState(false)}>
+            {t("faqs")}
+          </Link>
+        </li>
       </ul>
     </div>
   );

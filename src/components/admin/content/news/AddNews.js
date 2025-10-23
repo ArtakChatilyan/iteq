@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 const AddNews = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { page } = useParams();
   const [loading, setLoading] = useState(false);
   const [resultMessage, setResultMessage] = useState("");
   const refEn = createRef();
@@ -48,7 +49,7 @@ const AddNews = () => {
             .addNews(formData)
             .then((data) => {
               setResultMessage(t("admin_newsAddSuccess"));
-              return navigate("/admin/news");
+              return navigate(`/admin/news/${page}`);
             })
             .catch((error) => {
               setResultMessage(t("admin_newsAddFailed"));
@@ -159,7 +160,7 @@ const AddNews = () => {
                 <button
                   type="button"
                   className={styles.btn}
-                  onClick={()=>{ return navigate('/admin/news');}}
+                  onClick={()=>{ return navigate(`/admin/news/${page}`);}}
                 >
                   {t("admin_cancel")}
                 </button>

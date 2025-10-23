@@ -66,6 +66,12 @@
   height: 160px;
 }
 
+.areaSmall {
+  max-width: 90%;
+  resize: none;
+  height: 60px;
+}
+
 .options {
   min-width: 50%;
   font-size: 1.6rem;
