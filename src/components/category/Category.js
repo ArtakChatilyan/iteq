@@ -2,7 +2,7 @@ import styles from "./Category.module.css";
 import closeIcon from "../../assets/close.svg";
 import searchIcon from "../../assets/iconSearch.svg";
 import { LanguageContext } from "../../contexts/LanguageContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import ProductCard from "../productMenu/productCard/ProductCard";
 import Paging from "../paging/Paging";
@@ -11,8 +11,6 @@ import { useTranslation } from "react-i18next";
 
 const Category = ({
   loading,
-  filterMode,
-  setFilterMode,
   categoryList,
   brandList,
   selectedBrands,
@@ -30,6 +28,23 @@ const Category = ({
   chnageMaxPrice,
   search,
 }) => {
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [filterMode, SetFilterMode] = useState(
+    screenWidth > 1024 ? true : false
+  );
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+    SetFilterMode(window.innerWidth > 1024 ? true : false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const lang = useContext(LanguageContext);
   const {t}=useTranslation();
   return (
@@ -38,9 +53,9 @@ const Category = ({
       {
         <button
           className={`${styles.btn} ${styles.hoverUnderlineAnimation} ${styles.left}`}
-          onClick={() => setFilterMode(true)}
+          onClick={() => SetFilterMode(true)}
         >
-          Filters
+          {t("filters")}
         </button>
       }
       <div
@@ -50,10 +65,11 @@ const Category = ({
             : "animate__animated animate__slideOutLeft animate__faster"
         } ${styles.filter}`}
       >
+        <span>{new Date().getSeconds()}</span>
         <img
           src={closeIcon}
           className={styles.btnClose}
-          onClick={() => setFilterMode(false)}
+          onClick={() => SetFilterMode(false)}
         />
         <Menu
           items={categoryList}

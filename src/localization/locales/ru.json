@@ -239,5 +239,6 @@
   "admin_imageAddSuccess": "Изображение успешно добавлено.",
   "admin_videoAddSuccess": "Медиафайл успешно добавлен",
   "admin_imageAddFailed": "Не удалось добавить изображение.",
-  "admin_videoAddFailed": "Не удалось добавить медиафайл"
+  "admin_videoAddFailed": "Не удалось добавить медиафайл",
+  "filters":"Фильтры"
 }

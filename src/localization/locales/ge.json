@@ -231,13 +231,14 @@
   "admin_answerRu": "პასუხი(russian)",
   "admin_questionAddSuccess": "პარაგრაფი წარმატებით დამატებულია",
   "admin_questionAddFailed": "პარაგრაფი ვერ დაემატა",
-  "admin_questionUpdateSuccess":"პარაგრაფი წარმატებით განახლებულია",
-    "admin_questionUpdateFailed":"პარაგრაფი ვერ განახლდა",
-  "faqs":"ხდკ - ხშირად დასმული კითხვები",
-  "admin_videos":"videos files",
-   "admin_video":"media file",
-  "admin_imageAddSuccess":"The image added successfully",
-    "admin_videoAddSuccess":"The video file added successfully",
-    "admin_imageAddFailed":"Failed to add image",
-    "admin_videoAddFailed":"Failed to add video file"
+  "admin_questionUpdateSuccess": "პარაგრაფი წარმატებით განახლებულია",
+  "admin_questionUpdateFailed": "პარაგრაფი ვერ განახლდა",
+  "faqs": "ხდკ - ხშირად დასმული კითხვები",
+  "admin_videos": "videos files",
+  "admin_video": "media file",
+  "admin_imageAddSuccess": "The image added successfully",
+  "admin_videoAddSuccess": "The video file added successfully",
+  "admin_imageAddFailed": "Failed to add image",
+  "admin_videoAddFailed": "Failed to add video file",
+  "filters": "Filters"
 }

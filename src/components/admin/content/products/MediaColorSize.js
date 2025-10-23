@@ -46,6 +46,8 @@ const MediaColorSize = ({ productId, mediaId, closeModal }) => {
     colorAPI
       .getModelColors(modelId)
       .then((response) => {
+        console.log(response.data.mColors);
+        
         setColors(response.data.mColors);
       })
       .catch((error) => console.log(error))

@@ -10,22 +10,6 @@ const CategoryContainer = () => {
   const urlMaxPrice = useParams().maxPrice;
   const urlPage = useParams().page;
 
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [filterMode, SetFilterMode] = useState(
-    screenWidth > 1024 ? true : false
-  );
-  const handleResize = () => {
-    setScreenWidth(window.innerWidth);
-    SetFilterMode(window.innerWidth > 1024 ? true : false);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [categoryList, setCategoryist] = useState([]);
@@ -186,7 +170,6 @@ const CategoryContainer = () => {
         console.log(error);
       })
       .finally(() => {
-        if (window.innerWidth <= 1024) SetFilterMode(false);
         setLoading(false);
       });
   };
@@ -201,8 +184,6 @@ const CategoryContainer = () => {
     <Category
       loading={loading}
       selectedCategory={urlCategory}
-      filterMode={filterMode}
-      setFilterMode={SetFilterMode}
       categoryList={categoryList}
       brandList={brandList}
       selectedBrands={selectedBrands}

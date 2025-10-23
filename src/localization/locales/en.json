@@ -244,5 +244,6 @@
     "admin_imageAddSuccess":"The image added successfully",
     "admin_videoAddSuccess":"The media file added successfully",
     "admin_imageAddFailed":"Failed to add image",
-    "admin_videoAddFailed":"Failed to add media file"
+    "admin_videoAddFailed":"Failed to add media file",
+    "filters":"Filters"
   }
