@@ -5,7 +5,7 @@ import mailIcon from "../../assets/mail-icon.png";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
-const socket = io.connect("http://localhost:8080");
+const socket = io("http://localhost:3001");
 
 const Chat = ({isAuth, user, role}) => {
   

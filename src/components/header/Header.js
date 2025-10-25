@@ -84,7 +84,6 @@ const Header = ({
       categoryAPI
         .searchProducts(searchText)
         .then((response) => {
-          console.log(response);
           setSearchData(response.data.searchData);
           setShowHints(true);
         })
@@ -183,7 +182,7 @@ const Header = ({
         {showHints && searchData.length > 0 && (
           <ul className={styles.autofill}>
             {searchData.map((sd, i) => (
-              <li
+              <li key={`sd_${i}`}
                 className={`${styles.afItem} ${
                   activeIndex === i ? styles.afItemSelected : ""
                 }`}

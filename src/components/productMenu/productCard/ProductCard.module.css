@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   padding: 1rem 2rem;
-  width: 280px;
+  width: 200px;
   height: 360px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
@@ -111,6 +111,18 @@
   color: rgb(127, 153, 165);
   font-size: 1.2rem;
   font-family: "RobotoLight";
+}
+
+@media (min-width: 440px) {
+  .card {
+    width: 230px;
+  }
+}
+
+@media (min-width: 568px) {
+  .card {
+    width: 280px;
+  }
 }
 
 @media (min-width: 768px) {

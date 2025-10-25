@@ -8,6 +8,7 @@ import ProductCard from "../productMenu/productCard/ProductCard";
 import Paging from "../paging/Paging";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
 import { useTranslation } from "react-i18next";
+import useScreenSize from "../tools/ScreenSize";
 
 const Category = ({
   loading,
@@ -28,25 +29,17 @@ const Category = ({
   chnageMaxPrice,
   search,
 }) => {
-
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const { screenWidth, screenHeight } = useScreenSize();
   const [filterMode, SetFilterMode] = useState(
     screenWidth > 1024 ? true : false
   );
-  const handleResize = () => {
-    setScreenWidth(window.innerWidth);
-    SetFilterMode(window.innerWidth > 1024 ? true : false);
-  };
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    SetFilterMode(screenWidth > 1024 ? true : false);
+  }, [screenWidth]);
 
   const lang = useContext(LanguageContext);
-  const {t}=useTranslation();
+  const { t } = useTranslation();
   return (
     <div className={styles.block}>
       {loading && <LoadingScreen showGif={true} />}
@@ -65,7 +58,6 @@ const Category = ({
             : "animate__animated animate__slideOutLeft animate__faster"
         } ${styles.filter}`}
       >
-        <span>{new Date().getSeconds()}</span>
         <img
           src={closeIcon}
           className={styles.btnClose}
@@ -76,6 +68,7 @@ const Category = ({
           lang={lang}
           minPrice={minPrice}
           maxPrice={maxPrice}
+          SetFilterMode={SetFilterMode}
         />
 
         <span className={styles.partTitle}>{t("Brands")}</span>
@@ -146,7 +139,13 @@ const Category = ({
             </tbody>
           </table>
           <span className={styles.icon}>
-            <img src={searchIcon} onClick={search} />
+            <img
+              src={searchIcon}
+              onClick={() => {
+                SetFilterMode(false);
+                search();
+              }}
+            />
           </span>
         </div>
       </div>
@@ -173,7 +172,7 @@ const Category = ({
 
 export default Category;
 
-function Menu({ items, lang, minPrice, maxPrice }) {
+function Menu({ items, lang, minPrice, maxPrice, SetFilterMode }) {
   const [displayChildren, setDisplayChildren] = useState({});
   return (
     <ul className={`${styles.list} ${styles.listLeft}`}>
@@ -190,9 +189,8 @@ function Menu({ items, lang, minPrice, maxPrice }) {
               >
                 <Link
                   className={styles.linkTitle}
-                  to={`/category/${
-                    item.id
-                  }/${0}/${minPrice}/${maxPrice}/${1}`}
+                  to={`/category/${item.id}/${0}/${minPrice}/${maxPrice}/${1}`}
+                  onClick={() => SetFilterMode(false)}
                 >
                   {titleValue}
                 </Link>
@@ -221,6 +219,7 @@ function Menu({ items, lang, minPrice, maxPrice }) {
                 lang={lang}
                 minPrice={minPrice}
                 maxPrice={maxPrice}
+                SetFilterMode={SetFilterMode}
               />
             )}
           </li>

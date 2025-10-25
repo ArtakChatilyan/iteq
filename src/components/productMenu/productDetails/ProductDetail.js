@@ -126,6 +126,7 @@ const ProductDetail = () => {
         }
 
         setImages(imageData);
+
         if (imageData.length > 0) {
           setSelectedUrl(imageData[0].imgUrl);
           setSelectedFileType(false);
@@ -155,13 +156,13 @@ const ProductDetail = () => {
         }
 
         setMedias(mediaData);
+
         if (mediaData.length > 0) {
           setSelectedUrl(mediaData[0].mediaUrl);
           setSelectedFileType(true);
         }
       } else {
         setMedias([]);
-        setSelectedUrl(null);
       }
 
       if (selectedModel.descriptionLinks.length > 0) {
@@ -302,9 +303,8 @@ const ProductDetail = () => {
         <div className={styles.content}>
           <div className={styles.imgSlide}>
             {selectedFileType && (
-              <div>
+              <div className={styles.imgContainer}>
                 <ReactPlayer
-                  className={styles.imgContainer}
                   style={{ width: "100%" }}
                   src={selectedUrl}
                   playing={true}
