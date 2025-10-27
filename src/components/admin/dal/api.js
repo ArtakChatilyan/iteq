@@ -385,9 +385,9 @@ export const searchAPI = {
   searchByBrand: (term) => {
     return instance.get(`user/search/brand?term=${term}`);
   },
-  getProductsByBrand: (term, page, perPage) => {
+  getProductsByBrand: (term, page, perPage, selectedCategory) => {
     return instance.get(
-      `user/search/productsByBrand?term=${term}&page=${page}&perPage=${perPage}`
+      `user/search/productsByBrand?term=${term}&page=${page}&perPage=${perPage}&category=${selectedCategory}`
     );
   },
   searchByModel: (term) => {

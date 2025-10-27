@@ -75,7 +75,7 @@ const Products = () => {
     setLoading(true);
     if (sType === "brand") {
       searchAPI
-        .getProductsByBrand(sItem, currentPage, perPage)
+        .getProductsByBrand(sItem, currentPage, perPage, selectedCategory)
         .then((response) => {
           setTotal(response.data.total);
           setProducts(response.data.products);
