@@ -30,11 +30,11 @@ const AddProduct = () => {
     });
   }, []);
 
-
   return (
     <div className={styles.data}>
       {loading && <SplashScreen />}
       <Formik
+      enableReinitialize
         initialValues={{
           productNameEn: "",
           productNameGe: "",
@@ -57,6 +57,7 @@ const AddProduct = () => {
           for (let value in values) {
             formData.append(value, values[value]);
           }
+          values["selectedCategory"]=sCat;
           productsAPI
             .addProduct(values)
             .then((data) => {

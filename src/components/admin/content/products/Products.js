@@ -61,8 +61,7 @@ const Products = () => {
 
   useEffect(() => {
     //getCategories();
-    if(sCat)
-    getProducts(searchType, searchItem, currentPage, perPage);
+    if (sCat) getProducts(searchType, searchItem, currentPage, perPage);
   }, [currentPage]);
 
   const pagingHandler = (pageNumber) => {
@@ -313,12 +312,14 @@ const Products = () => {
         <tfoot>
           <tr>
             <td>
-              <Link
-                to={`/admin/addProduct/${currentPage}/${searchType}/${searchItem}/${selectedCategory}`}
-                style={{ textDecoration: "underline", color: "#7dacee" }}
-              >
-                {t("admin_add")}
-              </Link>
+              {selectedCategory && searchItem && (
+                <Link
+                  to={`/admin/addProduct/${currentPage}/${searchType}/${searchItem}/${selectedCategory}`}
+                  style={{ textDecoration: "underline", color: "#7dacee" }}
+                >
+                  {t("admin_add")}
+                </Link>
+              )}
             </td>
             <td colSpan={10}>
               <div style={{ textAlign: "right" }}>

@@ -68,6 +68,7 @@ const Category = ({
           lang={lang}
           minPrice={minPrice}
           maxPrice={maxPrice}
+          screenWidth={screenWidth}
           SetFilterMode={SetFilterMode}
         />
 
@@ -142,7 +143,7 @@ const Category = ({
             <img
               src={searchIcon}
               onClick={() => {
-                SetFilterMode(false);
+                SetFilterMode(screenWidth > 1024 ? true : false);
                 search();
               }}
             />
@@ -172,7 +173,7 @@ const Category = ({
 
 export default Category;
 
-function Menu({ items, lang, minPrice, maxPrice, SetFilterMode }) {
+function Menu({ items, lang, minPrice, maxPrice, SetFilterMode, screenWidth }) {
   const [displayChildren, setDisplayChildren] = useState({});
   return (
     <ul className={`${styles.list} ${styles.listLeft}`}>
@@ -190,7 +191,7 @@ function Menu({ items, lang, minPrice, maxPrice, SetFilterMode }) {
                 <Link
                   className={styles.linkTitle}
                   to={`/category/${item.id}/${0}/${minPrice}/${maxPrice}/${1}`}
-                  onClick={() => SetFilterMode(false)}
+                  onClick={() => SetFilterMode(screenWidth > 1024 ? true : false)}
                 >
                   {titleValue}
                 </Link>
@@ -219,6 +220,7 @@ function Menu({ items, lang, minPrice, maxPrice, SetFilterMode }) {
                 lang={lang}
                 minPrice={minPrice}
                 maxPrice={maxPrice}
+                screenWidth={screenWidth}
                 SetFilterMode={SetFilterMode}
               />
             )}
