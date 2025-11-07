@@ -8,7 +8,7 @@ import LoadingScreen from "../loadingScreen/LoadingScreen";
 
 const PasswordRecovery = () => {
   const userId = useParams().userId;
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");

@@ -2,18 +2,17 @@ import styles from "./NavBar.module.css";
 import menuIcon from "../../assets/menuIcon.svg";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { categoryAPI } from "../dalUser/userApi";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
-import { LanguageContext } from "../../contexts/LanguageContext";
 import { useDispatch } from "react-redux";
 import { setCategory } from "../../redux-store/filterSlice";
 
 const Navbar = () => {
   const [menuState, setMenuState] = useState(false);
   const [productMenuState, setProductMenuState] = useState(false);
-  const { t, i18n } = useTranslation();
-  const lang = useContext(LanguageContext);
+  const { t } = useTranslation();
+  const {lang} = useParams();
   const [categoryList, setCategoryist] = useState([]);
   const [loading, setLoading] = useState(true);
   const refMenu = useRef(null);
@@ -90,7 +89,7 @@ const Navbar = () => {
 
   const SelectCategory = (catId) => {
     dispatch(setCategory({selectedCategory:catId}));
-    return navigate("/category");
+    return navigate(`/${lang}/category`);
   };
 
   return (
@@ -103,7 +102,7 @@ const Navbar = () => {
       />
       <ul className={`${styles.list} ${!menuState && styles.collapse}`}>
         <li key="discounts" className={styles.listItem}>
-          <Link to="/discounts" onClick={() => setMenuState(false)}>
+          <Link to={`/${lang}/discounts`} onClick={() => setMenuState(false)}>
             {t("discount")}
           </Link>
         </li>
@@ -137,22 +136,22 @@ const Navbar = () => {
           </div>
         </li>
         <li key="aboutus" className={styles.listItem}>
-          <Link to="/about" onClick={() => setMenuState(false)}>
+          <Link to={`/${lang}/about`} onClick={() => setMenuState(false)}>
             {t("aboutUs")}
           </Link>
         </li>
         <li key="contacts" className={styles.listItem}>
-          <Link to="/contacts" onClick={() => setMenuState(false)}>
+          <Link to={`/${lang}/contacts`} onClick={() => setMenuState(false)}>
             {t("contacts")}
           </Link>
         </li>
         <li key="news" className={styles.listItem}>
-          <Link to="/news" onClick={() => setMenuState(false)}>
+          <Link to={`/${lang}/news`} onClick={() => setMenuState(false)}>
             {t("news")}
           </Link>
         </li>
         <li key="faqs" className={styles.listItem}>
-          <Link to="/faqs" onClick={() => setMenuState(false)}>
+          <Link to={`/${lang}/faqs`} onClick={() => setMenuState(false)}>
             {t("faqs")}
           </Link>
         </li>
@@ -185,9 +184,9 @@ function Menu({ items, hide, isChildNode, lang }) {
                   <div
                     className={`${styles.hoverUnderlineAnimation} ${styles.left}`}
                   >
-                    <Link to={`/category/${item.id}/${0}/${-1}/${-1}/${1}`}>
+                    <Link to={`/${lang}/category/${item.id}/${0}/${-1}/${-1}/${1}`}>
                       {lang === "en" && item.titleEn}
-                      {lang === "ge" && item.titleGe}
+                      {lang === "ka" && item.titleGe}
                       {lang === "ru" && item.titleRu}
                     </Link>
                   </div>

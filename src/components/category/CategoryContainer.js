@@ -10,6 +10,8 @@ const CategoryContainer = () => {
   const urlMaxPrice = useParams().maxPrice;
   const urlPage = useParams().page;
 
+  const [seoCategory, setSeoCategory]=useState(null);
+  const {lang}=useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [categoryList, setCategoryist] = useState([]);
@@ -45,6 +47,7 @@ const CategoryContainer = () => {
     categoryAPI
       .getCategories()
       .then((response) => {
+        setSeoCategory(response.data.categories.filter(c=>c.id==urlCategory)[0]);
         let result = [];
         for (let i = 0; i < response.data.categories.length; i++) {
           result.push({
@@ -139,7 +142,7 @@ const CategoryContainer = () => {
 
   const searchHandler = () => {
     return navigate(
-      `/category/${urlCategory}/${selectedBrands.join(
+      `/${lang}/category/${urlCategory}/${selectedBrands.join(
         "_"
       )}/${minPrice}/${maxPrice}/${1}`
     );
@@ -176,7 +179,7 @@ const CategoryContainer = () => {
 
   const pagingHandler = (pageNumber) => {
     return navigate(
-      `/category/${urlCategory}/${urlBrands}/${minPrice}/${maxPrice}/${pageNumber}`
+      `/${lang}/category/${urlCategory}/${urlBrands}/${minPrice}/${maxPrice}/${pageNumber}`
     );
   };
 
@@ -200,6 +203,7 @@ const CategoryContainer = () => {
       chnageMinPrice={chnageMinPrice}
       chnageMaxPrice={chnageMaxPrice}
       search={searchHandler}
+      seoCategory={seoCategory}
     />
   );
 };

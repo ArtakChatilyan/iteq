@@ -8,9 +8,6 @@
 .card {
   width: 100%;
   background-color: rgb(235, 239, 241);
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: flex-start;
   margin: 20px 0;
   border-bottom: 1px solid rgb(243, 171, 98);
 }
@@ -21,6 +18,7 @@
   justify-content: space-between;
   align-items: flex-start;
   height: 100%;
+  width: 100%;
   padding: 2rem;
   font-size: 1.6rem;
   margin: 1rem 0;
@@ -36,6 +34,7 @@
   text-align: left;
   cursor: pointer;
   transition: 0.15s;
+  width: 80%;
 }
 
 p {
@@ -51,6 +50,7 @@ p {
   line-height: 2.2rem;
   width: 100%;
   align-self: flex-end;
+  margin-top: 2rem;
 }
 
 @media screen and (min-width: 1024px) {

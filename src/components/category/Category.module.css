@@ -210,7 +210,7 @@
 @media (min-width: 1024px) {
   .block {
     width: 80%;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: fit-content(320px) auto ;
   }
 
   .paging {

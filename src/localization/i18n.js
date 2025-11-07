@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import Cookies from "universal-cookie";
 
 import enLang from './locales/en.json'
 import geLang from './locales/ge.json'
@@ -12,20 +13,21 @@ const resources = {
   en: {
     translation: enLang,
   },
-  ge: {
+  ka: {
     translation: geLang,
   },
   ru: {
     translation: ruLang,
   },
 };
-
+const cookies = new Cookies("langIteq", { path: "/" });
+const savedLang = cookies.get("langIteq") || "ka";
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    fallbackLng: "ge",
-
+    lng:savedLang,
+    fallbackLng: "ka",
     interpolation: {
       escapeValue: false, // react already safes from xss
     },

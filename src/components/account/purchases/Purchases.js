@@ -6,6 +6,7 @@ import { historyAPI } from "../../dalUser/userApi";
 import { useTranslation } from "react-i18next";
 import OrderCard from "../orders/ordercard/OrderCard";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Purchases = () => {
   const { userId } = useParams();
@@ -38,24 +39,29 @@ const Purchases = () => {
   };
 
   return (
-    <div className={styles.block}>
-      {loading && <LoadingScreen showGif={true} />}
-      {historyList.map((order) => (
-        <OrderCard key={order.id} order={order} cancel={false} />
-      ))}
-      {historyList.length > 0 && (
-        <Paging
-          mode="user"
-          totalCount={total}
-          currentPage={currentPage}
-          pageSize={perPage}
-          paging={pagingHandler}
-        />
-      )}
-      {historyList.length === 0 && !loading && (
-        <div className={styles.info}>{t("purchasesEmpty")}</div>
-      )}
-    </div>
+    <>
+      <Helmet>
+        <title>{t("purchases") + " | ITEQ Shop"}</title>
+      </Helmet>
+      <div className={styles.block}>
+        {loading && <LoadingScreen showGif={true} />}
+        {historyList.map((order) => (
+          <OrderCard key={order.id} order={order} cancel={false} />
+        ))}
+        {historyList.length > 0 && (
+          <Paging
+            mode="user"
+            totalCount={total}
+            currentPage={currentPage}
+            pageSize={perPage}
+            paging={pagingHandler}
+          />
+        )}
+        {historyList.length === 0 && !loading && (
+          <div className={styles.info}>{t("purchasesEmpty")}</div>
+        )}
+      </div>
+    </>
   );
 };
 

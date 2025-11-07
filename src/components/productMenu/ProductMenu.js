@@ -5,10 +5,11 @@ import styles from "./ProductMenu.module.css";
 import "./styleExtra.css";
 
 import ProductCard from "./productCard/ProductCard";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const ProductMenu = ({ title, products }) => {
+  const {lang}=useParams();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const handleResize = () => {
     setScreenWidth(window.innerWidth);
@@ -77,7 +78,7 @@ const ProductMenu = ({ title, products }) => {
     <div className={styles.block}>
       <div className={styles.slideContainer}>
         <div className={styles.categoryTitle}>
-          <Link to="/discounts">
+          <Link to={`/${lang}/discounts`}>
             {" "}
             <h2 className={`${styles.hoverUnderlineAnimation} ${styles.left}`}>
               {title}
@@ -93,7 +94,7 @@ const ProductMenu = ({ title, products }) => {
             }}
           >
             {products.map((p) => (
-              <NavLink to={`/product/${p.id}`} target="blank">
+              <NavLink to={`/${lang}/product/${p.id}`} target="blank">
                 <ProductCard key={p.id} product={p} withMargin={true} />
               </NavLink>
             ))}
@@ -103,7 +104,7 @@ const ProductMenu = ({ title, products }) => {
         {sliderConfig === 0 && (
           <Slider {...settings}>
             {products.map((p) => (
-              <NavLink to={`/product/${p.id}`} target="blank">
+              <NavLink to={`/${lang}/product/${p.id}`} target="blank">
                 <ProductCard key={p.id} product={p} withMargin={false} />
               </NavLink>
             ))}

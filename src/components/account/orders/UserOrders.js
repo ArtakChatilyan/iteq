@@ -8,6 +8,7 @@ import OrderCard from "./ordercard/OrderCard";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const UserOrders = () => {
   const { userId } = useParams();
@@ -80,66 +81,75 @@ const UserOrders = () => {
   };
 
   return (
-    <div className={styles.block}>
-      {loading && <LoadingScreen showGif={true} />}
-      {orderList.map((order) => (
-        <OrderCard
-          key={order.id}
-          order={order}
-          cancelOrder={updateOrder}
-          makePayment={updateOrder}
-        />
-      ))}
-      {orderList.length > 0 && (
-        <Paging
-          mode="user"
-          totalCount={total}
-          currentPage={currentPage}
-          pageSize={perPage}
-          paging={pagingHandler}
-        />
-      )}
+    <>
+      <Helmet>
+        <title>{t("orders") + " | ITEQ Shop"}</title>
+      </Helmet>
+      <div className={styles.block}>
+        {loading && <LoadingScreen showGif={true} />}
+        {orderList.map((order) => (
+          <OrderCard
+            key={order.id}
+            order={order}
+            cancelOrder={updateOrder}
+            makePayment={updateOrder}
+          />
+        ))}
+        {orderList.length > 0 && (
+          <Paging
+            mode="user"
+            totalCount={total}
+            currentPage={currentPage}
+            pageSize={perPage}
+            paging={pagingHandler}
+          />
+        )}
 
-      <div className={modalPayment ? styles.modal : styles.hide}>
-        <div
-          className={
-            isAnimatePayment
-              ? "animate__animated animate__bounceInDown"
-              : "animate__animated animate__bounceOutUp"
-          }
-        >
-          <div className={styles.btnGroup}>
-            <div className={styles.info}>
-              <p style={{ marginBottom: "1rem" }}>{t("paymentOrderMessage")}</p>{" "}
+        <div className={modalPayment ? styles.modal : styles.hide}>
+          <div
+            className={
+              isAnimatePayment
+                ? "animate__animated animate__bounceInDown"
+                : "animate__animated animate__bounceOutUp"
+            }
+          >
+            <div className={styles.btnGroup}>
+              <div className={styles.info}>
+                <p style={{ marginBottom: "1rem" }}>
+                  {t("paymentOrderMessage")}
+                </p>{" "}
+              </div>
+              <button className={styles.btn} onClick={closeModalPayment}>
+                ok
+              </button>
             </div>
-            <button className={styles.btn} onClick={closeModalPayment}>
-              ok
-            </button>
           </div>
         </div>
-      </div>
-      <div className={modalCancel ? styles.modal : styles.hide}>
-        <div
-          className={
-            isAnimateCancel
-              ? "animate__animated animate__bounceInDown"
-              : "animate__animated animate__bounceOutUp"
-          }
-        >
-          <div className={styles.btnGroup}>
-            <div className={styles.info}>
-              <p style={{ marginBottom: "1rem" }}>{t("cancelOrderMessage")}</p>{" "}
+        <div className={modalCancel ? styles.modal : styles.hide}>
+          <div
+            className={
+              isAnimateCancel
+                ? "animate__animated animate__bounceInDown"
+                : "animate__animated animate__bounceOutUp"
+            }
+          >
+            <div className={styles.btnGroup}>
+              <div className={styles.info}>
+                <p style={{ marginBottom: "1rem" }}>
+                  {t("cancelOrderMessage")}
+                </p>{" "}
+              </div>
+              <button className={styles.btn} onClick={closeModalCancel}>
+                ok
+              </button>
             </div>
-            <button className={styles.btn} onClick={closeModalCancel}>
-              ok
-            </button>
           </div>
         </div>
+        {orderList.length === 0 && !loading && (
+          <div className={styles.emptyInfo}>{t("ordersEmpty")}</div>
+        )}
       </div>
-      {orderList.length === 0 && !loading && (
-        <div className={styles.emptyInfo}>{t("ordersEmpty")}</div>
-      )}
-    </div>
+    </>
   );
 };
 

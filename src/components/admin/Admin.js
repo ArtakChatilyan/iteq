@@ -9,6 +9,7 @@ import i18n from "../../localization/i18n";
 import { useTranslation } from "react-i18next";
 import { orderApi } from "./dal/api";
 import { LanguageContext } from "../../contexts/LanguageContext";
+import { Helmet } from "react-helmet-async";
 
 const AdminContainer = () => {
   const dispatch = useDispatch();
@@ -88,116 +89,121 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
   }, []);
   const { t } = useTranslation();
   return (
-    <div className={styles.block}>
-      <div className={styles.setBar}>
-        <Link to="/" className={styles.logOut}>
-          {t("admin_toMain")}
-        </Link>
-        <div className={styles.langBar}>
-          <span onClick={() => changeLanguage("ge")}>geo</span>
-          <span></span>
-          <span onClick={() => changeLanguage("en")}>eng</span>
-          <span></span>
-          <span onClick={() => changeLanguage("ru")}>rus</span>
+    <>
+      <Helmet>
+        <title>Admin | ITEQ Shop</title>
+      </Helmet>
+
+      <div className={styles.block}>
+        <div className={styles.setBar}>
+          <Link to="/" className={styles.logOut}>
+            {t("admin_toMain")}
+          </Link>
+          <div className={styles.langBar}>
+            <span onClick={() => changeLanguage("ge")}>geo</span>
+            <span></span>
+            <span onClick={() => changeLanguage("en")}>eng</span>
+            <span></span>
+            <span onClick={() => changeLanguage("ru")}>rus</span>
+          </div>
+          <Link onClick={logout} className={styles.logOut}>
+            {t("admin_logOut")}
+          </Link>
         </div>
-        <Link onClick={logout} className={styles.logOut}>
-          {t("admin_logOut")}
-        </Link>
-      </div>
-      <ul className={styles.list}>
-        <li>
-          <NavLink
-            to="/admin/orders"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_orders")}
-            {orderCount > 0 && (
-              <span
-                style={{
-                  color: "green",
-                  margin: "0 1rem",
-                  fontFamily: "RobotMedium",
-                }}
-              >
-                {orderCount}
-              </span>
-            )}
-            {canceledOrderCount > 0 && (
-              <span style={{ color: "red", fontFamily: "RobotMedium" }}>
-                {canceledOrderCount}
-              </span>
-            )}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/history"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_orderHistory")}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/clients"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_clients")}
-          </NavLink>
-        </li>
-        <li>
-          <hr></hr>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/categories"
-            className={({ isActive, isPending }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_categories")}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/products"
-            className={({ isActive, isPending }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_products")}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/colors"
-            className={({ isActive, isPending }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_colors")}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/brands"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_brands")}
-          </NavLink>
-        </li>
-        <li>
-          <hr></hr>
-        </li>
-        {/* <li>
+        <ul className={styles.list}>
+          <li>
+            <NavLink
+              to="/admin/orders"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_orders")}
+              {orderCount > 0 && (
+                <span
+                  style={{
+                    color: "green",
+                    margin: "0 1rem",
+                    fontFamily: "RobotMedium",
+                  }}
+                >
+                  {orderCount}
+                </span>
+              )}
+              {canceledOrderCount > 0 && (
+                <span style={{ color: "red", fontFamily: "RobotMedium" }}>
+                  {canceledOrderCount}
+                </span>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/history"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_orderHistory")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/clients"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_clients")}
+            </NavLink>
+          </li>
+          <li>
+            <hr></hr>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/categories"
+              className={({ isActive, isPending }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_categories")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/products"
+              className={({ isActive, isPending }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_products")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/colors"
+              className={({ isActive, isPending }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_colors")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/brands"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_brands")}
+            </NavLink>
+          </li>
+          <li>
+            <hr></hr>
+          </li>
+          {/* <li>
           <NavLink
             to="/admin/sliders"
             className={({ isActive }) => {
@@ -207,7 +213,7 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
             Slider
           </NavLink>
         </li> */}
-        {/* <li>
+          {/* <li>
           <NavLink
             to="/admin/partners"
             className={({ isActive }) => {
@@ -217,7 +223,7 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
             Partners
           </NavLink>
         </li> */}
-        {/* <li>
+          {/* <li>
           <NavLink
             to="/admin/portfolio"                 
             className={({ isActive }) => {
@@ -227,51 +233,52 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
             Portfolio
           </NavLink>
         </li> */}
-        <li>
-          <NavLink
-            to="/admin/aboutus"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_aboutUs")}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/news"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_news")}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/questions"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_questions")}
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/admin/settings"
-            className={({ isActive }) => {
-              return isActive ? styles.active : "";
-            }}
-          >
-            {t("admin_settings")}
-          </NavLink>
-        </li>
-      </ul>
-      <LanguageContext.Provider value={language}>
-        <Outlet lang={language} />
-      </LanguageContext.Provider>
-    </div>
+          <li>
+            <NavLink
+              to="/admin/aboutus"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_aboutUs")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/news"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_news")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/questions"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_questions")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/settings"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_settings")}
+            </NavLink>
+          </li>
+        </ul>
+        <LanguageContext.Provider value={language}>
+          <Outlet lang={language} />
+        </LanguageContext.Provider>
+      </div>
+    </>
   );
 };
 

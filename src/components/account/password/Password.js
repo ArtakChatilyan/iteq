@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 //import { useDispatch } from "react-redux";
 //import { changePassword } from "../../../redux-store/userSlice";
 import { usersAPI } from "../../dalUser/userApi";
+import { Helmet } from "react-helmet-async";
 
 const Password = () => {
   const [loading, setLoading] = useState(false);
@@ -89,64 +90,69 @@ const Password = () => {
   };
 
   return (
-    <div className={styles.block}>
-      {loading && <LoadingScreen showGif={true} />}
+    <>
+      <Helmet>
+        <title>{t("settings") + " | ITEQ Shop"}</title>
+      </Helmet>
+      <div className={styles.block}>
+        {loading && <LoadingScreen showGif={true} />}
 
-      {/* <div className={styles.label} style={{ verticalAlign: "top" }}>
+        {/* <div className={styles.label} style={{ verticalAlign: "top" }}>
         <span> change password:</span>
       </div> */}
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <input
-          className={styles.input}
-          placeholder={t("admin_oldPassword")}
-          type="password"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.currentTarget.value)}
-        />
-        <span className={styles.error}>{oldPasswordError}</span>
-        <input
-          className={styles.input}
-          placeholder={t("admin_newPassword")}
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.currentTarget.value)}
-        />
-        <span className={styles.error}>{newPasswordError}</span>
-        <input
-          className={styles.input}
-          placeholder={t("admin_confirmNewPassword")}
-          type="password"
-          value={newPasswordConfirm}
-          onChange={(e) => setConfirmPassword(e.currentTarget.value)}
-        />
-        <span className={styles.error}>{newPasswordConfirmError}</span>
-        <button
-          className={styles.btn}
-          style={{ width: "50%" }}
-          onClick={changePasswordHandle}
-        >
-          {t("admin_changePassword")}
-        </button>
-      </div>
-      <div className={modal ? styles.modal : styles.hide}>
-        <div
-          className={
-            isAnimate
-              ? "animate__animated animate__bounceInDown"
-              : "animate__animated animate__bounceOutUp"
-          }
-        >
-          <div className={styles.btnGroup}>
-            <div className={styles.infoClose}>
-              <p style={{ marginBottom: "1rem" }}>{t("passwordChanged")}</p>{" "}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <input
+            className={styles.input}
+            placeholder={t("admin_oldPassword")}
+            type="password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.currentTarget.value)}
+          />
+          <span className={styles.error}>{oldPasswordError}</span>
+          <input
+            className={styles.input}
+            placeholder={t("admin_newPassword")}
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.currentTarget.value)}
+          />
+          <span className={styles.error}>{newPasswordError}</span>
+          <input
+            className={styles.input}
+            placeholder={t("admin_confirmNewPassword")}
+            type="password"
+            value={newPasswordConfirm}
+            onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+          />
+          <span className={styles.error}>{newPasswordConfirmError}</span>
+          <button
+            className={styles.btn}
+            style={{ width: "50%" }}
+            onClick={changePasswordHandle}
+          >
+            {t("admin_changePassword")}
+          </button>
+        </div>
+        <div className={modal ? styles.modal : styles.hide}>
+          <div
+            className={
+              isAnimate
+                ? "animate__animated animate__bounceInDown"
+                : "animate__animated animate__bounceOutUp"
+            }
+          >
+            <div className={styles.btnGroup}>
+              <div className={styles.infoClose}>
+                <p style={{ marginBottom: "1rem" }}>{t("passwordChanged")}</p>{" "}
+              </div>
+              <button className={styles.btnClose} onClick={closeModal}>
+                {t("admin_close")}
+              </button>
             </div>
-            <button className={styles.btnClose} onClick={closeModal}>
-              {t("admin_close")}
-            </button>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

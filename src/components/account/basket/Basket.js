@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getBasketItemsCount } from "../../../redux-store/userSlice";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Basket = () => {
   const { userId } = useParams();
@@ -150,45 +151,49 @@ const Basket = () => {
   };
 
   return (
-    <div className={styles.block}>
-      {loading && <LoadingScreen showGif={true} />}
-      <div className={modalDelete ? styles.modal : styles.hide}>
-        <div
-          className={
-            isAnimateDelete
-              ? "animate__animated animate__bounceInDown"
-              : "animate__animated animate__bounceOutUp"
-          }
-        >
-          <div className={styles.btnGroup}>
-            <button className={styles.btn} onClick={deleteBasket}>
-              delete
-            </button>
-            <button className={styles.btn} onClick={closeModalDelete}>
-              cancel
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={modalOrder ? styles.modal : styles.hide}>
-        <div
-          className={
-            isAnimateOrder
-              ? "animate__animated animate__bounceInDown"
-              : "animate__animated animate__bounceOutUp"
-          }
-        >
-          <div className={styles.btnGroup}>
-            <div className={styles.info}>
-              <p style={{ marginBottom: "1rem" }}>{t("orderMessage")}</p>{" "}
+    <>
+      <Helmet>
+        <title>{t("basket")+" | ITEQ Shop"}</title>
+      </Helmet>
+      <div className={styles.block}>
+        {loading && <LoadingScreen showGif={true} />}
+        <div className={modalDelete ? styles.modal : styles.hide}>
+          <div
+            className={
+              isAnimateDelete
+                ? "animate__animated animate__bounceInDown"
+                : "animate__animated animate__bounceOutUp"
+            }
+          >
+            <div className={styles.btnGroup}>
+              <button className={styles.btn} onClick={deleteBasket}>
+                delete
+              </button>
+              <button className={styles.btn} onClick={closeModalDelete}>
+                cancel
+              </button>
             </div>
-            <button className={styles.btn} onClick={closeModalOrder}>
-              ok
-            </button>
           </div>
         </div>
-      </div>
-      {/* <div className={modalCount ? styles.modal : styles.hide}>
+        <div className={modalOrder ? styles.modal : styles.hide}>
+          <div
+            className={
+              isAnimateOrder
+                ? "animate__animated animate__bounceInDown"
+                : "animate__animated animate__bounceOutUp"
+            }
+          >
+            <div className={styles.btnGroup}>
+              <div className={styles.info}>
+                <p style={{ marginBottom: "1rem" }}>{t("orderMessage")}</p>{" "}
+              </div>
+              <button className={styles.btn} onClick={closeModalOrder}>
+                ok
+              </button>
+            </div>
+          </div>
+        </div>
+        {/* <div className={modalCount ? styles.modal : styles.hide}>
         <div
           className={
             isAnimateCount
@@ -204,40 +209,41 @@ const Basket = () => {
           </div>
         </div>
       </div> */}
-      {basketList.map((b) => (
-        <BasketCard
-          key={b.id}
-          basket={b}
-          deleteBasket={deleteBasketHandle}
-          setCount={setCount}
-          checkBasket={checkBasket}
-        />
-      ))}
-      {basketList.length > 0 && (
-        <Paging
-          mode="user"
-          totalCount={total}
-          currentPage={currentPage}
-          pageSize={perPage}
-          paging={pagingHandler}
-        />
-      )}
+        {basketList.map((b) => (
+          <BasketCard
+            key={b.id}
+            basket={b}
+            deleteBasket={deleteBasketHandle}
+            setCount={setCount}
+            checkBasket={checkBasket}
+          />
+        ))}
+        {basketList.length > 0 && (
+          <Paging
+            mode="user"
+            totalCount={total}
+            currentPage={currentPage}
+            pageSize={perPage}
+            paging={pagingHandler}
+          />
+        )}
 
-      {basketList.length > 0 && (
-        <div className={styles.order}>
-          <button type="button" className={styles.btn} onClick={orderBasket}>
-            {t("order")}
-          </button>
-          <div>
-            <span className={styles.price}>{t("total")}</span>
-            <span className={styles.price}>{totalPrice}&#8382;</span>
+        {basketList.length > 0 && (
+          <div className={styles.order}>
+            <button type="button" className={styles.btn} onClick={orderBasket}>
+              {t("order")}
+            </button>
+            <div>
+              <span className={styles.price}>{t("total")}</span>
+              <span className={styles.price}>{totalPrice}&#8382;</span>
+            </div>
           </div>
-        </div>
-      )}
-      {basketList.length === 0 && !loading && (
-        <div className={styles.emptyInfo}>{t("basketEmpty")}</div>
-      )}
-    </div>
+        )}
+        {basketList.length === 0 && !loading && (
+          <div className={styles.emptyInfo}>{t("basketEmpty")}</div>
+        )}
+      </div>
+    </>
   );
 };
 

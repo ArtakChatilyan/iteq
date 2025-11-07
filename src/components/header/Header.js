@@ -3,10 +3,9 @@ import search from "../../assets/iconSearch.svg";
 import cart from "../../assets/cart.svg";
 import styles from "./Header.module.css";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { categoryAPI } from "../dalUser/userApi";
-import Cookies from "universal-cookie";
 import LoginContainer from "../login/LoginContainer";
 
 const Header = ({
@@ -17,9 +16,9 @@ const Header = ({
   logout,
   basketItemsCount,
 }) => {
-  const { t, i18n } = useTranslation();
-  const cookies = new Cookies();
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const {lang}=useParams();
 
   const [accountState, setAccountState] = useState(false);
   const [loginState, setLoginState] = useState(false);
@@ -151,12 +150,12 @@ const Header = ({
   };
 
   const searchHandle = () => {
-    return navigate(`/search/${encodeURIComponent(searchItem)}`);
+    return navigate(`/${lang}/search/${encodeURIComponent(searchItem)}`);
   };
 
   return (
     <div className={styles.header}>
-      <Link to="/">
+      <Link to={`/${lang}`}>
         <img src={logo} className={styles.logo} />
       </Link>
       <div className={styles.searchGroup}>
@@ -225,7 +224,7 @@ const Header = ({
 
       <div className={styles.personal}>
         <div className={styles.langBar}>
-          <span onClick={() => changeLanguage("ge")}>geo</span>
+          <span onClick={() => changeLanguage("ka")}>geo</span>
           <span></span>
           <span onClick={() => changeLanguage("en")}>eng</span>
           <span></span>

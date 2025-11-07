@@ -4,13 +4,20 @@ import Paging from "../paging/Paging";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
 import styles from "./Faqs.module.css";
 import FaqsCard from "./FaqsCard";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { QuestionSeoData } from "../seotags/QuestionsSEO";
 
 const Faqs = () => {
+  const { lang } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(9);
   const [total, setTotal] = useState(0);
   const [faqsList, setFaqsList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
+  const [seoData, setSeoData] = useState(null);
 
   useEffect(() => {
     LoadFaqs(currentPage, perPage);
@@ -23,8 +30,6 @@ const Faqs = () => {
       .then((response) => {
         setFaqsList(response.data.faqs);
         setTotal(response.data.total);
-        console.log(response);
-        
       })
       .catch((error) => {
         console.log(error);
@@ -37,22 +42,83 @@ const Faqs = () => {
   const pagingHandler = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  useEffect(() => {
+    if (lang) setSeoData(QuestionSeoData[lang]);
+  }, [lang]);
 
-  return <div><div className={styles.block}>
-      {loading && <LoadingScreen showGif={true} />}
-      {faqsList.map((fs) => (
-        <FaqsCard key={fs.id} faqs={fs} />
-      ))}
-      {total > 0 && (
-        <Paging
-          mode="user"
-          totalCount={total}
-          currentPage={currentPage}
-          pageSize={perPage}
-          paging={pagingHandler}
-        />
+  return (
+    <>
+      {seoData && (
+        <Helmet key={lang}>
+          {/* Basic meta */}
+          <title>{seoData.title}</title>
+          <meta name="description" content={seoData.description} />
+
+          {/* Open Graph */}
+          <meta property="og:title" content={seoData.title} />
+          <meta property="og:description" content={seoData.description} />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={seoData.url} />
+          <meta
+            property="og:image"
+            content="https://iteq.shop/static/media/logo.23ac6e37f7a4d129fcc4.png"
+          />
+          <meta property="og:locale" content={seoData.ogLocale} />
+          <meta property="og:locale:alternate" content="en_GB" />
+          <meta property="og:locale:alternate" content="ru_RU" />
+          <meta property="og:locale:alternate" content="ka_GE" />
+
+          {/* Hreflangs */}
+          <link
+            rel="alternate"
+            href="https://iteq.shop/en/faqs/"
+            hrefLang="en"
+          />
+          <link
+            rel="alternate"
+            href="https://iteq.shop/ru/faqs/"
+            hrefLang="ru"
+          />
+          <link
+            rel="alternate"
+            href="https://iteq.shop/ka/faqs/"
+            hrefLang="ka"
+          />
+          <link
+            rel="alternate"
+            href="https://iteq.shop/faqs/"
+            hrefLang="x-default"
+          />
+
+          {/* JSON-LD Structured Data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(seoData.jsonld),
+            }}
+          />
+        </Helmet>
       )}
-    </div></div>;
+
+      <div>
+        <div className={styles.block}>
+          {loading && <LoadingScreen showGif={true} />}
+          {faqsList.map((fs) => (
+            <FaqsCard key={fs.id} faqs={fs} />
+          ))}
+          {total > 0 && (
+            <Paging
+              mode="user"
+              totalCount={total}
+              currentPage={currentPage}
+              pageSize={perPage}
+              paging={pagingHandler}
+            />
+          )}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Faqs;

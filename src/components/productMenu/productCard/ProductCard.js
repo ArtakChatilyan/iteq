@@ -1,15 +1,13 @@
 import styles from "./ProductCard.module.css";
 import { ReactComponent as CartIcon } from "../../../assets/cartProduct.svg";
 import { useTranslation } from "react-i18next";
-import { useContext } from "react";
-import { LanguageContext } from "../../../contexts/LanguageContext";
+import { useParams } from "react-router-dom";
 
 const ProductCard = ({ product, withMargin }) => {
   const modelInfo = product.viewInfo;
   const priceInfo = modelInfo ? modelInfo.viewInfo : null;
-
-  const { t, i18n } = useTranslation();
-  const lang = useContext(LanguageContext);
+  const { lang } = useParams();
+  const { t } = useTranslation();
   const marginStyle = { margin: withMargin ? "0 2rem" : "0 auto" };
 
   return (
@@ -26,7 +24,7 @@ const ProductCard = ({ product, withMargin }) => {
 
       <h4 className={styles.name}>
         {lang === "en" && product.productNameEn}
-        {lang === "ge" && product.productNameGe}
+        {lang === "ka" && product.productNameGe}
         {lang === "ru" && product.productNameRu}
       </h4>
       <div
@@ -39,7 +37,7 @@ const ProductCard = ({ product, withMargin }) => {
         {modelInfo && (
           <span className={styles.model}>
             {lang === "en" && modelInfo.nameEn}
-            {lang === "ge" && modelInfo.nameGe}
+            {lang === "ka" && modelInfo.nameGe}
             {lang === "ru" && modelInfo.nameRu}
           </span>
         )}

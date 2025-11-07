@@ -4,14 +4,13 @@ import inst from "../../assets/icons8-instagram.svg";
 import tik from "../../assets/icon-tiktok.svg";
 import { useEffect, useState } from "react";
 import { categoryAPI, settingsAPI } from "../dalUser/userApi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Cookies from "universal-cookie";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
 
-const Footer = ({ lang }) => {
-  const { t, i18n } = useTranslation();
-  const cookies = new Cookies();
+const Footer = () => {
+  const {lang}=useParams();
+  const { t } = useTranslation();
 
   const [addressEn, setAddressEn] = useState(" ");
   const [addressGe, setAddressGe] = useState("");
@@ -82,11 +81,11 @@ const Footer = ({ lang }) => {
           <ul className={styles.list}>
             {categoryList.map((c) => {
               let textValue = c.nameEn;
-              if (lang === "ge") textValue = c.nameGe;
+              if (lang === "ka") textValue = c.nameGe;
               else if (lang === "ru") textValue = c.nameRu;
               return (
                 <li key={`cat${c.id}`}>
-                  <Link to={`/category/${c.id}/${0}/${-1}/${-1}/${1}`}>
+                  <Link to={`/${lang}/category/${c.id}/${0}/${-1}/${-1}/${1}`}>
                     {textValue}
                   </Link>
                 </li>
@@ -95,19 +94,19 @@ const Footer = ({ lang }) => {
           </ul>
           <ul className={styles.list}>
             <li key="discounts" className={styles.listItem}>
-              <Link to="/discounts">{t("discount")}</Link>
+              <Link to={`/${lang}/discounts`}>{t("discount")}</Link>
             </li>
             <li key="aboutus" className={styles.listItem}>
-              <Link to="/about">{t("aboutUs")}</Link>
+              <Link to={`/${lang}/about`}>{t("aboutUs")}</Link>
             </li>
             <li key="contacts" className={styles.listItem}>
-              <Link to="/contacts">{t("contacts")}</Link>
+              <Link to={`/${lang}/contacts`}>{t("contacts")}</Link>
             </li>
             <li key="news" className={styles.listItem}>
-              <Link to="/news">{t("news")}</Link>
+              <Link to={`/${lang}/news`}>{t("news")}</Link>
             </li>
             <li key="faqs" className={styles.listItem}>
-              <Link to="/faqs">{t("faqs")}</Link>
+              <Link to={`/${lang}/faqs`}>{t("faqs")}</Link>
             </li>
           </ul>
         </div>
@@ -137,7 +136,7 @@ const Footer = ({ lang }) => {
           <div className={styles.info}>
             <span className={styles.infoItem}>
               {lang === "en" && addressEn}
-              {lang === "ge" && addressGe}
+              {lang === "ka" && addressGe}
               {lang === "ru" && addressRu}
             </span>
             <span className={styles.infoItem}>E-mail: {email}</span>

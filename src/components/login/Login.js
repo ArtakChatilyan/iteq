@@ -1,11 +1,12 @@
 import { useState } from "react";
 import styles from "./Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
 const Login = ({ login, error, close, sendLink }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const {lang}=useParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -154,7 +155,7 @@ const Login = ({ login, error, close, sendLink }) => {
         </button>
       </div>
       <div style={{ clear: "both", float: "left" }}>
-        <Link to="/register" className={styles.link} onClick={close}>
+        <Link to={`/${lang}/register`} className={styles.link} onClick={close}>
           {t("registration")}
         </Link>
       </div>

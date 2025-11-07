@@ -6,13 +6,18 @@ import { useEffect, useState } from "react";
 import BrandMenu from "../brands/BrandMenu";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { MainPageSeoData } from "../seotags/MainPageSEO";
 
 const Main = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const { lang } = useParams();
   const [mainCategories, setMainCategories] = useState([]);
   const [discountProducts, setDiscountProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [seoData, setSeoData] = useState(null);
   useEffect(() => {
     LoadMainCategories();
     LoadDiscounts();
@@ -37,15 +42,6 @@ const Main = () => {
       .then((response) => {
         const products = response.data.products;
         setDiscountProducts(response.data.products);
-        // if (products.length > 0) {
-        //   let i = 0;
-        //   while (products.length < 2) {
-        //     products.push(response.data.products[i]);
-        //     i++;
-        //     if (i === response.data.products.length) i = 0;
-        //   }
-        //   setDiscountProducts(response.data.products);
-        // }
       })
       .catch((error) => {
         console.log(error);
@@ -66,16 +62,55 @@ const Main = () => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    if (lang) setSeoData(MainPageSeoData[lang]);
+  }, [lang]);
+
   return (
-    <div style={{ position: "relative" }}>
-      {loading && <LoadingScreen showGif={true} />}
-      {discountProducts.length > 0 && (
-        <ProductMenu title={t("discount")} products={discountProducts} />
+    <>
+      {seoData && (
+        <Helmet key={lang}>
+          <title>{seoData.title}</title>
+          <meta name="description" content={seoData.description} />
+          <meta property="og:title" content={seoData.title} />
+          <meta property="og:description" content={seoData.description} />
+          <meta property="og:image" content={seoData.image} />
+          <meta property="og:url" content={seoData.url} />
+          <meta property="og:type" content="website" />
+          <meta property="og:locale" content={seoData.ogLocale} />
+          <meta property="og:locale:alternate" content="en_GB" />
+          <meta property="og:locale:alternate" content="ru_RU" />
+          <meta property="og:locale:alternate" content="ka_GE" />
+
+          <link rel="alternate" href="https://iteq.shop/en/" hrefLang="en" />
+          <link rel="alternate" href="https://iteq.shop/ru/" hrefLang="ru" />
+          <link rel="alternate" href="https://iteq.shop/ka/" hrefLang="ka" />
+          <link
+            rel="alternate"
+            href="https://iteq.shop/"
+            hrefLang="x-default"
+          />
+
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(seoData.jsonld),
+            }}
+          />
+        </Helmet>
       )}
 
-      <CategoryMenu id="cat" categories={mainCategories} />
-      <BrandMenu brands={brands} />
-    </div>
+      <div style={{ position: "relative" }}>
+        {loading && <LoadingScreen showGif={true} />}
+        {discountProducts.length > 0 && (
+          <ProductMenu title={t("discount")} products={discountProducts} />
+        )}
+
+        <CategoryMenu id="cat" categories={mainCategories} />
+        <BrandMenu brands={brands} />
+      </div>
+    </>
   );
 };
 

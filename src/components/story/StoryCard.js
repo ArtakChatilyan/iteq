@@ -1,16 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styles from "./Story.module.css";
-import { LanguageContext } from "../../contexts/LanguageContext";
-import { useContext } from "react";
 
 const StoryCard = ({ story }) => {
-  const lang = useContext(LanguageContext);
+  const {lang} = useParams();
+  
   return (
     <div className={styles.card}>
       <div className={styles.content}>
         <h3 className={styles.title}>
           {lang === "en" && story.titleEn}
-          {lang === "ge" && story.titleGe}
+          {lang === "ka" && story.titleGe}
           {lang === "ru" && story.titleRu}
         </h3>
         {lang === "en" && (
@@ -19,7 +18,7 @@ const StoryCard = ({ story }) => {
             dangerouslySetInnerHTML={{ __html: story.contentEn }}
           />
         )}
-        {lang === "ge" && (
+        {lang === "ka" && (
           <div
             className={styles.info}
             dangerouslySetInnerHTML={{ __html: story.contentGe }}
@@ -32,7 +31,7 @@ const StoryCard = ({ story }) => {
           />
         )}
 
-        <Link to={`/news/${story.id}`} className={styles.link}>
+        <Link to={`/${lang}/news/${story.id}`} className={styles.link}>
           more...
         </Link>
       </div>
