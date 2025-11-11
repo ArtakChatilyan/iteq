@@ -419,9 +419,9 @@ export const settingsAPI = {
   updateContact: (data) => {
     return instance.put("settings/contacts", data);
   },
-  setContactsMedia:(data)=>{
+  setContactsMedia: (data) => {
     return instance.put("settings/media", data);
-  }
+  },
 };
 
 export const orderApi = {
@@ -454,12 +454,12 @@ export const orderApi = {
     );
   },
 
-  getOrdersCount:()=>{
-    return instance.get('orders/count');
-  }
+  getOrdersCount: () => {
+    return instance.get("orders/count");
+  },
 };
 
-export const questionsApi={
+export const questionsApi = {
   getQuestions: (page, count) => {
     return instance.get(`questions?page=${page}&perPage=${count}`);
   },
@@ -475,4 +475,19 @@ export const questionsApi={
   deleteQuestion: (id) => {
     return instance.delete(`questions/${id}`);
   },
-}
+};
+
+export const visitsAPI = {
+  getSummary: () => {
+    return instance.get("visits/summary");
+  },
+  getPages: (start, end) => {
+    return instance.get(`visits/pages?start=${start}&end=${end}`);
+  },
+  getCountries: (start, end) => {
+    return instance.get(`visits/countries?start=${start}&end=${end}`);
+  },
+  getTimeSeries: (start, end) => {
+    return instance.get(`visits/timeseries?start=${start}&end=${end}`);
+  },
+};

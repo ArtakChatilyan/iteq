@@ -56,6 +56,7 @@ import AddQuestion from "./components/admin/content/questions/AddQuestion";
 import EditQuestion from "./components/admin/content/questions/EditQuestion";
 import Faqs from "./components/faqs/Faqs";
 import BrandProducts from "./components/brandProducts/BrandProducts";
+import Analytics from "./components/admin/content/analytics/Analytics";
 import Cookies from "universal-cookie";
 
 const supportedLangs = ["en", "ru", "ka"];
@@ -157,6 +158,7 @@ const router = createBrowserRouter([
       { path: "editQuestion/:itemId/:page", element: <EditQuestion /> },
       { path: "addQuestion/:page", element: <AddQuestion /> },
       { path: "settings", element: <Settings /> },
+      {path: "analytics", element: <Analytics />},
       { path: "*", element: <NotFoundAdmin /> },
     ],
   },

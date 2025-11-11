@@ -109,28 +109,6 @@ const Contacts = () => {
             </div>
           )}
           <div className={styles.socialContent}>
-            <div className={styles.nets}>
-              <Link
-                to="https://www.facebook.com/share/14Ntk7ZEf8t/?mibextid=wwXIfr"
-                target="blank"
-              >
-                <img src={fb} className={styles.social} />
-              </Link>
-
-              <Link
-                to="https://www.instagram.com/iteqgeorgia?igsh=OHJkZjN5aXl4cWNn"
-                target="blank"
-              >
-                <img src={inst} className={styles.social} />
-              </Link>
-
-              <Link
-                to="https://www.tiktok.com/@iteqgeorgiallc?_t=ZS-90EzqCy69Hr&_r=1"
-                target="blank"
-              >
-                <img src={tik} className={styles.social} />{" "}
-              </Link>
-            </div>
             <div className={styles.info}>
               <span className={styles.infoItem}>E-mail: {email}</span>
               <span className={styles.infoItem}>Tel: {phone}</span>
@@ -152,6 +130,28 @@ const Contacts = () => {
               />
             )}
           </div>
+        </div>
+        <div className={styles.nets}>
+          <Link
+            to="https://www.facebook.com/share/14Ntk7ZEf8t/?mibextid=wwXIfr"
+            target="blank"
+          >
+            <img src={fb} className={styles.social} />
+          </Link>
+
+          <Link
+            to="https://www.instagram.com/iteqgeorgia?igsh=OHJkZjN5aXl4cWNn"
+            target="blank"
+          >
+            <img src={inst} className={styles.social} />
+          </Link>
+
+          <Link
+            to="https://www.tiktok.com/@iteqgeorgiallc?_t=ZS-90EzqCy69Hr&_r=1"
+            target="blank"
+          >
+            <img src={tik} className={styles.social} />{" "}
+          </Link>
         </div>
       </section>
     </>

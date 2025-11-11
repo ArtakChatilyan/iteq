@@ -1,6 +1,6 @@
 import ProductMenu from "../productMenu/ProductMenu";
 import CategoryMenu from "../categoryMenu/CategoryMenu";
-import { categoryAPI } from "../dalUser/userApi";
+import { categoryAPI, visitsAPI } from "../dalUser/userApi";
 
 import { useEffect, useState } from "react";
 import BrandMenu from "../brands/BrandMenu";
@@ -19,6 +19,7 @@ const Main = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [seoData, setSeoData] = useState(null);
+
   useEffect(() => {
     LoadMainCategories();
     LoadDiscounts();
@@ -68,6 +69,19 @@ const Main = () => {
     if (lang) setSeoData(MainPageSeoData[lang]);
   }, [lang]);
 
+  // useEffect(() => {
+  //   console.log(location.pathname);
+    
+  //   visitsAPI
+  //     .addVisit({
+  //       page_url: window.location.href,
+  //       referrer: document.referrer,
+  //     })
+  //     .then((response) => {})
+  //     .catch((error) => console.log(error))
+  //     .finally(() => {});
+  // }, [location.pathname]);
+
   return (
     <>
       {seoData && (
@@ -110,7 +124,7 @@ const Main = () => {
 
         <CategoryMenu id="cat" categories={mainCategories} />
         <BrandMenu brands={brands} />
-        {/* <TawkChat /> */}
+        <TawkChat />
       </div>
     </>
   );

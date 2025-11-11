@@ -274,6 +274,16 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
               {t("admin_settings")}
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/admin/analytics"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_analytics")}
+            </NavLink>
+          </li>
         </ul>
         <LanguageContext.Provider value={language}>
           <Outlet lang={language} />

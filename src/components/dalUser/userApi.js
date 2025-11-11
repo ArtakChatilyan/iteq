@@ -248,3 +248,9 @@ export const faqsAPI = {
     );
   },
 };
+
+export const visitsAPI={
+  addVisit: (data) => {
+    return instance.post("track", data);
+  },
+}

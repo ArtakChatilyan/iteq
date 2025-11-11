@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import i18n from "../../localization/i18n";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import HeaderContainer from "../header/HeaderContainer";
-import { LanguageContext } from "../../contexts/LanguageContext";
-import { supportedLangs } from "../../router";
+import usePageTracker from "../paheTracker/pageTracker";
 
 const Home = ({ router }) => {
+  usePageTracker(); 
   const cookies = new Cookies("langIteq", { path: "/" });
   const { lang } = useParams();
 
