@@ -419,6 +419,9 @@ export const settingsAPI = {
   updateContact: (data) => {
     return instance.put("settings/contacts", data);
   },
+  setContactsMedia:(data)=>{
+    return instance.put("settings/media", data);
+  }
 };
 
 export const orderApi = {

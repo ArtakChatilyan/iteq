@@ -1,39 +1,55 @@
 import styles from "./Contacts.module.css";
-import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import loadingImg from "../../assets/loading.gif";
-import * as Yup from "yup";
-import { usersAPI } from "../dalUser/userApi";
+import { settingsAPI } from "../dalUser/userApi";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import ReactPlayer from "react-player";
 import { ContactsSeoData } from "../seotags/ContactsSEO";
+import fb from "../../assets/icons8-facebook.svg";
+import inst from "../../assets/icons8-instagram.svg";
+import tik from "../../assets/icon-tiktok.svg";
 
 const Contacts = () => {
   const { t } = useTranslation();
   const { lang } = useParams();
-  const [resultMessage, setResultMessage] = useState("");
-  const [loading, setLoading] = useState(false);
   const [seoData, setSeoData] = useState(null);
+  const [addressEn, setAddressEn] = useState(" ");
+  const [addressGe, setAddressGe] = useState("");
+  const [addressRu, setAddressRu] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [mediaUrl, setMediaUrl] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const formValidationSchema = Yup.object().shape({
-    Firstname: Yup.string().required(t("required")),
-    Lastname: Yup.string().required(t("required")),
-    Email: Yup.string()
-      .required(t("required"))
-      .matches(
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        t("incorrectEmail")
-      ),
-    Phone: Yup.string().matches(
-      /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-      t("incorrectPhone")
-    ),
-    Message: Yup.string().required(t("required")),
-  });
+  useEffect(() => {
+    LoadSettings();
+  }, []);
+
+  const LoadSettings = () => {
+    settingsAPI
+      .getContacts()
+      .then((response) => {
+        setAddressEn(response.data.contacts.addressEn);
+        setAddressGe(response.data.contacts.addressGe);
+        setAddressRu(response.data.contacts.addressRu);
+        setEmail(response.data.contacts.email);
+        setPhone(response.data.contacts.phone);
+        setMediaUrl(response.data.contacts.mediaUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (lang) setSeoData(ContactsSeoData[lang]);
   }, [lang]);
+
   return (
     <>
       {seoData && (
@@ -85,143 +101,59 @@ const Contacts = () => {
           />
         </Helmet>
       )}
-      <div className={styles.data}>
-        {loading && (
-          <div className={styles.loadingWrapper}>
-            <img src={loadingImg} className={styles.loading} />
-          </div>
-        )}
-        <Formik
-          initialValues={{
-            Firstname: "",
-            Lastname: "",
-            Email: "",
-            Phone: "",
-            Message: "",
-          }}
-          validationSchema={formValidationSchema}
-          onSubmit={(values, { resetForm }) => {
-            setLoading(true);
-            const formData = new FormData();
-
-            for (let value in values) {
-              formData.append(value, values[value]);
-            }
-            usersAPI
-              .sendEmail(values)
-              .then((response) => {
-                setResultMessage(t("messageSuccess"));
-                resetForm();
-              })
-              .catch((error) => {})
-              .finally(() => setLoading(false));
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-            setFieldValue,
-            /* and other goodies */
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <div className={styles.form}>
-                <div className={styles.formItem}>
-                  <input
-                    type="input"
-                    name="Firstname"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.Firstname}
-                    className={styles.input}
-                    placeholder={t("firstName") + "*"}
-                  />
-                </div>
-                <span className={`${styles.label} ${styles.error}`}>
-                  {errors.Firstname && touched.Firstname && errors.Firstname}
-                </span>
-
-                <div className={styles.formItem}>
-                  <input
-                    type="input"
-                    name="Lastname"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.Lastname}
-                    className={styles.input}
-                    placeholder={t("lastName") + "*"}
-                  />
-                </div>
-                <span className={`${styles.label} ${styles.error}`}>
-                  {errors.Lastname && touched.Lastname && errors.Lastname}
-                </span>
-
-                <div className={styles.formItem}>
-                  <input
-                    type="input"
-                    name="Email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.Email}
-                    className={styles.input}
-                    placeholder={t("email") + "*"}
-                  />
-                </div>
-                <span className={`${styles.label} ${styles.error}`}>
-                  {errors.Email && touched.Email && errors.Email}
-                </span>
-
-                <div className={styles.formItem}>
-                  <input
-                    type="input"
-                    name="Phone"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.Phone}
-                    className={styles.input}
-                    placeholder={t("phone") + "*"}
-                  />
-                </div>
-                <span className={`${styles.label} ${styles.error}`}>
-                  {errors.Phone && touched.Phone && errors.Phone}
-                </span>
-
-                <div className={styles.formItem}>
-                  <textarea
-                    className={`${styles.input} ${styles.area}`}
-                    name="Message"
-                    value={values.Message}
-                    onChange={handleChange}
-                    placeholder={t("message") + "*"}
-                  />
-                </div>
-                <span className={`${styles.label} ${styles.error}`}>
-                  {errors.Message && touched.Message && errors.Message}
-                </span>
-
-                <div className={`${styles.formItem} ${styles.col3}`}>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={styles.btn}
-                  >
-                    {t("send")}
-                  </button>
-                </div>
-                <div
-                  className={`${styles.formItem} ${styles.col3} ${styles.message}`}
-                >
-                  {resultMessage}
-                </div>
-              </div>
-            </form>
+      <section className={styles.section}>
+        <div className={styles.block}>
+          {loading && (
+            <div className={styles.loadingWrapper}>
+              <img src={loadingImg} className={styles.loading} />
+            </div>
           )}
-        </Formik>
-      </div>
+          <div className={styles.socialContent}>
+            <div className={styles.nets}>
+              <Link
+                to="https://www.facebook.com/share/14Ntk7ZEf8t/?mibextid=wwXIfr"
+                target="blank"
+              >
+                <img src={fb} className={styles.social} />
+              </Link>
+
+              <Link
+                to="https://www.instagram.com/iteqgeorgia?igsh=OHJkZjN5aXl4cWNn"
+                target="blank"
+              >
+                <img src={inst} className={styles.social} />
+              </Link>
+
+              <Link
+                to="https://www.tiktok.com/@iteqgeorgiallc?_t=ZS-90EzqCy69Hr&_r=1"
+                target="blank"
+              >
+                <img src={tik} className={styles.social} />{" "}
+              </Link>
+            </div>
+            <div className={styles.info}>
+              <span className={styles.infoItem}>E-mail: {email}</span>
+              <span className={styles.infoItem}>Tel: {phone}</span>
+              <span className={styles.infoItem}>
+                {lang === "en" && addressEn}
+                {lang === "ka" && addressGe}
+                {lang === "ru" && addressRu}
+              </span>
+            </div>
+          </div>
+          <div className={styles.media}>
+            {mediaUrl && (
+              <ReactPlayer
+                style={{ width: "100%", height: "100%" }}
+                src={mediaUrl}
+                playing={true}
+                controls={true}
+                muted={true}
+              />
+            )}
+          </div>
+        </div>
+      </section>
     </>
   );
 };

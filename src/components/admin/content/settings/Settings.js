@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Settings.module.css";
 import { settingsAPI } from "../../dal/api";
 import SplashScreen from "../splashscreen/SplashScreen";
@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { changePassword } from "../../../../redux-store/userSlice";
+import { Formik } from "formik";
+import ReactPlayer from "react-player";
 
 const Settings = () => {
   const [loading, setLoading] = useState(true);
@@ -30,6 +32,16 @@ const Settings = () => {
   const [addressRuMode, setAddressRuMode] = useState(false);
   const [emailMode, setEmailMode] = useState(false);
   const [phoneMode, setPhoneMode] = useState(false);
+
+  const fileInputRef = useRef(null);
+  const [mediaFile, setMediaFile] = useState(null);
+  const [resultMessage, setResultMessage] = useState("");
+
+  const hideMessage = () => {
+    setTimeout(() => {
+      setResultMessage("");
+    }, 2000);
+  };
 
   const validationSchema = Yup.object().shape({
     oldPassword: Yup.string().required("required"),
@@ -98,6 +110,7 @@ const Settings = () => {
         setAddressRu(response.data.contacts.addressRu);
         setEmail(response.data.contacts.email);
         setPhone(response.data.contacts.phone);
+        setMediaFile(response.data.contacts.mediaUrl);
       })
       .catch((error) => {
         console.log(error);
@@ -433,6 +446,117 @@ const Settings = () => {
                   </button>
                 </div>
               </form>
+            </td>
+          </tr>
+          <tr>
+            <td className={styles.label} style={{ verticalAlign: "top" }}>
+              <span>{t("admin_video")}:</span>
+            </td>
+            <td style={{ verticalAlign: "top" }}>
+              <Formik
+                initialValues={{ mediaUrl: mediaFile }}
+                enableReinitialize
+                validate={(values) => {
+                  const errors = {};
+                  if (!values.mediaUrl) {
+                    errors.mediaUrl = t("admin_required");
+                  }
+                  return errors;
+                }}
+                onSubmit={(
+                  values,
+                  { setFieldValue, setSubmitting, resetForm }
+                ) => {
+                  setLoading(true);
+                  const formData = new FormData();
+                  for (let value in values) {
+                    formData.append(value, values[value]);
+                  }
+
+                  settingsAPI
+                    .setContactsMedia(formData)
+                    .then((data) => {
+                      setResultMessage(t("admin_videoAddSuccess"));
+                      LoadContacts();
+                      resetForm();
+                      if (fileInputRef.current) {
+                        fileInputRef.current.value = "";
+                      }
+                      hideMessage();
+                    })
+                    .catch((error) => {
+                      setResultMessage(t("admin_videoAddFailed"));
+                    });
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                  setFieldValue,
+                  /* and other goodies */
+                }) => (
+                  <form onSubmit={handleSubmit}>
+                    <div className={styles.form}>
+                      <div className={styles.formItem}>
+                        <input
+                          type="file"
+                          name="mediaUrl"
+                          accept="video/*"
+                          ref={fileInputRef}
+                          onChange={(e) => {
+                            setFieldValue("mediaUrl", e.currentTarget.files[0]);
+                          }}
+                          className={styles.input}
+                        />
+                        <div
+                          className={`${styles.label} ${styles.error}`}
+                          style={{
+                            display: errors ? "block" : "none",
+                            marginLeft: "1rem",
+                          }}
+                        >
+                          {errors.mediaUrl &&
+                            touched.mediaUrl &&
+                            errors.mediaUrl}
+                        </div>
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className={styles.btn}
+                          style={{ width: "50%", display: "block" }}
+                        >
+                          {t("admin_changeMedia")}
+                        </button>
+                      </div>
+
+                      <div
+                        className={styles.formItem}
+                        style={{
+                          display: resultMessage ? "inline-block" : "none",
+                        }}
+                      >
+                        {resultMessage}
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </Formik>
+            </td>
+            <td>
+              {mediaFile && (
+                <ReactPlayer
+                  style={{ width: "100%" }}
+                  src={mediaFile}
+                  playing={true}
+                  controls={true}
+                  muted={true}
+                />
+              )}
             </td>
           </tr>
         </tbody>

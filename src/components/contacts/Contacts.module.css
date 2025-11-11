@@ -1,76 +1,19 @@
-.data{
-    width: 60%;
-    margin: 0 auto;
-    text-align: left;
+section {
+  
 }
 
-.form {
-  padding-top: 20px;
-  background-color: rgb(255, 255, 255);
-}
-
-.formItem {
-  background-color: rgb(255, 255, 255);
-  transition: 0.15s;
-  font-size: 1.6rem;
-}
-
-.label {
-  font-size: 1.6rem;
-  padding: 0;
+.block {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
   text-align: left;
-  background-color: rgb(255, 255, 255);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.error {
-  color: red;
-}
-
-.input {
-  font-size: 1.6rem;
-  font-family: "RobotoRegular";
-  border-radius: 6px;
-  outline: 0;
-  border: 1px solid rgba(206, 205, 205, .6);
-  padding: 10px;
-  width: 90%;
-  background-color: rgb(242, 242, 242);
-  margin: 4px 0;
-}
-
-.btn {
-  background: rgb(127, 153, 165);
-  border: 0;
-  border-radius: 10px;
-  font-size: 2rem;
-  outline: 0;
-  color: rgb(240, 218, 196);
-  cursor: pointer;
-  font-family: "SourceSansRegular";
-  transition: 0.15s;
-  padding: 10px 60px;
-  margin: 10px;
-}
-
-.btn:hover {
-  background-color: rgb(144, 172, 185);;
-  color: #fff;
-}
-
-.area {
-  max-width: 90%;
-  resize: none;
-  height: 160px;
-}
-
-.message{
-  margin: 2rem 0;
-  color: rgb(243, 173, 102);
-}
-
-
-.loadingWrapper{
-  background-color: rgba(255,255,255,.8);
+.loadingWrapper {
+  background-color: rgba(255, 255, 255, 0.8);
   position: absolute;
   width: 100%;
   height: 100%;
@@ -79,4 +22,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.socialContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 2rem;
+  max-width: 1200px;
+  margin: 1rem 0 2rem;
+  border-left: 1px solid rgba(242, 165, 87, 0.6);
+  /* box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2); */
+}
+
+.social {
+  width: 38px;
+  height: 38px;
+  margin: 0 0.8rem;
+  border: 2px solid rgb(242, 165, 87);
+  border-radius: 50%;
+  background-color: rgb(218, 215, 215);
+}
+.nets > :first-child img {
+  margin: 0 0.8rem 0 0;
+}
+
+.info {
+  text-align: left;
+  padding: 1rem 0;
+  
+}
+
+.infoItem {
+  color: rgb(127, 153, 165);
+  font-size: 2rem;
+  font-family: "RobotoMedium";
+  display: block;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.media {
+  
+  padding-top: 1rem;
+  border-top: 1px solid rgba(242, 165, 87, 0.6);
+  /* box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2); */
 }
