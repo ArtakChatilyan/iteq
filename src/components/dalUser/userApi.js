@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api/v1/", //"https://data.iteq.shop/api/v1/",
+  baseURL:process.env.REACT_APP_BASE_API_URL, 
   withCredentials: true,
 });
 
@@ -24,7 +24,7 @@ instance.interceptors.response.use(
       originalRequest._isRetry = true;
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/v1/users/refresh", //"https://data.iteq.shop/api/v1/users/refresh",
+          process.env.REACT_APP_BASE_API_URL+"users/refresh", 
           {
             withCredentials: true,
           }
