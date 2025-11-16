@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { MainPageSeoData } from "../seotags/MainPageSEO";
 import TawkChat from "../chat/TawkChat";
+import ChatWidget from "../chat/ChatWidget";
 
 const Main = () => {
   const { t } = useTranslation();
@@ -124,7 +125,8 @@ const Main = () => {
 
         <CategoryMenu id="cat" categories={mainCategories} />
         <BrandMenu brands={brands} />
-        <TawkChat />
+        {/* <ChatWidget /> */}
+        {/* <TawkChat /> */}
       </div>
     </>
   );

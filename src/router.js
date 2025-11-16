@@ -58,6 +58,7 @@ import Faqs from "./components/faqs/Faqs";
 import BrandProducts from "./components/brandProducts/BrandProducts";
 import Analytics from "./components/admin/content/analytics/Analytics";
 import Cookies from "universal-cookie";
+import AdminChat from "./components/admin/content/chat/Chat";
 
 const supportedLangs = ["en", "ru", "ka"];
 const cookies = new Cookies("langIteq", { path: "/" });
@@ -159,6 +160,7 @@ const router = createBrowserRouter([
       { path: "addQuestion/:page", element: <AddQuestion /> },
       { path: "settings", element: <Settings /> },
       {path: "analytics", element: <Analytics />},
+      {path: "chat", element: <AdminChat />},
       { path: "*", element: <NotFoundAdmin /> },
     ],
   },

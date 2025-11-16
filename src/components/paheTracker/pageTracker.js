@@ -6,15 +6,17 @@ function usePageTracker() {
   const location = useLocation();
 
   useEffect(() => {
-    visitsAPI
-      .addVisit({
-        page_url: window.location.href,
-        referrer: document.referrer,
-      })
-      .then((response) => {})
-      .catch((error) => console.log(error))
-      .finally(() => {});
-  }, [location.pathname]); 
+    if (!window.location.href.includes("localhost")) {
+      visitsAPI
+        .addVisit({
+          page_url: window.location.href,
+          referrer: document.referrer,
+        })
+        .then((response) => {})
+        .catch((error) => console.log(error))
+        .finally(() => {});
+    }
+  }, [location.pathname]);
 }
 
 export default usePageTracker;

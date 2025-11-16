@@ -82,7 +82,7 @@ const Questions = () => {
                 <td>
                   <div style={{ margin: "1rem" }}>
                     {lang === "en" && d.questionEn}
-                    {lang === "ge" && d.questionGe}
+                    {lang === "ka" && d.questionGe}
                     {lang === "ru" && d.questionRu}
                   </div>
                 </td>

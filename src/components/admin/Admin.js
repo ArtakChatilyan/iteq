@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { orderApi } from "./dal/api";
 import { LanguageContext } from "../../contexts/LanguageContext";
 import { Helmet } from "react-helmet-async";
-import AdminTawkChat from "./content/AdminTawkChat ";
 
 const AdminContainer = () => {
   const dispatch = useDispatch();
@@ -85,7 +84,7 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
       setLanguage(lang);
       i18n.changeLanguage(lang);
     } else {
-      setLanguage("ge");
+      setLanguage("ka");
     }
   }, []);
   const { t } = useTranslation();
@@ -101,7 +100,7 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
             {t("admin_toMain")}
           </Link>
           <div className={styles.langBar}>
-            <span onClick={() => changeLanguage("ge")}>geo</span>
+            <span onClick={() => changeLanguage("ka")}>geo</span>
             <span></span>
             <span onClick={() => changeLanguage("en")}>eng</span>
             <span></span>
@@ -282,6 +281,16 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
               }}
             >
               {t("admin_analytics")}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/chat"
+              className={({ isActive }) => {
+                return isActive ? styles.active : "";
+              }}
+            >
+              {t("admin_chat")}
             </NavLink>
           </li>
         </ul>

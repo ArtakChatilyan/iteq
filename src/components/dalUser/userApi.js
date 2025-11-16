@@ -62,7 +62,7 @@ export const usersAPI = {
     return instance.post("users/recover", data);
   },
   setPassword: (userId, password) => {
-    return instance.post("users/setPassword", {userId, password});
+    return instance.post("users/setPassword", { userId, password });
   },
   getUsers: () => {
     return instance.get("users");
@@ -83,7 +83,9 @@ export const categoryAPI = {
     return instance.get(`user/categories`);
   },
   getCategoriesById: (categoryId) => {
-    return instance.get(`/category/:categoryId?/:brands?/:minPrice?/:maxPrice?/:page?=${categoryId}`);
+    return instance.get(
+      `/category/:categoryId?/:brands?/:minPrice?/:maxPrice?/:page?=${categoryId}`
+    );
   },
   getProducts: (catId, page, count, brandList, minPrice, maxPrice) => {
     return instance.get(
@@ -104,7 +106,9 @@ export const categoryAPI = {
   },
 
   getBrandProducts: (brandId, page, count) => {
-    return instance.get(`user/brandProducts/?brandId=${brandId}&page=${page}&perPage=${count}`);
+    return instance.get(
+      `user/brandProducts/?brandId=${brandId}&page=${page}&perPage=${count}`
+    );
   },
 
   getBrandById: (brandId) => {
@@ -151,7 +155,9 @@ export const categoryAPI = {
     return instance.get(`user/search/general?term=${term}`);
   },
   searchProductsByGeneral: (term, page, perPage) => {
-    return instance.get(`user/search/generalProducts?term=${term}&page=${page}&perPage=${perPage}`);
+    return instance.get(
+      `user/search/generalProducts?term=${term}&page=${page}&perPage=${perPage}`
+    );
   },
 };
 
@@ -243,14 +249,12 @@ export const historyAPI = {
 
 export const faqsAPI = {
   getFaqs: (page, count) => {
-    return instance.get(
-      `user/questions?page=${page}&perPage=${count}`
-    );
+    return instance.get(`user/questions?page=${page}&perPage=${count}`);
   },
 };
 
-export const visitsAPI={
+export const visitsAPI = {
   addVisit: (data) => {
-    return instance.post("track", data);
+    return instance.post("visits", data);
   },
-}
+};

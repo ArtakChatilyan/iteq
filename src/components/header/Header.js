@@ -115,7 +115,7 @@ const Header = ({
     //       }
     //       // if (lang === "en") {
     //       //   dataArray.push({ text: cd.nameEn });
-    //       // } else if (lang === "ge") {
+    //       // } else if (lang === "ka") {
     //       //   dataArray.push({ text: cd.nameGe });
     //       // } else {
     //       //   dataArray.push({ text: cd.nameRu });

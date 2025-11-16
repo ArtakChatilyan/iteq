@@ -491,3 +491,12 @@ export const visitsAPI = {
     return instance.get(`visits/timeseries?start=${start}&end=${end}`);
   },
 };
+
+export const chatAPI={
+  getUsers:()=>{
+    return instance.get("chat/users");
+  },
+  getUserMessages:(userId)=>{
+    return instance.get(`messages/${userId}`);
+  }
+}

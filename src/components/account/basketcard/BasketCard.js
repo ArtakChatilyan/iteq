@@ -50,12 +50,12 @@ const BasketCard = ({ basket, deleteBasket, setCount, checkBasket }) => {
         <div className={styles.infoContent}>
           <span className={styles.title}>
             {lang === "en" && basket.productInfo[0].productNameEn}
-            {lang === "ge" && basket.productInfo[0].productNameGe}
+            {lang === "ka" && basket.productInfo[0].productNameGe}
             {lang === "ru" && basket.productInfo[0].productNameRu}
           </span>
           <span className={`${styles.info} ${styles.infoLight}`}>
             {model && lang === "en" && model.modelNameEn}
-            {model && lang === "ge" && model.modelNameGe}
+            {model && lang === "ka" && model.modelNameGe}
             {model && lang === "ru" && model.modelNameRu}
           </span>
           <span className={styles.info}>{basket.productInfo[0].brandName}</span>
@@ -63,7 +63,7 @@ const BasketCard = ({ basket, deleteBasket, setCount, checkBasket }) => {
             <div className={styles.detail}>
               <span className={styles.label}>{t("color")}</span>
               {lang === "en" && model.colorNameEn}
-              {lang === "ge" && model.colorNameGe}
+              {lang === "ka" && model.colorNameGe}
               {lang === "ru" && model.colorNameRu}
             </div>
           )}

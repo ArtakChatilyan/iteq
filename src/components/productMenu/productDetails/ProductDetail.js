@@ -524,18 +524,18 @@ const ProductDetail = () => {
                 {categories.map((c) => (
                   <Link
                     key={`c${c.id}`}
-                    to={`/category/${c.categoryId}/${0}/${-1}/${-1}/${1}`}
+                    to={`/${lang}/category/${c.categoryId}/${0}/${-1}/${-1}/${1}`}
                     className={styles.categoryTitle}
                   >
                     {lang === "en" && c.nameEn}
-                    {lang === "ge" && c.nameGe}
+                    {lang === "ka" && c.nameGe}
                     {lang === "ru" && c.nameRu}
                   </Link>
                 ))}
               </div>
               <h1 className={styles.title}>
                 {lang === "en" && product.productNameEn}
-                {lang === "ge" && product.productNameGe}
+                {lang === "ka" && product.productNameGe}
                 {lang === "ru" && product.productNameRu}
               </h1>
 
@@ -562,7 +562,7 @@ const ProductDetail = () => {
                       {t("color")}
                     </span>
                     {lang === "en" && selectedColor.nameEn}
-                    {lang === "ge" && selectedColor.nameGe}
+                    {lang === "ka" && selectedColor.nameGe}
                     {lang === "ru" && selectedColor.nameRu}
                   </div>
                 )}
@@ -585,7 +585,7 @@ const ProductDetail = () => {
                           }`}
                         >
                           {lang === "en" && m.nameEn}
-                          {lang === "ge" && m.nameGe}
+                          {lang === "ka" && m.nameGe}
                           {lang === "ru" && m.nameRu}
                         </span>
                       ))}
@@ -611,7 +611,7 @@ const ProductDetail = () => {
                       <td className={styles.maintd}>
                         <span className={styles.name}>
                           {lang === "en" && product.productCountryEn}
-                          {lang === "ge" && product.productCountryGe}
+                          {lang === "ka" && product.productCountryGe}
                           {lang === "ru" && product.productCountryRu}
                         </span>
                       </td>
@@ -787,7 +787,7 @@ const ProductDetail = () => {
                             className={styles.descriptionContent}
                           >
                             {lang === "en" && d.descriptionEn}
-                            {lang === "ge" && d.descriptionGe}
+                            {lang === "ka" && d.descriptionGe}
                             {lang === "ru" && d.descriptionRu}
                           </span>
                         ))}

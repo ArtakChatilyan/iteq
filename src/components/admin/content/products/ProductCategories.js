@@ -133,7 +133,7 @@ const ProductCategroies = ({ productId }) => {
                 title={d.nameRu}
               >
                 {lang==="en" && d.nameEn}
-                {lang==="ge" && d.nameGe}
+                {lang==="ka" && d.nameGe}
                 {lang==="ru" && d.nameRu}
               </span>
             </div>
