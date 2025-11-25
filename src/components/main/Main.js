@@ -1,3 +1,4 @@
+import styles from "./Main.module.css";
 import ProductMenu from "../productMenu/ProductMenu";
 import CategoryMenu from "../categoryMenu/CategoryMenu";
 import { categoryAPI, visitsAPI } from "../dalUser/userApi";
@@ -9,8 +10,9 @@ import LoadingScreen from "../loadingScreen/LoadingScreen";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { MainPageSeoData } from "../seotags/MainPageSEO";
-import TawkChat from "../chat/TawkChat";
 import ChatWidget from "../chat/ChatWidget";
+import chatIcon from "../../assets/mail-icon.png";
+import { useChat } from "../../contexts/UserContext";
 
 const Main = () => {
   const { t } = useTranslation();
@@ -20,6 +22,7 @@ const Main = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [seoData, setSeoData] = useState(null);
+  const { chatOpen, setChatOpen, hasUnread } = useChat();
 
   useEffect(() => {
     LoadMainCategories();
@@ -72,7 +75,7 @@ const Main = () => {
 
   // useEffect(() => {
   //   console.log(location.pathname);
-    
+
   //   visitsAPI
   //     .addVisit({
   //       page_url: window.location.href,
@@ -125,8 +128,14 @@ const Main = () => {
 
         <CategoryMenu id="cat" categories={mainCategories} />
         <BrandMenu brands={brands} />
-        {/* <ChatWidget /> */}
-        {/* <TawkChat /> */}
+        {chatOpen ? (
+          <ChatWidget closeChat={() => setChatOpen(false)} />
+        ) : (
+          <div className={styles.chatBtn} onClick={() => setChatOpen(true)}>
+            <img src={chatIcon} />
+            {hasUnread && <span className={styles.unreadDot}></span>}
+          </div>
+        )}
       </div>
     </>
   );

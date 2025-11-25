@@ -31,7 +31,7 @@ import AboutUsAdmin from "./components/admin/content/aboutus/AboutUs";
 import LoginContainer from "./components/login/LoginContainer";
 import RegisterContainer from "./components/registration/RegisterContainer";
 import AccountContainer from "./components/account/AccountContainer";
-import AdminContainer from "./components/admin/Admin";
+import AdminContainer from "./components/admin/admin/Admin";
 import Discounts from "./components/discounts/Discounts";
 import Story from "./components/story/Story";
 import StoryDetail from "./components/story/StoryDetail";
@@ -59,11 +59,15 @@ import BrandProducts from "./components/brandProducts/BrandProducts";
 import Analytics from "./components/admin/content/analytics/Analytics";
 import Cookies from "universal-cookie";
 import AdminChat from "./components/admin/content/chat/Chat";
+import { AdminProvider } from "./contexts/AdminContext";
+import AdminAuthWrapper from "./components/admin/admin/AdminAuthWrapper";
+import { ChatProvider } from "./contexts/UserContext";
 
 const supportedLangs = ["en", "ru", "ka"];
 const cookies = new Cookies("langIteq", { path: "/" });
 const cookieLang = cookies.get("langIteq");
 const defaultLang = supportedLangs.includes(cookieLang) ? cookieLang : "ka";
+
 const router = createBrowserRouter([
   // --- Redirect root "/" to default language ---
   {
@@ -74,7 +78,11 @@ const router = createBrowserRouter([
   // --- Multilanguage user routes ---
   {
     path: "/:lang",
-    element: <Home />,
+    element: (
+      <ChatProvider>
+        <Home />
+      </ChatProvider>
+    ),
     children: [
       { index: true, element: <Main /> },
       { path: "about", element: <AboutUs /> },
@@ -111,7 +119,13 @@ const router = createBrowserRouter([
   // --- Admin panel (not language-dependent) ---
   {
     path: "/admin",
-    element: <AdminContainer />,
+    element: (
+      <AdminProvider>
+        <AdminAuthWrapper>
+          <AdminContainer />
+        </AdminAuthWrapper>
+      </AdminProvider>
+    ),
     children: [
       { index: true, element: <Content /> },
       { path: "categories", element: <MainCategories /> },
@@ -159,8 +173,8 @@ const router = createBrowserRouter([
       { path: "editQuestion/:itemId/:page", element: <EditQuestion /> },
       { path: "addQuestion/:page", element: <AddQuestion /> },
       { path: "settings", element: <Settings /> },
-      {path: "analytics", element: <Analytics />},
-      {path: "chat", element: <AdminChat />},
+      { path: "analytics", element: <Analytics /> },
+      { path: "chat", element: <AdminChat /> },
       { path: "*", element: <NotFoundAdmin /> },
     ],
   },

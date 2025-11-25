@@ -258,3 +258,9 @@ export const visitsAPI = {
     return instance.post("visits", data);
   },
 };
+
+export const chatAPI={
+  getUserMessages:(userId)=>{
+    return instance.get(`chat/messages/${userId}`);
+  },
+}

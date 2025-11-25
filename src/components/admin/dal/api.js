@@ -497,6 +497,12 @@ export const chatAPI={
     return instance.get("chat/users");
   },
   getUserMessages:(userId)=>{
-    return instance.get(`messages/${userId}`);
+    return instance.get(`chat/messages/${userId}`);
+  },
+  getUnreadList:()=>{
+    return instance.get("chat/unread");
+  },
+  markAsSeen:(userId)=>{
+    return instance.put(`chat/seen/${userId}`);
   }
 }

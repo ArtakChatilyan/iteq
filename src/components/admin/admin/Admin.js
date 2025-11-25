@@ -1,71 +1,15 @@
-import { Link, Navigate, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import Cookies from "universal-cookie";
 import styles from "./Admin.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { checkAuth, logout, setLoading } from "../../redux-store/userSlice";
-import SplashScreen from "./content/splashscreen/SplashScreen";
-import i18n from "../../localization/i18n";
+import { useContext, useEffect, useState } from "react";
+import i18n from "../../../localization/i18n";
 import { useTranslation } from "react-i18next";
-import { orderApi } from "./dal/api";
-import { LanguageContext } from "../../contexts/LanguageContext";
+import { LanguageContext } from "../../../contexts/LanguageContext";
 import { Helmet } from "react-helmet-async";
-
-const AdminContainer = () => {
-  const dispatch = useDispatch();
-  const userRole = useSelector((state) => state.userReducer.userRole);
-  const loading = useSelector((state) => state.userReducer.loading);
-
-  useEffect(() => {
-    if (localStorage.getItem("tokenIteq")) {
-      dispatch(checkAuth());
-    } else {
-      dispatch(setLoading(false));
-    }
-  }, []);
-
-  const logOutHandle = () => {
-    dispatch(logout());
-  };
-
-  const [orderCount, setOrderCount] = useState(0);
-  const [canceledOrderCount, setCanceledOrderCount] = useState(0);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        orderApi
-          .getOrdersCount()
-          .then((response) => {
-            setOrderCount(response.data.total);
-            setCanceledOrderCount(response.data.totalCanceled);
-          })
-          .catch((error) => console.log(error))
-          .finally(() => {});
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    const intervalId = setInterval(fetchData, 1000 * 60 * 3);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  if (loading) return <SplashScreen />;
-
-  if (userRole === "admin")
-    return (
-      <Admin
-        logout={logOutHandle}
-        orderCount={orderCount}
-        canceledOrderCount={canceledOrderCount}
-      />
-    );
-  else return <Navigate to="/login" replace />;
-};
+import { AdminContext } from "../../../contexts/AdminContext";
 
 const Admin = ({ logout, orderCount, canceledOrderCount }) => {
+  const { hasGlobalUnread } = useContext(AdminContext);
   const cookies = new Cookies(null, { path: "/" });
   const [language, setLanguage] = useState(null);
 
@@ -290,7 +234,10 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
                 return isActive ? styles.active : "";
               }}
             >
-              {t("admin_chat")}
+              <div style={{ display: "flex" }}>
+                {t("admin_chat")}
+                {hasGlobalUnread && <span className={styles.unreadDot}></span>}
+              </div>
             </NavLink>
           </li>
         </ul>
@@ -302,4 +249,4 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
   );
 };
 
-export default AdminContainer;
+export default Admin;

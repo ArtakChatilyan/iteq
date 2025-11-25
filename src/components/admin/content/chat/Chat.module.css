@@ -1,6 +1,7 @@
 .container {
   display: flex;
-  height: 100vh;
+  height: 90vh;      /* key fix */
+  overflow: hidden;   /* stop outer scrolling */
   background: #f2f2f2;
 }
 
@@ -58,13 +59,24 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;   /* important fix */
 }
 
 .chatHeader {
   padding: 15px;
-  background: #007bff;
+  background: rgb(242, 165, 87);
   color: white;
   font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;     /* ONLY this scrolls */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .noUser {
@@ -76,25 +88,16 @@
   height: 100%;
 }
 
-.messages {
-  flex: 1;
-  padding: 15px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 .message {
   max-width: 60%;
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 6px 14px;
+  border-radius: 14px;
   font-size: 14px;
-  line-height: 1.4;
+  font-family: "RobotoRegular";
 }
 
 .adminMessage {
-  background: #007bff;
+  background: rgb(242, 165, 87);
   color: white;
   margin-left: auto;
 }
@@ -122,7 +125,7 @@
 }
 
 .sendButton {
-  background: #007bff;
+  background: rgb(242, 165, 87);
   color: white;
   padding: 10px 18px;
   border: none;
@@ -134,5 +137,25 @@
 }
 
 .sendButton:hover {
-  background: #0066d2;
+  background: rgb(241, 180, 118);
+}
+
+.msgTime {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-top: 3px;
+  text-align: right;
+}
+
+.msgText {
+  font-size: 14px;
+}
+
+.unreadDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: red;
+  border-radius: 50%;
+  margin-left: 6px;
 }

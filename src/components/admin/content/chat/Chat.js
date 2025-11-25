@@ -1,89 +1,100 @@
+// src/components/admin/.../AdminChat.js
 import React, { useEffect, useState, useRef } from "react";
-import { io } from "socket.io-client";
 import styles from "./Chat.module.css";
-import { chatAPI } from "../../dal/api";
+import { chatAPI } from "../../dal/api"; // adjust path if needed
+import { useAdmin } from "../../../../contexts/AdminContext";
+import { convertUTCToLocal } from "../../../tools/convertUTCToLocal";
 
-const socket = io("http://localhost:3001"); // change to your backend domain
+const notificationSound = new Audio("/notify.mp3");
+notificationSound.volume = 0.7;
 
 const AdminChat = () => {
-  const [users, setUsers] = useState([]);
-  const [activeUser, setActiveUser] = useState(null);
+  const {
+    socket,
+    users,
+    unreadCounts,
+    activeUser,
+    setActiveUser,
+    setHasGlobalUnread,
+    refreshUnreadCounts,
+  } = useAdmin();
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const chatEndRef = useRef(null);
 
-  // Fetch user list
+  // Clear global unread indicator when admin opens chat page
   useEffect(() => {
-    chatAPI
-      .getUsers()
-      .then((response) => {
-        setUsers(response.data.users);
-      })
-      .catch((error) => console.log(error))
-      .finally(() => {});
-    // fetch("http://localhost:3001/api/users")
-    //   .then((res) => res.json())
-    //   .then(setUsers);
-  }, []);
+    setHasGlobalUnread(false);
+  }, [setHasGlobalUnread]);
 
-  // Handle incoming messages
+  // Load messages & mark as seen when activeUser changes
   useEffect(() => {
-    socket.on("newMessage", (data) => {
-      if (data.sender === "user") {
-        // update user list if new message received
-        setUsers((prev) => {
-          const existing = prev.find((u) => u.user_id === data.userId);
-          if (existing) {
-            return prev.map((u) =>
-              u.user_id === data.userId
-                ? { ...u, last_message: data.message, last_time: new Date() }
-                : u
-            );
-          } else {
-            return [
-              {
-                user_id: data.userId,
-                last_message: data.message,
-                last_time: new Date(),
-              },
-              ...prev,
-            ];
-          }
-        });
+    if (!activeUser) {
+      setMessages([]);
+      return;
+    }
 
-        // if open chat is same user, append message
-        if (activeUser === data.userId) {
-          setMessages((prev) => [...prev, data]);
-        }
+    let cancelled = false;
+    (async () => {
+      try {
+        // Load history from backend
+        const response = await chatAPI.getUserMessages(activeUser);
+        if (cancelled) return;
+        //console.log(response.data.messages);
+        
+        setMessages(response.data.messages || []);
+
+        // Mark as seen in DB and refresh unreadCounts in provider
+        await chatAPI.markAsSeen(activeUser);
+        await refreshUnreadCounts();
+      } catch (e) {
+        // ignore
       }
-    });
+    })();
 
-    return () => socket.off("newMessage");
-  }, [activeUser]);
+    return () => {
+      cancelled = true;
+    };
+  }, [activeUser, refreshUnreadCounts]);
 
-  // Load chat history when admin selects a user
-  const openChat = async (userId) => {
-    setActiveUser(userId);
-    chatAPI
-      .getUserMessages(userId)
-      .then((response) => {
-        setMessages(response.data.messages);
-      })
-      .catch((error) => console.log(error))
-      .finally(() => {});
-    // const res = await fetch(`http://localhost:3001/api/messages/${userId}`);
-    // const data = await res.json();
-    //setMessages(data);
-  };
-
+  // Append incoming messages to active chat, and play sound for other users
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    const handler = (msg) => {
+      if (msg.userId === activeUser) {
+        setMessages((prev) => [...prev, msg]);
+      } else {
+        // play notification for other users
+        notificationSound.play().catch(() => {});
+      }
+    };
+
+    socket.on("newMessage", handler);
+    return () => socket.off("newMessage", handler);
+  }, [socket, activeUser]);
+
+  // Click user in sidebar: set active user (provider holds users list)
+  const openChat = (userId) => {
+    setActiveUser(userId);
+    // clear global unread marker for entire chat page (optional)
+    setHasGlobalUnread(false);
+  };
 
   const sendMessage = () => {
     if (!input.trim() || !activeUser) return;
-    const msg = { userId: activeUser, sender: "admin", message: input };
+
+    const localDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+    const msg = {
+      userId: activeUser,
+      sender: "admin",
+      message: input,
+      time: localDate,
+    };
+
     socket.emit("sendMessage", msg);
+
+    // append locally for immediate feedback (DB + other admins will also receive)
     setMessages((prev) => [...prev, msg]);
     setInput("");
   };
@@ -93,17 +104,33 @@ const AdminChat = () => {
       {/* SIDEBAR */}
       <div className={styles.sidebar}>
         <div className={styles.sidebarHeader}>Users</div>
-
         {users.map((u) => (
           <div
-            key={u.user_id}
-            onClick={() => openChat(u.user_id)}
+            key={u.userId}
+            onClick={() => openChat(u.userId)}
             className={`${styles.userItem} ${
-              activeUser === u.user_id ? styles.activeUser : ""
+              activeUser === u.userId ? styles.activeUser : ""
             }`}
           >
-            <div className={styles.userId}>{u.user_id}</div>
-            <div className={styles.lastMessage}>{u.last_message}</div>
+            <div className={styles.userId}>
+              Guest {u.userId.slice(0, 6)}
+              {unreadCounts[u.userId] > 0 && (
+                <span className={styles.unreadDot}></span>
+              )}
+            </div>
+
+            <div className={styles.lastMessage}>
+              {u.lastMessage || "No messages yet"}
+            </div>
+
+            <div className={styles.lastTime}>
+              {u.lastTime
+                ? new Date(u.lastTime).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : ""}
+            </div>
           </div>
         ))}
       </div>
@@ -117,16 +144,26 @@ const AdminChat = () => {
             <div className={styles.chatHeader}>Chat with {activeUser}</div>
 
             <div className={styles.messages}>
-              {messages.map((m, i) => (
+              {messages.map((msg, i) => (
                 <div
                   key={i}
                   className={`${styles.message} ${
-                    m.sender === "admin"
+                    msg.sender === "admin"
                       ? styles.adminMessage
                       : styles.userMessage
                   }`}
                 >
-                  {m.message}
+                  <div className={styles.msgText}>{msg.message}</div>
+                  <div className={styles.msgTime}>
+                    {msg.time && convertUTCToLocal(msg.time)}
+                    {/* {msg.time &&
+                      new Date(msg.time).toLocaleTimeString([], {
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })} */}
+                  </div>
                 </div>
               ))}
               <div ref={chatEndRef} />

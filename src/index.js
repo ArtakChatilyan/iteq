@@ -12,11 +12,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   // <React.StrictMode>
-    <HelmetProvider>
-      <Provider store={store}>
-        <App router={router} />
-      </Provider>
-    </HelmetProvider>
+  <HelmetProvider>
+    <Provider store={store}>
+      <App router={router} />
+    </Provider>
+  </HelmetProvider>
   // </React.StrictMode>
 );
 

@@ -73,3 +73,12 @@ a:hover {
   color: #dda853;
   /* margin-left: 1rem; */
 }
+
+.unreadDot {
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 6px;
+}

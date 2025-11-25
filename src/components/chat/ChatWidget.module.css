@@ -2,10 +2,10 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 280px;
-  height: 380px;
+  width: 320px;
+  height: 420px;
   background: white;
-  border-radius: 14px;
+  border-radius: 20px 20px 0 0;
   border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
@@ -15,12 +15,21 @@
 }
 
 .header {
-  background: #007bff;
+  background: rgb(242, 165, 87);
   color: white;
-  padding: 12px;
+  padding: 16px;
   font-weight: 600;
   text-align: center;
-  font-size: 15px;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.closeIcon{
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
 }
 
 .messages {
@@ -34,14 +43,14 @@
 
 .message {
   max-width: 70%;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 13px;
-  line-height: 1.4;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 1.6rem;
+  font-family: "RobotRegular";
 }
 
 .user {
-  background: #007bff;
+  background: rgb(242, 165, 87);
   color: white;
   align-self: flex-end;
 }
@@ -71,7 +80,7 @@
 
 .sendButton {
   margin-left: 6px;
-  background: #007bff;
+  background: rgb(242, 165, 87);
   color: white;
   padding: 7px 12px;
   border: none;
@@ -82,5 +91,12 @@
 }
 
 .sendButton:hover {
-  background: #0066d2;
+  background: rgb(243, 195, 148);
+}
+
+.time {
+  font-size: 11px;
+  opacity: 0.6;
+  text-align: right;
+  margin-top: 3px;
 }
