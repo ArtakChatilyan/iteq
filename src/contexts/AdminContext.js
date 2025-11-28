@@ -8,19 +8,24 @@ notificationSound.volume = 0.7;
 export const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
+   
   const [users, setUsers] = useState([]); // { userId, lastMessage, lastTime }
   const [unreadCounts, setUnreadCounts] = useState({}); // { userId: count }
   const [hasGlobalUnread, setHasGlobalUnread] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
 
   // Create single socket instance once
-  //const socket = useMemo(() => io("http://localhost:3001"), []);
-  const socket = useMemo(() =>
-    io("https://iteq.shop", {
-      secure: true,
-      transports: ["websocket"],
-    })
+  const socket = useMemo(() => io("http://localhost:3001",{
+    path: "/socket.io/",
+    transports: ["websocket"]})
   );
+//   const socket = useMemo(() =>
+//     io("https://iteq.shop", {
+//       path: "/socket.io",
+//       secure: true,
+//       transports: ["websocket"],
+//     })
+//   );
 
   // Initial unread counts load
   useEffect(() => {

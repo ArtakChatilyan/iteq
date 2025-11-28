@@ -59,9 +59,11 @@ import BrandProducts from "./components/brandProducts/BrandProducts";
 import Analytics from "./components/admin/content/analytics/Analytics";
 import Cookies from "universal-cookie";
 import AdminChat from "./components/admin/content/chat/Chat";
-import { AdminProvider } from "./contexts/AdminContext";
 import AdminAuthWrapper from "./components/admin/admin/AdminAuthWrapper";
-import { ChatProvider } from "./contexts/UserContext";
+import { AdminChatProvider } from "./contexts/AdminSSEContext";
+import { UserChatProvider } from "./contexts/UserSSEContext";
+//import { AdminProvider } from "./contexts/AdminContext";
+//import { ChatProvider } from "./contexts/UserContext";
 
 const supportedLangs = ["en", "ru", "ka"];
 const cookies = new Cookies("langIteq", { path: "/" });
@@ -79,9 +81,11 @@ const router = createBrowserRouter([
   {
     path: "/:lang",
     element: (
-      <ChatProvider>
+      // <ChatProvider>
+      <UserChatProvider>
         <Home />
-      </ChatProvider>
+      </UserChatProvider>
+      //</ChatProvider>
     ),
     children: [
       { index: true, element: <Main /> },
@@ -120,11 +124,13 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: (
-      <AdminProvider>
+      //<AdminProvider>
+      <AdminChatProvider>
         <AdminAuthWrapper>
           <AdminContainer />
         </AdminAuthWrapper>
-      </AdminProvider>
+      </AdminChatProvider>
+      //</AdminProvider>
     ),
     children: [
       { index: true, element: <Content /> },

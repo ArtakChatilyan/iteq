@@ -7,16 +7,16 @@ const ChatContext = createContext();
 export const useChat = () => useContext(ChatContext);
 
 export function ChatProvider({ children }) {
-  const socket = useMemo(
-    () =>
-      io("http://localhost:3001", {
-        transports: ["websocket"],
-      }),
-    []
+    
+    
+  const socket = useMemo(() => io("http://localhost:3001",{
+    path: "/socket.io/",
+    transports: ["websocket"]})
   );
 
 //   const socket = useMemo(() =>
 //     io("https://iteq.shop", {
+//     path: "/socket.io",
 //       secure: true,
 //       transports: ["websocket"],
 //     })

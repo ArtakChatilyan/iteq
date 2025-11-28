@@ -11,10 +11,11 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { MainPageSeoData } from "../seotags/MainPageSEO";
 import ChatWidget from "../chat/ChatWidget";
+import { useUserChat } from "../../contexts/UserSSEContext";
 import chatIcon from "../../assets/mail-icon.png";
-import { useChat } from "../../contexts/UserContext";
 
 const Main = () => {
+  const { chatOpen, closeChat, openChat, hasUnread } = useUserChat();
   const { t } = useTranslation();
   const { lang } = useParams();
   const [mainCategories, setMainCategories] = useState([]);
@@ -22,7 +23,6 @@ const Main = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [seoData, setSeoData] = useState(null);
-  const { chatOpen, setChatOpen, hasUnread } = useChat();
 
   useEffect(() => {
     LoadMainCategories();
@@ -128,10 +128,11 @@ const Main = () => {
 
         <CategoryMenu id="cat" categories={mainCategories} />
         <BrandMenu brands={brands} />
+        {/* <ChatWidget /> */}
         {chatOpen ? (
-          <ChatWidget closeChat={() => setChatOpen(false)} />
+          <ChatWidget closeChat={closeChat} />
         ) : (
-          <div className={styles.chatBtn} onClick={() => setChatOpen(true)}>
+          <div className={styles.chatBtn} onClick={openChat}>
             <img src={chatIcon} />
             {hasUnread && <span className={styles.unreadDot}></span>}
           </div>

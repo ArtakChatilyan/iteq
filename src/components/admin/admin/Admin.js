@@ -6,10 +6,10 @@ import i18n from "../../../localization/i18n";
 import { useTranslation } from "react-i18next";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { Helmet } from "react-helmet-async";
-import { AdminContext } from "../../../contexts/AdminContext";
+import { AdminChatContext } from "../../../contexts/AdminSSEContext";
 
 const Admin = ({ logout, orderCount, canceledOrderCount }) => {
-  const { hasGlobalUnread } = useContext(AdminContext);
+  const { hasGlobalUnread } = useContext(AdminChatContext);
   const cookies = new Cookies(null, { path: "/" });
   const [language, setLanguage] = useState(null);
 
