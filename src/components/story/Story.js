@@ -99,6 +99,7 @@ const Story = () => {
         </Helmet>
       )}
       <div className={styles.block}>
+        <h1>ITEQ News & Updates</h1>
         {loading && <LoadingScreen showGif={true} />}
         {storyList.map((s) => (
           <StoryCard key={s.id} story={s} />

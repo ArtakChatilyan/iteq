@@ -102,6 +102,7 @@ const Contacts = () => {
         </Helmet>
       )}
       <section className={styles.section}>
+        <h1>ITEQ Contact Information</h1>
         <div className={styles.block}>
           {loading && (
             <div className={styles.loadingWrapper}>
@@ -110,13 +111,13 @@ const Contacts = () => {
           )}
           <div className={styles.socialContent}>
             <div className={styles.info}>
-              <span className={styles.infoItem}>E-mail: {email}</span>
-              <span className={styles.infoItem}>Tel: {phone}</span>
-              <span className={styles.infoItem}>
+              <h2 className={styles.infoItem}>E-mail: {email}</h2>
+              <h2 className={styles.infoItem}>Tel: {phone}</h2>
+              <h2 className={styles.infoItem}>
                 {lang === "en" && addressEn}
                 {lang === "ka" && addressGe}
                 {lang === "ru" && addressRu}
-              </span>
+              </h2>
             </div>
           </div>
           <div className={styles.media}>

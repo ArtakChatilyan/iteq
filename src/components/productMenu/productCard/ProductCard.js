@@ -20,7 +20,17 @@ const ProductCard = ({ product, withMargin }) => {
         )}
       </span>
 
-      <img src={product.imgUrl} className={styles.productImg} />
+      <img
+        src={product.imgUrl}
+        className={styles.productImg}
+        alt={
+          lang === "en"
+            ? product.productNameEn
+            : lang === "ka"
+            ? product.productNameGe
+            : product.productNameRu
+        }
+      />
 
       <h4 className={styles.name}>
         {lang === "en" && product.productNameEn}

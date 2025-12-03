@@ -171,7 +171,7 @@ const Category = ({
           </button>
         }
         <div
-        style={{width:"fit-content"}}
+          style={{ width: "fit-content" }}
           className={`${
             filterMode
               ? "animate__animated animate__slideInLeft animate__faster"
@@ -208,7 +208,7 @@ const Category = ({
                   }}
                   onChange={(e) => SelectBrands(e, b.brandId)}
                 />
-                {b.brandName}
+                <h2>{b.brandName}</h2>
               </li>
             ))}
           </ul>
@@ -270,17 +270,29 @@ const Category = ({
             </span>
           </div>
         </div>
-        <div className={styles.content}>
-          {productList.map((p) => (
-            <NavLink
-              key={`nl${p.id}`}
-              to={`/${lang}/product/${p.id}`}
-              target="blank"
-              style={{margin: "2rem"}}
-            >
-              <ProductCard key={p.id} product={p} />
-            </NavLink>
-          ))}
+        <div>
+          {seoCategory && (
+            <h1>
+              {lang === "en"
+                ? seoCategory.nameEn
+                : lang === "ka"
+                ? seoCategory.nameGe
+                : seoCategory.nameRu}
+            </h1>
+          )}
+
+          <div className={styles.content}>
+            {productList.map((p) => (
+              <NavLink
+                key={`nl${p.id}`}
+                to={`/${lang}/product/${p.id}`}
+                target="_blank"
+                style={{ margin: "2rem" }}
+              >
+                <ProductCard key={p.id} product={p} />
+              </NavLink>
+            ))}
+          </div>
         </div>
 
         <div className={styles.paging}>
@@ -314,17 +326,19 @@ function Menu({ items, lang, minPrice, maxPrice, SetFilterMode, screenWidth }) {
               <span
                 className={`${styles.title} ${styles.hoverUnderlineAnimation} ${styles.left}`}
               >
-                <Link
-                  className={styles.linkTitle}
-                  to={`/${lang}/category/${
-                    item.id
-                  }/${0}/${minPrice}/${maxPrice}/${1}`}
-                  onClick={() =>
-                    SetFilterMode(screenWidth > 1024 ? true : false)
-                  }
-                >
-                  {titleValue}
-                </Link>
+                <h2>
+                  <Link
+                    className={styles.linkTitle}
+                    to={`/${lang}/category/${
+                      item.id
+                    }/${0}/${minPrice}/${maxPrice}/${1}`}
+                    onClick={() =>
+                      SetFilterMode(screenWidth > 1024 ? true : false)
+                    }
+                  >
+                    {titleValue}
+                  </Link>
+                </h2>
               </span>{" "}
               {item.children.length > 0 && (
                 <button

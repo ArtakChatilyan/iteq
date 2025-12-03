@@ -7,10 +7,15 @@ import { categoryAPI, settingsAPI } from "../dalUser/userApi";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "../loadingScreen/LoadingScreen";
+import ChatWidget from "../chat/ChatWidget";
+import { useUserChat } from "../../contexts/UserSSEContext";
+import chatIcon from "../../assets/mail-icon.png";
 
 const Footer = () => {
-  const {lang}=useParams();
+  const { lang } = useParams();
   const { t } = useTranslation();
+
+  const { chatOpen, closeChat, openChat, hasUnread } = useUserChat();
 
   const [addressEn, setAddressEn] = useState(" ");
   const [addressGe, setAddressGe] = useState("");
@@ -85,28 +90,42 @@ const Footer = () => {
               else if (lang === "ru") textValue = c.nameRu;
               return (
                 <li key={`cat${c.id}`}>
-                  <Link to={`/${lang}/category/${c.id}/${0}/${-1}/${-1}/${1}`}>
-                    {textValue}
-                  </Link>
+                  <h4>
+                    <Link
+                      to={`/${lang}/category/${c.id}/${0}/${-1}/${-1}/${1}`}
+                    >
+                      {textValue}
+                    </Link>
+                  </h4>
                 </li>
               );
             })}
           </ul>
           <ul className={styles.list}>
             <li key="discounts" className={styles.listItem}>
-              <Link to={`/${lang}/discounts`}>{t("discount")}</Link>
+              <h4>
+                <Link to={`/${lang}/discounts`}>{t("discount")}</Link>
+              </h4>
             </li>
             <li key="aboutus" className={styles.listItem}>
-              <Link to={`/${lang}/about`}>{t("aboutUs")}</Link>
+              <h4>
+                <Link to={`/${lang}/about`}>{t("aboutUs")}</Link>
+              </h4>
             </li>
             <li key="contacts" className={styles.listItem}>
-              <Link to={`/${lang}/contacts`}>{t("contacts")}</Link>
+              <h4>
+                <Link to={`/${lang}/contacts`}>{t("contacts")}</Link>
+              </h4>
             </li>
             <li key="news" className={styles.listItem}>
-              <Link to={`/${lang}/news`}>{t("news")}</Link>
+              <h4>
+                <Link to={`/${lang}/news`}>{t("news")}</Link>
+              </h4>
             </li>
             <li key="faqs" className={styles.listItem}>
-              <Link to={`/${lang}/faqs`}>{t("faqs")}</Link>
+              <h4>
+                <Link to={`/${lang}/faqs`}>{t("faqs")}</Link>
+              </h4>
             </li>
           </ul>
         </div>
@@ -145,6 +164,14 @@ const Footer = () => {
         </div>
       </div>
       <span className={styles.cright}>© Iteq.ge 2025. All rights reserved</span>
+      {chatOpen ? (
+        <ChatWidget closeChat={closeChat} />
+      ) : (
+        <div className={styles.chatBtn} onClick={openChat}>
+          <img src={chatIcon} />
+          {hasUnread && <span className={styles.unreadDot}></span>}
+        </div>
+      )}
     </div>
   );
 };

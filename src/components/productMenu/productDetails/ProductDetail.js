@@ -457,6 +457,13 @@ const ProductDetail = () => {
                         display: "block",
                         opacity: opacity ? 0 : 1,
                       }}
+                      alt={
+                        lang === "en"
+                          ? product.productNameEn
+                          : lang === "ka"
+                          ? product.productNameGe
+                          : product.productNameRu
+                      }
                     />
 
                     <img
@@ -469,6 +476,13 @@ const ProductDetail = () => {
                         top: offset.top,
                         opacity: opacity,
                       }}
+                      alt={
+                        lang === "en"
+                          ? product.productNameEn
+                          : lang === "ka"
+                          ? product.productNameGe
+                          : product.productNameRu
+                      }
                     />
                   </div>
                 </div>
@@ -514,6 +528,13 @@ const ProductDetail = () => {
                         setSelectedUrl(e.currentTarget.src);
                         setSelectedFileType(false);
                       }}
+                      alt={
+                        lang === "en"
+                          ? product.productNameEn
+                          : lang === "ka"
+                          ? product.productNameGe
+                          : product.productNameRu
+                      }
                     />
                   </div>
                 ))}
@@ -522,15 +543,19 @@ const ProductDetail = () => {
             <div className={styles.infoContent}>
               <div className={styles.categoryContent}>
                 {categories.map((c) => (
-                  <Link
-                    key={`c${c.id}`}
-                    to={`/${lang}/category/${c.categoryId}/${0}/${-1}/${-1}/${1}`}
-                    className={styles.categoryTitle}
-                  >
-                    {lang === "en" && c.nameEn}
-                    {lang === "ka" && c.nameGe}
-                    {lang === "ru" && c.nameRu}
-                  </Link>
+                  <h2>
+                    <Link
+                      key={`c${c.id}`}
+                      to={`/${lang}/category/${
+                        c.categoryId
+                      }/${0}/${-1}/${-1}/${1}`}
+                      className={styles.categoryTitle}
+                    >
+                      {lang === "en" && c.nameEn}
+                      {lang === "ka" && c.nameGe}
+                      {lang === "ru" && c.nameRu}
+                    </Link>
+                  </h2>
                 ))}
               </div>
               <h1 className={styles.title}>
@@ -575,7 +600,7 @@ const ProductDetail = () => {
                     </td>
                     <td className={styles.maintd}>
                       {models.map((m) => (
-                        <span
+                        <h3
                           key={m.id}
                           onClick={() => selectActiveModel(m.id)}
                           className={`${styles.model} ${
@@ -587,7 +612,7 @@ const ProductDetail = () => {
                           {lang === "en" && m.nameEn}
                           {lang === "ka" && m.nameGe}
                           {lang === "ru" && m.nameRu}
-                        </span>
+                        </h3>
                       ))}
                     </td>
                   </tr>

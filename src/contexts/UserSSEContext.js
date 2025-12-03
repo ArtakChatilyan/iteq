@@ -4,7 +4,7 @@ import { convertUTCToLocal } from "../components/tools/convertUTCToLocal";
 export const UserChatContext = createContext(null);
 export const useUserChat = () => useContext(UserChatContext);
 
-const API_URL = "http://localhost:3001"; // backend
+const API_URL = process.env.REACT_APP_SSE_API_URL; // backend
 
 export const UserChatProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);

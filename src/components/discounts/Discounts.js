@@ -98,18 +98,20 @@ const Discounts = () => {
       )}
       <div className={styles.block}>
         {loading && <LoadingScreen showGif={true} />}
-        <div className={styles.content}>
-          {productList.map((p) => (
-            <NavLink
-              key={`nl${p.id}`}
-              to={`/${lang}/product/${p.id}`}
-              target="blank"
-            >
-              <ProductCard key={p.id} product={p} />
-            </NavLink>
-          ))}
+        <div className={styles.block}>
+            <h1>Discounts on Electronics and Accessories</h1>
+          <div className={styles.content}>
+            {productList.map((p) => (
+              <NavLink
+                key={`nl${p.id}`}
+                to={`/${lang}/product/${p.id}`}
+                target="blank"
+              >
+                <ProductCard key={p.id} product={p} />
+              </NavLink>
+            ))}
+          </div>
         </div>
-
         <div style={{ margin: "20px" }}>
           <Paging
             mode="user"

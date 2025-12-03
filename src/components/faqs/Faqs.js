@@ -102,6 +102,8 @@ const Faqs = () => {
 
       <div>
         <div className={styles.block}>
+          <h1>Frequently Asked Questions</h1>
+
           {loading && <LoadingScreen showGif={true} />}
           {faqsList.map((fs) => (
             <FaqsCard key={fs.id} faqs={fs} />

@@ -95,7 +95,7 @@ const AboutUs = () => {
       <div className={styles.block}>
         {loading && <LoadingScreen />}
         <div>
-          <h3 className={styles.title}>{t("aboutUs")}</h3>
+          <h1 className={styles.title}>{t("aboutUs")}</h1>
           {lang === "en" && (
             <div
               className={styles.info}

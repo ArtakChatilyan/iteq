@@ -94,7 +94,7 @@ const ProductMenu = ({ title, products }) => {
             }}
           >
             {products.map((p) => (
-              <NavLink to={`/${lang}/product/${p.id}`} target="blank">
+              <NavLink to={`/${lang}/product/${p.id}`} target="_blank">
                 <ProductCard key={p.id} product={p} withMargin={true} />
               </NavLink>
             ))}
@@ -104,7 +104,7 @@ const ProductMenu = ({ title, products }) => {
         {sliderConfig === 0 && (
           <Slider {...settings}>
             {products.map((p) => (
-              <NavLink to={`/${lang}/product/${p.id}`} target="blank">
+              <NavLink to={`/${lang}/product/${p.id}`} target="_blank">
                 <ProductCard key={p.id} product={p} withMargin={false} />
               </NavLink>
             ))}

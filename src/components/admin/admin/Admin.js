@@ -235,7 +235,7 @@ const Admin = ({ logout, orderCount, canceledOrderCount }) => {
               }}
             >
               <div style={{ display: "flex" }}>
-                {t("admin_chat")}
+                Live Chat
                 {hasGlobalUnread && <span className={styles.unreadDot}></span>}
               </div>
             </NavLink>

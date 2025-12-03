@@ -194,11 +194,11 @@ const StoryDetail = () => {
       <div className={styles.detailBlock}>
         <img src={story.imgUrl} />
 
-        <h3 className={styles.detailTitle}>
+        <h2 className={styles.detailTitle}>
           {lang === "en" && story.titleEn}
           {lang === "ka" && story.titleGe}
           {lang === "ru" && story.titleRu}
-        </h3>
+        </h2>
 
         {lang === "en" && (
           <div

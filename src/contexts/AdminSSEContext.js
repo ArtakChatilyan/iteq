@@ -8,7 +8,7 @@ notificationSound.volume = 0.7;
 export const AdminChatContext = createContext(null);
 export const useAdminChat = () => useContext(AdminChatContext);
 
-const API_URL = "http://localhost:3001"; // твой backend SSE
+const API_URL = process.env.REACT_APP_SSE_API_URL; // твой backend SSE
 
 export const AdminChatProvider = ({ children }) => {
   const location = useLocation();

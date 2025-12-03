@@ -66,11 +66,17 @@ const BrandProducts = () => {
         <Helmet key={`${lang}-${brandId}`}>
           {/* Basic SEO */}
           <title>{seoData.title(brand.brandName)}</title>
-          <meta name="description" content={seoData.description(brand.brandName)} />
+          <meta
+            name="description"
+            content={seoData.description(brand.brandName)}
+          />
 
           {/* Open Graph */}
           <meta property="og:title" content={seoData.title(brand.brandName)} />
-          <meta property="og:description" content={seoData.description(brand.brandName)} />
+          <meta
+            property="og:description"
+            content={seoData.description(brand.brandName)}
+          />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={`${seoData.baseUrl}${brandId}`} />
           <meta property="og:image" content={brand.imgUrl} />
@@ -124,7 +130,7 @@ const BrandProducts = () => {
                   "@type": "Brand",
                   name: brand.brandName,
                   logo: brand.imgUrl,
-                  url: `${seoData.baseUrl}${brandId}`
+                  url: `${seoData.baseUrl}${brandId}`,
                 },
               }),
             }}
@@ -166,7 +172,14 @@ const BrandProducts = () => {
       </Helmet> */}
       <div className={styles.block}>
         {loading && <LoadingScreen showGif={true} />}
-        {brand && <img src={brand.imgUrl} className={styles.logo} />}
+        <h1>{brand && brand.brandName} Products</h1>
+        {brand && (
+          <img
+            src={brand.imgUrl}
+            className={styles.logo}
+            alt={brand.brandName}
+          />
+        )}
         <div className={styles.content}>
           {productList.map((p) => (
             <NavLink

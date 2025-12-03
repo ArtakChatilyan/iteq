@@ -10,12 +10,8 @@ import LoadingScreen from "../loadingScreen/LoadingScreen";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { MainPageSeoData } from "../seotags/MainPageSEO";
-import ChatWidget from "../chat/ChatWidget";
-import { useUserChat } from "../../contexts/UserSSEContext";
-import chatIcon from "../../assets/mail-icon.png";
 
 const Main = () => {
-  const { chatOpen, closeChat, openChat, hasUnread } = useUserChat();
   const { t } = useTranslation();
   const { lang } = useParams();
   const [mainCategories, setMainCategories] = useState([]);
@@ -122,21 +118,13 @@ const Main = () => {
 
       <div style={{ position: "relative" }}>
         {loading && <LoadingScreen showGif={true} />}
+        <h1>Safes, Smart Locks, Door Handles in Tbilisi</h1>
         {discountProducts.length > 0 && (
           <ProductMenu title={t("discount")} products={discountProducts} />
         )}
 
         <CategoryMenu id="cat" categories={mainCategories} />
         <BrandMenu brands={brands} />
-        {/* <ChatWidget /> */}
-        {chatOpen ? (
-          <ChatWidget closeChat={closeChat} />
-        ) : (
-          <div className={styles.chatBtn} onClick={openChat}>
-            <img src={chatIcon} />
-            {hasUnread && <span className={styles.unreadDot}></span>}
-          </div>
-        )}
       </div>
     </>
   );

@@ -4,16 +4,26 @@ import { LanguageContext } from "../../../contexts/LanguageContext";
 import { useParams } from "react-router-dom";
 
 const CategoryCard = ({ category }) => {
-  const {lang} = useParams();
+  const { lang } = useParams();
   return (
     <div className={styles.content}>
-      <img src={category.imgUrl} className={styles.img} />
+      <img
+        src={category.imgUrl}
+        className={styles.img}
+        alt={
+          lang === "en"
+            ? category.nameEn
+            : lang === "ka"
+            ? category.nameGe
+            : category.nameRu
+        }
+      />
       <div className={styles.overlay}></div>
-      <div className={styles.title}>
+      <h2 className={styles.title}>
         {lang === "en" && category.nameEn}
         {lang === "ka" && category.nameGe}
         {lang === "ru" && category.nameRu}
-      </div>
+      </h2>
     </div>
   );
 };
